@@ -20,6 +20,7 @@ public abstract class Game {
 	public static KeyBuffer buffer = controller.getKeyBuffer();
 	
 	protected static boolean start(int difficulty){
+		//small change
 		
 		//First of all, the LED Board is reset so that all text still displayed is removed
 		controller.resetColors();

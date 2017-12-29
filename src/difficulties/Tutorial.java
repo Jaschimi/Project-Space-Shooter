@@ -12,7 +12,7 @@ import ufos.DefaultShip;
 import ufos.MidClasher;
 
 //This class describes the tutorial
-public class Tutorial {
+public class Tutorial{
 
 	public static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	public static KeyBuffer buffer = controller.getKeyBuffer();
@@ -42,18 +42,18 @@ public class Tutorial {
 		Word projectile = new Word("Watch out for its projectiles!");
 		Word hit = new Word("If they hit you, you lose a life.");
 		
-		Word lifes = new Word("You have a maximum of 3 lifes.");
+		Word lives = new Word("You have a maximum of 3 lives.");
 		Word green = new Word("If you have all of them, the dot in the center of your ship is green.");
 		Word yellow = new Word("If you have 2, the dot turns yellow.");
 		Word red = new Word("If you loose another one, it changes to red.");
 		Word dead = new Word("Once you loose all, your ship is destroyed and the Game Over screen appears.");
 		
-		Word dot = new Word("As with your ship, the dot in the enemy ships center shows its lifes.");
-		Word destroy = new Word("An enemy ship is destroyed when it too loses all lifes.");
+		Word dot = new Word("As with your ship, the dot in the enemy ships center shows its lives.");
+		Word destroy = new Word("An enemy ship is destroyed when it too loses all lives.");
 		Word next = new Word("If you destroy a ship, another one may spawn.");
-		Word goal = new Word("Your goal is to destroy all of them without losing all 3 lifes.");
+		Word goal = new Word("Your goal is to destroy all of them without losing all 3 lives.");
 		
-		Word test = new Word("Try beating the following 5 enemies without dying.");
+		Word test = new Word("Try beating the following 5 enemies.");
 		
 		Word allSet = new Word("Now you are all set to play a regular game.");
 		Word ships = new Word("There are a lot more than just these two types of enemy ships, so be prepared.");
@@ -420,14 +420,14 @@ public class Tutorial {
 		}
 		
 		//Explaining the lifes
-		for(int x=20; x>-lifes.getLength() ;x--){
+		for(int x=20; x>-lives.getLength() ;x--){
 			
 			//Shortcut
 			if(skip)break;
 			
 			//Moving the Word one space to the left every 125 milliseconds
-			lifes.displayWord(x+1, 0, 0, 0, 0);
-			lifes.displayWord(x, 0, 97, 17, 2);
+			lives.displayWord(x+1, 0, 0, 0, 0);
+			lives.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(125);
 		}

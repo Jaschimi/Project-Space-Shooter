@@ -20,7 +20,6 @@ public abstract class Game {
 	public static KeyBuffer buffer = controller.getKeyBuffer();
 	
 	protected static boolean start(int difficulty){
-		//small chaange
 		
 		//First of all, the LED Board is reset so that all text still displayed is removed
 		controller.resetColors();
@@ -1401,7 +1400,7 @@ public abstract class Game {
 		//Step 2: Convert the array to a list of EnemyShips and set the first entry as the currentShip
 		
 		//Step 1
-		EnemyShip[] ufoArray = new EnemyShip[50];
+		EnemyShip[] ufoArray = new EnemyShip[25];
 		
 		ufoArray [0] = new DefaultShip(new int[]{5, 0}, 1, 1);
 		ufoArray [1] = new DefaultShip(new int[]{8, 0}, 1, 1);
@@ -1659,7 +1658,7 @@ public abstract class Game {
 		ufoArray [2] = new DefaultShip(new int[]{5, 3}, 3, 3);
 		ufoArray [3] = new MidClasher(new int[]{0, 0}, 4, 4);
 		ufoArray [4] = new MidClasher(new int[]{0, 6}, 5, 5);
-
+/*
 		ufoArray [5] = new DefaultShip(new int[]{5, 0}, 1, 1);
 		ufoArray [6] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray [7] = new DefaultShip(new int[]{5, 3}, 3, 3);
@@ -1704,9 +1703,9 @@ public abstract class Game {
 		ufoArray[46] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray[47] = new DefaultShip(new int[]{5, 3}, 3, 3);
 		ufoArray[48] = new MidClasher(new int[]{0, 0}, 4, 4);
-
+*/
 		ufoArray[49] = new BossaNova(new int[]{0, 0}, 100, 10);
-
+/*
 		ufoArray[50] = new DefaultShip(new int[]{5, 0}, 1, 1);
 		ufoArray[51] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray[52] = new DefaultShip(new int[]{5, 3}, 3, 3);
@@ -1756,7 +1755,7 @@ public abstract class Game {
 		ufoArray[96] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray[97] = new DefaultShip(new int[]{5, 3}, 3, 3);
 		ufoArray[98] = new MidClasher(new int[]{0, 0}, 4, 4);
-
+ */
 		ufoArray[99] = new GalaxyDestroyer(new int[]{0, 0}, 250, 25);
 		
 		//Step 2

@@ -1,0 +1,1968 @@
+import java.awt.event.KeyEvent;
+
+import displayObjects.Word;
+import gameObjects.EnemyShip;
+import gameObjects.SpaceShooter;
+import ledControl.BoardController;
+import ledControl.LedConfiguration;
+import ledControl.gui.KeyBuffer;
+import ufos.BigBoulder;
+import ufos.BossaNova;
+import ufos.DefaultShip;
+import ufos.GalaxyDestroyer;
+import ufos.LangerLulatsch;
+import ufos.MidClasher;
+
+//This class controls everything that happens during a game
+public abstract class Game {
+
+	public static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+	public static KeyBuffer buffer = controller.getKeyBuffer();
+	
+	protected static boolean start(int difficulty){
+		
+		//First of all, the LED Board is reset so that all text still displayed is removed
+		controller.resetColors();
+		
+		//This boolean determines if the game has been won
+		boolean won = false;
+
+		//Create the SpaceShooter with three lifes, three ammo and a spawning location on the bottom mid of the board
+		SpaceShooter ss = new SpaceShooter(new int[]{9, 18}, 3, 3);
+		
+		//Design every entry in the SpaceShooters positions array
+		double random =  Math.random()*3;
+		if(random<=1){
+			for(int x=0; x<3; x++){
+				for(int y=0; y<2; y++){
+					if(x==1 && y==1)ss.setColorAt(1, 1, 5, 97, 17);
+					else{
+						if(y==0 && x==1)ss.setColorAt(x, y, 0, 0, 0);
+						else{
+							ss.setColorAt(x, y, 87, 18, 18);
+						}
+					}
+				}
+			}
+		}
+		if(random>1 && random<=2){
+			ss.setColorAt(0, 0, 127, 107, 0);
+			ss.setColorAt(1, 0, 0, 0, 0);
+			ss.setColorAt(2, 0, 127, 107, 0);
+			ss.setColorAt(0, 1, 127, 107, 0);
+			ss.setColorAt(1, 1, 5, 117, 17);
+			ss.setColorAt(2, 1, 127, 107, 0);
+		}
+		if(random>2){
+			ss.setColorAt(0, 0, 107, 0, 127);
+			ss.setColorAt(1, 0, 0, 0, 0);
+			ss.setColorAt(2, 0, 107, 0, 127);
+			ss.setColorAt(0, 1, 107, 0, 127);
+			ss.setColorAt(1, 1, 5, 107, 17);
+			ss.setColorAt(2, 1, 107, 0, 127);
+		}
+		
+		//These if statements start a game based on what difficulty has been chosen in the main method
+		if(difficulty == 0){
+			won = tutorial(ss);
+		}
+		else{
+			if(difficulty == 1){
+				won = easy(ss);
+			}
+			else{
+				if(difficulty == 2){
+					won = medium(ss);
+				}
+				else{
+					if(difficulty == 3){
+						won = hard(ss);
+					}
+				}
+			}
+		}
+		return won;
+				
+	}
+	
+	//This variable counts the amount of times the endless loop in all four difficulties has been started
+	static int loopCount = 0;
+	//This variable counts the amount of times the colors of a ship have faded
+	static int fadeCount = 0;
+	
+	//This method describes the tutorial
+	private static boolean tutorial(SpaceShooter ss){
+		
+		ss.setColorAt(0, 0, 107, 0, 127);
+		ss.setColorAt(1, 0, 0, 0, 0);
+		ss.setColorAt(2, 0, 107, 0, 127);
+		ss.setColorAt(0, 1, 107, 0, 127);
+		ss.setColorAt(1, 1, 5, 107, 17);
+		ss.setColorAt(2, 1, 107, 0, 127);
+		
+		//This boolean will be returned to the method start
+		boolean won = false;
+		
+		//These Words will be used throughout the tutorial
+		Word tutorial = new Word("In this tutorial, you will learn the basics of the game.");
+		
+		Word SS = new Word("This is your ship, the Space Shooter.");
+		Word leftRight = new Word("Press A or D to move left and right.");
+		Word upDown = new Word("Press W or S to move up and down.");
+		Word shoot = new Word("Press Space to shoot.");
+		
+		Word UFO = new Word("This is an enemy ship.");
+		Word move = new Word("It can also move up, down, left and right.");
+		Word projectile = new Word("Watch out for its projectiles!");
+		Word hit = new Word("If they hit you, you lose a life.");
+		
+		Word lifes = new Word("You have a maximum of 3 lifes.");
+		Word green = new Word("If you have all of them, the dot in the center of your ship is green.");
+		Word yellow = new Word("If you have 2, the dot turns yellow.");
+		Word red = new Word("If you loose another one, it changes to red.");
+		Word dead = new Word("Once you loose all, your ship is destroyed and the Game Over screen appears.");
+		
+		Word dot = new Word("As with your ship, the dot in the enemy ships center shows its lifes.");
+		Word destroy = new Word("An enemy ship is destroyed when it too loses all lifes.");
+		Word next = new Word("If you destroy a ship, another one may spawn.");
+		Word goal = new Word("Your goal is to destroy all of them without losing all 3 lifes.");
+		
+		Word test = new Word("Try beating the following 5 enemies without dying.");
+		
+		Word allSet = new Word("Now you are all set to play a regular game.");
+		Word ships = new Word("There are a lot more than just these two types of enemy ships, so be prepared.");
+		Word good = new Word("Good");
+		Word luck = new Word("luck!");
+		
+		//This is a shortcut ;-)
+		boolean skip = false;
+		//Displaying the first Word
+		for(int x=20; x>-tutorial.getLength() ;x--){
+			
+			//Shortcut
+			if(skip){
+				controller.resetColors();
+				break;
+			}
+			
+			KeyEvent event = buffer.pop();
+			if(event != null){
+				if(event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+					
+					switch(event.getKeyCode()){
+					//Pressing enter activates the shortcut
+					case java.awt.event.KeyEvent.VK_ENTER:
+						skip = true;
+						break;
+					}
+				}
+			}
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			tutorial.displayWord(x+1, 0, 0, 0, 0);
+			tutorial.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Spawning the SpaceShooter and explaining what it is
+		ss.spawnShip();
+		for(int x=20; x>-SS.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			SS.displayWord(x+1, 0, 0, 0, 0);
+			SS.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Starting the left/right movement test. It ends once this variable reaches 10 or the Word is off screen.
+		int count = 0;
+		for(int x=20; x>-leftRight.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			KeyEvent event = buffer.pop();
+			if(event != null){
+				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+					
+					switch (event.getKeyCode()){
+					
+					case java.awt.event.KeyEvent.VK_A:
+						//A makes the SS move left
+						ss.move('A');
+						//and the bufferCount increase by one.
+						count +=1;
+						break;
+					
+					case java.awt.event.KeyEvent.VK_D:
+						//D makes the SS move right
+						ss.move('D');
+						//and the bufferCount increase by one.
+						count+=1;
+						break;
+					}
+				}
+			}
+				
+			//Moving the Word one space to the left every 125 milliseconds
+			leftRight.displayWord(x+1, 0, 0, 0, 0);
+			//Putting the break statement here makes sure that no text is still visible after it
+			if(count == 10){
+				break;
+			}
+			leftRight.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Starting the up/down movement test. It ends once this variable reaches 10 or the Word is off screen.
+		count = 0;
+		for(int x=20; x>-upDown.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			KeyEvent event = buffer.pop();
+			if(event != null){
+				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+					
+					switch (event.getKeyCode()){
+					
+					case java.awt.event.KeyEvent.VK_W:
+						//W makes the SS move up
+						ss.move('W');
+						//and the bufferCount increase by one.
+						count +=1;
+						break;
+					
+					case java.awt.event.KeyEvent.VK_S:
+						//S makes the SS move down
+						ss.move('S');
+						//and the bufferCount increase by one.
+						count+=1;
+						break;
+					}
+				}
+			}	
+			//Moving the Word one space to the left every 125 milliseconds
+			upDown.displayWord(x+1, 0, 0, 0, 0);
+			//Putting the break statement here makes sure that no text is still visible after it
+			if(count == 10){
+				break;
+			}
+			upDown.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Starting the shooting test. It ends once this variable reaches 7 or the Word is off screen.
+		count = 0;
+		for(int x=20; x>-shoot.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			shoot.displayWord(x+1, 0, 0, 0, 0);
+			//Putting the break statement here makes sure that no text is still visible after it
+			if(count == 7){
+				break;
+			}
+			shoot.displayWord(x, 0, 97, 17, 2);
+			
+			//This loop makes all projectiles shot move up by one
+			for(int i=0; i<ss.getShots().length; i++){
+				//Only when an entry is not null(i.e. a projectile has been shot), the rest of the code is accessed
+				if(ss.getShots()[i] != null){
+					//This if statement checks if the projectile is still on the screen
+					if(ss.getShots()[i].getY()>=0){
+						//If that's the case, it will move up by one spot
+						ss.getShots()[i].moveProjectile("up");
+					}
+					else{//here the shot is offscreen, so its corresponding array entry can be set to null
+						ss.getShots()[i] = null;
+					}
+				}
+			}
+
+			KeyEvent event = buffer.pop();
+			if(event != null){
+				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+					
+					switch (event.getKeyCode()){
+					
+					case java.awt.event.KeyEvent.VK_SPACE:
+						//Space makes the SS shoot
+						ss.shoot();
+						//and the count increase by one.
+						count +=1;
+						break;
+					}
+				}
+			}
+			
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Before the EnemyShip explanation starts, the Space Shooter moves to its starting location again
+		while(ss.getTopLeftCorner()[0]!=9||ss.getTopLeftCorner()[1]!=18){
+			
+			//Shortcut
+			if(skip)break;
+			
+			//Any projectiles still on screen continue moving upwards
+			for(int i=0; i<ss.getShots().length; i++){
+				if(ss.getShots()[i] != null){
+					if(ss.getShots()[i].getY()>=0){
+						ss.getShots()[i].moveProjectile("up");
+					}
+					else{
+						ss.getShots()[i] = null;
+					}
+				}
+			}
+			
+			//If the SS is above its starting position, it will move down by one spot
+			if(ss.getTopLeftCorner()[1]<18){
+				ss.move('S');
+				controller.updateLedStripe();
+				controller.sleep(125);
+			}
+			else{
+				//If the SS is left of its starting position, it will move right by one spot
+				if(ss.getTopLeftCorner()[0]<9){
+					ss.move('D');
+					controller.updateLedStripe();
+					controller.sleep(125);
+				}
+				//If the SS is right of its starting position, it will move left by one spot
+				if(ss.getTopLeftCorner()[0]>9){
+					ss.move('A');
+					controller.updateLedStripe();
+					controller.sleep(125);
+				}
+			}
+		}
+		
+		//After the Space Shooter is at its starting position, all shots continue moving upwards
+		while(ss.getShots()[0]!=null||ss.getShots()[1]!=null||ss.getShots()[2]!=null){
+			
+			//Shortcut
+			if(skip)break;
+			
+			for(int i=0; i<ss.getShots().length; i++){
+				if(ss.getShots()[i] != null){
+					if(ss.getShots()[i].getY()>=0){
+						ss.getShots()[i].moveProjectile("up");
+					}
+					else{
+						ss.getShots()[i] = null;
+					}
+				}
+			}
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Secondly, a new DefaultShip is created and spawned, while its explanation appears on the screen
+		EnemyShip currentShip = new DefaultShip(new int[]{8, 6}, 1, 1);
+		currentShip.spawnShip();
+		for(int x=20; x>-UFO.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			UFO.displayWord(x+1, 0, 0, 0, 0);
+			UFO.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Starting enemy moving test. The current ship moves in a different direction every time the loop starts again.
+		count = -1;
+		for(int x=20; x>-move.getLength()-2 ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			count+=1;
+			if(count%8==0){
+				currentShip.move('A');
+			}
+			else{
+				if(count%8==2){
+					currentShip.move('S');
+				}
+				else{
+					if(count%8==4){
+						currentShip.move('D');
+					}
+					else{
+						if(count%8==6){
+							currentShip.move('W');
+						}
+					}
+				}
+			}
+			//Moving the Word one space to the left every 125 milliseconds
+			move.displayWord(x+1, 0, 0, 0, 0);
+			move.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Starting enemy shooting test. The current ship shoots a projectile every time the loop starts and it has ammo left.
+		count=0;
+		for(int x=20; x>-projectile.getLength()-1 ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			count++;
+			
+			//This loop makes all projectiles shot move down by one
+			for(int i=0; i<currentShip.getShots().length; i++){
+				//Only when an entry is not null(i.e. a projectile has been shot), the rest of the code is accessed
+				if(currentShip.getShots()[i] != null){
+					//This if statement checks if the projectile is still on the screen
+					if(currentShip.getShots()[i].getY()<20){
+						//If that's the case, it will move up by one spot
+						currentShip.getShots()[i].moveProjectile("down");
+					}
+					else{//here the shot is offscreen, so its corresponding array entry can be set to null
+						currentShip.getShots()[i] = null;
+					}
+				}
+			}
+			
+			if(count%8==0){
+				currentShip.shoot();
+			}
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			projectile.displayWord(x+1, 0, 0, 0, 0);
+			projectile.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Showing what getting hit by a projectile does
+		count=0;
+		for(int x=20; x>-hit.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			count++;
+			
+			//The enemy ship moves one space to the right
+			if(count==51){
+				currentShip.move('D');
+			}
+			
+			//The enemy ship shoots once
+			if(count==56){
+				currentShip.shoot();
+			}
+			
+			//The projectile moves down one spot eleven times
+			if(count>56&&count<66){
+				currentShip.getShots()[0].moveProjectile("down");
+			}
+			
+			//Here the projectile hits the Space Shooter
+			if(count==66){
+				controller.setColor(currentShip.getShots()[0].getX(), currentShip.getShots()[0].getY(), 0, 0, 0);
+				currentShip.getShots()[0]=null;
+				ss.setLifes(ss.getLifes()-1);
+				ss.setColorAt(1, 1, 127, 127, 0);
+				ss.spawnShip();
+			}
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			hit.displayWord(x+1, 0, 0, 0, 0);
+			hit.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Explaining the lifes
+		for(int x=20; x>-lifes.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			lifes.displayWord(x+1, 0, 0, 0, 0);
+			lifes.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Explaining green
+		ss.setColorAt(1, 1, 5, 107, 17);
+		ss.spawnShip();
+		for(int x=20; x>-green.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			green.displayWord(x+1, 0, 0, 0, 0);
+			green.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Explaining yellow
+		count=0;
+		for(int x=20; x>-yellow.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			count++;
+			
+			//The enemy ship shoots once
+			if(count==46){
+				currentShip.shoot();
+			}
+			
+			//The projectile moves down one spot eleven times
+			if(count>46&&count<56){
+				currentShip.getShots()[0].moveProjectile("down");
+			}
+			
+			//Here the projectile hits the Space Shooter
+			if(count==56){
+				controller.setColor(currentShip.getShots()[0].getX(), currentShip.getShots()[0].getY(), 0, 0, 0);
+				currentShip.getShots()[0]=null;
+				ss.setLifes(ss.getLifes()-1);
+				ss.setColorAt(1, 1, 127, 127, 0);
+				ss.spawnShip();
+			}
+			//Moving the Word one space to the left every 125 milliseconds
+			yellow.displayWord(x+1, 0, 0, 0, 0);
+			yellow.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Explaining red
+		count=0;
+		for(int x=20; x>-red.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			count++;
+			
+			//The enemy ship shoots once
+			if(count==96){
+				currentShip.shoot();
+			}
+			
+			//The projectile moves down one spot eleven times
+			if(count>96&&count<106){
+				currentShip.getShots()[0].moveProjectile("down");
+			}
+			
+			//Here the projectile hits the Space Shooter
+			if(count==106){
+				controller.setColor(currentShip.getShots()[0].getX(), currentShip.getShots()[0].getY(), 0, 0, 0);
+				currentShip.getShots()[0]=null;
+				ss.setLifes(ss.getLifes()-1);
+				ss.setColorAt(1, 1, 127, 0, 0);
+				ss.spawnShip();
+			}
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			red.displayWord(x+1, 0, 0, 0, 0);
+			red.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Explaining death
+		count=0;
+		int[] colors;
+		for(int x=20; x>-dead.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			count++;
+
+			//The enemy ship shoots once
+			if(count==56){
+				currentShip.shoot();
+			}
+			
+			//The projectile moves down one spot eleven times
+			if(count>56&&count<66){
+				currentShip.getShots()[0].moveProjectile("down");
+			}
+			
+			//Here the projectile hits the Space Shooter
+			if(count==66){
+				controller.setColor(currentShip.getShots()[0].getX(), currentShip.getShots()[0].getY(), 0, 0, 0);
+				currentShip.getShots()[0]=null;
+				ss.setLifes(ss.getLifes()-1);
+				ss.setColorAt(1, 1, 0, 0, 0);
+				ss.spawnShip();
+			}
+			
+			//Letting the colors of the Space Shooter fade out over time
+			if(count>66 && count<174){
+				colors = controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]);
+				ss.setColorAt(0, 0, colors[0]-1, 0, colors[2]-1);
+				ss.setColorAt(0, 1, colors[0]-1, 0, colors[2]-1);
+				ss.setColorAt(2, 0, colors[0]-1, 0, colors[2]-1);
+				ss.setColorAt(2, 1, colors[0]-1, 0, colors[2]-1);
+				ss.spawnShip();
+			}
+			if(count>173 && count<194){
+				colors = controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]);
+				ss.setColorAt(0, 0, 0, 0, colors[2]-1);
+				ss.setColorAt(0, 1, 0, 0, colors[2]-1);
+				ss.setColorAt(2, 0, 0, 0, colors[2]-1);
+				ss.setColorAt(2, 1, 0, 0, colors[2]-1);
+				ss.spawnShip();
+			}
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			dead.displayWord(x+1, 0, 0, 0, 0);
+			dead.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Explaining the enemy dot
+		for(int x=20; x>-dot.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			dot.displayWord(x+1, 0, 0, 0, 0);
+			dot.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Recoloring, reviving and respawning the Space Shooter
+		ss.setColorAt(0, 0, 107, 0, 127);
+		ss.setColorAt(1, 0, 0, 0, 0);
+		ss.setColorAt(2, 0, 107, 0, 127);
+		ss.setColorAt(0, 1, 107, 0, 127);
+		ss.setColorAt(1, 1, 5, 107, 17);
+		ss.setColorAt(2, 1, 107, 0, 127);
+		ss.setLifes(3);
+		ss.spawnShip();
+		
+		//Shooting at the currentShip and destroying it
+		count=0;
+		for(int x=20; x>-destroy.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			count++;
+
+			//The Space Shooter shoots once
+			if(count==56){
+				ss.shoot();
+			}
+			
+			//The projectile moves up one spot eleven times
+			if(count>56&&count<66){
+				ss.getShots()[0].moveProjectile("up");
+			}
+			
+			//Here the projectile hits the currentShip
+			if(count==66){
+				controller.setColor(ss.getShots()[0].getX(), ss.getShots()[0].getY(), 0, 0, 0);
+				ss.getShots()[0]=null;
+				currentShip.hit();
+			}
+			
+			//Letting the colors of the currentShip fade out over time
+			if(count>66 && count<154){
+				currentShip.fade();
+			}
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			destroy.displayWord(x+1, 0, 0, 0, 0);
+			destroy.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Spawning another ship
+		currentShip = new DefaultShip(new int[]{8, 6}, 3, 1);
+		count=-1;
+		for(int x=20; x>-next.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			count++;
+			
+			if(count==80)currentShip.spawnShip();
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			next.displayWord(x+1, 0, 0, 0, 0);
+			next.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Showcasing the goal of the game with an epic battle
+		count=-1;
+		for(int x=20; x>-goal.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			count++;
+			
+			//The Space Shooter shoots once
+			if(count==16){
+				ss.shoot();
+			}
+			
+			//The projectile moves up one spot nine times
+			if(count>16&&count<26){
+				ss.getShots()[0].moveProjectile("up");
+			}
+			
+			//Here the projectile hits the currentShip
+			if(count==26){
+				controller.setColor(ss.getShots()[0].getX(), ss.getShots()[0].getY(), 0, 0, 0);
+				ss.getShots()[0]=null;
+				currentShip.hit();
+				currentShip.spawnShip();
+			}
+			
+			
+			//The current ship shoots once
+			if(count==40){
+				currentShip.shoot();
+			}
+
+			//The projectile moves down one spot twelve times
+			if(count>40&&count<53){
+
+				if(count==45)ss.move('D');
+				
+				currentShip.getShots()[0].moveProjectile("down");
+			}
+			
+			//Here the shot is offscreen, so its corresponding array entry can be set to null
+			if(count==53){
+				currentShip.getShots()[0] = null;
+			}
+			
+			
+			//The Space Shooter moves left again
+			if(count==66)ss.move('A');
+			
+			
+			//The Space Shooter shoots twice
+			if(count==74||count==77){
+				ss.shoot();
+			}
+			
+			//The first projectile moves up one spot three times
+			if(count>74&&count<78){
+				ss.getShots()[0].moveProjectile("up");
+			}
+			//Both projectiles moves up one spot six times
+			if(count>77&&count<84){
+				ss.getShots()[0].moveProjectile("up");
+				ss.getShots()[1].moveProjectile("up");
+			}
+			
+			//Here the first projectile hits the currentShip
+			if(count==84){
+				controller.setColor(ss.getShots()[0].getX(), ss.getShots()[0].getY(), 0, 0, 0);
+				ss.getShots()[0]=null;
+				currentShip.hit();
+				currentShip.spawnShip();
+				//The other projectile keeps moving upwards
+				ss.getShots()[1].moveProjectile("up");
+			}
+			
+			//The second projectile moves up one spot a lot of times
+			if(count>84&&count<92){
+				//The current ship dodges to the left
+				if(count==86)currentShip.move('A');
+				ss.getShots()[1].moveProjectile("up");
+			}
+			
+			//Here the shot is offscreen, so its corresponding array entry can be set to null
+			if(count==92){
+				ss.getShots()[1]=null;
+			}
+			
+			
+			//The current ship shoots once
+			if(count==100){
+				currentShip.shoot();
+			}
+
+			//The projectile moves down one spot nine times
+			if(count>100&&count<110){
+				//The Space Shooter moves left again
+				if(count==105||count==107||count==109)ss.move('A');
+				//and shoots once
+				if(count==109)ss.shoot();
+				currentShip.getShots()[0].moveProjectile("down");
+			}
+			
+			//Here the shot hits the Space Shooter
+			if(count==110){
+				controller.setColor(currentShip.getShots()[0].getX(), currentShip.getShots()[0].getY(), 0, 0, 0);
+				currentShip.getShots()[0]=null;
+				ss.setLifes(ss.getLifes()-1);
+				ss.setColorAt(1, 1, 127, 127, 0);
+				ss.spawnShip();
+				//and its projectile moves up
+				ss.getShots()[0].moveProjectile("up");
+			}
+			
+			//The SS projectile keeps moving...
+			if(count>110&&count<119){
+				ss.getShots()[0].moveProjectile("up");
+				//The Space Shooter moves left again
+				if(count==111)ss.move('A');
+			}
+			
+			//...and finally hits the current ship a third time
+			if(count==119){
+				controller.setColor(ss.getShots()[0].getX(), ss.getShots()[0].getY(), 0, 0, 0);
+				ss.getShots()[0]=null;
+				currentShip.hit();
+				currentShip.spawnShip();
+			}
+			
+			//Letting the colors of the currentShip fade out over time
+			if(count>119 && count<207){
+				currentShip.fade();
+			}
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			goal.displayWord(x+1, 0, 0, 0, 0);
+			goal.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+
+		//Telling the player to start with the actual tutorial
+		for(int x=20; x>-test.getLength() ;x--){
+			
+			//Shortcut
+			if(skip)break;
+			
+			//Moving the Word one space to the left every 125 milliseconds
+			test.displayWord(x+1, 0, 0, 0, 0);
+			test.displayWord(x, 0, 97, 17, 2);
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		//Making an EnemyShipList for the actual tutorial in two steps:
+		//Step 1: Create an EnemyShip array with 5 entries
+		//Step 2: Convert the array to a list of EnemyShips and set the first entry as the currentShip
+		
+		//Step 1
+		EnemyShip[] ufoArray = new EnemyShip[5];
+		
+		ufoArray[0] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[1] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[2] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[3] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[4] = new MidClasher(new int[]{0, 6}, 5, 5);
+
+		//Step 2
+		currentShip = ufoArray[0];
+		for(int i=1; i<ufoArray.length; i++){
+			ufoArray[i-1].setNext(ufoArray[i]);
+		}
+		
+		count=0;
+		controller.resetColors();
+		ss.setLifes(3);
+		ss.setColorAt(1, 1, 5, 107, 17);
+		ss.spawnShip();
+		currentShip.spawnShip();
+		while(true){
+			//In every instance of the endless loop, nine things are happening:
+			//1.: The loop count increases by one.
+			//2.: It is checked if the current EnemyShip has no lifes left
+			//3.: It is checked if the SpaceShooter has no lifes left
+			//4.: Every fifties instance of the loop, the current ship moves in a random direction
+			//5.: The current EnemyShip shoots a projectile
+			//6.: All shots the SpaceShooter fired are moving upwards by one
+			//7.: All shots the current ship fired are moving downwards by one
+			//8.: The last keyboard input is detected and one of five actions are performed
+			//9.: Finally, the LED stripe is updated
+			
+			//1.
+			count++;
+			
+			//2.
+			if(currentShip.getLifes() == 0){//here the current ship has no lifes left
+				//removing the colors of the destroyed ship
+				currentShip.fade();
+				currentShip.fade();
+				fadeCount++;
+				
+				//Here the currentShip faded out completely
+				if(fadeCount==63){
+					fadeCount=0;
+					//If there's another ship in the shipList, it will become the new current ship and be spawned now
+					if(currentShip.getNext() != null){
+						currentShip = currentShip.getNext();
+						currentShip.spawnShip();
+					}
+					else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
+						won = true;
+						break;
+					}
+				}
+			}
+			
+			//3.
+			if(ss.getLifes()==0){
+				break;
+			}
+			
+			//4.
+			if(count%50==0&&currentShip.getLifes()>0){
+				
+				//This generates a random integer from 0 to 3
+				int random = (int) (Math.random()*4);
+				
+				//Based on what integer was generated, the char direction becomes one of four values
+				char direction = 0;
+				switch(random){
+				
+				case 0:
+					direction = 'W';
+					break;
+				case 1:
+					direction = 'A';
+					break;
+				case 2:
+					direction = 'S';
+					break;
+				case 3:
+					direction = 'D';
+					break;
+				}
+				
+				//And lastly, the current ship moves in the generated direction
+				currentShip.move(direction);
+			}
+			
+			//5.
+			//Enemy ships only shoot with a chance of 1/45 in every loop
+			int random = (int) (Math.random()*45);
+			if(random == 2&&currentShip.getLifes()>0){
+				currentShip.shoot();
+			}
+			
+			//6.
+			//The first loop goes through the whole shots array
+			for(int i=0; i<ss.getShots().length; i++){
+				//Only when an entry is not null(i.e. a projectile has been shot), the rest of the code is accessed
+				if(ss.getShots()[i] != null){
+					//This if statement checks if the projectile is still on the screen
+					if(ss.getShots()[i].getY()>=0){
+						//If that's the case, the program checks if any part of the current ship is directly above the projectile
+						for(int x=0; x<currentShip.getLength(); x++){
+							for(int y=0; y<currentShip.getHeight(); y++){
+								if(ss.getShots()[i].getY()-1==currentShip.getTopLeftCorner()[1]+y
+								   && ss.getShots()[i].getX()==currentShip.getTopLeftCorner()[0]+x){
+									//If that is also the case, the projectile's color is changed to black,
+									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
+									//the currentUFO is hit (if it still has lifes)
+									if(currentShip.getLifes()>0)currentShip.hit();
+									//and the projectile is set to null.
+									ss.getShots()[i] = null;
+									break;
+								}
+							}
+							//This statement is only triggered if the projectile hit the current ship
+							if(ss.getShots()[i]==null)break;
+						}
+						//If the current ship is not directly above the projectile and the projectile is not null,
+						//it will move up by one spot
+						if(ss.getShots()[i]!=null)ss.getShots()[i].moveProjectile("up");
+					}
+					else{//here the shot is offscreen, so its corresponding array entry can be set to null
+						ss.getShots()[i] = null;
+					}
+				}
+			}
+			
+			//7.
+			if(count%2==0){//Enemy projectiles only move every second instance of the endless loop
+				for(int i=0; i<currentShip.getShots().length; i++){
+					if(currentShip.getShots()[i] != null){
+						if(currentShip.getShots()[i].getY()<=19){
+							for(int x=0; x<3; x++){
+								for(int y=0; y<2; y++){
+									if(currentShip.getShots()[i].getY()+1==ss.getTopLeftCorner()[1]+y
+										&& currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x){
+										controller.setColor(currentShip.getShots()[i].getX(), currentShip.getShots()[i].getY(), 0, 0, 0);
+										currentShip.getShots()[i] = null;
+										ss.hit();
+										break;
+									}
+								}
+								if(currentShip.getShots()[i]==null)break;
+							}
+							if(currentShip.getShots()[i]!=null)currentShip.getShots()[i].moveProjectile("down");
+						}
+						else{//here the shot is offscreen, so its corresponding array entry can be set to null
+							currentShip.getShots()[i] = null;
+						}
+					}
+				}
+			}
+			
+			//8.
+			KeyEvent event = buffer.pop();
+			if(event != null){
+				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+					
+					switch (event.getKeyCode()){
+					
+					case java.awt.event.KeyEvent.VK_SPACE:
+						//space makes the SS shoot
+						ss.shoot();
+						break;
+					
+					case java.awt.event.KeyEvent.VK_W:
+						//W makes the SS move up
+						ss.move('W');
+						break;
+					
+					case java.awt.event.KeyEvent.VK_S:
+						//S makes the SS move down
+						ss.move('S');
+						break;
+						
+					case java.awt.event.KeyEvent.VK_A:
+						//A makes the SS move left
+						ss.move('A');
+						break;
+					
+					case java.awt.event.KeyEvent.VK_D:
+						//D makes the SS move right
+						ss.move('D');
+						break;
+						
+					default:
+					}
+				}
+			}
+			
+			//9.
+			controller.updateLedStripe();
+			
+		}
+		
+		controller.resetColors();
+		controller.updateLedStripe();
+		
+		if(won){
+			//Wrapping up the tutorial
+			for(int x=20; x>-allSet.getLength() ;x--){
+				
+				//Moving the Word one space to the left every 125 milliseconds
+				allSet.displayWord(x+1, 0, 0, 0, 0);
+				allSet.displayWord(x, 0, 97, 17, 2);
+				controller.updateLedStripe();
+				controller.sleep(125);
+			}
+			
+			//Informing the player of the other types of ships
+			for(int x=20; x>-ships.getLength() ;x--){
+				
+				//Moving the Word one space to the left every 125 milliseconds
+				ships.displayWord(x+1, 0, 0, 0, 0);
+				ships.displayWord(x, 0, 97, 17, 2);
+				controller.updateLedStripe();
+				controller.sleep(125);
+			}
+			
+			//Wishing them good luck
+			for(int x=20;x>-luck.getLength();x--){
+				good.displayWord(x+3, 5, 0, 0, 0);
+				good.displayWord(x+2, 5, 127, 127, 52);
+				luck.displayWord(x+1, 12, 0, 0, 0);
+				luck.displayWord(x+0, 12, 127, 127, 52);
+				controller.updateLedStripe();
+				controller.sleep(125);
+				
+				if(x==0)controller.sleep(3875);
+			}
+		}
+		else{
+			//...
+			Word tooBad = new Word("Whelp, you failed the tutorial.");
+			Word tryAgain = new Word("You may want to try it again before playing an actual game.");
+			Word proTip = new Word("Tip: You can skip straight to the interactive part with pressing ENTER at the start.");
+			
+			//Rip
+			for(int x=20; x>-tooBad.getLength() ;x--){
+				
+				//Moving the Word one space to the left every 125 milliseconds
+				tooBad.displayWord(x+1, 0, 0, 0, 0);
+				tooBad.displayWord(x, 0, 69, 4, 4);
+				controller.updateLedStripe();
+				controller.sleep(125);
+			}
+			
+			//At least they can try again
+			for(int x=20; x>-tryAgain.getLength() ;x--){
+				
+				//Moving the Word one space to the left every 125 milliseconds
+				tryAgain.displayWord(x+1, 0, 0, 0, 0);
+				tryAgain.displayWord(x, 0, 69, 4, 4);
+				controller.updateLedStripe();
+				controller.sleep(125);
+			}
+			
+			//And now they will get to know a secret cheat code!
+			for(int x=20; x>-proTip.getLength() ;x--){
+				
+				//Moving the Word one space to the left every 125 milliseconds
+				proTip.displayWord(x+1, 0, 0, 0, 0);
+				proTip.displayWord(x, 0, 69, 4, 4);
+				controller.updateLedStripe();
+				controller.sleep(125);
+			}
+			
+		}
+		
+		return won;
+	}
+	
+	//This method describes easy mode
+	private static boolean easy(SpaceShooter ss){
+		
+		//This boolean will be returned to the method start
+		boolean won = false;
+		
+		//Making of the EnemyShipList for easy mode in two steps:
+		//Step 1: Create an EnemyShip array with 25 entries
+		//Step 2: Convert the array to a list of EnemyShips and set the first entry as the currentShip
+		
+		//Step 1
+		EnemyShip[] ufoArray = new EnemyShip[25];
+		
+		ufoArray [0] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray [1] = new DefaultShip(new int[]{8, 0}, 1, 1);
+		ufoArray [2] = new DefaultShip(new int[]{5, 3}, 1, 1);
+		ufoArray [3] = new DefaultShip(new int[]{0, 0}, 2, 1);
+		ufoArray [4] = new LangerLulatsch(new int[]{0, 6}, 2, 1);
+		ufoArray [5] = new DefaultShip(new int[]{8, 0}, 3, 2);
+		ufoArray [6] = new DefaultShip(new int[]{8, 0}, 3, 2);
+		ufoArray [7] = new LangerLulatsch(new int[]{8, 0}, 4, 2);
+		ufoArray [8] = new LangerLulatsch(new int[]{8, 0}, 4, 2);
+		ufoArray [9] = new MidClasher(new int[]{8, 0}, 5, 2);
+		ufoArray[10] = new LangerLulatsch(new int[]{8, 0}, 5, 3);
+		ufoArray[11] = new MidClasher(new int[]{8, 0}, 6, 3);
+		ufoArray[12] = new MidClasher(new int[]{8, 0}, 6, 3);
+		ufoArray[13] = new LangerLulatsch(new int[]{8, 0}, 7, 3);
+		ufoArray[14] = new DefaultShip(new int[]{8, 0}, 7, 3);
+		ufoArray[15] = new MidClasher(new int[]{8, 0}, 8, 4);
+		ufoArray[16] = new MidClasher(new int[]{8, 0}, 8, 4);
+		ufoArray[17] = new LangerLulatsch(new int[]{8, 0}, 9, 4);
+		ufoArray[18] = new DefaultShip(new int[]{8, 0}, 9, 4);
+		ufoArray[19] = new BigBoulder(new int[]{8, 0}, 10, 4);
+		ufoArray[20] = new MidClasher(new int[]{8, 0}, 15, 5);
+		ufoArray[21] = new BigBoulder(new int[]{8, 0}, 20, 5);
+		ufoArray[22] = new MidClasher(new int[]{8, 0}, 25, 5);
+		ufoArray[23] = new DefaultShip(new int[]{8, 0}, 40, 5);
+		ufoArray[24] = new BossaNova(new int[]{0, 0}, 70, 10);
+
+		//Step 2
+		EnemyShip currentUFO = ufoArray[0];
+		for(int i=1; i<ufoArray.length; i++){
+			ufoArray[i-1].setNext(ufoArray[i]);
+		}
+		
+		ss.spawnShip();
+		currentUFO.spawnShip();
+		
+		while(true){
+			//In every instance of the endless loop, nine things are happening:
+			//1.: The loop count increases by one.
+			//2.: It is checked if the current EnemyShip has no lifes left
+			//3.: It is checked if the SpaceShooter has no lifes left
+			//4.: Every fifties instance of the loop, the current ship moves in a random direction
+			//5.: The current EnemyShip shoots a projectile
+			//6.: All shots the SpaceShooter fired are moving upwards by one
+			//7.: All shots the currentUFO fired are moving downwards by one
+			//8.: The last keyboard input is detected and one of five actions are performed
+			//9.: Finally, the LED stripe is updated
+			
+			//1.
+			loopCount+=1;
+			
+			//2.
+			if(currentUFO.getLifes() <= 0){//here the current ship has no lifes left
+				//Letting the colors of the destroyed ship fade away
+				currentUFO.fade();
+				currentUFO.fade();
+				fadeCount++;
+
+				//Here the enemy ship is completely faded away
+				if(fadeCount==63){
+					fadeCount=0;
+					//If there's another UFO in the ufoList, it will become the new current UFO and be spawned now
+					if(currentUFO.getNext() != null){
+						currentUFO = currentUFO.getNext();
+						currentUFO.spawnShip();
+					}
+					else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
+						won = true;
+						break;
+					}
+				}
+			}
+			
+			//3.
+			if(ss.getLifes()==0){
+				break;
+			}
+			
+			//4.
+			if(loopCount%50==0&&currentUFO.getLifes()>0){
+				
+				//This generates a random integer between 0 and 4
+				int random = (int) (Math.random()*4);
+				
+				//Based on what integer was generated, the char direction becomes one of four values
+				char direction = 0;
+				switch(random){
+				
+				case 0:
+					direction = 'W';
+					break;
+				case 1:
+					direction = 'A';
+					break;
+				case 2:
+					direction = 'S';
+					break;
+				case 3:
+					direction = 'D';
+					break;
+				}
+				
+				//And lastly, the current UFO moves in the generated direction
+				currentUFO.move(direction);
+			}
+			
+			//5.
+			//Enemy ships only shoot with a chance of 1/45 in every loop
+			int random = (int) (Math.random()*45);
+			if(random == 2&&currentUFO.getLifes()>0){
+				currentUFO.shoot();
+			}
+			
+			//6.
+			//The first loop goes through the whole shots array
+			for(int i=0; i<ss.getShots().length; i++){
+				//Only when an entry is not null(i.e. a projectile has been shot), the rest of the code is accessed
+				if(ss.getShots()[i] != null){
+					//This if statement checks if the projectile is still on the screen
+					if(ss.getShots()[i].getY()>=0){
+						//If that's the case, the program checks if any part of the current ufo is directly above the projectile
+						for(int x=0; x<currentUFO.getLength(); x++){
+							for(int y=0; y<currentUFO.getHeight(); y++){
+								if(ss.getShots()[i].getY()-1==currentUFO.getTopLeftCorner()[1]+y
+								   && ss.getShots()[i].getX()==currentUFO.getTopLeftCorner()[0]+x){
+									//If that is also the case, the projectiles color is changed to black,
+									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
+									//the currentUFO is hit (if it still haves lifes) and
+									if(currentUFO.getLifes()>0)currentUFO.hit();
+									//the projectile is set to null.
+									ss.getShots()[i] = null;
+									break;
+								}
+							}
+							//This statement is only triggered if the projectile hit the current ship
+							if(ss.getShots()[i]==null)break;
+						}
+						//If the current UFO is not directly above the projectile and the projectile is not null,
+						//it will move up by one spot
+						if(ss.getShots()[i]!=null)ss.getShots()[i].moveProjectile("up");
+					}
+					else{//here the shot is offscreen, so its corresponding array entry can be set to null
+						ss.getShots()[i] = null;
+					}
+				}
+			}
+			
+			//7.
+			if(loopCount%2==0){//Enemy projectiles only move every second instance of the endless loop
+				for(int i=0; i<currentUFO.getShots().length; i++){
+					if(currentUFO.getShots()[i] != null){
+						if(currentUFO.getShots()[i].getY()<=19){
+							for(int x=0; x<3; x++){
+								for(int y=0; y<2; y++){
+									if(currentUFO.getShots()[i].getY()+1==ss.getTopLeftCorner()[1]+y && currentUFO.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x){
+										controller.setColor(currentUFO.getShots()[i].getX(), currentUFO.getShots()[i].getY(), 0, 0, 0);
+										currentUFO.getShots()[i] = null;
+										ss.hit();
+										break;
+									}
+								}
+								if(currentUFO.getShots()[i]==null)break;
+							}
+							if(currentUFO.getShots()[i]!=null)currentUFO.getShots()[i].moveProjectile("down");
+						}
+						else{//here the shot is offscreen, so its corresponding array entry can be set to null
+							currentUFO.getShots()[i] = null;
+						}
+					}
+				}
+			}
+			
+			//8.
+			KeyEvent event = buffer.pop();
+			if(event != null){
+				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+					
+					switch (event.getKeyCode()){
+					
+					case java.awt.event.KeyEvent.VK_SPACE:
+						//space makes the SS shoot
+						ss.shoot();
+						break;
+					
+					case java.awt.event.KeyEvent.VK_W:
+						//W makes the SS move up
+						ss.move('W');
+						break;
+					
+					case java.awt.event.KeyEvent.VK_S:
+						//S makes the SS move down
+						ss.move('S');
+						break;
+						
+					case java.awt.event.KeyEvent.VK_A:
+						//A makes the SS move left
+						ss.move('A');
+						break;
+					
+					case java.awt.event.KeyEvent.VK_D:
+						//D makes the SS move right
+						ss.move('D');
+						break;
+						
+					default:
+					}
+				}
+			}
+			
+			//9.
+			controller.updateLedStripe();
+			
+		}
+		//These lines only activate once all enemy ships are defeated or the SS has no lifes left
+		controller.updateLedStripe();
+		return won;
+	}
+	
+	//This method describes medium mode
+	private static boolean medium(SpaceShooter ss){
+		
+		//this boolean will be returned to the method start
+		boolean won = false;
+		
+		//Making of the EnemyShupList for medium mode in three steps:
+		//Step 1: Create an EnemyShip array with 50 entries
+		//Step 2: Convert the array to a list of EnemyShips and set the first entry as the currentShip
+		
+		//Step 1
+		EnemyShip[] ufoArray = new EnemyShip[25];
+		
+		ufoArray [0] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray [1] = new DefaultShip(new int[]{8, 0}, 1, 1);
+		ufoArray [2] = new DefaultShip(new int[]{5, 3}, 1, 1);
+		ufoArray [3] = new DefaultShip(new int[]{0, 0}, 2, 1);
+		ufoArray [4] = new LangerLulatsch(new int[]{0, 6}, 2, 1);
+		ufoArray [5] = new DefaultShip(new int[]{8, 0}, 3, 2);
+		ufoArray [6] = new DefaultShip(new int[]{8, 0}, 3, 2);
+		ufoArray [7] = new LangerLulatsch(new int[]{8, 0}, 4, 2);
+		ufoArray [8] = new LangerLulatsch(new int[]{8, 0}, 4, 2);
+		ufoArray [9] = new MidClasher(new int[]{8, 0}, 5, 2);
+		ufoArray[10] = new LangerLulatsch(new int[]{8, 0}, 5, 3);
+		ufoArray[11] = new MidClasher(new int[]{8, 0}, 6, 3);
+		ufoArray[12] = new MidClasher(new int[]{8, 0}, 6, 3);
+		ufoArray[13] = new LangerLulatsch(new int[]{8, 0}, 7, 3);
+		ufoArray[14] = new DefaultShip(new int[]{8, 0}, 7, 3);
+		ufoArray[15] = new MidClasher(new int[]{8, 0}, 8, 4);
+		ufoArray[16] = new MidClasher(new int[]{8, 0}, 8, 4);
+		ufoArray[17] = new LangerLulatsch(new int[]{8, 0}, 9, 4);
+		ufoArray[18] = new DefaultShip(new int[]{8, 0}, 9, 4);
+		ufoArray[19] = new BigBoulder(new int[]{8, 0}, 10, 4);
+		ufoArray[20] = new MidClasher(new int[]{8, 0}, 15, 5);
+		ufoArray[21] = new BigBoulder(new int[]{8, 0}, 20, 5);
+		ufoArray[22] = new MidClasher(new int[]{8, 0}, 25, 5);
+		ufoArray[23] = new DefaultShip(new int[]{8, 0}, 40, 5);
+		ufoArray[24] = new BossaNova(new int[]{0, 0}, 70, 10);
+		ufoArray[25] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[26] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[27] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[28] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[29] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[30] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[31] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[32] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[33] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[34] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[35] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[36] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[37] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[38] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[39] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[40] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[41] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[42] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[43] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[44] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[45] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[46] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[47] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[48] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[49] = new BossaNova(new int[]{0, 0}, 0, 0);
+		
+		//Step 2
+		EnemyShip currentUFO = ufoArray[0];
+		for(int i=1; i<ufoArray.length; i++){
+			ufoArray[i-1].setNext(ufoArray[i]);
+		}
+		
+		ss.spawnShip();
+		currentUFO.spawnShip();
+		
+		while(true){
+			//In every instance of the endless loop, nine things are happening:
+			//1.: The loop count increases by one.
+			//2.: It is checked if the current EnemyShip has no lifes left
+			//3.: It is checked if the SpaceShooter has no lifes left
+			//4.: Every fifties instance of the loop, the current ship moves in a random direction
+			//5.: The current EnemyShip shoots a projectile
+			//6.: All shots the SpaceShooter fired are moving upwards by one
+			//7.: All shots the currentUFO fired are moving downwards by one
+			//8.: The last keyboard input is detected and one of five actions are performed
+			//9.: Finally, the LED stripe is updated
+			
+			//1.
+			loopCount+=1;
+			
+			//2.
+			if(currentUFO.getLifes() == 0){//here the current ship has no lifes left
+				//removing the colors of the destroyed ship
+				for(int x=0; x<currentUFO.getLength(); x++){
+					for(int y=0; y<currentUFO.getHeight(); y++){
+						controller.setColor(currentUFO.getTopLeftCorner()[0]+x, currentUFO.getTopLeftCorner()[1]+y, 0, 0, 0);
+					}
+				}
+				//if there's another UFO in the ufoList, it will become the new current UFO and be spawned now
+				if(currentUFO.getNext() != null){
+					currentUFO = currentUFO.getNext();
+					currentUFO.spawnShip();
+				}
+				else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
+					won = true;
+					break;
+				}
+			}
+			
+			//3.
+			if(ss.getLifes()==0){
+				break;
+			}
+			
+			//4.
+			if(loopCount%50==0){
+				
+				//This generates a random integer between 0 and 4
+				int random = (int) (Math.random()*4);
+				
+				//Based on what integer was generated, the char direction becomes one of four values
+				char direction = 0;
+				switch(random){
+				
+				case 0:
+					direction = 'W';
+					break;
+				case 1:
+					direction = 'A';
+					break;
+				case 2:
+					direction = 'S';
+					break;
+				case 3:
+					direction = 'D';
+					break;
+				}
+				
+				//And lastly, the current UFO moves in the generated direction
+				currentUFO.move(direction);
+			}
+			
+			//5.
+			//Enemy ships only shoot with a chance of 1/35 in every loop
+			int random = (int) (Math.random()*35);
+			if(random == 2){
+				currentUFO.shoot();
+			}
+			
+			//6.
+			//The first loop goes through the whole shots array
+			for(int i=0; i<ss.getShots().length; i++){
+				//Only when an entry is not null(i.e. a projectile has been shot), the rest of the code is accessed
+				if(ss.getShots()[i] != null){
+					//This if statement checks if the projectile is still on the screen
+					if(ss.getShots()[i].getY()>=0){
+						//If that's the case, the program checks if any part of the current ship is directly above the projectile
+						for(int x=0; x<currentUFO.getLength(); x++){
+							for(int y=0; y<currentUFO.getHeight(); y++){
+								if(ss.getShots()[i].getY()-1==currentUFO.getTopLeftCorner()[1]+y
+								   && ss.getShots()[i].getX()==currentUFO.getTopLeftCorner()[0]+x){
+									//If that is also the case, the projectiles color is changed to black,
+									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
+									//the currentUFO is hit (if it still haves lifes) and
+									if(currentUFO.getLifes()>0)currentUFO.hit();
+									//the projectile is set to null.
+									ss.getShots()[i] = null;
+									break;
+								}
+							}
+							//This statement is only triggered if the projectile hit the current ship
+							if(ss.getShots()[i]==null)break;
+						}
+						//If the current UFO is not directly above the projectile and the projectile is not null,
+						//it will move up by one spot
+						if(ss.getShots()[i]!=null)ss.getShots()[i].moveProjectile("up");
+					}
+					else{//here the shot is offscreen, so its corresponding array entry can be set to null
+						ss.getShots()[i] = null;
+					}
+				}
+			}
+			
+			//7.
+			for(int i=0; i<currentUFO.getShots().length; i++){
+				if(currentUFO.getShots()[i] != null){
+					if(currentUFO.getShots()[i].getY()<=19){
+						for(int x=0; x<3; x++){
+							for(int y=0; y<2; y++){
+								if(currentUFO.getShots()[i].getY()-1==ss.getTopLeftCorner()[1]+y && currentUFO.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x){
+									controller.setColor(currentUFO.getShots()[i].getX(), currentUFO.getShots()[i].getY(), 0, 0, 0);
+									currentUFO.getShots()[i] = null;
+									ss.hit();
+									break;
+								}
+							}
+							if(currentUFO.getShots()[i]==null)break;
+						}
+						if(currentUFO.getShots()[i]!=null)currentUFO.getShots()[i].moveProjectile("down");
+					}
+					else{//here the shot is offscreen, so its corresponding array entry can be set to null
+						currentUFO.getShots()[i] = null;
+					}
+				}
+			}
+			
+			//8.
+			KeyEvent event = buffer.pop();
+			if(event != null){
+				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+					
+					switch (event.getKeyCode()){
+					
+					case java.awt.event.KeyEvent.VK_SPACE:
+						//space makes the SS shoot
+						ss.shoot();
+						break;
+					
+					case java.awt.event.KeyEvent.VK_W:
+						//W makes the SS move up
+						ss.move('W');
+						break;
+					
+					case java.awt.event.KeyEvent.VK_S:
+						//S makes the SS move down
+						ss.move('S');
+						break;
+						
+					case java.awt.event.KeyEvent.VK_A:
+						//A makes the SS move left
+						ss.move('A');
+						break;
+						
+					case java.awt.event.KeyEvent.VK_D:
+						//D makes the SS move right
+						ss.move('D');
+						break;
+						
+					default:
+					}
+				}
+			}
+			
+			//9.
+			controller.updateLedStripe();
+			
+		}
+		//These lines only activate once all enemy ships are defeated or the SS has no lifes left
+		controller.updateLedStripe();
+		return won;
+	}
+
+	//This method describes hard mode
+	private static boolean hard(SpaceShooter ss){
+		
+		//this boolean will be returned to the method start
+		boolean won = false;
+		
+		//Making of the EnemyShipList for hard mode in three steps:
+		//Step 1: Create an EnemyShip array with 100 entries
+		//Step 2: Design all one-hundred ships by hand because who needs a life anyway?
+		//Step 3: Convert the array to a list of EnemyShips and set the first entry as the currentUFO
+		
+		//Step 1
+		EnemyShip[] ufoArray = new EnemyShip[100];
+		
+		ufoArray [0] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray [1] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray [2] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray [3] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray [4] = new MidClasher(new int[]{0, 6}, 5, 5);
+/*
+		ufoArray [5] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray [6] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray [7] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray [8] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray [9] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[10] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[11] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[12] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[13] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[14] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[15] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[16] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[17] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[18] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[19] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[20] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[21] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[22] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[23] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[24] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[25] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[26] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[27] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[28] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[29] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[30] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[31] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[32] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[33] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[34] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[35] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[36] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[37] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[38] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[39] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[40] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[41] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[42] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[43] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[44] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[45] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[46] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[47] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[48] = new MidClasher(new int[]{0, 0}, 4, 4);
+*/
+		ufoArray[49] = new BossaNova(new int[]{0, 0}, 100, 10);
+/*
+		ufoArray[50] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[51] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[52] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[53] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[54] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[55] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[56] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[57] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[58] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[59] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[60] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[61] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[62] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[63] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[64] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[65] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[66] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[67] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[68] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[69] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[70] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[71] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[72] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[73] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[74] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[75] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[76] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[77] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[78] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[79] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[80] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[81] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[82] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[83] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[84] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[85] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[86] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[87] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[88] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[89] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[90] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[91] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[92] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[93] = new MidClasher(new int[]{0, 0}, 4, 4);
+		ufoArray[94] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[95] = new DefaultShip(new int[]{5, 0}, 1, 1);
+		ufoArray[96] = new DefaultShip(new int[]{8, 0}, 2, 2);
+		ufoArray[97] = new DefaultShip(new int[]{5, 3}, 3, 3);
+		ufoArray[98] = new MidClasher(new int[]{0, 0}, 4, 4);
+ */
+		ufoArray[99] = new GalaxyDestroyer(new int[]{0, 0}, 250, 25);
+		
+		//Step 2
+		for(int i=0; i<ufoArray.length; i++){
+			for(int x = 0; x < ufoArray[i].getLength(); x++){
+				for(int y = 0; y < ufoArray[i].getHeight(); y++){
+					if(x== 1 && y == 2)ufoArray[i].setColorAt(x, y, 0, 0, 0);
+					else{
+						if(y==0 && (x==0 || x==2))ufoArray[i].setColorAt(x, y, 0, 0, 0);
+						else{
+							ufoArray[i].setColorAt(x, y, 18, 18, 87);
+						}
+					}
+				}
+			}
+		}
+		
+		//Step 3
+		EnemyShip currentUFO = ufoArray[0];
+		for(int i=1; i<ufoArray.length; i++){
+			ufoArray[i-1].setNext(ufoArray[i]);
+		}
+
+		ss.spawnShip();
+		currentUFO.spawnShip();
+		
+		while(true){
+			//In every instance of the endless loop, nine things are happening:
+			//1.: The loop count increases by one.
+			//2.: It is checked if the current EnemyShip has no lifes left
+			//3.: It is checked if the SpaceShooter has no lifes left
+			//4.: Every fifties instance of the loop, the current ship moves in a random direction
+			//5.: The current EnemyShip shoots a projectile
+			//6.: All shots the SpaceShooter fired are moving upwards by one
+			//7.: All shots the currentUFO fired are moving downwards by one
+			//8.: The last keyboard input is detected and one of five actions are performed
+			//9.: Finally, the LED stripe is updated
+			
+			//1.
+			loopCount+=1;
+			
+			//2.
+			if(currentUFO.getLifes() == 0){
+				//removing the colors of the destroyed ship
+				for(int x=0; x<currentUFO.getLength(); x++){
+					for(int y=0; y<currentUFO.getHeight(); y++){
+						controller.setColor(currentUFO.getTopLeftCorner()[0]+x, currentUFO.getTopLeftCorner()[1]+y, 0, 0, 0);
+					}
+				}
+				//if there's another UFO in the ufoList, it will become the new current UFO and be spawned now
+				if(currentUFO.getNext() != null){
+					currentUFO = currentUFO.getNext();
+					currentUFO.spawnShip();
+				}
+				else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
+					won = true;
+					break;
+				}
+			}
+			
+			//3.
+			if(ss.getLifes()==0){
+				break;
+			}
+			
+			//4.
+			if(loopCount%50==0){
+				
+				//This generates a random integer between 0 and 4
+				int random = (int) (Math.random()*4);
+				
+				//Based on what integer was generated, the char direction becomes one of four values
+				char direction = 0;
+				switch(random){
+				
+				case 0:
+					direction = 'W';
+					break;
+				case 1:
+					direction = 'A';
+					break;
+				case 2:
+					direction = 'S';
+					break;
+				case 3:
+					direction = 'D';
+					break;
+				}
+				
+				//And lastly, the current UFO moves in the generated direction
+				currentUFO.move(direction);
+			}
+			
+			//5.
+			//Enemy ships only shoot with a chance of 1/25 in every loop
+			int random = (int) (Math.random()*25);
+			if(random == 2){
+				currentUFO.shoot();
+			}
+			
+			//6.
+			//The first loop goes through the whole shots array
+			for(int i=0; i<ss.getShots().length; i++){
+				//Only when an entry is not null(i.e. a projectile has been shot), the rest of the code is accessed
+				if(ss.getShots()[i] != null){
+					//This if statement checks if the projectile is still on the screen
+					if(ss.getShots()[i].getY()>=0){
+						//If that's the case, the program checks if any part of the current ufo is directly above the projectile
+						for(int x=0; x<currentUFO.getLength(); x++){
+							for(int y=0; y<currentUFO.getHeight(); y++){
+								if(ss.getShots()[i].getY()-1==currentUFO.getTopLeftCorner()[1]+y
+								   && ss.getShots()[i].getX()==currentUFO.getTopLeftCorner()[0]+x){
+									//If that is also the case, the projectiles color is changed to black,
+									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
+									//the currentUFO is hit (if it still haves lifes) and
+									if(currentUFO.getLifes()>0)currentUFO.hit();
+									//the projectile is set to null.
+									ss.getShots()[i] = null;
+									break;
+								}
+							}
+							//This statement is only triggered if the projectile hit the current ship
+							if(ss.getShots()[i]==null)break;
+						}
+						//If the current UFO is not directly above the projectile and the projectile is not null,
+						//it will move up by one spot
+						if(ss.getShots()[i]!=null)ss.getShots()[i].moveProjectile("up");
+					}
+					else{//here the shot is offscreen, so its corresponding array entry can be set to null
+						ss.getShots()[i] = null;
+					}
+				}
+			}
+			
+			//7.
+			for(int i=0; i<currentUFO.getShots().length; i++){
+				if(currentUFO.getShots()[i] != null){
+					if(currentUFO.getShots()[i].getY()<=19){
+						for(int x=0; x<3; x++){
+							for(int y=0; y<2; y++){
+								if(currentUFO.getShots()[i].getY()-1==ss.getTopLeftCorner()[1]+y && currentUFO.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x){
+									controller.setColor(currentUFO.getShots()[i].getX(), currentUFO.getShots()[i].getY(), 0, 0, 0);
+									currentUFO.getShots()[i] = null;
+									ss.hit();
+									break;
+								}
+							}
+							if(currentUFO.getShots()[i]==null)break;
+						}
+						if(currentUFO.getShots()[i]!=null)currentUFO.getShots()[i].moveProjectile("down");
+					}
+					else{//here the shot is offscreen, so its corresponding array entry can be set to null
+						currentUFO.getShots()[i] = null;
+					}
+				}
+			}
+			
+			//8.
+			KeyEvent event = buffer.pop();
+			if(event != null){
+				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+					
+					switch (event.getKeyCode()){
+					
+					case java.awt.event.KeyEvent.VK_SPACE:
+						//space makes the SS shoot
+						ss.shoot();
+						break;
+					
+					case java.awt.event.KeyEvent.VK_W:
+						//W makes the SS move up
+						ss.move('W');
+						break;
+					
+					case java.awt.event.KeyEvent.VK_S:
+						//S makes the SS move down
+						ss.move('S');
+						break;
+					
+					case java.awt.event.KeyEvent.VK_A:
+						//A makes the SS move left
+						ss.move('A');
+						break;
+					
+					case java.awt.event.KeyEvent.VK_D:
+						//D makes the SS move right
+						ss.move('D');
+						break;
+						
+					default:
+					}
+				}
+			}
+			
+			//9.
+			controller.updateLedStripe();
+			
+//			ufo1.shoot();
+//				while(projectile.getY()<20){
+//					
+//					controller.sleep(200);
+//					projectile.moveProjectile("down");
+//					controller.updateLedStripe();
+//				}
+		}
+		//These lines only activate once all enemy ships are defeated or the SS has no lifes left
+		controller.updateLedStripe();
+		return won;
+	}
+}

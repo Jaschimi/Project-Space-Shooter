@@ -12,7 +12,7 @@ import ufos.DefaultShip;
 import ufos.GalaxyDestroyer;
 import ufos.MidClasher;
 
-//This is the main class of Project Space Shooter.
+//This is the main class of Project Space Shooter. Evil.
 //It contains the main method of the program, which starts the intro, let's you begin a game, and boots up the end
 //screen once a game ended.
 public abstract class Main {

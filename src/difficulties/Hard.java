@@ -155,7 +155,7 @@ public class Hard {
 			//1.: The loop count increases by one.
 			//2.: It is checked if the current EnemyShip has no lifes left
 			//3.: It is checked if the SpaceShooter has no lifes left
-			//4.: Every fifties instance of the loop, the current ship moves in a random direction
+			//4.: Every fiftieth instance of the loop, the current ship moves in a random direction
 			//5.: The current EnemyShip shoots a projectile
 			//6.: All shots the SpaceShooter fired are moving upwards by one
 			//7.: All shots the currentUFO fired are moving downwards by one
@@ -166,21 +166,24 @@ public class Hard {
 			loopCount+=1;
 			
 			//2.
-			if(currentUFO.getLifes() == 0){
-				//removing the colors of the destroyed ship
-				for(int x=0; x<currentUFO.getLength(); x++){
-					for(int y=0; y<currentUFO.getHeight(); y++){
-						controller.setColor(currentUFO.getTopLeftCorner()[0]+x, currentUFO.getTopLeftCorner()[1]+y, 0, 0, 0);
+			if(currentUFO.getLifes() <= 0){//here the current ship has no lifes left
+				//Letting the colors of the destroyed ship fade away
+				currentUFO.fade();
+				currentUFO.fade();
+				fadeCount++;
+
+				//Here the enemy ship is completely faded away
+				if(fadeCount==63){
+					fadeCount=0;
+					//If there's another UFO in the ufoList, it will become the new current UFO and be spawned now
+					if(currentUFO.getNext() != null){
+						currentUFO = currentUFO.getNext();
+						currentUFO.spawnShip();
 					}
-				}
-				//if there's another UFO in the ufoList, it will become the new current UFO and be spawned now
-				if(currentUFO.getNext() != null){
-					currentUFO = currentUFO.getNext();
-					currentUFO.spawnShip();
-				}
-				else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
-					won = true;
-					break;
+					else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
+						won = true;
+						break;
+					}
 				}
 			}
 			
@@ -190,9 +193,9 @@ public class Hard {
 			}
 			
 			//4.
-			if(loopCount%50==0){
+			if(loopCount%50==0&&currentUFO.getLifes()>0){
 				
-				//This generates a random integer between 0 and 4
+				//This generates a random integer between 0 and 3
 				int random = (int) (Math.random()*4);
 				
 				//Based on what integer was generated, the char direction becomes one of four values
@@ -220,7 +223,7 @@ public class Hard {
 			//5.
 			//Enemy ships only shoot with a chance of 1/25 in every loop
 			int random = (int) (Math.random()*25);
-			if(random == 2){
+			if(random == 2&&currentUFO.getLifes()>0){
 				currentUFO.shoot();
 			}
 			

@@ -112,21 +112,24 @@ public class Medium {
 			loopCount+=1;
 			
 			//2.
-			if(currentUFO.getLifes() == 0){//here the current ship has no lifes left
-				//removing the colors of the destroyed ship
-				for(int x=0; x<currentUFO.getLength(); x++){
-					for(int y=0; y<currentUFO.getHeight(); y++){
-						controller.setColor(currentUFO.getTopLeftCorner()[0]+x, currentUFO.getTopLeftCorner()[1]+y, 0, 0, 0);
+			if(currentUFO.getLifes() <= 0){//here the current ship has no lifes left
+				//Letting the colors of the destroyed ship fade away
+				currentUFO.fade();
+				currentUFO.fade();
+				fadeCount++;
+
+				//Here the enemy ship is completely faded away
+				if(fadeCount==63){
+					fadeCount=0;
+					//If there's another UFO in the ufoList, it will become the new current UFO and be spawned now
+					if(currentUFO.getNext() != null){
+						currentUFO = currentUFO.getNext();
+						currentUFO.spawnShip();
 					}
-				}
-				//if there's another UFO in the ufoList, it will become the new current UFO and be spawned now
-				if(currentUFO.getNext() != null){
-					currentUFO = currentUFO.getNext();
-					currentUFO.spawnShip();
-				}
-				else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
-					won = true;
-					break;
+					else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
+						won = true;
+						break;
+					}
 				}
 			}
 			
@@ -136,7 +139,7 @@ public class Medium {
 			}
 			
 			//4.
-			if(loopCount%50==0){
+			if(loopCount%50==0&&currentUFO.getLifes()>0){
 				
 				//This generates a random integer between 0 and 4
 				int random = (int) (Math.random()*4);
@@ -166,7 +169,7 @@ public class Medium {
 			//5.
 			//Enemy ships only shoot with a chance of 1/35 in every loop
 			int random = (int) (Math.random()*35);
-			if(random == 2){
+			if(random == 2&&currentUFO.getLifes()>0){
 				currentUFO.shoot();
 			}
 			

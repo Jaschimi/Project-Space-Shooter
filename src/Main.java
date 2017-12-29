@@ -23,18 +23,15 @@ public abstract class Main {
 
 	public static void main(String[] args) {
 
-		
-		
-		
-		gameStart();
-//		showGalaxyDestroyer();
+//		gameStart();
+		shipDiashow();
 //		DisplayAlphabet();
 //		DisplayCiphers();
 //		DisplayLogo(6);
 
 	}
 	
-	private static void showGalaxyDestroyer(){
+	private static void shipDiashow(){
 		GalaxyDestroyer kunibert = new GalaxyDestroyer(new int[]{0, 0}, 250, 0);
 		MidClasher airwing = new MidClasher(new int[]{1, 12}, 2, 0);
 		DefaultShip noob = new DefaultShip(new int[]{12, 10}, 1, 0);

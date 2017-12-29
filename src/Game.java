@@ -12,7 +12,6 @@ public abstract class Game{
 	public static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	
 	protected static boolean start(int difficulty){
-		//small chaange
 		
 		//First of all, the LED Board is reset so that all text still displayed is removed
 		controller.resetColors();
@@ -75,6 +74,5 @@ public abstract class Game{
 			}
 		}
 		return won;
-				
 	}
 }

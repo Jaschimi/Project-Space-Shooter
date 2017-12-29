@@ -19,13 +19,6 @@ public class Tutorial{
 	
 	public static boolean start(SpaceShooter ss){
 		
-		ss.setColorAt(0, 0, 107, 0, 127);
-		ss.setColorAt(1, 0, 0, 0, 0);
-		ss.setColorAt(2, 0, 107, 0, 127);
-		ss.setColorAt(0, 1, 107, 0, 127);
-		ss.setColorAt(1, 1, 5, 107, 17);
-		ss.setColorAt(2, 1, 107, 0, 127);
-		
 		//This boolean will be returned to the class Game
 		boolean won = false;
 		
@@ -72,23 +65,26 @@ public class Tutorial{
 			}
 			
 			KeyEvent event = buffer.pop();
+			buffer.clear();
 			if(event != null){
 				if(event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
 					switch(event.getKeyCode()){
+					
 					//Pressing enter activates the shortcut
 					case java.awt.event.KeyEvent.VK_ENTER:
+						buffer.clear();
 						skip = true;
 						break;
 					}
 				}
 			}
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			tutorial.displayWord(x+1, 0, 0, 0, 0);
 			tutorial.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Spawning the SpaceShooter and explaining what it is
@@ -98,21 +94,23 @@ public class Tutorial{
 			//Shortcut
 			if(skip)break;
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			SS.displayWord(x+1, 0, 0, 0, 0);
 			SS.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Starting the left/right movement test. It ends once this variable reaches 10 or the Word is off screen.
 		int count = 0;
+		buffer.clear();
 		for(int x=20; x>-leftRight.getLength() ;x--){
 			
 			//Shortcut
 			if(skip)break;
 			
 			KeyEvent event = buffer.pop();
+			buffer.clear();
 			if(event != null){
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
@@ -135,7 +133,7 @@ public class Tutorial{
 				}
 			}
 				
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			leftRight.displayWord(x+1, 0, 0, 0, 0);
 			//Putting the break statement here makes sure that no text is still visible after it
 			if(count == 10){
@@ -143,7 +141,7 @@ public class Tutorial{
 			}
 			leftRight.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Starting the up/down movement test. It ends once this variable reaches 10 or the Word is off screen.
@@ -154,6 +152,7 @@ public class Tutorial{
 			if(skip)break;
 			
 			KeyEvent event = buffer.pop();
+			buffer.clear();
 			if(event != null){
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
@@ -175,7 +174,7 @@ public class Tutorial{
 					}
 				}
 			}	
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			upDown.displayWord(x+1, 0, 0, 0, 0);
 			//Putting the break statement here makes sure that no text is still visible after it
 			if(count == 10){
@@ -183,7 +182,7 @@ public class Tutorial{
 			}
 			upDown.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Starting the shooting test. It ends once this variable reaches 7 or the Word is off screen.
@@ -193,7 +192,7 @@ public class Tutorial{
 			//Shortcut
 			if(skip)break;
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			shoot.displayWord(x+1, 0, 0, 0, 0);
 			//Putting the break statement here makes sure that no text is still visible after it
 			if(count == 7){
@@ -217,6 +216,7 @@ public class Tutorial{
 			}
 
 			KeyEvent event = buffer.pop();
+			buffer.clear();
 			if(event != null){
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
@@ -233,7 +233,7 @@ public class Tutorial{
 			}
 			
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Before the EnemyShip explanation starts, the Space Shooter moves to its starting location again
@@ -258,20 +258,20 @@ public class Tutorial{
 			if(ss.getTopLeftCorner()[1]<18){
 				ss.move('S');
 				controller.updateLedStripe();
-				controller.sleep(125);
+				controller.sleep(100);
 			}
 			else{
 				//If the SS is left of its starting position, it will move right by one spot
 				if(ss.getTopLeftCorner()[0]<9){
 					ss.move('D');
 					controller.updateLedStripe();
-					controller.sleep(125);
+					controller.sleep(100);
 				}
 				//If the SS is right of its starting position, it will move left by one spot
 				if(ss.getTopLeftCorner()[0]>9){
 					ss.move('A');
 					controller.updateLedStripe();
-					controller.sleep(125);
+					controller.sleep(100);
 				}
 			}
 		}
@@ -293,7 +293,7 @@ public class Tutorial{
 				}
 			}
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Secondly, a new DefaultShip is created and spawned, while its explanation appears on the screen
@@ -304,11 +304,11 @@ public class Tutorial{
 			//Shortcut
 			if(skip)break;
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			UFO.displayWord(x+1, 0, 0, 0, 0);
 			UFO.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Starting enemy moving test. The current ship moves in a different direction every time the loop starts again.
@@ -337,11 +337,11 @@ public class Tutorial{
 					}
 				}
 			}
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			move.displayWord(x+1, 0, 0, 0, 0);
 			move.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Starting enemy shooting test. The current ship shoots a projectile every time the loop starts and it has ammo left.
@@ -372,11 +372,11 @@ public class Tutorial{
 				currentShip.shoot();
 			}
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			projectile.displayWord(x+1, 0, 0, 0, 0);
 			projectile.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Showing what getting hit by a projectile does
@@ -412,11 +412,11 @@ public class Tutorial{
 				ss.spawnShip();
 			}
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			hit.displayWord(x+1, 0, 0, 0, 0);
 			hit.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Explaining the lifes
@@ -425,11 +425,11 @@ public class Tutorial{
 			//Shortcut
 			if(skip)break;
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			lives.displayWord(x+1, 0, 0, 0, 0);
 			lives.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Explaining green
@@ -440,11 +440,11 @@ public class Tutorial{
 			//Shortcut
 			if(skip)break;
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			green.displayWord(x+1, 0, 0, 0, 0);
 			green.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Explaining yellow
@@ -474,11 +474,11 @@ public class Tutorial{
 				ss.setColorAt(1, 1, 127, 127, 0);
 				ss.spawnShip();
 			}
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			yellow.displayWord(x+1, 0, 0, 0, 0);
 			yellow.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Explaining red
@@ -509,11 +509,11 @@ public class Tutorial{
 				ss.spawnShip();
 			}
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			red.displayWord(x+1, 0, 0, 0, 0);
 			red.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Explaining death
@@ -563,11 +563,11 @@ public class Tutorial{
 				ss.spawnShip();
 			}
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			dead.displayWord(x+1, 0, 0, 0, 0);
 			dead.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Explaining the enemy dot
@@ -576,11 +576,11 @@ public class Tutorial{
 			//Shortcut
 			if(skip)break;
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			dot.displayWord(x+1, 0, 0, 0, 0);
 			dot.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Recoloring, reviving and respawning the Space Shooter
@@ -624,11 +624,11 @@ public class Tutorial{
 				currentShip.fade();
 			}
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			destroy.displayWord(x+1, 0, 0, 0, 0);
 			destroy.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Spawning another ship
@@ -643,11 +643,11 @@ public class Tutorial{
 			
 			if(count==80)currentShip.spawnShip();
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			next.displayWord(x+1, 0, 0, 0, 0);
 			next.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Showcasing the goal of the game with an epic battle
@@ -784,11 +784,11 @@ public class Tutorial{
 				currentShip.fade();
 			}
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			goal.displayWord(x+1, 0, 0, 0, 0);
 			goal.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 
 		//Telling the player to start with the actual tutorial
@@ -797,11 +797,11 @@ public class Tutorial{
 			//Shortcut
 			if(skip)break;
 			
-			//Moving the Word one space to the left every 125 milliseconds
+			//Moving the Word one space to the left every 100 milliseconds
 			test.displayWord(x+1, 0, 0, 0, 0);
 			test.displayWord(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
-			controller.sleep(125);
+			controller.sleep(100);
 		}
 		
 		//Making an EnemyShipList for the actual tutorial in two steps:
@@ -970,6 +970,7 @@ public class Tutorial{
 			
 			//8.
 			KeyEvent event = buffer.pop();
+			buffer.clear();
 			if(event != null){
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
@@ -1017,21 +1018,21 @@ public class Tutorial{
 			//Wrapping up the tutorial
 			for(int x=20; x>-allSet.getLength() ;x--){
 				
-				//Moving the Word one space to the left every 125 milliseconds
+				//Moving the Word one space to the left every 100 milliseconds
 				allSet.displayWord(x+1, 0, 0, 0, 0);
 				allSet.displayWord(x, 0, 97, 17, 2);
 				controller.updateLedStripe();
-				controller.sleep(125);
+				controller.sleep(100);
 			}
 			
 			//Informing the player of the other types of ships
 			for(int x=20; x>-ships.getLength() ;x--){
 				
-				//Moving the Word one space to the left every 125 milliseconds
+				//Moving the Word one space to the left every 100 milliseconds
 				ships.displayWord(x+1, 0, 0, 0, 0);
 				ships.displayWord(x, 0, 97, 17, 2);
 				controller.updateLedStripe();
-				controller.sleep(125);
+				controller.sleep(100);
 			}
 			
 			//Wishing them good luck
@@ -1041,7 +1042,7 @@ public class Tutorial{
 				luck.displayWord(x+1, 12, 0, 0, 0);
 				luck.displayWord(x+0, 12, 127, 127, 52);
 				controller.updateLedStripe();
-				controller.sleep(125);
+				controller.sleep(100);
 				
 				if(x==0)controller.sleep(3875);
 			}
@@ -1055,31 +1056,31 @@ public class Tutorial{
 			//Rip
 			for(int x=20; x>-tooBad.getLength() ;x--){
 				
-				//Moving the Word one space to the left every 125 milliseconds
+				//Moving the Word one space to the left every 100 milliseconds
 				tooBad.displayWord(x+1, 0, 0, 0, 0);
 				tooBad.displayWord(x, 0, 69, 4, 4);
 				controller.updateLedStripe();
-				controller.sleep(125);
+				controller.sleep(100);
 			}
 			
 			//At least they can try again
 			for(int x=20; x>-tryAgain.getLength() ;x--){
 				
-				//Moving the Word one space to the left every 125 milliseconds
+				//Moving the Word one space to the left every 100 milliseconds
 				tryAgain.displayWord(x+1, 0, 0, 0, 0);
 				tryAgain.displayWord(x, 0, 69, 4, 4);
 				controller.updateLedStripe();
-				controller.sleep(125);
+				controller.sleep(100);
 			}
 			
 			//And now they will get to know a secret cheat code!
 			for(int x=20; x>-proTip.getLength() ;x--){
 				
-				//Moving the Word one space to the left every 125 milliseconds
+				//Moving the Word one space to the left every 100 milliseconds
 				proTip.displayWord(x+1, 0, 0, 0, 0);
 				proTip.displayWord(x, 0, 69, 4, 4);
 				controller.updateLedStripe();
-				controller.sleep(125);
+				controller.sleep(100);
 			}
 			
 		}

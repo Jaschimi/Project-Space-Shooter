@@ -286,6 +286,7 @@ public class Hard {
 			
 			//8.
 			KeyEvent event = buffer.pop();
+			buffer.clear();
 			if(event != null){
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					

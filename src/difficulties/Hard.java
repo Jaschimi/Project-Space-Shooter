@@ -41,7 +41,7 @@ public class Hard {
 		ufoArray [2] = new DefaultShip(new int[]{5, 3}, 3, 3);
 		ufoArray [3] = new MidClasher(new int[]{0, 0}, 4, 4);
 		ufoArray [4] = new MidClasher(new int[]{0, 6}, 5, 5);
-/*
+
 		ufoArray [5] = new DefaultShip(new int[]{5, 0}, 1, 1);
 		ufoArray [6] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray [7] = new DefaultShip(new int[]{5, 3}, 3, 3);
@@ -86,9 +86,9 @@ public class Hard {
 		ufoArray[46] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray[47] = new DefaultShip(new int[]{5, 3}, 3, 3);
 		ufoArray[48] = new MidClasher(new int[]{0, 0}, 4, 4);
-*/
+
 		ufoArray[49] = new BossaNova(new int[]{0, 0}, 100, 10);
-/*
+
 		ufoArray[50] = new DefaultShip(new int[]{5, 0}, 1, 1);
 		ufoArray[51] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray[52] = new DefaultShip(new int[]{5, 3}, 3, 3);
@@ -138,7 +138,7 @@ public class Hard {
 		ufoArray[96] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray[97] = new DefaultShip(new int[]{5, 3}, 3, 3);
 		ufoArray[98] = new MidClasher(new int[]{0, 0}, 4, 4);
- */
+ 
 		ufoArray[99] = new GalaxyDestroyer(new int[]{0, 0}, 250, 25);
 
 		//Step 2
@@ -179,6 +179,14 @@ public class Hard {
 					if(currentUFO.getNext() != null){
 						currentUFO = currentUFO.getNext();
 						currentUFO.spawnShip();
+						//In addition to spawning a new ship, the Space Shooter becomes more and more
+						//golden with every UFO it destroys
+						int[] shipColor = controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]);
+						ss.setColorAt(0, 0, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
+						ss.setColorAt(2, 0, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
+						ss.setColorAt(0, 1, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
+						ss.setColorAt(2, 1, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
+						ss.spawnShip();
 					}
 					else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
 						won = true;

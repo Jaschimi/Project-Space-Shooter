@@ -17,9 +17,9 @@ public class Tutorial{
 	public static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	public static KeyBuffer buffer = controller.getKeyBuffer();
 	
-	public static boolean start(SpaceShooter ss){
+	public static void start(SpaceShooter ss){
 		
-		//This boolean will be returned to the class Game
+		//This boolean will determine if the Tutorial has been won or not
 		boolean won = false;
 		
 		//These Words will be used throughout the tutorial
@@ -1036,8 +1036,6 @@ public class Tutorial{
 			}
 			
 		}
-		
-		return won;
 	}
 	
 }

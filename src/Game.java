@@ -30,7 +30,7 @@ public abstract class Game{
 			ss.setColorAt(0, 1, 107, 0, 127);
 			ss.setColorAt(1, 1, 5, 107, 17);
 			ss.setColorAt(2, 1, 107, 0, 127);
-			won = Tutorial.start(ss);
+			Tutorial.start(ss);
 		}
 		else{
 			if(difficulty == 1){

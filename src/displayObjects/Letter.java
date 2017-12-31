@@ -245,9 +245,9 @@ public class Letter {
 		
 		case'J':
 			letter = new Letter(3, 5);
-			for(int y=1;y<4;y++){
-				if(y!=2&&y!=3)letter.positions[0][y] = false;
-				if(y!=2)letter.positions[1][y] = false;
+			for(int y=0;y<4;y++){
+				if(y!=3)letter.positions[0][y] = false;
+				letter.positions[1][y] = false;
 			}
 			break;
 		
@@ -296,14 +296,16 @@ public class Letter {
 
 			
 		case'O':
-			letter = new Letter(3, 5);
+			letter = new Letter(4, 5);
+			for(int x=1;x<3; x++){
 			for(int y=1;y<4; y++){
-				letter.positions[1][y] = false;
+				letter.positions[x][y] = false;
+			}
 			}
 			letter.positions[0][0] = false;
 			letter.positions[0][4] = false;
-			letter.positions[2][0] = false;
-			letter.positions[2][4] = false;
+			letter.positions[3][0] = false;
+			letter.positions[3][4] = false;
 			break;
 
 			

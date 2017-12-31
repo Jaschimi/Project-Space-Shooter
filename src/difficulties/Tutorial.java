@@ -313,7 +313,7 @@ public class Tutorial{
 		
 		//Starting enemy moving test. The current ship moves in a different direction every time the loop starts again.
 		count = -1;
-		for(int x=20; x>-move.getLength()-4 ;x--){
+		for(int x=20; x>-move.getLength()-2 ;x--){
 			
 			//Shortcut
 			if(skip)break;
@@ -346,7 +346,7 @@ public class Tutorial{
 		
 		//Starting enemy shooting test. The current ship shoots a projectile every time the loop starts and it has ammo left.
 		count=0;
-		for(int x=20; x>-projectile.getLength()-1 ;x--){
+		for(int x=20; x>-projectile.getLength() ;x--){
 			
 			//Shortcut
 			if(skip)break;

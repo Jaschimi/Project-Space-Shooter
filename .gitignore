@@ -3,5 +3,10 @@
 *.class
 bin/Game.class
 bin/Main.class
+bin\Game.class
+bin\Main.class
 .classpath
 bin/Game.class
+bin/Game.class
+
+bin/.gitignore

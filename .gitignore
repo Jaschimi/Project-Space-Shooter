@@ -1,12 +1,3 @@
-.DS_Store
-*.class
-*.class
-bin/Game.class
-bin/Main.class
-bin\Game.class
-bin\Main.class
-.classpath
-bin/Game.class
-bin/Game.class
 
-bin/.gitignore
+bin/difficulties/Easy.class
+*.class

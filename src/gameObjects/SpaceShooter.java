@@ -144,4 +144,18 @@ public class SpaceShooter extends Spaceship{
 		this.spawnShip();
 	}
 	
+	//This method is useful for making the Space Shooter fade away over time after it is destroyed
+	public void fade(){
+		//Every color
+		for(int i=0;i<3;i++){
+			//in every entry of the positions array
+			for(int x=0;x<3;x++){
+				for(int y=0;y<2;y++){
+					//is reduced by one if it isn't zero.
+					if(this.positions[x][y][i]!=0)this.positions[x][y][i]-=1;
+					this.spawnShip();
+				}
+			}
+		}
+	}
 }

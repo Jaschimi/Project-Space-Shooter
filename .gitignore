@@ -3,3 +3,4 @@
 *.class
 bin/Game.class
 bin/Main.class
+.classpath

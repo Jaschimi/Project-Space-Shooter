@@ -23,9 +23,10 @@ public class Easy {
 		
 		//This variable counts the amount of times the endless loop has been started
 		int loopCount = 0;
-		//This variable counts the amount of times the colors of a ship have faded
+		//These variables count the amount of times the colors of a ship have faded
 		int fadeCount = 0;
-
+		int ssFadeCount = 0;
+		
 		//This boolean will be returned to the class Game
 		boolean won = false;
 		
@@ -110,7 +111,17 @@ public class Easy {
 			
 			//3.
 			if(ss.getLifes()==0){
-				break;
+				//removing the colors of the destroyed ship
+				ss.fade();
+				ss.fade();
+				ssFadeCount++;
+				
+				//Here the Space Shooter is faded out almost completely, so the game ends
+				if(ssFadeCount==63){
+					ssFadeCount=0;
+					ss.fade();
+					break;
+				}
 			}
 			
 			//4.
@@ -192,7 +203,7 @@ public class Easy {
 									if(currentUFO.getShots()[i].getY()+1==ss.getTopLeftCorner()[1]+y && currentUFO.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x){
 										controller.setColor(currentUFO.getShots()[i].getX(), currentUFO.getShots()[i].getY(), 0, 0, 0);
 										currentUFO.getShots()[i] = null;
-										ss.hit();
+										if(ss.getLifes()>0)ss.hit();
 										break;
 									}
 								}
@@ -210,7 +221,7 @@ public class Easy {
 			//8.
 			KeyEvent event = buffer.pop();
 			buffer.clear();
-			if(event != null){
+			if(event != null&&ss.getLifes()>0){
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
 					switch (event.getKeyCode()){

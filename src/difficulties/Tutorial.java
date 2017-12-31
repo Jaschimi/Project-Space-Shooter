@@ -31,20 +31,20 @@ public class Tutorial{
 		Word shoot = new Word("Press Space to shoot.");
 		
 		Word UFO = new Word("This is an enemy ship.");
-		Word move = new Word("It can also move up, down, left and right.");
+		Word move = new Word("It can also move.");
 		Word projectile = new Word("Watch out for its projectiles!");
 		Word hit = new Word("If they hit you, you lose a life.");
 		
-		Word lives = new Word("You have a maximum of 3 lives.");
-		Word green = new Word("If you have all of them, the dot in the center of your ship is green.");
-		Word yellow = new Word("If you have 2, the dot turns yellow.");
-		Word red = new Word("If you loose another one, it changes to red.");
-		Word dead = new Word("Once you loose all, your ship is destroyed and the Game Over screen appears.");
+		Word lives = new Word("Depending on how many you have, the dot in the center of your ship is green, yellow or red.");
+		Word green = new Word("Depending on how many you have, the dot in the center of your ship is ");
+		Word yellow = new Word("green, ");
+		Word red = new Word("yellow or");
+		Word dead = new Word("Once you lose all, your ship is destroyed and the Game Over screen appears.");
 		
 		Word dot = new Word("As with your ship, the dot in the enemy ships center shows its lives.");
 		Word destroy = new Word("An enemy ship is destroyed when it too loses all lives.");
 		Word next = new Word("If you destroy a ship, another one may spawn.");
-		Word goal = new Word("Your goal is to destroy all of them without losing all 3 lives.");
+		Word goal = new Word("Your goal is to destroy all of them without dying.");
 		
 		Word test = new Word("Try beating the following 5 enemies.");
 		
@@ -313,7 +313,7 @@ public class Tutorial{
 		
 		//Starting enemy moving test. The current ship moves in a different direction every time the loop starts again.
 		count = -1;
-		for(int x=20; x>-move.getLength()-2 ;x--){
+		for(int x=20; x>-move.getLength()-4 ;x--){
 			
 			//Shortcut
 			if(skip)break;
@@ -407,9 +407,7 @@ public class Tutorial{
 			if(count==66){
 				controller.setColor(currentShip.getShots()[0].getX(), currentShip.getShots()[0].getY(), 0, 0, 0);
 				currentShip.getShots()[0]=null;
-				ss.setLifes(ss.getLifes()-1);
-				ss.setColorAt(1, 1, 127, 127, 0);
-				ss.spawnShip();
+				ss.hit();
 			}
 			
 			//Moving the Word one space to the left every 100 milliseconds
@@ -419,11 +417,55 @@ public class Tutorial{
 			controller.sleep(100);
 		}
 		
-		//Explaining the lifes
+		//Explaining life
+		count=0;
 		for(int x=20; x>-lives.getLength() ;x--){
 			
 			//Shortcut
 			if(skip)break;
+			
+			count++;
+			
+			//The dot turns green
+			if(count==green.getLength()){
+				ss.setLifes(3);
+				ss.setColorAt(1, 1, 5, 107, 17);
+				ss.spawnShip();
+			}
+			
+			//The enemy ship shoots
+			if(count==green.getLength()+yellow.getLength()){
+				currentShip.shoot();
+			}
+			
+			//The projectile moves down one spot eleven times
+			if(count>green.getLength()+yellow.getLength()&&count<green.getLength()+yellow.getLength()+10){
+				currentShip.getShots()[0].moveProjectile("down");
+			}
+			
+			//Here the projectile hits the Space Shooter
+			if(count==green.getLength()+yellow.getLength()+10){
+				controller.setColor(currentShip.getShots()[0].getX(), currentShip.getShots()[0].getY(), 0, 0, 0);
+				currentShip.getShots()[0]=null;
+				ss.hit();
+			}
+			
+			//The enemy ship shoots
+			if(count==green.getLength()+yellow.getLength()+red.getLength()){
+				currentShip.shoot();
+			}
+			
+			//The projectile moves down one spot eleven times
+			if(count>green.getLength()+yellow.getLength()+red.getLength()&&count<green.getLength()+yellow.getLength()+red.getLength()+10){
+				currentShip.getShots()[0].moveProjectile("down");
+			}
+			
+			//Here the projectile hits the Space Shooter
+			if(count==green.getLength()+yellow.getLength()+red.getLength()+10){
+				controller.setColor(currentShip.getShots()[0].getX(), currentShip.getShots()[0].getY(), 0, 0, 0);
+				currentShip.getShots()[0]=null;
+				ss.hit();
+			}
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			lives.displayWord(x+1, 0, 0, 0, 0);
@@ -431,94 +473,9 @@ public class Tutorial{
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
-		
-		//Explaining green
-		ss.setColorAt(1, 1, 5, 107, 17);
-		ss.spawnShip();
-		for(int x=20; x>-green.getLength() ;x--){
-			
-			//Shortcut
-			if(skip)break;
-			
-			//Moving the Word one space to the left every 100 milliseconds
-			green.displayWord(x+1, 0, 0, 0, 0);
-			green.displayWord(x, 0, 97, 17, 2);
-			controller.updateLedStripe();
-			controller.sleep(100);
-		}
-		
-		//Explaining yellow
-		count=0;
-		for(int x=20; x>-yellow.getLength() ;x--){
-			
-			//Shortcut
-			if(skip)break;
-			
-			count++;
-			
-			//The enemy ship shoots once
-			if(count==46){
-				currentShip.shoot();
-			}
-			
-			//The projectile moves down one spot eleven times
-			if(count>46&&count<56){
-				currentShip.getShots()[0].moveProjectile("down");
-			}
-			
-			//Here the projectile hits the Space Shooter
-			if(count==56){
-				controller.setColor(currentShip.getShots()[0].getX(), currentShip.getShots()[0].getY(), 0, 0, 0);
-				currentShip.getShots()[0]=null;
-				ss.setLifes(ss.getLifes()-1);
-				ss.setColorAt(1, 1, 127, 127, 0);
-				ss.spawnShip();
-			}
-			//Moving the Word one space to the left every 100 milliseconds
-			yellow.displayWord(x+1, 0, 0, 0, 0);
-			yellow.displayWord(x, 0, 97, 17, 2);
-			controller.updateLedStripe();
-			controller.sleep(100);
-		}
-		
-		//Explaining red
-		count=0;
-		for(int x=20; x>-red.getLength() ;x--){
-			
-			//Shortcut
-			if(skip)break;
-			
-			count++;
-			
-			//The enemy ship shoots once
-			if(count==96){
-				currentShip.shoot();
-			}
-			
-			//The projectile moves down one spot eleven times
-			if(count>96&&count<106){
-				currentShip.getShots()[0].moveProjectile("down");
-			}
-			
-			//Here the projectile hits the Space Shooter
-			if(count==106){
-				controller.setColor(currentShip.getShots()[0].getX(), currentShip.getShots()[0].getY(), 0, 0, 0);
-				currentShip.getShots()[0]=null;
-				ss.setLifes(ss.getLifes()-1);
-				ss.setColorAt(1, 1, 127, 0, 0);
-				ss.spawnShip();
-			}
-			
-			//Moving the Word one space to the left every 100 milliseconds
-			red.displayWord(x+1, 0, 0, 0, 0);
-			red.displayWord(x, 0, 97, 17, 2);
-			controller.updateLedStripe();
-			controller.sleep(100);
-		}
-		
+
 		//Explaining death
 		count=0;
-		int[] colors;
 		for(int x=20; x>-dead.getLength() ;x--){
 			
 			//Shortcut
@@ -540,27 +497,12 @@ public class Tutorial{
 			if(count==66){
 				controller.setColor(currentShip.getShots()[0].getX(), currentShip.getShots()[0].getY(), 0, 0, 0);
 				currentShip.getShots()[0]=null;
-				ss.setLifes(ss.getLifes()-1);
-				ss.setColorAt(1, 1, 0, 0, 0);
-				ss.spawnShip();
+				ss.hit();
 			}
 			
 			//Letting the colors of the Space Shooter fade out over time
-			if(count>66 && count<174){
-				colors = controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]);
-				ss.setColorAt(0, 0, colors[0]-1, 0, colors[2]-1);
-				ss.setColorAt(0, 1, colors[0]-1, 0, colors[2]-1);
-				ss.setColorAt(2, 0, colors[0]-1, 0, colors[2]-1);
-				ss.setColorAt(2, 1, colors[0]-1, 0, colors[2]-1);
-				ss.spawnShip();
-			}
-			if(count>173 && count<194){
-				colors = controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]);
-				ss.setColorAt(0, 0, 0, 0, colors[2]-1);
-				ss.setColorAt(0, 1, 0, 0, colors[2]-1);
-				ss.setColorAt(2, 0, 0, 0, colors[2]-1);
-				ss.setColorAt(2, 1, 0, 0, colors[2]-1);
-				ss.spawnShip();
+			if(count>66 && count<194){
+				ss.fade();
 			}
 			
 			//Moving the Word one space to the left every 100 milliseconds
@@ -757,9 +699,7 @@ public class Tutorial{
 			if(count==110){
 				controller.setColor(currentShip.getShots()[0].getX(), currentShip.getShots()[0].getY(), 0, 0, 0);
 				currentShip.getShots()[0]=null;
-				ss.setLifes(ss.getLifes()-1);
-				ss.setColorAt(1, 1, 127, 127, 0);
-				ss.spawnShip();
+				ss.hit();
 				//and its projectile moves up
 				ss.getShots()[0].moveProjectile("up");
 			}
@@ -825,12 +765,14 @@ public class Tutorial{
 		
 		count=0;
 		controller.resetColors();
+		//Reviving, recoloring and respawning the Space Shooter
 		ss.setLifes(3);
 		ss.setColorAt(1, 1, 5, 107, 17);
 		ss.spawnShip();
 		currentShip.spawnShip();
-		//This variable counts the amount of times the colors of a ship have faded
-		int fadeCount = 0;
+		//These variables counts the amount of times the colors of a ship have faded
+		int enemyFadeCount = 0;
+		int ssFadeCount = 0;
 		while(true){
 			//In every instance of the endless loop, nine things are happening:
 			//1.: The loop count increases by one.
@@ -847,15 +789,15 @@ public class Tutorial{
 			count++;
 			
 			//2.
-			if(currentShip.getLifes() == 0){//here the current ship has no lifes left
+			if(currentShip.getLifes() == 0){
 				//removing the colors of the destroyed ship
 				currentShip.fade();
 				currentShip.fade();
-				fadeCount++;
+				enemyFadeCount++;
 				
 				//Here the currentShip faded out completely
-				if(fadeCount==63){
-					fadeCount=0;
+				if(enemyFadeCount==63){
+					enemyFadeCount=0;
 					//If there's another ship in the shipList, it will become the new current ship and be spawned now
 					if(currentShip.getNext() != null){
 						currentShip = currentShip.getNext();
@@ -870,7 +812,17 @@ public class Tutorial{
 			
 			//3.
 			if(ss.getLifes()==0){
-				break;
+				//removing the colors of the destroyed ship
+				ss.fade();
+				ss.fade();
+				ssFadeCount++;
+				
+				//Here the Space Shooter is faded out almost completely, so the game ends
+				if(ssFadeCount==63){
+					ssFadeCount=0;
+					ss.fade();
+					break;
+				}
 			}
 			
 			//4.
@@ -953,7 +905,7 @@ public class Tutorial{
 										&& currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x){
 										controller.setColor(currentShip.getShots()[i].getX(), currentShip.getShots()[i].getY(), 0, 0, 0);
 										currentShip.getShots()[i] = null;
-										ss.hit();
+										if(ss.getLifes()>0)ss.hit();
 										break;
 									}
 								}
@@ -971,7 +923,7 @@ public class Tutorial{
 			//8.
 			KeyEvent event = buffer.pop();
 			buffer.clear();
-			if(event != null){
+			if(event != null&&ss.getLifes()>0){
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
 					switch (event.getKeyCode()){

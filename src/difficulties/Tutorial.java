@@ -81,8 +81,8 @@ public class Tutorial{
 			}
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			tutorial.displayWord(x+1, 0, 0, 0, 0);
-			tutorial.displayWord(x, 0, 97, 17, 2);
+			tutorial.displayWordAt(x+1, 0, 0, 0, 0);
+			tutorial.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -95,8 +95,8 @@ public class Tutorial{
 			if(skip)break;
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			SS.displayWord(x+1, 0, 0, 0, 0);
-			SS.displayWord(x, 0, 97, 17, 2);
+			SS.displayWordAt(x+1, 0, 0, 0, 0);
+			SS.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -134,12 +134,12 @@ public class Tutorial{
 			}
 				
 			//Moving the Word one space to the left every 100 milliseconds
-			leftRight.displayWord(x+1, 0, 0, 0, 0);
+			leftRight.displayWordAt(x+1, 0, 0, 0, 0);
 			//Putting the break statement here makes sure that no text is still visible after it
 			if(count == 10){
 				break;
 			}
-			leftRight.displayWord(x, 0, 97, 17, 2);
+			leftRight.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -175,12 +175,12 @@ public class Tutorial{
 				}
 			}	
 			//Moving the Word one space to the left every 100 milliseconds
-			upDown.displayWord(x+1, 0, 0, 0, 0);
+			upDown.displayWordAt(x+1, 0, 0, 0, 0);
 			//Putting the break statement here makes sure that no text is still visible after it
 			if(count == 10){
 				break;
 			}
-			upDown.displayWord(x, 0, 97, 17, 2);
+			upDown.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -193,12 +193,12 @@ public class Tutorial{
 			if(skip)break;
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			shoot.displayWord(x+1, 0, 0, 0, 0);
+			shoot.displayWordAt(x+1, 0, 0, 0, 0);
 			//Putting the break statement here makes sure that no text is still visible after it
 			if(count == 7){
 				break;
 			}
-			shoot.displayWord(x, 0, 97, 17, 2);
+			shoot.displayWordAt(x, 0, 97, 17, 2);
 			
 			//This loop makes all projectiles shot move up by one
 			for(int i=0; i<ss.getShots().length; i++){
@@ -305,8 +305,8 @@ public class Tutorial{
 			if(skip)break;
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			UFO.displayWord(x+1, 0, 0, 0, 0);
-			UFO.displayWord(x, 0, 97, 17, 2);
+			UFO.displayWordAt(x+1, 0, 0, 0, 0);
+			UFO.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -338,8 +338,8 @@ public class Tutorial{
 				}
 			}
 			//Moving the Word one space to the left every 100 milliseconds
-			move.displayWord(x+1, 0, 0, 0, 0);
-			move.displayWord(x, 0, 97, 17, 2);
+			move.displayWordAt(x+1, 0, 0, 0, 0);
+			move.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -373,8 +373,8 @@ public class Tutorial{
 			}
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			projectile.displayWord(x+1, 0, 0, 0, 0);
-			projectile.displayWord(x, 0, 97, 17, 2);
+			projectile.displayWordAt(x+1, 0, 0, 0, 0);
+			projectile.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -411,8 +411,8 @@ public class Tutorial{
 			}
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			hit.displayWord(x+1, 0, 0, 0, 0);
-			hit.displayWord(x, 0, 97, 17, 2);
+			hit.displayWordAt(x+1, 0, 0, 0, 0);
+			hit.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -468,8 +468,8 @@ public class Tutorial{
 			}
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			lives.displayWord(x+1, 0, 0, 0, 0);
-			lives.displayWord(x, 0, 97, 17, 2);
+			lives.displayWordAt(x+1, 0, 0, 0, 0);
+			lives.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -506,8 +506,8 @@ public class Tutorial{
 			}
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			dead.displayWord(x+1, 0, 0, 0, 0);
-			dead.displayWord(x, 0, 97, 17, 2);
+			dead.displayWordAt(x+1, 0, 0, 0, 0);
+			dead.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -519,8 +519,8 @@ public class Tutorial{
 			if(skip)break;
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			dot.displayWord(x+1, 0, 0, 0, 0);
-			dot.displayWord(x, 0, 97, 17, 2);
+			dot.displayWordAt(x+1, 0, 0, 0, 0);
+			dot.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -567,8 +567,8 @@ public class Tutorial{
 			}
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			destroy.displayWord(x+1, 0, 0, 0, 0);
-			destroy.displayWord(x, 0, 97, 17, 2);
+			destroy.displayWordAt(x+1, 0, 0, 0, 0);
+			destroy.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -586,8 +586,8 @@ public class Tutorial{
 			if(count==80)currentShip.spawnShip();
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			next.displayWord(x+1, 0, 0, 0, 0);
-			next.displayWord(x, 0, 97, 17, 2);
+			next.displayWordAt(x+1, 0, 0, 0, 0);
+			next.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -725,8 +725,8 @@ public class Tutorial{
 			}
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			goal.displayWord(x+1, 0, 0, 0, 0);
-			goal.displayWord(x, 0, 97, 17, 2);
+			goal.displayWordAt(x+1, 0, 0, 0, 0);
+			goal.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -738,8 +738,8 @@ public class Tutorial{
 			if(skip)break;
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			test.displayWord(x+1, 0, 0, 0, 0);
-			test.displayWord(x, 0, 97, 17, 2);
+			test.displayWordAt(x+1, 0, 0, 0, 0);
+			test.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -974,8 +974,8 @@ public class Tutorial{
 			for(int x=20; x>-allSet.getLength() ;x--){
 				
 				//Moving the Word one space to the left every 100 milliseconds
-				allSet.displayWord(x+1, 0, 0, 0, 0);
-				allSet.displayWord(x, 0, 97, 17, 2);
+				allSet.displayWordAt(x+1, 0, 0, 0, 0);
+				allSet.displayWordAt(x, 0, 97, 17, 2);
 				controller.updateLedStripe();
 				controller.sleep(100);
 			}
@@ -984,18 +984,18 @@ public class Tutorial{
 			for(int x=20; x>-ships.getLength() ;x--){
 				
 				//Moving the Word one space to the left every 100 milliseconds
-				ships.displayWord(x+1, 0, 0, 0, 0);
-				ships.displayWord(x, 0, 97, 17, 2);
+				ships.displayWordAt(x+1, 0, 0, 0, 0);
+				ships.displayWordAt(x, 0, 97, 17, 2);
 				controller.updateLedStripe();
 				controller.sleep(100);
 			}
 			
 			//Wishing them good luck
 			for(int x=20;x>-luck.getLength();x--){
-				good.displayWord(x+3, 5, 0, 0, 0);
-				good.displayWord(x+2, 5, 127, 127, 52);
-				luck.displayWord(x+1, 12, 0, 0, 0);
-				luck.displayWord(x+0, 12, 127, 127, 52);
+				good.displayWordAt(x+3, 5, 0, 0, 0);
+				good.displayWordAt(x+2, 5, 127, 127, 52);
+				luck.displayWordAt(x+1, 12, 0, 0, 0);
+				luck.displayWordAt(x+0, 12, 127, 127, 52);
 				controller.updateLedStripe();
 				controller.sleep(100);
 				
@@ -1012,8 +1012,8 @@ public class Tutorial{
 			for(int x=20; x>-tooBad.getLength() ;x--){
 				
 				//Moving the Word one space to the left every 100 milliseconds
-				tooBad.displayWord(x+1, 0, 0, 0, 0);
-				tooBad.displayWord(x, 0, 69, 4, 4);
+				tooBad.displayWordAt(x+1, 0, 0, 0, 0);
+				tooBad.displayWordAt(x, 0, 69, 4, 4);
 				controller.updateLedStripe();
 				controller.sleep(100);
 			}
@@ -1022,8 +1022,8 @@ public class Tutorial{
 			for(int x=20; x>-tryAgain.getLength() ;x--){
 				
 				//Moving the Word one space to the left every 100 milliseconds
-				tryAgain.displayWord(x+1, 0, 0, 0, 0);
-				tryAgain.displayWord(x, 0, 69, 4, 4);
+				tryAgain.displayWordAt(x+1, 0, 0, 0, 0);
+				tryAgain.displayWordAt(x, 0, 69, 4, 4);
 				controller.updateLedStripe();
 				controller.sleep(100);
 			}
@@ -1032,8 +1032,8 @@ public class Tutorial{
 			for(int x=20; x>-proTip.getLength() ;x--){
 				
 				//Moving the Word one space to the left every 100 milliseconds
-				proTip.displayWord(x+1, 0, 0, 0, 0);
-				proTip.displayWord(x, 0, 69, 4, 4);
+				proTip.displayWordAt(x+1, 0, 0, 0, 0);
+				proTip.displayWordAt(x, 0, 69, 4, 4);
 				controller.updateLedStripe();
 				controller.sleep(100);
 			}

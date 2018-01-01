@@ -21,7 +21,7 @@ public class Word {
 	}
 	
 	//This method displays a Word at a any position on (and off) the board in n RGB color
-	public void displayWord(int x, int y, int red, int green, int blue){
+	public void displayWordAt(int x, int y, int red, int green, int blue){
 		
 		for(int i=0; i<this.charArray.length; i++){
 			char letter = this.charArray[i];
@@ -32,7 +32,7 @@ public class Word {
 	
 	public void moveWord(int x){
 		//The following two lines make the Word move one spot to the left
-		this.displayWord(x+1, 0, 0, 0, 0);
-		this.displayWord(x, 0, 97, 17, 2);
+		this.displayWordAt(x+1, 0, 0, 0, 0);
+		this.displayWordAt(x, 0, 97, 17, 2);
 	}
 }

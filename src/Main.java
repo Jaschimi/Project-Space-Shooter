@@ -26,8 +26,8 @@ public abstract class Main {
 
 	public static void main(String[] args) {
 
-		gameStart();
-//		endscreenTest();
+//		gameStart();
+		endscreenTest(false);
 //		rainbow();
 //		displaytest();
 //		Goldenization();
@@ -38,8 +38,8 @@ public abstract class Main {
 
 	}
 
-	private static void endscreenTest(){
-		Endscreen.outro(true, new int[]{6, 90, 90});
+	private static void endscreenTest(boolean won){
+		Endscreen.outro(won, new int[]{6, 90, 90});
 		controller.resetColors();
 		controller.updateLedStripe();
 	}
@@ -146,8 +146,8 @@ public abstract class Main {
 					}
 				}
 				//The following two lines make the sentence move one spot to the left
-				difficultyExplanation.displayWord(x+1, 0, 0, 0, 0);
-				difficultyExplanation.displayWord(x, 0, 97, 17, 2);
+				difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
+				difficultyExplanation.displayWordAt(x, 0, 97, 17, 2);
 			
 				//And these two control how fast it is moving. A lower in the sleep method means a faster speed.
 				controller.updateLedStripe();
@@ -313,9 +313,9 @@ public abstract class Main {
 		
 		while(true){
 			for(int x=20; x>-logo.getLength() ;x--){
-				logo.displayWord(x+1, line, 0, 0, 0);
+				logo.displayWordAt(x+1, line, 0, 0, 0);
 				
-				logo.displayWord(x, line, 97, 17, 2);
+				logo.displayWordAt(x, line, 97, 17, 2);
 				controller.updateLedStripe();
 				controller.sleep(125);
 			}

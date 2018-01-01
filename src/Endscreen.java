@@ -709,8 +709,315 @@ public static void outro(boolean won, int[] color){
 	
 	public static void loss(int[] color){
 		
-//		Überlege dir hier noch, was genau passieren soll!
+//		Es wäre gut falls du das ersetzen könntest mit den Methoden der Letter Klasse
+//		Jascha :)
+		
+//        BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+//		
+//		int[][][] point = new int[20][20][3];
+//		
+//		controller.setColors(generiereEinL(1, 7,point,color));
+//		
+//		controller.updateLedStripe();
+//		
+//		controller.setColors(generiereEinY(2, 0,point,color));
+//		
+//		controller.setColors(generiereEinO(8, 0,point,color));
+//		
+//		controller.setColors(generiereEinU(12, 0,point,color));
+//		
+//		controller.setColors(generiereEinO(5, 7,point,color));
+//		
+//		controller.setColors(generiereEinS(9, 7,point,color));
+//		
+//		controller.setColors(generiereEinT(14, 7,point,color));
+//		
+//		controller.updateLedStripe();
+//		
+//		fallenLassen(point,color);
 	
 	}
+	
+	public static void fallenLassen(int[][][] point, int[] color){
+    	
+	    int[][][] copie = new int[20][20][3];
+	    
+	    for(int i = 0; i < point.length; i++){
+	    	
+	    	for(int j = 0; j < point[i].length; j++){
+	    		
+	    		for(int coloring = 0; coloring < color.length; coloring++){
+	    			
+	    			copie[i][j][coloring] = point[i][j][coloring];
+	    			
+	    		}
+	    		
+	    	}
+	    	
+	    }
+	
+	boolean isWahr = false;
+	
+	BoardController controller = BoardController.getBoardController();
+	
+	controller.sleep(700);
+	controller.setColors(point);
+	controller.sleep(50);
+	
+	for(int vonUnten = 19; vonUnten >= 0; vonUnten--){
+		
+		if(vonUnten == 0){
+			
+			int zaehler = 0;
+			
+			while(zaehler < 3){
+			
+			
+			for(int geheRechts = 0; geheRechts < point.length; geheRechts++){
+				
+				if((point[geheRechts][vonUnten][0] == color[0]) && (point[geheRechts][vonUnten][1] == color[1]) && (point[geheRechts][vonUnten][2] == color[2])){       
+					
+					isWahr = true;
+					
+					for(int i = 0; i < color.length; i++){
+								
+								point[geheRechts][vonUnten][i] = 0;
+								
+								point[geheRechts][vonUnten + 1][i] = color[i];
+							
+					}
+					
+				}else{
+					
+					continue;
+					
+				}
+				
+			}
+			
+			controller.setColors(point);
+			controller.updateLedStripe();
+			
+			zaehler++;
+			vonUnten++;
+			
+			}
+			
+			if(isWahr == true){
+				
+				for(int nachUnten = vonUnten; nachUnten < point.length; nachUnten++){
+					
+					for(int nachRechts = 0; nachRechts < point.length; nachRechts++){
+						
+						if((point[nachRechts][nachUnten][0] == color[0]) && (point[nachRechts][nachUnten][1] == color[1]) && (point[nachRechts][nachUnten][2] == color[2])){       
+							
+							for(int i = 0; i < color.length; i++){
+								
+								if(nachUnten == point.length - 1){
+									
+									point[nachRechts][nachUnten - 3][i] = 0;
+									point[nachRechts][nachUnten - 2][i] = 0;
+									point[nachRechts][nachUnten - 1][i] = 0;
+									point[nachRechts][nachUnten][i] = 0;
+									
+								}else{
+									
+									if(nachUnten - 1 > vonUnten){
+										
+										if(color[i] - 35 < 0){
+											
+											point[nachRechts][nachUnten - 3][i] = 0;
+													
+											point[nachRechts][nachUnten - 2][i] = 0;
+											
+											point[nachRechts][nachUnten - 1][i] = 0;
+											
+											point[nachRechts][nachUnten][i] = 0;
+											
+											point[nachRechts][nachUnten + 1][i] = color[i];
+											
+											}else{
+												
+												point[nachRechts][nachUnten - 3][i] = 0;
+												
+												point[nachRechts][nachUnten - 2][i] = color[i] - 35;
+												
+												point[nachRechts][nachUnten - 1][i] = color[i] - 35;
+												
+												point[nachRechts][nachUnten][i] = color[i] - 35;
+												
+												point[nachRechts][nachUnten + 1][i] = color[i];
+												
+											}
+										
+									}else{
+									
+									if(color[i] - 35 < 0){
+										
+										point[nachRechts][nachUnten][i] = 0;
+										
+										point[nachRechts][nachUnten + 1][i] = color[i];
+										
+										}else{
+											
+											point[nachRechts][nachUnten][i] = color[i] - 35;
+											
+											point[nachRechts][nachUnten + 1][i] = color[i];
+											
+										}
+							    
+								}
+									
+								}
+									
+							}
+							
+						}else{
+							
+							continue;
+							
+						}
+						
+					}
+					
+					controller.setColors(point);
+					controller.sleep(50);
+					controller.updateLedStripe();
+					
+				}
+				
+			}else{
+				
+			}
+			
+			isWahr = false;
+			
+			vonUnten = 0;
+			
+		}else{
+		
+		for(int geheRechts = 0; geheRechts < point.length; geheRechts++){
+			
+			if((point[geheRechts][vonUnten][0] == color[0]) && (point[geheRechts][vonUnten][1] == color[1]) && (point[geheRechts][vonUnten][2] == color[2])){       
+				
+				isWahr = true;
+				
+				for(int i = 0; i < color.length; i++){
+							
+							point[geheRechts][vonUnten][i] = 0;
+							
+							point[geheRechts][vonUnten + 1][i] = color[i];
+						
+				}
+				
+			}else{
+				
+				continue;
+				
+			}
+			
+		}
+		
+		controller.setColors(point);
+		controller.updateLedStripe();
+		
+		if(isWahr == true){
+			
+			for(int nachUnten = vonUnten; nachUnten < point.length; nachUnten++){
+				
+				for(int nachRechts = 0; nachRechts < point.length; nachRechts++){
+					
+					if((point[nachRechts][nachUnten][0] == color[0]) && (point[nachRechts][nachUnten][1] == color[1]) && (point[nachRechts][nachUnten][2] == color[2])){       
+						
+						for(int i = 0; i < color.length; i++){
+							
+							if(nachUnten == point.length - 1){
+								
+								point[nachRechts][nachUnten - 3][i] = 0;
+								point[nachRechts][nachUnten - 2][i] = 0;
+								point[nachRechts][nachUnten - 1][i] = 0;
+								point[nachRechts][nachUnten][i] = 0;
+								
+							}else{
+								
+								if(nachUnten - 1 > vonUnten){
+									
+									if(color[i] - 35 < 0){
+										
+										point[nachRechts][nachUnten - 3][i] = 0;
+												
+										point[nachRechts][nachUnten - 2][i] = 0;
+										
+										point[nachRechts][nachUnten - 1][i] = 0;
+										
+										point[nachRechts][nachUnten][i] = 0;
+										
+										point[nachRechts][nachUnten + 1][i] = color[i];
+										
+										}else{
+											
+											point[nachRechts][nachUnten - 3][i] = 0;
+											
+											point[nachRechts][nachUnten - 2][i] = color[i] - 35;
+											
+											point[nachRechts][nachUnten - 1][i] = color[i] - 35;
+											
+											point[nachRechts][nachUnten][i] = color[i] - 35;
+											
+											point[nachRechts][nachUnten + 1][i] = color[i];
+											
+										}
+									
+								}else{
+								
+								if(color[i] - 35 < 0){
+									
+									point[nachRechts][nachUnten][i] = 0;
+									
+									point[nachRechts][nachUnten + 1][i] = color[i];
+									
+									}else{
+										
+										point[nachRechts][nachUnten][i] = color[i] - 35;
+										
+										point[nachRechts][nachUnten + 1][i] = color[i];
+										
+									}
+						    
+							}
+								
+							}
+								
+						}
+						
+					}else{
+						
+						continue;
+						
+					}
+					
+				}
+				
+				controller.setColors(point);
+				controller.sleep(50);
+				controller.updateLedStripe();
+				
+			}
+			
+		}else{
+			
+			
+			
+		}
+		
+		isWahr = false;
+		
+	}
+		
+	}
+	
+	fallenLassen(copie,color);
+	
+}
 
 }

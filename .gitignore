@@ -1,5 +1,6 @@
-.DS_Store
+
+bin/difficulties/Easy.class
 *.class
-*.class
-bin/Game.class
+bin/Main.class
+bin/Main.class
 bin/Main.class

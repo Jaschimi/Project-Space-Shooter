@@ -1,6 +1,7 @@
 package ufos;
 
 import gameObjects.EnemyShip;
+import gameObjects.Projectile;
 
 //The default EnemyShip
 public class DefaultShip extends EnemyShip {
@@ -41,10 +42,26 @@ public class DefaultShip extends EnemyShip {
 		}
 	}
 
+	@Override
+	public void shoot() {
+		
+		//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
+		for(int i=0; i<this.shots.length; i++){
+			if(shots[i]==null){
+				//This is the projectile that will be shot
+				Projectile projectile = new Projectile(127, 127, 127);
+				
+				shots[i]=projectile;
+				projectile.spawnProjectile(this.getTopLeftCorner()[0] + 1, this.getTopLeftCorner()[1] + 2);
+				return;
+			}
+		}
+	}
+	
 	//This method is triggered once a ship is hit by a projectile
 	public void hit(){
 		//It loses a life
-		this.setLifes(this.getLifes()-1);
+		super.hit();
 		
 		//And the dot indicating its energy may change color
 		if(this.getLifes()>=3){

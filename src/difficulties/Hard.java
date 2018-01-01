@@ -22,8 +22,9 @@ public class Hard {
 		
 		//This variable counts the amount of times the endless loop in all four difficulties has been started
 		int loopCount = 0;
-		//This variable counts the amount of times the colors of a ship have faded
+		//These variables count the amount of times the colors of a ship have faded
 		int fadeCount = 0;
+		int ssFadeCount = 0;
 
 		//this boolean will be returned to the class Game
 		boolean won = false;
@@ -155,10 +156,10 @@ public class Hard {
 			//1.: The loop count increases by one.
 			//2.: It is checked if the current EnemyShip has no lifes left
 			//3.: It is checked if the SpaceShooter has no lifes left
-			//4.: Every fiftieth instance of the loop, the current ship moves in a random direction
-			//5.: The current EnemyShip shoots a projectile
-			//6.: All shots the SpaceShooter fired are moving upwards by one
-			//7.: All shots the currentUFO fired are moving downwards by one
+			//4.: All shots the SpaceShooter fired are moving upwards by one
+			//5.: All shots the currentUFO fired are moving downwards by one
+			//6.: Every fiftieth instance of the loop, the current ship moves in a random direction
+			//7.: The current EnemyShip shoots a projectile
 			//8.: The last keyboard input is detected and one of five actions are performed
 			//9.: Finally, the LED stripe is updated
 			
@@ -197,10 +198,81 @@ public class Hard {
 			
 			//3.
 			if(ss.getLifes()==0){
-				break;
+				//removing the colors of the destroyed ship
+				ss.fade();
+				ss.fade();
+				ssFadeCount++;
+				
+				//Here the Space Shooter is faded out almost completely, so the game ends
+				if(ssFadeCount==63){
+					ssFadeCount=0;
+					ss.fade();
+					break;
+				}
 			}
 			
 			//4.
+			//The first loop goes through the whole shots array
+			for(int i=0; i<ss.getShots().length; i++){
+				//Only when an entry is not null(i.e. a projectile has been shot), the rest of the code is accessed
+				if(ss.getShots()[i] != null){
+					//This if statement checks if the projectile is still on the screen
+					if(ss.getShots()[i].getY()>=0){
+						//If that's the case, the program checks if any part of the current ufo is directly above the projectile
+						for(int x=0; x<currentUFO.getLength(); x++){
+							for(int y=0; y<currentUFO.getHeight(); y++){
+								if(ss.getShots()[i].getY()-1==currentUFO.getTopLeftCorner()[1]+y
+								   && ss.getShots()[i].getX()==currentUFO.getTopLeftCorner()[0]+x
+								   &&controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[0]!=0
+								   &&controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[1]!=0
+								   &&controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[2]!=0){
+									//If that is also the case, the projectiles color is changed to black,
+									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
+									//the currentUFO is hit (if it still haves lifes) and
+									if(currentUFO.getLifes()>0)currentUFO.hit();
+									//the projectile is set to null.
+									ss.getShots()[i] = null;
+									break;
+								}
+							}
+							//This statement is only triggered if the projectile hit the current ship
+							if(ss.getShots()[i]==null)break;
+						}
+						//If the current UFO is not directly above the projectile and the projectile is not null,
+						//it will move up by one spot
+						if(ss.getShots()[i]!=null)ss.getShots()[i].moveProjectile("up");
+					}
+					else{//here the shot is offscreen, so its corresponding array entry can be set to null
+						ss.getShots()[i] = null;
+					}
+				}
+			}
+			
+			//5.
+			for(int i=0; i<currentUFO.getShots().length; i++){
+				if(currentUFO.getShots()[i] != null){
+					if(currentUFO.getShots()[i].getY()<=19){
+						for(int x=0; x<3; x++){
+							for(int y=0; y<2; y++){
+								if(currentUFO.getShots()[i].getY()-1==ss.getTopLeftCorner()[1]+y
+								   && currentUFO.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x && (x!=1 || y!=0)){
+									controller.setColor(currentUFO.getShots()[i].getX(), currentUFO.getShots()[i].getY(), 0, 0, 0);
+									currentUFO.getShots()[i] = null;
+									if(ss.getLifes()>0)ss.hit();
+									break;
+								}
+							}
+							if(currentUFO.getShots()[i]==null)break;
+						}
+						if(currentUFO.getShots()[i]!=null)currentUFO.getShots()[i].moveProjectile("down");
+					}
+					else{//here the shot is offscreen, so its corresponding array entry can be set to null
+						currentUFO.getShots()[i] = null;
+					}
+				}
+			}
+			
+			//6.
 			if(loopCount%50==0&&currentUFO.getLifes()>0){
 				
 				//This generates a random integer between 0 and 3
@@ -228,74 +300,17 @@ public class Hard {
 				currentUFO.move(direction);
 			}
 			
-			//5.
+			//7.
 			//Enemy ships only shoot with a chance of 1/25 in every loop
 			int random = (int) (Math.random()*25);
 			if(random == 2&&currentUFO.getLifes()>0){
 				currentUFO.shoot();
 			}
 			
-			//6.
-			//The first loop goes through the whole shots array
-			for(int i=0; i<ss.getShots().length; i++){
-				//Only when an entry is not null(i.e. a projectile has been shot), the rest of the code is accessed
-				if(ss.getShots()[i] != null){
-					//This if statement checks if the projectile is still on the screen
-					if(ss.getShots()[i].getY()>=0){
-						//If that's the case, the program checks if any part of the current ufo is directly above the projectile
-						for(int x=0; x<currentUFO.getLength(); x++){
-							for(int y=0; y<currentUFO.getHeight(); y++){
-								if(ss.getShots()[i].getY()-1==currentUFO.getTopLeftCorner()[1]+y
-								   && ss.getShots()[i].getX()==currentUFO.getTopLeftCorner()[0]+x){
-									//If that is also the case, the projectiles color is changed to black,
-									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
-									//the currentUFO is hit (if it still haves lifes) and
-									if(currentUFO.getLifes()>0)currentUFO.hit();
-									//the projectile is set to null.
-									ss.getShots()[i] = null;
-									break;
-								}
-							}
-							//This statement is only triggered if the projectile hit the current ship
-							if(ss.getShots()[i]==null)break;
-						}
-						//If the current UFO is not directly above the projectile and the projectile is not null,
-						//it will move up by one spot
-						if(ss.getShots()[i]!=null)ss.getShots()[i].moveProjectile("up");
-					}
-					else{//here the shot is offscreen, so its corresponding array entry can be set to null
-						ss.getShots()[i] = null;
-					}
-				}
-			}
-			
-			//7.
-			for(int i=0; i<currentUFO.getShots().length; i++){
-				if(currentUFO.getShots()[i] != null){
-					if(currentUFO.getShots()[i].getY()<=19){
-						for(int x=0; x<3; x++){
-							for(int y=0; y<2; y++){
-								if(currentUFO.getShots()[i].getY()-1==ss.getTopLeftCorner()[1]+y && currentUFO.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x){
-									controller.setColor(currentUFO.getShots()[i].getX(), currentUFO.getShots()[i].getY(), 0, 0, 0);
-									currentUFO.getShots()[i] = null;
-									ss.hit();
-									break;
-								}
-							}
-							if(currentUFO.getShots()[i]==null)break;
-						}
-						if(currentUFO.getShots()[i]!=null)currentUFO.getShots()[i].moveProjectile("down");
-					}
-					else{//here the shot is offscreen, so its corresponding array entry can be set to null
-						currentUFO.getShots()[i] = null;
-					}
-				}
-			}
-			
 			//8.
 			KeyEvent event = buffer.pop();
 			buffer.clear();
-			if(event != null){
+			if(event != null&&ss.getLifes()>0){
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
 					switch (event.getKeyCode()){

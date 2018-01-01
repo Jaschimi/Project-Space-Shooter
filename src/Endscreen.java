@@ -1,15 +1,19 @@
+import displayObjects.Word;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
-public class Endscreen {
+public abstract class Endscreen{
+
+	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR); 
 	
-public static void outro(boolean won, int[] color){
+	public static void outro(boolean won, int[] color){
 		
 		if(won){
 			
 			win(color);
 			
-		}else{
+		}
+		else{
 			
 			loss(color);
 			
@@ -17,53 +21,41 @@ public static void outro(boolean won, int[] color){
 		
 	}
 	
-	public static void win(int[] color){
+	private static void win(int[] color){        
 		
-		BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);         
+        int[][][] point = new int[20][20][3];
 		
-        int[][][] point = new int[20][20][color.length];
-		
-		int zaehler = 0;
-		
-		int links = 9;
-		
-		int rechts = 10;
-		
+		int count = 0;
+		int left = 9;
+		int right = 10;
 		int linksHoch = 19;
-		
 		int rechtsHoch = 19;
+
+		for(int i=0; i<3; i++){
+			
+			point[left][linksHoch][i] = color[i];
+			point[right][rechtsHoch][i] = color[i];
+			
+			controller.setColors(point);
+			controller.updateLedStripe();
+			
+		}
 		
-		while(zaehler < 5){
+		linksHoch--;
+		left--;
+		
+		rechtsHoch--;
+		right++;
+				
+		for(count=0; count<4; count++){
 			
-			if(zaehler == 0){
+			for(int i=0; i<3; i++){
 				
-				for(int i = 0; i < color.length; i++){
-					
-					point[links][linksHoch][i] = color[i];
-					point[rechts][rechtsHoch][i] = color[i];
-					
-					controller.setColors(point);
-					controller.updateLedStripe();
-					
-				}
+				point[left][linksHoch][i] = color[i];
+				point[right][rechtsHoch][i] = color[i];
 				
-				linksHoch--;
-				links--;
-				
-				rechtsHoch--;
-				rechts++;
-				
-				zaehler++;
-				
-			}else{
-			
-			for(int i = 0; i < color.length; i++){
-				
-				point[links][linksHoch][i] = color[i];
-				point[rechts][rechtsHoch][i] = color[i];
-				
-				point[links + 1][linksHoch + 1][i] = 0;
-				point[rechts - 1][rechtsHoch + 1][i] = 0;
+				point[left + 1][linksHoch + 1][i] = 0;
+				point[right - 1][rechtsHoch + 1][i] = 0;
 				
 				controller.setColors(point);
 			    controller.updateLedStripe();
@@ -71,26 +63,19 @@ public static void outro(boolean won, int[] color){
 			}
 			
 			linksHoch--;
-			links--;
+			left--;
 			
 			rechtsHoch--;
-			rechts++;
-			
-			zaehler++;
-			
-			}
-			
+			right++;
 		}
 		
-		for(int i = 0; i < color.length; i++){
+		for(int i=0; i<3; i++){
 			
-			point[links][linksHoch][i] = color[i];
-			point[rechts][rechtsHoch][i] = color[i];
+			point[left][linksHoch][i] = color[i];
+			point[right][rechtsHoch][i] = color[i];
 			
-			point[links + 1][linksHoch + 1][i] = 0;
-			point[rechts - 1][rechtsHoch + 1][i] = 0;
-			
-
+			point[left + 1][linksHoch + 1][i] = 0;
+			point[right - 1][rechtsHoch + 1][i] = 0;
 			
 			controller.setColors(point);
 		    controller.updateLedStripe();
@@ -99,37 +84,37 @@ public static void outro(boolean won, int[] color){
 		
 		int speicher = 0;
 			
-			for(int j = 0; j < 5 ; j++){
+			for(int j=0; j<5; j++){
 				
 				if(j < 4){
 				
-				for(int i = 0; i < color.length; i++){
+				for(int i=0; i<3; i++){
 			
-				point[links - (j - 1)][linksHoch][i] = 0;
-			    point[rechts - (j - 1)][rechtsHoch][i] = 0;	
+				point[left - (j - 1)][linksHoch][i] = 0;
+			    point[right - (j - 1)][rechtsHoch][i] = 0;	
 			
-			    point[links + (j - 1)][linksHoch][i] = 0;
-			    point[rechts + (j - 1)][rechtsHoch][i] = 0;
+			    point[left + (j - 1)][linksHoch][i] = 0;
+			    point[right + (j - 1)][rechtsHoch][i] = 0;
 			
-			    point[links][linksHoch - (j - 1)][i] = 0;
-			    point[rechts][rechtsHoch - (j - 1)][i] = 0;
+			    point[left][linksHoch - (j - 1)][i] = 0;
+			    point[right][rechtsHoch - (j - 1)][i] = 0;
 			
-			    point[links][linksHoch + (j - 1)][i] = 0;
-			    point[rechts][rechtsHoch + (j - 1)][i] = 0;
+			    point[left][linksHoch + (j - 1)][i] = 0;
+			    point[right][rechtsHoch + (j - 1)][i] = 0;
 			    
 //------------------------------------------------------------------------------------
 				
-		        point[links - j][linksHoch][i] = color[i];
-			    point[rechts - j][rechtsHoch][i] = color[i];	
+		        point[left - j][linksHoch][i] = color[i];
+			    point[right - j][rechtsHoch][i] = color[i];	
 			
-			    point[links + j][linksHoch][i] = color[i];
-			    point[rechts + j][rechtsHoch][i] = color[i];
+			    point[left + j][linksHoch][i] = color[i];
+			    point[right + j][rechtsHoch][i] = color[i];
 			
-			    point[links][linksHoch - j][i] = color[i];
-			    point[rechts][rechtsHoch - j][i] = color[i];
+			    point[left][linksHoch - j][i] = color[i];
+			    point[right][rechtsHoch - j][i] = color[i];
 			
-			    point[links][linksHoch + j][i] = color[i];
-			    point[rechts][rechtsHoch + j][i] = color[i];
+			    point[left][linksHoch + j][i] = color[i];
+			    point[right][rechtsHoch + j][i] = color[i];
 			    
 
 				
@@ -148,19 +133,19 @@ public static void outro(boolean won, int[] color){
 				
 				}else{
 					
-					for(int i = 0; i < color.length; i++){
+					for(int i=0; i<3; i++){
 						
-						point[links - (speicher )][linksHoch][i] = 0;
-					    point[rechts - (speicher )][rechtsHoch][i] = 0;	
+						point[left - (speicher )][linksHoch][i] = 0;
+					    point[right - (speicher )][rechtsHoch][i] = 0;	
 					
-					    point[links + (speicher )][linksHoch][i] = 0;
-					    point[rechts + (speicher )][rechtsHoch][i] = 0;
+					    point[left + (speicher )][linksHoch][i] = 0;
+					    point[right + (speicher )][rechtsHoch][i] = 0;
 					
-					    point[links][linksHoch - (speicher )][i] = 0;
-					    point[rechts][rechtsHoch - (speicher )][i] = 0;
+					    point[left][linksHoch - (speicher )][i] = 0;
+					    point[right][rechtsHoch - (speicher )][i] = 0;
 					
-					    point[links][linksHoch + (speicher )][i] = 0;
-					    point[rechts][rechtsHoch + (speicher )][i] = 0;
+					    point[left][linksHoch + (speicher )][i] = 0;
+					    point[right][rechtsHoch + (speicher )][i] = 0;
 					    
 
 						
@@ -173,17 +158,17 @@ public static void outro(boolean won, int[] color){
 			
 			}
 			
-//			fireworks on both sides are done now the middle one starts!
+			//Fireworks on both sides are done, so now the middle one starts
 			
 			int hoch = 19;
-			int mitzaehler = 0;
+			count = 0;
 			int mitte = 9;
 			
-			while(mitzaehler < 14){
+			while(count < 14){
 				
-				if(mitzaehler == 0){
+				if(count == 0){
 					
-					for(int i = 0; i < color.length; i++){
+					for(int i=0; i<3; i++){
 						
 						point[mitte][hoch][i] = color[i];
 						
@@ -193,28 +178,29 @@ public static void outro(boolean won, int[] color){
 					}
 				    
 				    hoch-=2;
-				    mitzaehler++;
+				    count++;
 				    
-				}else{
+				}
+				else{
 			
-			for(int i = 0; i < color.length; i++){
+					for(int i=0; i<3; i++){
 				
-				point[mitte][hoch][i] = color[i];
-				point[mitte][hoch + 2][i] = 0;
+					point[mitte][hoch][i] = color[i];
+					point[mitte][hoch + 2][i] = 0;
 				
-				controller.setColors(point);
-			    controller.updateLedStripe();
+					controller.setColors(point);
+					controller.updateLedStripe();
 				
-			}
+					}
 		    
-			hoch-=2;
-			mitzaehler+=2;
+				hoch-=2;
+				count+=2;
 			
-			}
+				}
 				
 			}
 			
-            for(int i = 0; i < color.length; i++){
+            for(int i=0; i<3; i++){
 				
 				point[mitte][hoch][i] = color[i];
 				point[mitte][hoch + 2][i] = 0;
@@ -224,23 +210,23 @@ public static void outro(boolean won, int[] color){
 				
 			}
 			
-			for(int j = 0; j < 5 ; j++){
+			for(int j=0; j<5 ; j++){
 				
-				if(j < 4){
+				if(j<4){
 				
-				for(int i = 0; i < color.length; i++){
+				for(int i=0; i<3; i++){
 					
-					point[links - (j - 1)][linksHoch][i] = 0;
-				    point[rechts - (j - 1)][rechtsHoch][i] = 0;	
+					point[left - (j - 1)][linksHoch][i] = 0;
+				    point[right - (j - 1)][rechtsHoch][i] = 0;	
 				
-				    point[links + (j - 1)][linksHoch][i] = 0;
-				    point[rechts + (j - 1)][rechtsHoch][i] = 0;
+				    point[left + (j - 1)][linksHoch][i] = 0;
+				    point[right + (j - 1)][rechtsHoch][i] = 0;
 				
-				    point[links][linksHoch - (j - 1)][i] = 0;
-				    point[rechts][rechtsHoch - (j - 1)][i] = 0;
+				    point[left][linksHoch - (j - 1)][i] = 0;
+				    point[right][rechtsHoch - (j - 1)][i] = 0;
 				
-				    point[links][linksHoch + (j - 1)][i] = 0;
-				    point[rechts][rechtsHoch + (j - 1)][i] = 0;
+				    point[left][linksHoch + (j - 1)][i] = 0;
+				    point[right][rechtsHoch + (j - 1)][i] = 0;
 			
 				point[mitte - (j - 1)][hoch][i] = 0;
 			    
@@ -252,17 +238,17 @@ public static void outro(boolean won, int[] color){
 			    
 //------------------------------------------------------------------------------------
 				
-			    point[links - j][linksHoch][i] = color[i];
-			    point[rechts - j][rechtsHoch][i] = color[i];	
+			    point[left - j][linksHoch][i] = color[i];
+			    point[right - j][rechtsHoch][i] = color[i];	
 			
-			    point[links + j][linksHoch][i] = color[i];
-			    point[rechts + j][rechtsHoch][i] = color[i];
+			    point[left + j][linksHoch][i] = color[i];
+			    point[right + j][rechtsHoch][i] = color[i];
 			
-			    point[links][linksHoch - j][i] = color[i];
-			    point[rechts][rechtsHoch - j][i] = color[i];
+			    point[left][linksHoch - j][i] = color[i];
+			    point[right][rechtsHoch - j][i] = color[i];
 			
-			    point[links][linksHoch + j][i] = color[i];
-			    point[rechts][rechtsHoch + j][i] = color[i];
+			    point[left][linksHoch + j][i] = color[i];
+			    point[right][rechtsHoch + j][i] = color[i];
 			    
 		        point[mitte - j][hoch][i] = color[i];
 			    
@@ -279,7 +265,7 @@ public static void outro(boolean won, int[] color){
 			    
 				}else{
 					
-					for(int i = 0; i < color.length; i++){
+					for(int i=0; i<3; i++){
 						
 						point[mitte - (j - 1)][hoch][i] = 0;
 					    
@@ -289,17 +275,17 @@ public static void outro(boolean won, int[] color){
 					    
 					    point[mitte][hoch + (j - 1)][i] = 0;
 					    
-					    point[links - (speicher - 1)][linksHoch][i] = 0;
-					    point[rechts - (speicher - 1)][rechtsHoch][i] = 0;	
+					    point[left - (speicher - 1)][linksHoch][i] = 0;
+					    point[right - (speicher - 1)][rechtsHoch][i] = 0;	
 					
-					    point[links + (speicher - 1)][linksHoch][i] = 0;
-					    point[rechts + (speicher - 1)][rechtsHoch][i] = 0;
+					    point[left + (speicher - 1)][linksHoch][i] = 0;
+					    point[right + (speicher - 1)][rechtsHoch][i] = 0;
 					
-					    point[links][linksHoch - (speicher - 1)][i] = 0;
-					    point[rechts][rechtsHoch - (speicher - 1)][i] = 0;
+					    point[left][linksHoch - (speicher - 1)][i] = 0;
+					    point[right][rechtsHoch - (speicher - 1)][i] = 0;
 					
-					    point[links][linksHoch + (speicher - 1)][i] = 0;
-					    point[rechts][rechtsHoch + (speicher - 1)][i] = 0;
+					    point[left][linksHoch + (speicher - 1)][i] = 0;
+					    point[right][rechtsHoch + (speicher - 1)][i] = 0;
 					    
 					    controller.setColors(point);
 					    controller.updateLedStripe();
@@ -307,407 +293,414 @@ public static void outro(boolean won, int[] color){
 				}
 			
 			}
-//			Now all fireworks are done and you will see WINNER blinking on the screen
-//			from left to right!
+			//Now that all fireworks are done, the phrase "You won" will be displayed on the board
 			}
 			
-			blinkWinner(color, point);
+			controller.resetColors();
+			
+			Word you = new Word("You");
+			Word won = new Word("won");
+			
+			you.displayWord(5, 4, color[0], color[1], color[2]);
+			won.displayWord(3, 10, color[0], color[1], color[2]);
+			
+			controller.updateLedStripe();
+			controller.sleep(4000);
+//			blinkWinner(color, point);
 		
 	}
 	
-	public static void blinkWinner(int[] color, int[][][] point){
-		
-		BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
-		
-//		schreibe das W
-		
-		point = new int[20][20][3];
-		
-		controller.setColors(generiereEinW(3,9,point,color));
-        
-//        Nun zum O
-        
-       controller.setColors(generiereEinO(9,9,point,color));
-       
-//       Nun fehlt nur noch das N
-       
-       controller.setColors(generiereEinN(13,9,point,color));
-       
-       controller.setColors(generiereEinO(9,3,point,color));
-       
-       controller.setColors(generiereEinY(3,3,point,color));
-       
-       controller.setColors(generiereEinU(13,3,point,color));
-       
-       controller.setColors(point);
-       
-       controller.sleep(40);
-       
-       controller.updateLedStripe();
-       
-       for(int i = 0; i < point.length; i++){
-    	   
-    	   for(int j = 0; j < point.length; j++){
-    		   
-    		   for(int coloring = 0; coloring < color.length; coloring++){
-    			   
-    			   point[j][i][coloring] = 0;
-    			   
-    		   }
-    		   
-    	   }
-    	   
-       }
-       
-       controller.setColors(point);
-       
-       controller.sleep(1000);
-       
-       controller.updateLedStripe();
-       
-       win(color);
-		
-	}
+//	private static void blinkWinner(int[] color, int[][][] point){
+//		
+//		BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+//		
+////		schreibe das W
+//		
+//		point = new int[20][20][3];
+//		
+//		controller.setColors(generiereEinW(3,9,point,color));
+//        
+////        Nun zum O
+//        
+//       controller.setColors(generiereEinO(9,9,point,color));
+//       
+////       Nun fehlt nur noch das N
+//       
+//       controller.setColors(generiereEinN(13,9,point,color));
+//       
+//       controller.setColors(generiereEinO(9,3,point,color));
+//       
+//       controller.setColors(generiereEinY(3,3,point,color));
+//       
+//       controller.setColors(generiereEinU(13,3,point,color));
+//       
+//       controller.setColors(point);
+//       
+//       controller.sleep(40);
+//       
+//       controller.updateLedStripe();
+//       
+//       for(int i=0; i<point.length; i++){
+//    	   
+//    	   for(int j=0; j<point.length; j++){
+//    		   
+//    		   for(int coloring=0; coloring<3; coloring++){
+//    			   
+//    			   point[j][i][coloring] = 0;
+//    			   
+//    		   }
+//    		   
+//    	   }
+//    	   
+//       }
+//       
+//       controller.setColors(point);
+//       
+//       controller.sleep(1000);
+//       
+//       controller.updateLedStripe();
+//		
+//	}
+//	
+//	private static int[][][] generiereEinW(int x, int y , int[][][] point, int[] color) {
+//		
+//         for(int i = x; i < x + 5; i++){
+//			
+//			for(int j = y; j < y + 5; j++){
+//				
+//				for(int coloring = 0; coloring < 3; coloring++){
+//					
+//					point[i][j][coloring] = color[coloring];
+//					
+//				}
+//				
+//			}
+//			
+//		}
+//         
+//        int zaehlt = x + 1;
+//        
+//        while(zaehlt < x + 4){
+//        	
+//        	if(zaehlt == x + 1 || zaehlt == x + 3){
+//        		
+//            for(int j = y; j < y + 5; j++){
+//            	
+//            	if(j == y + 4){
+//            		
+//            		
+//            		
+//            	}else{
+//     
+//                for(int coloring = 0; coloring < 3; coloring++){
+//        				
+//        				point[zaehlt][j][coloring] = 0;
+//        				
+//        			}
+//        			
+//            	}
+//        			
+//        		}
+//        		
+//        	}else{
+//        		
+//        		for(int j = y; j < y + 5; j++){
+//        			
+//        			if(j == y + 3){
+//        				
+//        				
+//        				
+//        			}else{
+//        				
+//                    for(int coloring = 0; coloring < 3; coloring++){
+//            				
+//            				point[zaehlt][j][coloring] = 0;
+//            				
+//            			}
+//        				
+//        			}
+//        			
+//        		}
+//        		
+//        	}
+//        	
+//        	zaehlt++;
+//        	
+//        }
+//		
+//		return point;
+//		
+//	}
+//
+//	private static int[][][] generiereEinN(int x, int y , int[][][] point, int[] color){
+//		
+//		for(int i = x; i < x + 5; i++){
+//			
+//			for(int j = y; j < y + 5; j++){
+//				
+//				for(int coloring = 0; coloring < 3; coloring++){
+//					
+//					point[i][j][coloring] = color[coloring];
+//					
+//				}
+//				
+//			}
+//			
+//		}
+//		
+//		int festRechts = x + 1;
+//		
+//		int festRunter = y + 1;
+//		
+//		while(festRunter < y + 4 && festRechts < x + 4){
+//			
+//			
+//				for(int j = y; j < y + 5; j++){
+//					
+//					
+//					
+//					if(j == festRunter){
+//						
+//						
+//						
+//					}else{
+//						
+//						
+//					
+//					for(int i = 0; i < 3; i++){
+//						
+//						point[festRechts][j][i] = 0;
+//						
+//					}
+//					
+//					
+//					}
+//					
+//					
+//				}
+//				
+//				festRunter++;
+//				festRechts++;
+//				
+//			}
+//		
+//		
+//		return point;
+//		
+//	}
+//
+//	private static int[][][] generiereEinO(int x, int y, int[][][] point, int[] color){
+//		
+////		Vollende diesen Prototyp von Methode zur fertigen Methode die ein O ausgibt, das hier ist der Code von Oben
+//		
+//		for(int i = x; i < x + 3; i++){
+//			
+//			for(int j = y; j < y + 5; j++){
+//				
+//				for(int coloring = 0; coloring < 3; coloring++){
+//					
+//					point[i][j][coloring] = color[coloring];
+//					
+//				}
+//				
+//			}
+//			
+//		}
+//			
+//				for(int i = x; i < x + 3; i++){
+//					
+//					for(int j = y; j < y + 5; j++){
+//						
+//						if(i == x + 1){
+//							
+//							if(j == y || j == y + 4){
+//								
+//								
+//						        
+//							}else{
+//						        	
+//								for(int coloring = 0; coloring < 3; coloring++){
+//									
+//								    point[i][j][coloring] = 0;
+//								
+//							        }
+//						        
+//							}
+//						
+//						}else{
+//							
+//							if(j == y + 1 || j == y + 2 || j == y + 3){
+//								
+//								
+//							
+//							}else{
+//								
+//								for(int coloring = 0; coloring < 3; coloring++){
+//									
+//									point[i][j][coloring] = 0;
+//									
+//								}
+//								
+//							}
+//							
+//						}
+//						
+//					}
+//					
+//				}
+//		
+//		return point;
+//		
+//	}
+//	
+//	private static int[][][] generiereEinY(int x, int y, int[][][] point, int[] color){
+//		
+//        for(int i = x; i < x + 3; i++){
+//			
+//			for(int j = y; j < y + 5; j++){
+//				
+//				for(int coloring = 0; coloring < 3; coloring++){
+//					
+//					point[i][j][coloring] = color[coloring];
+//					
+//				}
+//				
+//			}
+//			
+//		}
+//        
+//        int zaehltRueckwaerts = y + 4;
+//        
+//        int zaehltVorwaerts = y;
+//        
+//        int zaehlt = x;
+//        
+//        while(zaehlt < x + 2){
+//        	
+//        	for(int j = y; j < y + 5; j++){
+//        		
+//        		if(j == zaehltRueckwaerts || j == zaehltVorwaerts){
+//        			
+//        			
+//        			
+//        		}else{
+//        			
+//        			for(int coloring = 0; coloring < 3; coloring++){
+//        				
+//        				point[zaehlt][j][coloring] = 0;
+//        				
+//        			}
+//        			
+//        		}
+//        		
+//        	}
+//        	
+//        	zaehltRueckwaerts--;
+//        	zaehltVorwaerts++;
+//        	zaehlt++;
+//        	
+//        }
+//        
+//        while(zaehlt < x + 5){
+//        	
+//        	for(int j = y; j < y + 5; j++){
+//        		
+//        		if(j == zaehltRueckwaerts){
+//        			
+//                for(int i = 0; i < 3; i++){
+//        				
+//        				point[zaehlt][j][i] = color[i];
+//        				
+//        			}
+//        			
+//        		}else{
+//        			
+//        			for(int i = 0; i < 3; i++){
+//        				
+//        				point[zaehlt][j][i] = 0;
+//        				
+//        			}
+//        			
+//        		}
+//        		
+//        	}
+//        	
+//        	zaehltRueckwaerts--;
+//        	zaehlt++;
+//        	
+//        }
+//		
+//		return point;
+//		
+//	}
+//	
+//	private static int[][][] generiereEinU(int x, int y, int[][][] point, int[] color){
+//		
+//       for(int i = x; i < x + 4; i++){
+//			
+//			for(int j = y; j < y + 5; j++){
+//				
+//				for(int coloring = 0; coloring < 3; coloring++){
+//					
+//					point[i][j][coloring] = color[coloring];
+//					
+//				}
+//				
+//			}
+//			
+//		}
+//       
+//       int zaehlt = 0;
+//       
+//       int nachRechts = x + 1;
+//       
+//       while(zaehlt < 2){
+//    	   
+//    	   for(int j = y; j < y + 4; j++){
+//    		   
+//    		   for(int coloring = 0; coloring < 3; coloring++){
+//    		   
+//    		   point[nachRechts][j][coloring] = 0;
+//    				   
+//    		   }
+//    		   
+//    	   }
+//    	   
+//    	   nachRechts++;
+//    	   zaehlt++;
+//    	   
+//       }
+//       
+//       zaehlt = 0;
+//       
+//       nachRechts = x;
+//       
+//       while(zaehlt < 2){
+//    	   
+//    	   for(int j = y; j < y + 5; j++){
+//    		   
+//    		   if(j == y + 4){
+//    			   
+//    			   for(int i = 0; i < 3; i++){
+//    				   
+//    				   point[nachRechts][j][i] = 0;
+//    				   
+//    			   }
+//    			   
+//    		   }
+//    		   
+//    	   }
+//    	   
+//    	   nachRechts+=3;
+//    	   zaehlt++;
+//    	   
+//       }
+//		
+//		return point;
+//		
+//	}
 	
-	private static int[][][] generiereEinW(int x, int y , int[][][] point, int[] color) {
-		
-         for(int i = x; i < x + 5; i++){
-			
-			for(int j = y; j < y + 5; j++){
-				
-				for(int coloring = 0; coloring < color.length; coloring++){
-					
-					point[i][j][coloring] = color[coloring];
-					
-				}
-				
-			}
-			
-		}
-         
-        int zaehlt = x + 1;
-        
-        while(zaehlt < x + 4){
-        	
-        	if(zaehlt == x + 1 || zaehlt == x + 3){
-        		
-            for(int j = y; j < y + 5; j++){
-            	
-            	if(j == y + 4){
-            		
-            		
-            		
-            	}else{
-     
-                for(int coloring = 0; coloring < color.length; coloring++){
-        				
-        				point[zaehlt][j][coloring] = 0;
-        				
-        			}
-        			
-            	}
-        			
-        		}
-        		
-        	}else{
-        		
-        		for(int j = y; j < y + 5; j++){
-        			
-        			if(j == y + 3){
-        				
-        				
-        				
-        			}else{
-        				
-                    for(int coloring = 0; coloring < color.length; coloring++){
-            				
-            				point[zaehlt][j][coloring] = 0;
-            				
-            			}
-        				
-        			}
-        			
-        		}
-        		
-        	}
-        	
-        	zaehlt++;
-        	
-        }
-		
-		return point;
-		
-	}
-
-	private static int[][][] generiereEinN(int x, int y , int[][][] point, int[] color){
-		
-		for(int i = x; i < x + 5; i++){
-			
-			for(int j = y; j < y + 5; j++){
-				
-				for(int coloring = 0; coloring < color.length; coloring++){
-					
-					point[i][j][coloring] = color[coloring];
-					
-				}
-				
-			}
-			
-		}
-		
-		int festRechts = x + 1;
-		
-		int festRunter = y + 1;
-		
-		while(festRunter < y + 4 && festRechts < x + 4){
-			
-			
-				for(int j = y; j < y + 5; j++){
-					
-					
-					
-					if(j == festRunter){
-						
-						
-						
-					}else{
-						
-						
-					
-					for(int i = 0; i < color.length; i++){
-						
-						point[festRechts][j][i] = 0;
-						
-					}
-					
-					
-					}
-					
-					
-				}
-				
-				festRunter++;
-				festRechts++;
-				
-			}
-		
-		
-		return point;
-		
-	}
-
-	public static int[][][] generiereEinO(int x, int y, int[][][] point, int[] color){
-		
-//		Vollende diesen Prototyp von Methode zur fertigen Methode die ein O ausgibt, das hier ist der Code von Oben
-		
-		for(int i = x; i < x + 3; i++){
-			
-			for(int j = y; j < y + 5; j++){
-				
-				for(int coloring = 0; coloring < color.length; coloring++){
-					
-					point[i][j][coloring] = color[coloring];
-					
-				}
-				
-			}
-			
-		}
-			
-				for(int i = x; i < x + 3; i++){
-					
-					for(int j = y; j < y + 5; j++){
-						
-						if(i == x + 1){
-							
-							if(j == y || j == y + 4){
-								
-								
-						        
-							}else{
-						        	
-								for(int coloring = 0; coloring < color.length; coloring++){
-									
-								    point[i][j][coloring] = 0;
-								
-							        }
-						        
-							}
-						
-						}else{
-							
-							if(j == y + 1 || j == y + 2 || j == y + 3){
-								
-								
-							
-							}else{
-								
-								for(int coloring = 0; coloring < color.length; coloring++){
-									
-									point[i][j][coloring] = 0;
-									
-								}
-								
-							}
-							
-						}
-						
-					}
-					
-				}
-		
-		return point;
-		
-	}
-	
-	public static int[][][] generiereEinY(int x, int y, int[][][] point, int[] color){
-		
-        for(int i = x; i < x + 3; i++){
-			
-			for(int j = y; j < y + 5; j++){
-				
-				for(int coloring = 0; coloring < color.length; coloring++){
-					
-					point[i][j][coloring] = color[coloring];
-					
-				}
-				
-			}
-			
-		}
-        
-        int zaehltRueckwaerts = y + 4;
-        
-        int zaehltVorwaerts = y;
-        
-        int zaehlt = x;
-        
-        while(zaehlt < x + 2){
-        	
-        	for(int j = y; j < y + 5; j++){
-        		
-        		if(j == zaehltRueckwaerts || j == zaehltVorwaerts){
-        			
-        			
-        			
-        		}else{
-        			
-        			for(int coloring = 0; coloring < color.length; coloring++){
-        				
-        				point[zaehlt][j][coloring] = 0;
-        				
-        			}
-        			
-        		}
-        		
-        	}
-        	
-        	zaehltRueckwaerts--;
-        	zaehltVorwaerts++;
-        	zaehlt++;
-        	
-        }
-        
-        while(zaehlt < x + 5){
-        	
-        	for(int j = y; j < y + 5; j++){
-        		
-        		if(j == zaehltRueckwaerts){
-        			
-                for(int i = 0; i < color.length; i++){
-        				
-        				point[zaehlt][j][i] = color[i];
-        				
-        			}
-        			
-        		}else{
-        			
-        			for(int i = 0; i < color.length; i++){
-        				
-        				point[zaehlt][j][i] = 0;
-        				
-        			}
-        			
-        		}
-        		
-        	}
-        	
-        	zaehltRueckwaerts--;
-        	zaehlt++;
-        	
-        }
-		
-		return point;
-		
-	}
-	
-	public static int[][][] generiereEinU(int x, int y, int[][][] point, int[] color){
-		
-       for(int i = x; i < x + 4; i++){
-			
-			for(int j = y; j < y + 5; j++){
-				
-				for(int coloring = 0; coloring < color.length; coloring++){
-					
-					point[i][j][coloring] = color[coloring];
-					
-				}
-				
-			}
-			
-		}
-       
-       int zaehlt = 0;
-       
-       int nachRechts = x + 1;
-       
-       while(zaehlt < 2){
-    	   
-    	   for(int j = y; j < y + 4; j++){
-    		   
-    		   for(int coloring = 0; coloring < color.length; coloring++){
-    		   
-    		   point[nachRechts][j][coloring] = 0;
-    				   
-    		   }
-    		   
-    	   }
-    	   
-    	   nachRechts++;
-    	   zaehlt++;
-    	   
-       }
-       
-       zaehlt = 0;
-       
-       nachRechts = x;
-       
-       while(zaehlt < 2){
-    	   
-    	   for(int j = y; j < y + 5; j++){
-    		   
-    		   if(j == y + 4){
-    			   
-    			   for(int i = 0; i < color.length; i++){
-    				   
-    				   point[nachRechts][j][i] = 0;
-    				   
-    			   }
-    			   
-    		   }
-    		   
-    	   }
-    	   
-    	   nachRechts+=3;
-    	   zaehlt++;
-    	   
-       }
-		
-		return point;
-		
-	}
-	
-	public static void loss(int[] color){
+	private static void loss(int[] color){
 		
 //		Es wäre gut falls du das ersetzen könntest mit den Methoden der Letter Klasse
 //		Jascha :)

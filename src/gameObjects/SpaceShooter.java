@@ -13,7 +13,6 @@ public class SpaceShooter extends Spaceship{
 	
 	//Getters and Setters for various things
 	public int[] getTopLeftCorner() {return topLeftCorner;}
-	public void setTopLeftCorner(int[] topLeftCorner) {this.topLeftCorner = topLeftCorner;}
 	
 	public Projectile[] getShots() {return shots;}
 	
@@ -48,20 +47,20 @@ public class SpaceShooter extends Spaceship{
 
 	public void shoot() {
 		
-		//This is the projectile that will be shot
-		Projectile projectile = new Projectile(127, 127, 127);
-		
 		//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
 		for(int i=0; i<this.shots.length; i++){
 			if(shots[i]==null){
+				//This is the projectile that will be shot
+				Projectile projectile = new Projectile(127, 127, 127);
+				
 				shots[i]=projectile;
 				projectile.spawnProjectile(this.topLeftCorner[0] + 1, this.topLeftCorner[1]);
-				break;
+				return;
 			}
 		}
-		
 	}
 
+	@Override
 	public void move(char direction) {
 		
 		switch(direction){
@@ -144,4 +143,18 @@ public class SpaceShooter extends Spaceship{
 		this.spawnShip();
 	}
 	
+	//This method is useful for making the Space Shooter fade away over time after it is destroyed
+	public void fade(){
+		//Every color
+		for(int i=0;i<3;i++){
+			//in every entry of the positions array
+			for(int x=0;x<3;x++){
+				for(int y=0;y<2;y++){
+					//is reduced by one if it isn't zero.
+					if(this.positions[x][y][i]!=0)this.positions[x][y][i]-=1;
+					this.spawnShip();
+				}
+			}
+		}
+	}
 }

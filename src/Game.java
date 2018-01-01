@@ -9,9 +9,9 @@ import ledControl.LedConfiguration;
 //This class controls everything that happens during a game
 public abstract class Game{
 
-	public static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	
-	protected static boolean start(int difficulty){
+	protected static void start(int difficulty){
 		
 		//First of all, the LED Board is reset so that all text still displayed is removed
 		controller.resetColors();
@@ -30,7 +30,7 @@ public abstract class Game{
 			ss.setColorAt(0, 1, 107, 0, 127);
 			ss.setColorAt(1, 1, 5, 107, 17);
 			ss.setColorAt(2, 1, 107, 0, 127);
-			won = Tutorial.start(ss);
+			Tutorial.start(ss);
 		}
 		else{
 			if(difficulty == 1){
@@ -69,7 +69,7 @@ public abstract class Game{
 					}
 				}
 			}
+			Endscreen.outro(won, controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]));
 		}
-		return won;
 	}
 }

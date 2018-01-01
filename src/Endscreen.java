@@ -704,7 +704,10 @@ public abstract class Endscreen{
 		
 //		Es wäre gut falls du das ersetzen könntest mit den Methoden der Letter Klasse
 //		Jascha :)
-		
+//		Ich versuche dann die Raumschiffe durchs Bild fliegen zu lassen, falls du das ganze
+//		schon gemacht hast, schreibt mir das am besten per whatsapp
+//		damit ich nichts unnötig pushe :)
+//		
 //        BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 //		
 //		int[][][] point = new int[20][20][3];

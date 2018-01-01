@@ -13,7 +13,6 @@ public class SpaceShooter extends Spaceship{
 	
 	//Getters and Setters for various things
 	public int[] getTopLeftCorner() {return topLeftCorner;}
-	public void setTopLeftCorner(int[] topLeftCorner) {this.topLeftCorner = topLeftCorner;}
 	
 	public Projectile[] getShots() {return shots;}
 	
@@ -48,20 +47,20 @@ public class SpaceShooter extends Spaceship{
 
 	public void shoot() {
 		
-		//This is the projectile that will be shot
-		Projectile projectile = new Projectile(127, 127, 127);
-		
 		//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
 		for(int i=0; i<this.shots.length; i++){
 			if(shots[i]==null){
+				//This is the projectile that will be shot
+				Projectile projectile = new Projectile(127, 127, 127);
+				
 				shots[i]=projectile;
 				projectile.spawnProjectile(this.topLeftCorner[0] + 1, this.topLeftCorner[1]);
-				break;
+				return;
 			}
 		}
-		
 	}
 
+	@Override
 	public void move(char direction) {
 		
 		switch(direction){

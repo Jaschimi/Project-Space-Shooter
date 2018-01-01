@@ -13,24 +13,22 @@ public abstract class EnemyShip extends Spaceship {
 	private int height;
 	private int maxLifes;
 	private int lifes;
-	private Projectile[] shots;
+	protected Projectile[] shots;
 	
 	//Getters and Setters for various things
 	public EnemyShip getNext() {return next;}
 	public void setNext(EnemyShip next) {this.next = next;}
 	
 	public int[] getTopLeftCorner() {return topLeftCorner;}
-	public void setTopLeftCorner(int[] topLeftCorner) {this.topLeftCorner = topLeftCorner;}
 
 	public int getLength() {return length;}
 	public int getHeight() {return height;}
 
 	public int getMaxLifes() {return maxLifes;}
 	public int getLifes() {return lifes;}
-	public void setLifes(int lifes) {this.lifes = lifes;}
 	
 	public Projectile[] getShots() {return shots;}
-
+	
 	//In addition to a top left corner, a length, a height, lifes and ammunition, EnemyShips also have a successor called next,
 	//which is always null when a new EnemyShip is created.
 	//This way, the structure for a list of EnemyShips is made, so that the next EnemyShip can be spawned in case the current
@@ -70,18 +68,17 @@ public abstract class EnemyShip extends Spaceship {
 	@Override
 	public void shoot() {
 		
-		//This is the projectile that will be shot
-		Projectile projectile = new Projectile(127, 127, 127);
-		
 		//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
 		for(int i=0; i<this.shots.length; i++){
 			if(shots[i]==null){
+				//This is the projectile that will be shot
+				Projectile projectile = new Projectile(127, 127, 127);
+				
 				shots[i]=projectile;
 				projectile.spawnProjectile(this.topLeftCorner[0] + this.length/2, this.topLeftCorner[1] + this.height-1);
-				break;
+				return;
 			}
 		}
-		
 	}
 
 	@Override
@@ -145,7 +142,9 @@ public abstract class EnemyShip extends Spaceship {
 	}
 
 	//This method is triggered once a ship is hit by a projectile
-	public abstract void hit();
+	public void hit(){
+		this.lifes -=1;
+	}
 	
 	//This method is useful for making an enemy ship fade away over time after it is destroyed
 	public void fade(){

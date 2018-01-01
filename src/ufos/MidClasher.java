@@ -22,6 +22,12 @@ public class MidClasher extends EnemyShip {
 				}
 			}
 		}
+		
+		//The cannon
+		this.setColorAt(1, 3, 30, 30, 90);
+		this.setColorAt(2, 2, 30, 30, 90);
+		this.setColorAt(3, 3, 30, 30, 90);
+		
 		//This is the dot displaying the ships lifes
 		this.setColorAt(2, 1,  5, 107, 17);
 	}
@@ -29,7 +35,7 @@ public class MidClasher extends EnemyShip {
 	//This method is triggered once a ship is hit by a projectile
 	public void hit(){
 		//It loses a life
-		this.setLifes(this.getLifes()-1);
+		super.hit();
 		
 		//And the dot indicating its energy may change color
 		if(this.getLifes()==0){

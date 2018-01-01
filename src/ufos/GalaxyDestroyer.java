@@ -9,7 +9,7 @@ public class GalaxyDestroyer extends EnemyShip {
 		super(topLeftCorner, 17, 10, maxLifes, ammo);
 		
 		for(int x=0; x<17; x++){
-			for(int y=2; y<7; y++){
+			for(int y=2; y<6; y++){
 				this.setColorAt(x, y, 18, 18, 87);
 			}
 		}
@@ -39,26 +39,37 @@ public class GalaxyDestroyer extends EnemyShip {
 		this.setColorAt(3, 2, 0, 0, 0);
 		this.setColorAt(13, 2, 0, 0, 0);
 		
-		//The middle cannon
+		//The spots left and right of the middle cannon
 		this.setColorAt(5, 6, 18, 18, 87);
+		this.setColorAt(6, 6, 18, 18, 87);
 		this.setColorAt(6, 7, 18, 18, 87);
-		for(int x=7; x<10; x+=2){
-			for(int y=7; y<10; y++){
-				this.setColorAt(x, y, 18, 18, 87);
-			}
-		}
+		this.setColorAt(7, 6, 18, 18, 87);
+		this.setColorAt(9, 6, 18, 18, 87);
 		this.setColorAt(11, 6, 18, 18, 87);
+		this.setColorAt(10, 6, 18, 18, 87);
 		this.setColorAt(10, 7, 18, 18, 87);
 		
+		//The middle cannon
+		this.setColorAt(8, 6, 30, 30, 90);
+		for(int x=7; x<10; x+=2){
+			for(int y=7; y<10; y++){
+				this.setColorAt(x, y, 30, 30, 90);
+			}
+		}
+		
 		//The left and right cannons
-		this.setColorAt(2, 6, 0, 0, 0);
+		this.setColorAt(2, 5, 30, 30, 90);
 		for(int x=1; x<4; x+=2){
-			this.setColorAt(x, 7, 18, 18, 87);
+			for(int y=6; y<8; y++){
+				this.setColorAt(x, y, 30, 30, 90);
+			}
 		}
-		this.setColorAt(14, 6, 0, 0, 0);
 		for(int x=13; x<16; x+=2){
-			this.setColorAt(x, 7, 18, 18, 87);
+			for(int y=6; y<8; y++){
+				this.setColorAt(x, y, 30, 30, 90);
+			}
 		}
+		this.setColorAt(14, 5, 30, 30, 90);
 		
 		//Holes between cannons
 		this.setColorAt(0, 6, 0, 0, 0);
@@ -91,7 +102,7 @@ public class GalaxyDestroyer extends EnemyShip {
 
 	@Override
 	public void hit() {
-		
+		super.hit();
 	}
 
 }

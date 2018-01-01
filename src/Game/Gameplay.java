@@ -1,3 +1,4 @@
+package Game;
 import difficulties.Easy;
 import difficulties.Medium;
 import difficulties.Hard;
@@ -7,7 +8,7 @@ import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
 //This class controls everything that happens during a game
-public abstract class Game{
+public abstract class Gameplay{
 
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	

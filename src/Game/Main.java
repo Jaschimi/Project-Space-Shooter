@@ -1,3 +1,4 @@
+package Game;
 import java.awt.event.KeyEvent;
 
 import displayObjects.Letter;
@@ -86,7 +87,7 @@ public abstract class Main {
 						case java.awt.event.KeyEvent.VK_0:
 							
 							//Pressing 0 starts the tutorial
-							Game.start(0);
+							Gameplay.start(0);
 							//After the game is over, all remaining dots on the board are reset
 							controller.resetColors();
 							
@@ -101,7 +102,7 @@ public abstract class Main {
 						case java.awt.event.KeyEvent.VK_1:
 							
 							//Pressing 1 starts easy mode
-							Game.start(1);
+							Gameplay.start(1);
 							//After the game is over, all remaining dots on the board are reset
 							controller.resetColors();
 							
@@ -116,7 +117,7 @@ public abstract class Main {
 						case java.awt.event.KeyEvent.VK_2:
 							
 							//Pressing 2 starts medium mode
-							Game.start(2);
+							Gameplay.start(2);
 							//After the game is over, all remaining dots on the board are reset
 							controller.resetColors();
 							
@@ -131,7 +132,7 @@ public abstract class Main {
 						case java.awt.event.KeyEvent.VK_3:
 							
 							//Pressing 3 starts hard mode
-							Game.start(3);
+							Gameplay.start(3);
 							//After the game is over, all remaining dots on the board are reset
 							controller.resetColors();
 							

@@ -37,7 +37,27 @@ public class BossaNova extends EnemyShip{
 
 	@Override
 	public void hit() {
+		//It loses a life
 		super.hit();
+		
+		//And the dot indicating its energy may change color
+		if(this.getLifes()>=this.getMaxLifes()/2){
+			this.setColorAt(4, 1, 5, 107, 17);
+		}
+		else{
+			if(this.getLifes()>=this.getMaxLifes()/4){
+				this.setColorAt(4, 1, 127, 127, 0);
+			}
+			else{
+				if(this.getLifes()>=1){
+					this.setColorAt(4, 1, 69, 4, 4);
+				}
+				else{
+					this.setColorAt(4, 1, 31, 31, 31);
+				}
+			}
+		}
+		this.spawnShip();
 	}
 
 }

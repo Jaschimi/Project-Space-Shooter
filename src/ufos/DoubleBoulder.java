@@ -37,7 +37,31 @@ public class DoubleBoulder extends EnemyShip {
 
 	@Override
 	public void hit() {
+		//It loses a life
 		super.hit();
+		
+		//And the dot indicating its energy may change color
+		if(this.getLifes()>=this.getMaxLifes()/2){
+			this.setColorAt(2, 2, 5, 107, 17);
+			this.setColorAt(3, 2, 5, 107, 17);
+		}
+		else{
+			if(this.getLifes()>=this.getMaxLifes()/4){
+				this.setColorAt(2, 2, 127, 127, 0);
+				this.setColorAt(3, 2, 5, 107, 17);
+			}
+			else{
+				if(this.getLifes()>=1){
+					this.setColorAt(2, 2, 69, 4, 4);
+					this.setColorAt(3, 2, 5, 107, 17);
+				}
+				else{
+					this.setColorAt(2, 2, 31, 31, 31);
+					this.setColorAt(3, 2, 5, 107, 17);
+				}
+			}
+		}
+		this.spawnShip();
 	}
 
 }

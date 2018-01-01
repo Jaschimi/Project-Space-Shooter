@@ -102,7 +102,47 @@ public class GalaxyDestroyer extends EnemyShip {
 
 	@Override
 	public void hit() {
+		//It loses a life
 		super.hit();
+		
+		//And the cross indicating its energy may change color
+		if(this.getLifes()>=this.getMaxLifes()/2){
+			for(int y=2; y<5; y++){
+				this.setColorAt(8, y, 5, 107, 17);
+			}
+			for(int x=7; x<10; x++){
+				this.setColorAt(x, 3, 5, 107, 17);
+			}
+		}
+		else{
+			if(this.getLifes()>=this.getMaxLifes()/4){
+				for(int y=2; y<5; y++){
+					this.setColorAt(8, y, 127, 127, 0);
+				}
+				for(int x=7; x<10; x++){
+					this.setColorAt(x, 3, 127, 127, 0);
+				}
+			}
+			else{
+				if(this.getLifes()>=1){
+					for(int y=2; y<5; y++){
+						this.setColorAt(8, y, 69, 4, 4);
+					}
+					for(int x=7; x<10; x++){
+						this.setColorAt(x, 3, 69, 4, 4);
+					}
+				}
+				else{
+					for(int y=2; y<5; y++){
+						this.setColorAt(8, y, 31, 31, 31);
+					}
+					for(int x=7; x<10; x++){
+						this.setColorAt(x, 3, 31, 31, 31);
+					}
+				}
+			}
+		}
+		this.spawnShip();
 	}
 
 }

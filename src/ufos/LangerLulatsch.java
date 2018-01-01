@@ -26,7 +26,27 @@ public class LangerLulatsch extends EnemyShip {
 
 	@Override
 	public void hit() {
+		//It loses a life
 		super.hit();
+		
+		//And the dot indicating its energy may change color
+		if(this.getLifes()>=2*this.getLifes()/3){
+			this.setColorAt(1, 1,  5, 107, 17);
+		}
+		else{
+			if(this.getLifes()>=this.getLifes()/3){
+				this.setColorAt(1, 1, 127, 127, 0);
+			}
+			else{
+				if(this.getLifes()>=1){
+					this.setColorAt(1, 1, 69, 4, 4);
+				}
+				else{
+					this.setColorAt(1, 1, 31, 31, 31);
+				}
+			}
+		}
+		this.spawnShip();
 	}
 
 }

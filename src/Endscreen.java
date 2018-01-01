@@ -301,8 +301,8 @@ public abstract class Endscreen{
 			Word you = new Word("You");
 			Word won = new Word("won");
 			
-			you.displayWord(5, 4, color[0], color[1], color[2]);
-			won.displayWord(3, 10, color[0], color[1], color[2]);
+			you.displayWordAt(5, 4, color[0], color[1], color[2]);
+			won.displayWordAt(3, 10, color[0], color[1], color[2]);
 			
 			controller.updateLedStripe();
 			controller.sleep(4000);
@@ -708,10 +708,25 @@ public abstract class Endscreen{
 //		schon gemacht hast, schreibt mir das am besten per whatsapp
 //		damit ich nichts unnötig pushe :)
 //		
-//        BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
-//		
-//		int[][][] point = new int[20][20][3];
-//		
+		
+        controller.resetColors();
+		
+		Word you = new Word("You");
+		Word lost = new Word("lost");
+		
+		you.displayWordAt(5, 4, color[0], color[1], color[2]);
+		lost.displayWordAt(3, 10, color[0], color[1], color[2]);
+		
+		controller.updateLedStripe();
+		controller.sleep(4000);
+		
+		int[][][] point = new int[20][20][3];
+		
+		for(int x=0; x<20; x++){
+			for(int y=0; y<20; y++){
+				point[x][y]=controller.getColorAt(x, y);
+			}
+		}
 //		controller.setColors(generiereEinL(1, 7,point,color));
 //		
 //		controller.updateLedStripe();
@@ -727,10 +742,10 @@ public abstract class Endscreen{
 //		controller.setColors(generiereEinS(9, 7,point,color));
 //		
 //		controller.setColors(generiereEinT(14, 7,point,color));
-//		
-//		controller.updateLedStripe();
-//		
-//		fallenLassen(point,color);
+		
+		controller.updateLedStripe();
+		
+		fallenLassen(point,color);
 	
 	}
 	
@@ -1011,8 +1026,6 @@ public abstract class Endscreen{
 	}
 		
 	}
-	
-	fallenLassen(copie,color);
 	
 }
 

@@ -1,7 +1,15 @@
 package game;
 import displayObjects.Word;
+import gameObjects.EnemyShip;
+import gameObjects.SpaceShooter;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
+import ufos.BossaNova;
+import ufos.DefaultShip;
+import ufos.DoubleBoulder;
+import ufos.GalaxyDestroyer;
+import ufos.LangerLulatsch;
+import ufos.MidClasher;
 
 public abstract class Endscreen{
 
@@ -703,6 +711,90 @@ public abstract class Endscreen{
 	
 	private static void loss(int[] color){
 		
+		GalaxyDestroyer kunibert = new GalaxyDestroyer(new int[]{1, -10}, 250, 0);
+		BossaNova bono = new BossaNova(new int[]{2, -18}, 3, 1);
+		MidClasher airwing = new MidClasher(new int[]{12, -18}, 2, 0);
+		DefaultShip noob = new DefaultShip(new int[]{1, -27}, 1, 0);
+		SpaceShooter ss = new SpaceShooter(new int[]{14, -10}, 3, 3);
+		EnemyShip lalu = new LangerLulatsch(new int[]{7, -27}, 1, 1);
+		EnemyShip bibo = new DoubleBoulder(new int[]{12, -27}, 1, 1);
+		
+		kunibert.spawnShip();
+		
+        bono.spawnShip();
+        
+        airwing.spawnShip();
+        
+        noob.spawnShip();
+		
+		lalu.spawnShip();
+		
+		bibo.spawnShip();
+		
+		for(int zaehler = 0; bibo.getTopLeftCorner()[1] <= 20; zaehler++){
+			
+		kunibert.move('S');
+		
+        bono.move('S');
+		
+		airwing.move('S');
+		
+        noob.move('S');
+		
+		lalu.move('S');
+		
+		bibo.move('S');
+		
+		controller.sleep(200);
+		
+		controller.updateLedStripe();
+		
+		}
+		
+//        bono.spawnShip();
+//        
+//        airwing.spawnShip();
+//		
+//		for(int zaehler = 0; bono.getTopLeftCorner()[1] <= 20 || airwing.getTopLeftCorner()[1] <= 20; zaehler++){
+//			
+//		bono.move('S');
+//		
+//		airwing.move('S');
+//		
+//		controller.sleep(100);
+//		
+//		controller.updateLedStripe();
+//		
+//		}
+		
+//		noob.spawnShip();
+//		
+//		lalu.spawnShip();
+//		
+//		bibo.spawnShip();
+//		
+//		for(int zaehler = 0; noob.getTopLeftCorner()[1] <= 20 || lalu.getTopLeftCorner()[1] <= 20 || bibo.getTopLeftCorner()[1] <= 20; zaehler++){
+//			
+//		noob.move('S');
+//		
+//		lalu.move('S');
+//		
+//		bibo.move('S');
+//		
+//		controller.sleep(100);
+//		
+//		controller.updateLedStripe();
+//		
+//		}
+		
+//		controller.sleep(200);
+//		bono.spawnShip();
+//		noob.spawnShip();
+//		airwing.spawnShip();
+//		lalu.spawnShip();
+//		bibo.spawnShip();
+//		controller.updateLedStripe();
+		
 //		Es wäre gut falls du das ersetzen könntest mit den Methoden der Letter Klasse
 //		Jascha :)
 //		Ich versuche dann die Raumschiffe durchs Bild fliegen zu lassen, falls du das ganze
@@ -715,11 +807,11 @@ public abstract class Endscreen{
 		Word you = new Word("You");
 		Word lost = new Word("lost");
 		
-		you.displayWordAt(5, 4, color[0], color[1], color[2]);
-		lost.displayWordAt(3, 10, color[0], color[1], color[2]);
+		you.displayWordAt(3, 1, color[0], color[1], color[2]);
+		lost.displayWordAt(2, 7, color[0], color[1], color[2]);
 		
 		controller.updateLedStripe();
-		controller.sleep(4000);
+		controller.sleep(2500);
 		
 		int[][][] point = new int[20][20][3];
 		
@@ -772,9 +864,8 @@ public abstract class Endscreen{
 	
 	BoardController controller = BoardController.getBoardController();
 	
-	controller.sleep(700);
+//	controller.sleep(50);
 	controller.setColors(point);
-	controller.sleep(50);
 	
 	for(int vonUnten = 19; vonUnten >= 0; vonUnten--){
 		
@@ -1027,6 +1118,8 @@ public abstract class Endscreen{
 	}
 		
 	}
+	
+	loss(color);
 	
 }
 

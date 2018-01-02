@@ -100,7 +100,7 @@ public abstract class EnemyShip extends Spaceship {
 			break;
 			
 		case 'S':
-			if(this.topLeftCorner[1]+this.height<20){
+//			if(this.topLeftCorner[1]+this.height<20){
 				for(int x=this.topLeftCorner[0]; x<this.topLeftCorner[0] + this.length; x++){
 					for(int y=this.topLeftCorner[1]; y<this.topLeftCorner[1] + this.height; y++){
 						controller.setColor(x, y, 0, 0, 0);
@@ -109,7 +109,7 @@ public abstract class EnemyShip extends Spaceship {
 				
 				this.topLeftCorner[1] += 1;
 				this.spawnShip();
-			}
+//			}
 			break;
 		
 		case 'A':

@@ -1,4 +1,4 @@
-package Game;
+package game;
 import difficulties.Easy;
 import difficulties.Medium;
 import difficulties.Hard;

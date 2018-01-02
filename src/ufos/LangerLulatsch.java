@@ -16,12 +16,16 @@ public class LangerLulatsch extends EnemyShip {
 		//The sides
 		for(int x=0; x<3; x+=2){
 			for(int y=1; y<5; y++){
-				this.setColorAt(x, y, 18, 18, 87);
+				if(y<3)this.setColorAt(x, y, 18, 18, 87);
+				else this.setColorAt(x, y, 30, 30, 90);
 			}
 		}
 		
 		//The energy dot
 		this.setColorAt(1, 1, 5, 107, 17);
+		
+		//The dot below the energy display
+		this.setColorAt(1, 2, 30, 30, 90);
 	}
 
 	@Override

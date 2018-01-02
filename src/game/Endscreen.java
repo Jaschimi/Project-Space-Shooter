@@ -1,4 +1,4 @@
-package Game;
+package game;
 import displayObjects.Word;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;

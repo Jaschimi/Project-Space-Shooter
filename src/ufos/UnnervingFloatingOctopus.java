@@ -2,9 +2,9 @@ package ufos;
 
 import gameObjects.EnemyShip;
 
-public class DoubleBoulder extends EnemyShip {
+public class UnnervingFloatingOctopus extends EnemyShip {
 
-	public DoubleBoulder(int[] topLeftCorner, int maxLifes, int ammo) {
+	public UnnervingFloatingOctopus(int[] topLeftCorner, int maxLifes, int ammo) {
 		
 		super(topLeftCorner, 7, 5, maxLifes, ammo);
 		

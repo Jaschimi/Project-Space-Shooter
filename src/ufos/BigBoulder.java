@@ -3,10 +3,10 @@ package ufos;
 import gameObjects.EnemyShip;
 
 //A bigger ship than the DefaultShips
-public class MidClasher extends EnemyShip {
+public class BigBoulder extends EnemyShip {
 
 	//It is a 5 by 4 ColoringField
-	public MidClasher(int[] topLeftCorner, int maxLifes, int ammo) {
+	public BigBoulder(int[] topLeftCorner, int maxLifes, int ammo) {
 		
 		super(topLeftCorner, 5, 4, maxLifes, ammo);
 		

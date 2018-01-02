@@ -18,42 +18,26 @@ import ufos.BigBoulder;
 
 
 //This is the main class of Project Space Shooter.
-//It contains the main method of the program, which starts the intro, let's you begin a game, and boots up the end
-//screen once a game ended.
+//It contains the main method of the program, which starts the intro and let's you begin a game.
+//Additionally, many testing methods exist in this class.
 public abstract class Main {
 	
 	public static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	public static KeyBuffer buffer;
+	private static Word word = new Word("Horizon");
 
 	public static void main(String[] args) {
 
 //		gameStart();
-		endscreenTest(false);
+//		endscreenTest(false);
 //		rainbow();
 //		displaytest();
 //		Goldenization();
 //		shipDiashow();
 //		DisplayAlphabet();
 //		DisplayCiphers();
-//		DisplayLogo(6);
+		DisplayLogo(6, word);
 
-	}
-
-	private static void endscreenTest(boolean won){
-		Endscreen.outro(won, new int[]{6, 90, 90});
-		controller.resetColors();
-		controller.updateLedStripe();
-	}
-	
-	private static void displaytest(){
-		
-		EnemyShip lalu = new LangerLulatsch(new int[]{7,0}, 1, 1);
-		lalu.spawnShip();
-		EnemyShip bibo = new UnnervingFloatingOctopus(new int[]{7,7}, 1, 1);
-		bibo.spawnShip();
-		
-		controller.updateLedStripe();
-		
 	}
 
 	private static void gameStart(){
@@ -156,7 +140,16 @@ public abstract class Main {
 			}
 		}
 	}
+
+	//With the following methods, a variety of different things can be tested
+	//See the winning/losing animation
+	private static void endscreenTest(boolean won){
+		Endscreen.outro(won, new int[]{6, 90, 90});
+		controller.resetColors();
+		controller.updateLedStripe();
+	}
 	
+	//Display a rainbow on the whole board
 	private static void rainbow(){
 		
 		while(true){
@@ -211,15 +204,16 @@ public abstract class Main {
 		}
 	}
 	
+	//With this method, all of the ships in the game can be displayed on the board at the same time
 	private static void shipDiashow(){
 		
 		GalaxyDestroyer gade = new GalaxyDestroyer(new int[]{0, 0}, 250, 0);
 		BossaNova bono = new BossaNova(new int[]{10, 9}, 3, 1);
 		BigBoulder bibo = new BigBoulder(new int[]{0, 9}, 2, 0);
-		DefaultShip noob = new DefaultShip(new int[]{3, 16}, 1, 0);
-		SpaceShooter ss = new SpaceShooter(new int[]{9, 18}, 3, 3);
 		LangerLulatsch lalu = new LangerLulatsch(new int[]{5, 11}, 1, 1);
 		UnnervingFloatingOctopus ufo = new UnnervingFloatingOctopus(new int[]{13, 15}, 1, 1);
+		DefaultShip noob = new DefaultShip(new int[]{3, 16}, 1, 0);
+		SpaceShooter ss = new SpaceShooter(new int[]{9, 18}, 3, 3);
 		
 		double random =  Math.random()*3;
 		
@@ -251,6 +245,7 @@ public abstract class Main {
 		controller.updateLedStripe();
 	}
 	
+	//You can see the Space Shooter change color from teal to gold with this method
 	private static void Goldenization(){
 		
 		SpaceShooter ss = new SpaceShooter(new int[]{9, 18}, 3, 3);
@@ -276,6 +271,8 @@ public abstract class Main {
 			controller.sleep(100);
 		}
 	}
+	
+	//This method displays all 26 letters of the Latin alphabet on the board
 	private static void DisplayAlphabet(){
 		
 		char[] alphabet = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
@@ -292,6 +289,7 @@ public abstract class Main {
 	
 	}
 	
+	//This letter displays all 10 Arabian ciphers on the board
 	private static void DisplayCiphers(){
 		
 		char[] ciphers = {'0','1','2','3','4','5','6','7','8','9'};
@@ -308,9 +306,8 @@ public abstract class Main {
 	
 	}
 	
-	private static void DisplayLogo(int line){
-		
-		Word logo = new Word("Andrea   ist   cool");
+	//This method lets a string move from right to left on the board
+	private static void DisplayLogo(int line, Word logo){
 		
 		while(true){
 			for(int x=20; x>-logo.getLength() ;x--){

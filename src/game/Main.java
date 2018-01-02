@@ -9,12 +9,12 @@ import gameObjects.SpaceShooter;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ledControl.gui.KeyBuffer;
-import ufos.DoubleBoulder;
+import ufos.UnnervingFloatingOctopus;
 import ufos.BossaNova;
 import ufos.DefaultShip;
 import ufos.GalaxyDestroyer;
 import ufos.LangerLulatsch;
-import ufos.MidClasher;
+import ufos.BigBoulder;
 
 
 //This is the main class of Project Space Shooter.
@@ -28,11 +28,11 @@ public abstract class Main {
 	public static void main(String[] args) {
 
 //		gameStart();
-//		endscreenTest(false);
+		endscreenTest(false);
 //		rainbow();
 //		displaytest();
 //		Goldenization();
-		shipDiashow();
+//		shipDiashow();
 //		DisplayAlphabet();
 //		DisplayCiphers();
 //		DisplayLogo(6);
@@ -49,7 +49,7 @@ public abstract class Main {
 		
 		EnemyShip lalu = new LangerLulatsch(new int[]{7,0}, 1, 1);
 		lalu.spawnShip();
-		EnemyShip bibo = new DoubleBoulder(new int[]{7,7}, 1, 1);
+		EnemyShip bibo = new UnnervingFloatingOctopus(new int[]{7,7}, 1, 1);
 		bibo.spawnShip();
 		
 		controller.updateLedStripe();
@@ -213,13 +213,13 @@ public abstract class Main {
 	
 	private static void shipDiashow(){
 		
-		GalaxyDestroyer kunibert = new GalaxyDestroyer(new int[]{0, 0}, 250, 0);
+		GalaxyDestroyer gade = new GalaxyDestroyer(new int[]{0, 0}, 250, 0);
 		BossaNova bono = new BossaNova(new int[]{10, 9}, 3, 1);
-		MidClasher airwing = new MidClasher(new int[]{0, 9}, 2, 0);
+		BigBoulder bibo = new BigBoulder(new int[]{0, 9}, 2, 0);
 		DefaultShip noob = new DefaultShip(new int[]{3, 16}, 1, 0);
 		SpaceShooter ss = new SpaceShooter(new int[]{9, 18}, 3, 3);
-		EnemyShip lalu = new LangerLulatsch(new int[]{5, 11}, 1, 1);
-		EnemyShip bibo = new DoubleBoulder(new int[]{13, 15}, 1, 1);
+		LangerLulatsch lalu = new LangerLulatsch(new int[]{5, 11}, 1, 1);
+		UnnervingFloatingOctopus ufo = new UnnervingFloatingOctopus(new int[]{13, 15}, 1, 1);
 		
 		double random =  Math.random()*3;
 		
@@ -242,12 +242,12 @@ public abstract class Main {
 			}
 		}
 		ss.spawnShip();
-		kunibert.spawnShip();
+		gade.spawnShip();
 		bono.spawnShip();
 		noob.spawnShip();
-		airwing.spawnShip();
-		lalu.spawnShip();
 		bibo.spawnShip();
+		lalu.spawnShip();
+		ufo.spawnShip();
 		controller.updateLedStripe();
 	}
 	

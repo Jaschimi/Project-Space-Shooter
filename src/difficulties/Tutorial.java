@@ -9,7 +9,7 @@ import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ledControl.gui.KeyBuffer;
 import ufos.DefaultShip;
-import ufos.MidClasher;
+import ufos.BigBoulder;
 
 //This class describes the tutorial
 public class Tutorial{
@@ -754,8 +754,8 @@ public class Tutorial{
 		ufoArray[0] = new DefaultShip(new int[]{5, 0}, 1, 1);
 		ufoArray[1] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray[2] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[3] = new MidClasher(new int[]{0, 0}, 4, 4);
-		ufoArray[4] = new MidClasher(new int[]{0, 6}, 5, 5);
+		ufoArray[3] = new BigBoulder(new int[]{0, 0}, 4, 4);
+		ufoArray[4] = new BigBoulder(new int[]{0, 6}, 5, 5);
 
 		//Step 2
 		currentShip = ufoArray[0];

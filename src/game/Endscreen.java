@@ -6,10 +6,10 @@ import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ufos.BossaNova;
 import ufos.DefaultShip;
-import ufos.DoubleBoulder;
+import ufos.UnnervingFloatingOctopus;
 import ufos.GalaxyDestroyer;
 import ufos.LangerLulatsch;
-import ufos.MidClasher;
+import ufos.BigBoulder;
 
 public abstract class Endscreen{
 
@@ -711,41 +711,59 @@ public abstract class Endscreen{
 	
 	private static void loss(int[] color){
 		
-		GalaxyDestroyer kunibert = new GalaxyDestroyer(new int[]{1, -10}, 250, 0);
-		BossaNova bono = new BossaNova(new int[]{2, -18}, 3, 1);
-		MidClasher airwing = new MidClasher(new int[]{12, -18}, 2, 0);
-		DefaultShip noob = new DefaultShip(new int[]{1, -27}, 1, 0);
-		SpaceShooter ss = new SpaceShooter(new int[]{14, -10}, 3, 3);
-		EnemyShip lalu = new LangerLulatsch(new int[]{7, -27}, 1, 1);
-		EnemyShip bibo = new DoubleBoulder(new int[]{12, -27}, 1, 1);
+		GalaxyDestroyer gade = new GalaxyDestroyer(new int[]{0, -35}, 250, 5);
+		BossaNova bono = new BossaNova(new int[]{10, -25}, 3, 4);
+		BigBoulder bibo = new BigBoulder(new int[]{0, -20}, 2, 3);
+		LangerLulatsch lalu = new LangerLulatsch(new int[]{5, -14}, 1, 2);
+		UnnervingFloatingOctopus ufo = new UnnervingFloatingOctopus(new int[]{13, -10}, 1, 3);
+		DefaultShip noob = new DefaultShip(new int[]{3, -4}, 1, 1);
 		
-		kunibert.spawnShip();
+		EnemyShip[] endOfWorld = new EnemyShip[6];
 		
-        bono.spawnShip();
-        
-        airwing.spawnShip();
-        
-        noob.spawnShip();
+		endOfWorld[0]=noob;
+		endOfWorld[1]=ufo;
+		endOfWorld[2]=lalu;
+		endOfWorld[3]=bibo;
+		endOfWorld[4]=bono;
+		endOfWorld[5]=gade;
 		
-		lalu.spawnShip();
+		for(int i=0; i<endOfWorld.length; i++){
+			endOfWorld[i].spawnShip();
+		}
 		
-		bibo.spawnShip();
+		int count=0;
+		while(gade.getTopLeftCorner()[1]<22){
 		
-		for(int zaehler = 0; bibo.getTopLeftCorner()[1] <= 20; zaehler++){
+			count++;
 			
-		kunibert.move('S');
-		
-        bono.move('S');
-		
-		airwing.move('S');
-		
-        noob.move('S');
-		
-		lalu.move('S');
-		
-		bibo.move('S');
-		
-		controller.sleep(200);
+			//All projectiles on the screen move down one spot
+			if(count%2==0)
+			for(int j=0; j<endOfWorld.length; j++){
+				for(int i=0; i<endOfWorld[j].getShots().length; i++){
+					if(endOfWorld[j].getShots()[i] != null){
+						if(endOfWorld[j].getShots()[i].getY()<=19){
+							endOfWorld[j].getShots()[i].moveProjectile("down");
+						}
+						else{//here the shot is offscreen, so its corresponding array entry can be set to null
+							endOfWorld[j].getShots()[i] = null;
+						}
+					}
+				}
+			}
+			
+			//Every 5th instance of the loop, all ships on the board shoot a projectile
+			if(count%5==0){
+				for(int i=0; i<endOfWorld.length; i++){
+					if(endOfWorld[i].getTopLeftCorner()[1]+endOfWorld[i].getHeight()-1>=0)endOfWorld[i].shoot();
+				}
+			}
+			
+			//Every 20th instance of the loop, all ships move down by one spot
+			if(count%20==1){
+				for(int i=0; i<endOfWorld.length; i++){
+					endOfWorld[i].move('S');
+				}
+			}
 		
 		controller.updateLedStripe();
 		
@@ -861,8 +879,6 @@ public abstract class Endscreen{
 	    }
 	
 	boolean isWahr = false;
-	
-	BoardController controller = BoardController.getBoardController();
 	
 //	controller.sleep(50);
 	controller.setColors(point);
@@ -984,7 +1000,7 @@ public abstract class Endscreen{
 					}
 					
 					controller.setColors(point);
-					controller.sleep(50);
+					controller.sleep(25);
 					controller.updateLedStripe();
 					
 				}
@@ -1102,7 +1118,7 @@ public abstract class Endscreen{
 				}
 				
 				controller.setColors(point);
-				controller.sleep(50);
+				controller.sleep(25);
 				controller.updateLedStripe();
 				
 			}
@@ -1118,8 +1134,6 @@ public abstract class Endscreen{
 	}
 		
 	}
-	
-	loss(color);
 	
 }
 

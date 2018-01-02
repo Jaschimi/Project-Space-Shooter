@@ -7,11 +7,11 @@ import gameObjects.SpaceShooter;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ledControl.gui.KeyBuffer;
-import ufos.DoubleBoulder;
+import ufos.UnnervingFloatingOctopus;
 import ufos.BossaNova;
 import ufos.DefaultShip;
 import ufos.LangerLulatsch;
-import ufos.MidClasher;
+import ufos.BigBoulder;
 
 //This class describes easy mode
 public class Easy {
@@ -46,20 +46,20 @@ public class Easy {
 		ufoArray [6] = new DefaultShip(new int[]{8, 0}, 3, 2);
 		ufoArray [7] = new LangerLulatsch(new int[]{8, 0}, 4, 2);
 		ufoArray [8] = new LangerLulatsch(new int[]{8, 0}, 4, 2);
-		ufoArray [9] = new MidClasher(new int[]{8, 0}, 5, 2);
+		ufoArray [9] = new BigBoulder(new int[]{8, 0}, 5, 2);
 		ufoArray[10] = new LangerLulatsch(new int[]{8, 0}, 5, 3);
-		ufoArray[11] = new MidClasher(new int[]{8, 0}, 6, 3);
-		ufoArray[12] = new MidClasher(new int[]{8, 0}, 6, 3);
+		ufoArray[11] = new BigBoulder(new int[]{8, 0}, 6, 3);
+		ufoArray[12] = new BigBoulder(new int[]{8, 0}, 6, 3);
 		ufoArray[13] = new LangerLulatsch(new int[]{8, 0}, 7, 3);
 		ufoArray[14] = new DefaultShip(new int[]{8, 0}, 7, 3);
-		ufoArray[15] = new MidClasher(new int[]{8, 0}, 8, 4);
-		ufoArray[16] = new MidClasher(new int[]{8, 0}, 8, 4);
+		ufoArray[15] = new BigBoulder(new int[]{8, 0}, 8, 4);
+		ufoArray[16] = new BigBoulder(new int[]{8, 0}, 8, 4);
 		ufoArray[17] = new LangerLulatsch(new int[]{8, 0}, 9, 4);
 		ufoArray[18] = new DefaultShip(new int[]{8, 0}, 9, 4);
-		ufoArray[19] = new DoubleBoulder(new int[]{8, 0}, 10, 4);
-		ufoArray[20] = new MidClasher(new int[]{8, 0}, 15, 5);
-		ufoArray[21] = new DoubleBoulder(new int[]{8, 0}, 20, 5);
-		ufoArray[22] = new MidClasher(new int[]{8, 0}, 25, 5);
+		ufoArray[19] = new UnnervingFloatingOctopus(new int[]{8, 0}, 10, 4);
+		ufoArray[20] = new BigBoulder(new int[]{8, 0}, 15, 5);
+		ufoArray[21] = new UnnervingFloatingOctopus(new int[]{8, 0}, 20, 5);
+		ufoArray[22] = new BigBoulder(new int[]{8, 0}, 25, 5);
 		ufoArray[23] = new DefaultShip(new int[]{8, 0}, 40, 5);
 		ufoArray[24] = new BossaNova(new int[]{0, 0}, 70, 10);
 

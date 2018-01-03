@@ -1,7 +1,6 @@
 package game;
 import displayObjects.Word;
 import gameObjects.EnemyShip;
-import gameObjects.SpaceShooter;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ufos.BossaNova;
@@ -15,76 +14,68 @@ public abstract class Endscreen{
 
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR); 
 	
-	public static void outro(boolean won, int[] color){
+	public static void outro(boolean won, int[] shipColor){
 		
-		if(won){
-			
-			win(color);
-			
-		}
-		else{
-			
-			loss(color);
-			
-		}
+		if(won) win(shipColor);
+		else loss(shipColor);
 		
 	}
 	
-	private static void win(int[] color){        
+	private static void win(int[] fireworkColor){
 		
         int[][][] point = new int[20][20][3];
 		
 		int count = 0;
 		int left = 9;
 		int right = 10;
-		int linksHoch = 19;
-		int rechtsHoch = 19;
+		int leftUp = 19;
+		int rightUp = 19;
 
 		for(int i=0; i<3; i++){
 			
-			point[left][linksHoch][i] = color[i];
-			point[right][rechtsHoch][i] = color[i];
+			point[left][leftUp][i] = fireworkColor[i];
+			point[right][rightUp][i] = fireworkColor[i];
 			
 			controller.setColors(point);
 			controller.updateLedStripe();
 			
 		}
 		
-		linksHoch--;
+		leftUp--;
 		left--;
 		
-		rechtsHoch--;
+		rightUp--;
 		right++;
 				
 		for(count=0; count<4; count++){
 			
 			for(int i=0; i<3; i++){
 				
-				point[left][linksHoch][i] = color[i];
-				point[right][rechtsHoch][i] = color[i];
+				point[left][leftUp][i] = fireworkColor[i];
+				point[right][rightUp][i] = fireworkColor[i];
 				
-				point[left + 1][linksHoch + 1][i] = 0;
-				point[right - 1][rechtsHoch + 1][i] = 0;
+				point[left + 1][leftUp + 1][i] = 0;
+				point[right - 1][rightUp + 1][i] = 0;
 				
 				controller.setColors(point);
 			    controller.updateLedStripe();
 				
 			}
 			
-			linksHoch--;
+			leftUp--;
 			left--;
 			
-			rechtsHoch--;
+			rightUp--;
 			right++;
 		}
 		
 		for(int i=0; i<3; i++){
 			
-			point[left][linksHoch][i] = color[i];
-			point[right][rechtsHoch][i] = color[i];
+			point[left][leftUp][i] = fireworkColor[i];
+			point[right][rightUp][i] = fireworkColor[i];
 			
-			point[left + 1][linksHoch + 1][i] = 0;
-			point[right - 1][rechtsHoch + 1][i] = 0;
+			point[left + 1][leftUp + 1][i] = 0;
+			point[right - 1][rightUp + 1][i] = 0;
 			
 			controller.setColors(point);
 		    controller.updateLedStripe();
@@ -95,66 +86,64 @@ public abstract class Endscreen{
 			
 			for(int j=0; j<5; j++){
 				
-				if(j < 4){
+				if(j<4){
 				
-				for(int i=0; i<3; i++){
+					for(int i=0; i<3; i++){
 			
-				point[left - (j - 1)][linksHoch][i] = 0;
-			    point[right - (j - 1)][rechtsHoch][i] = 0;	
-			
-			    point[left + (j - 1)][linksHoch][i] = 0;
-			    point[right + (j - 1)][rechtsHoch][i] = 0;
-			
-			    point[left][linksHoch - (j - 1)][i] = 0;
-			    point[right][rechtsHoch - (j - 1)][i] = 0;
-			
-			    point[left][linksHoch + (j - 1)][i] = 0;
-			    point[right][rechtsHoch + (j - 1)][i] = 0;
-			    
+						point[left - (j - 1)][leftUp][i] = 0;
+					    point[right - (j - 1)][rightUp][i] = 0;	
+					
+					    point[left + (j - 1)][leftUp][i] = 0;
+					    point[right + (j - 1)][rightUp][i] = 0;
+					
+					    point[left][leftUp - (j - 1)][i] = 0;
+					    point[right][rightUp - (j - 1)][i] = 0;
+					
+					    point[left][leftUp + (j - 1)][i] = 0;
+					    point[right][rightUp + (j - 1)][i] = 0;
+					    
 //------------------------------------------------------------------------------------
 				
-		        point[left - j][linksHoch][i] = color[i];
-			    point[right - j][rechtsHoch][i] = color[i];	
-			
-			    point[left + j][linksHoch][i] = color[i];
-			    point[right + j][rechtsHoch][i] = color[i];
-			
-			    point[left][linksHoch - j][i] = color[i];
-			    point[right][rechtsHoch - j][i] = color[i];
-			
-			    point[left][linksHoch + j][i] = color[i];
-			    point[right][rechtsHoch + j][i] = color[i];
+				        point[left - j][leftUp][i] = fireworkColor[i];
+					    point[right - j][rightUp][i] = fireworkColor[i];	
+					
+					    point[left + j][leftUp][i] = fireworkColor[i];
+					    point[right + j][rightUp][i] = fireworkColor[i];
+					
+					    point[left][leftUp - j][i] = fireworkColor[i];
+					    point[right][rightUp - j][i] = fireworkColor[i];
+					
+					    point[left][leftUp + j][i] = fireworkColor[i];
+					    point[right][rightUp + j][i] = fireworkColor[i];
+					    
+		
+						
+						controller.setColors(point);
+					    controller.updateLedStripe();
 			    
-
+					}
+					if(j < 3){
+				    
+				    speicher += j; 
+				    
+					}
 				
-				controller.setColors(point);
-			    controller.updateLedStripe();
-			    
-				}if(j < 3){
-			    
-			    speicher += j; 
-			    
-				}else{
-					
-					
-					
 				}
-				
-				}else{
+				else{
 					
 					for(int i=0; i<3; i++){
 						
-						point[left - (speicher )][linksHoch][i] = 0;
-					    point[right - (speicher )][rechtsHoch][i] = 0;	
+						point[left - (speicher )][leftUp][i] = 0;
+					    point[right - (speicher )][rightUp][i] = 0;	
 					
-					    point[left + (speicher )][linksHoch][i] = 0;
-					    point[right + (speicher )][rechtsHoch][i] = 0;
+					    point[left + (speicher )][leftUp][i] = 0;
+					    point[right + (speicher )][rightUp][i] = 0;
 					
-					    point[left][linksHoch - (speicher )][i] = 0;
-					    point[right][rechtsHoch - (speicher )][i] = 0;
+					    point[left][leftUp - (speicher )][i] = 0;
+					    point[right][rightUp - (speicher )][i] = 0;
 					
-					    point[left][linksHoch + (speicher )][i] = 0;
-					    point[right][rechtsHoch + (speicher )][i] = 0;
+					    point[left][leftUp + (speicher )][i] = 0;
+					    point[right][rightUp + (speicher )][i] = 0;
 					    
 
 						
@@ -169,9 +158,9 @@ public abstract class Endscreen{
 			
 			//Fireworks on both sides are done, so now the middle one starts
 			
-			int hoch = 19;
+			int top = 19;
 			count = 0;
-			int mitte = 9;
+			int mid = 9;
 			
 			while(count < 14){
 				
@@ -179,14 +168,14 @@ public abstract class Endscreen{
 					
 					for(int i=0; i<3; i++){
 						
-						point[mitte][hoch][i] = color[i];
+						point[mid][top][i] = fireworkColor[i];
 						
 						controller.setColors(point);
 					    controller.updateLedStripe();
 						
 					}
 				    
-				    hoch-=2;
+				    top-=2;
 				    count++;
 				    
 				}
@@ -194,15 +183,15 @@ public abstract class Endscreen{
 			
 					for(int i=0; i<3; i++){
 				
-					point[mitte][hoch][i] = color[i];
-					point[mitte][hoch + 2][i] = 0;
+					point[mid][top][i] = fireworkColor[i];
+					point[mid][top + 2][i] = 0;
 				
 					controller.setColors(point);
 					controller.updateLedStripe();
 				
 					}
 		    
-				hoch-=2;
+				top-=2;
 				count+=2;
 			
 				}
@@ -211,8 +200,8 @@ public abstract class Endscreen{
 			
             for(int i=0; i<3; i++){
 				
-				point[mitte][hoch][i] = color[i];
-				point[mitte][hoch + 2][i] = 0;
+				point[mid][top][i] = fireworkColor[i];
+				point[mid][top + 2][i] = 0;
 				
 				controller.setColors(point);
 			    controller.updateLedStripe();
@@ -223,521 +212,124 @@ public abstract class Endscreen{
 				
 				if(j<4){
 				
-				for(int i=0; i<3; i++){
+					for(int i=0; i<3; i++){
+						
+						point[left - (j - 1)][leftUp][i] = 0;
+					    point[right - (j - 1)][rightUp][i] = 0;	
 					
-					point[left - (j - 1)][linksHoch][i] = 0;
-				    point[right - (j - 1)][rechtsHoch][i] = 0;	
+					    point[left + (j - 1)][leftUp][i] = 0;
+					    point[right + (j - 1)][rightUp][i] = 0;
+					
+					    point[left][leftUp - (j - 1)][i] = 0;
+					    point[right][rightUp - (j - 1)][i] = 0;
+					
+					    point[left][leftUp + (j - 1)][i] = 0;
+					    point[right][rightUp + (j - 1)][i] = 0;
 				
-				    point[left + (j - 1)][linksHoch][i] = 0;
-				    point[right + (j - 1)][rechtsHoch][i] = 0;
-				
-				    point[left][linksHoch - (j - 1)][i] = 0;
-				    point[right][rechtsHoch - (j - 1)][i] = 0;
-				
-				    point[left][linksHoch + (j - 1)][i] = 0;
-				    point[right][rechtsHoch + (j - 1)][i] = 0;
-			
-				point[mitte - (j - 1)][hoch][i] = 0;
-			    
-			    point[mitte + (j - 1)][hoch][i] = 0;
-			    
-			    point[mitte][hoch - (j - 1)][i] = 0;
-			    
-			    point[mitte][hoch + (j - 1)][i] = 0;
+						point[mid - (j - 1)][top][i] = 0;
+					    
+					    point[mid + (j - 1)][top][i] = 0;
+					    
+					    point[mid][top - (j - 1)][i] = 0;
+					    
+					    point[mid][top + (j - 1)][i] = 0;
 			    
 //------------------------------------------------------------------------------------
 				
-			    point[left - j][linksHoch][i] = color[i];
-			    point[right - j][rechtsHoch][i] = color[i];	
-			
-			    point[left + j][linksHoch][i] = color[i];
-			    point[right + j][rechtsHoch][i] = color[i];
-			
-			    point[left][linksHoch - j][i] = color[i];
-			    point[right][rechtsHoch - j][i] = color[i];
-			
-			    point[left][linksHoch + j][i] = color[i];
-			    point[right][rechtsHoch + j][i] = color[i];
-			    
-		        point[mitte - j][hoch][i] = color[i];
-			    
-			    point[mitte + j][hoch][i] = color[i];
-			    
-			    point[mitte][hoch - j][i] = color[i];
-			    
-			    point[mitte][hoch + j][i] = color[i];
-			    
-			    controller.setColors(point);
-			    controller.updateLedStripe();
+					    point[left - j][leftUp][i] = fireworkColor[i];
+					    point[right - j][rightUp][i] = fireworkColor[i];	
+					
+					    point[left + j][leftUp][i] = fireworkColor[i];
+					    point[right + j][rightUp][i] = fireworkColor[i];
+					
+					    point[left][leftUp - j][i] = fireworkColor[i];
+					    point[right][rightUp - j][i] = fireworkColor[i];
+					
+					    point[left][leftUp + j][i] = fireworkColor[i];
+					    point[right][rightUp + j][i] = fireworkColor[i];
+					    
+				        point[mid - j][top][i] = fireworkColor[i];
+					    
+					    point[mid + j][top][i] = fireworkColor[i];
+					    
+					    point[mid][top - j][i] = fireworkColor[i];
+					    
+					    point[mid][top + j][i] = fireworkColor[i];
+					    
+					    controller.setColors(point);
+					    controller.updateLedStripe();
+					    
+					}
 			    
 				}
-			    
-				}else{
+				else{
 					
 					for(int i=0; i<3; i++){
 						
-						point[mitte - (j - 1)][hoch][i] = 0;
+						point[mid - (j - 1)][top][i] = 0;
 					    
-					    point[mitte + (j - 1)][hoch][i] = 0;
+					    point[mid + (j - 1)][top][i] = 0;
 					    
-					    point[mitte][hoch - (j - 1)][i] = 0;
+					    point[mid][top - (j - 1)][i] = 0;
 					    
-					    point[mitte][hoch + (j - 1)][i] = 0;
+					    point[mid][top + (j - 1)][i] = 0;
 					    
-					    point[left - (speicher - 1)][linksHoch][i] = 0;
-					    point[right - (speicher - 1)][rechtsHoch][i] = 0;	
+					    point[left - (speicher - 1)][leftUp][i] = 0;
+					    point[right - (speicher - 1)][rightUp][i] = 0;	
 					
-					    point[left + (speicher - 1)][linksHoch][i] = 0;
-					    point[right + (speicher - 1)][rechtsHoch][i] = 0;
+					    point[left + (speicher - 1)][leftUp][i] = 0;
+					    point[right + (speicher - 1)][rightUp][i] = 0;
 					
-					    point[left][linksHoch - (speicher - 1)][i] = 0;
-					    point[right][rechtsHoch - (speicher - 1)][i] = 0;
+					    point[left][leftUp - (speicher - 1)][i] = 0;
+					    point[right][rightUp - (speicher - 1)][i] = 0;
 					
-					    point[left][linksHoch + (speicher - 1)][i] = 0;
-					    point[right][rechtsHoch + (speicher - 1)][i] = 0;
+					    point[left][leftUp + (speicher - 1)][i] = 0;
+					    point[right][rightUp + (speicher - 1)][i] = 0;
 					    
 					    controller.setColors(point);
 					    controller.updateLedStripe();
 					
+					}
 				}
-			
 			}
+			
 			//Now that all fireworks are done, the phrase "You won" will be displayed on the board
-			}
-			
 			controller.resetColors();
 			
 			Word you = new Word("You");
 			Word won = new Word("won");
 			
-			you.displayWordAt(5, 4, color[0], color[1], color[2]);
-			won.displayWordAt(3, 10, color[0], color[1], color[2]);
+			you.displayWordAt(5, 4, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
+			won.displayWordAt(3, 10, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
 			
 			controller.updateLedStripe();
 			controller.sleep(4000);
-//			blinkWinner(color, point);
 		
 	}
 	
-//	private static void blinkWinner(int[] color, int[][][] point){
-//		
-//		BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
-//		
-////		schreibe das W
-//		
-//		point = new int[20][20][3];
-//		
-//		controller.setColors(generiereEinW(3,9,point,color));
-//        
-////        Nun zum O
-//        
-//       controller.setColors(generiereEinO(9,9,point,color));
-//       
-////       Nun fehlt nur noch das N
-//       
-//       controller.setColors(generiereEinN(13,9,point,color));
-//       
-//       controller.setColors(generiereEinO(9,3,point,color));
-//       
-//       controller.setColors(generiereEinY(3,3,point,color));
-//       
-//       controller.setColors(generiereEinU(13,3,point,color));
-//       
-//       controller.setColors(point);
-//       
-//       controller.sleep(40);
-//       
-//       controller.updateLedStripe();
-//       
-//       for(int i=0; i<point.length; i++){
-//    	   
-//    	   for(int j=0; j<point.length; j++){
-//    		   
-//    		   for(int coloring=0; coloring<3; coloring++){
-//    			   
-//    			   point[j][i][coloring] = 0;
-//    			   
-//    		   }
-//    		   
-//    	   }
-//    	   
-//       }
-//       
-//       controller.setColors(point);
-//       
-//       controller.sleep(1000);
-//       
-//       controller.updateLedStripe();
-//		
-//	}
-//	
-//	private static int[][][] generiereEinW(int x, int y , int[][][] point, int[] color) {
-//		
-//         for(int i = x; i < x + 5; i++){
-//			
-//			for(int j = y; j < y + 5; j++){
-//				
-//				for(int coloring = 0; coloring < 3; coloring++){
-//					
-//					point[i][j][coloring] = color[coloring];
-//					
-//				}
-//				
-//			}
-//			
-//		}
-//         
-//        int zaehlt = x + 1;
-//        
-//        while(zaehlt < x + 4){
-//        	
-//        	if(zaehlt == x + 1 || zaehlt == x + 3){
-//        		
-//            for(int j = y; j < y + 5; j++){
-//            	
-//            	if(j == y + 4){
-//            		
-//            		
-//            		
-//            	}else{
-//     
-//                for(int coloring = 0; coloring < 3; coloring++){
-//        				
-//        				point[zaehlt][j][coloring] = 0;
-//        				
-//        			}
-//        			
-//            	}
-//        			
-//        		}
-//        		
-//        	}else{
-//        		
-//        		for(int j = y; j < y + 5; j++){
-//        			
-//        			if(j == y + 3){
-//        				
-//        				
-//        				
-//        			}else{
-//        				
-//                    for(int coloring = 0; coloring < 3; coloring++){
-//            				
-//            				point[zaehlt][j][coloring] = 0;
-//            				
-//            			}
-//        				
-//        			}
-//        			
-//        		}
-//        		
-//        	}
-//        	
-//        	zaehlt++;
-//        	
-//        }
-//		
-//		return point;
-//		
-//	}
-//
-//	private static int[][][] generiereEinN(int x, int y , int[][][] point, int[] color){
-//		
-//		for(int i = x; i < x + 5; i++){
-//			
-//			for(int j = y; j < y + 5; j++){
-//				
-//				for(int coloring = 0; coloring < 3; coloring++){
-//					
-//					point[i][j][coloring] = color[coloring];
-//					
-//				}
-//				
-//			}
-//			
-//		}
-//		
-//		int festRechts = x + 1;
-//		
-//		int festRunter = y + 1;
-//		
-//		while(festRunter < y + 4 && festRechts < x + 4){
-//			
-//			
-//				for(int j = y; j < y + 5; j++){
-//					
-//					
-//					
-//					if(j == festRunter){
-//						
-//						
-//						
-//					}else{
-//						
-//						
-//					
-//					for(int i = 0; i < 3; i++){
-//						
-//						point[festRechts][j][i] = 0;
-//						
-//					}
-//					
-//					
-//					}
-//					
-//					
-//				}
-//				
-//				festRunter++;
-//				festRechts++;
-//				
-//			}
-//		
-//		
-//		return point;
-//		
-//	}
-//
-//	private static int[][][] generiereEinO(int x, int y, int[][][] point, int[] color){
-//		
-////		Vollende diesen Prototyp von Methode zur fertigen Methode die ein O ausgibt, das hier ist der Code von Oben
-//		
-//		for(int i = x; i < x + 3; i++){
-//			
-//			for(int j = y; j < y + 5; j++){
-//				
-//				for(int coloring = 0; coloring < 3; coloring++){
-//					
-//					point[i][j][coloring] = color[coloring];
-//					
-//				}
-//				
-//			}
-//			
-//		}
-//			
-//				for(int i = x; i < x + 3; i++){
-//					
-//					for(int j = y; j < y + 5; j++){
-//						
-//						if(i == x + 1){
-//							
-//							if(j == y || j == y + 4){
-//								
-//								
-//						        
-//							}else{
-//						        	
-//								for(int coloring = 0; coloring < 3; coloring++){
-//									
-//								    point[i][j][coloring] = 0;
-//								
-//							        }
-//						        
-//							}
-//						
-//						}else{
-//							
-//							if(j == y + 1 || j == y + 2 || j == y + 3){
-//								
-//								
-//							
-//							}else{
-//								
-//								for(int coloring = 0; coloring < 3; coloring++){
-//									
-//									point[i][j][coloring] = 0;
-//									
-//								}
-//								
-//							}
-//							
-//						}
-//						
-//					}
-//					
-//				}
-//		
-//		return point;
-//		
-//	}
-//	
-//	private static int[][][] generiereEinY(int x, int y, int[][][] point, int[] color){
-//		
-//        for(int i = x; i < x + 3; i++){
-//			
-//			for(int j = y; j < y + 5; j++){
-//				
-//				for(int coloring = 0; coloring < 3; coloring++){
-//					
-//					point[i][j][coloring] = color[coloring];
-//					
-//				}
-//				
-//			}
-//			
-//		}
-//        
-//        int zaehltRueckwaerts = y + 4;
-//        
-//        int zaehltVorwaerts = y;
-//        
-//        int zaehlt = x;
-//        
-//        while(zaehlt < x + 2){
-//        	
-//        	for(int j = y; j < y + 5; j++){
-//        		
-//        		if(j == zaehltRueckwaerts || j == zaehltVorwaerts){
-//        			
-//        			
-//        			
-//        		}else{
-//        			
-//        			for(int coloring = 0; coloring < 3; coloring++){
-//        				
-//        				point[zaehlt][j][coloring] = 0;
-//        				
-//        			}
-//        			
-//        		}
-//        		
-//        	}
-//        	
-//        	zaehltRueckwaerts--;
-//        	zaehltVorwaerts++;
-//        	zaehlt++;
-//        	
-//        }
-//        
-//        while(zaehlt < x + 5){
-//        	
-//        	for(int j = y; j < y + 5; j++){
-//        		
-//        		if(j == zaehltRueckwaerts){
-//        			
-//                for(int i = 0; i < 3; i++){
-//        				
-//        				point[zaehlt][j][i] = color[i];
-//        				
-//        			}
-//        			
-//        		}else{
-//        			
-//        			for(int i = 0; i < 3; i++){
-//        				
-//        				point[zaehlt][j][i] = 0;
-//        				
-//        			}
-//        			
-//        		}
-//        		
-//        	}
-//        	
-//        	zaehltRueckwaerts--;
-//        	zaehlt++;
-//        	
-//        }
-//		
-//		return point;
-//		
-//	}
-//	
-//	private static int[][][] generiereEinU(int x, int y, int[][][] point, int[] color){
-//		
-//       for(int i = x; i < x + 4; i++){
-//			
-//			for(int j = y; j < y + 5; j++){
-//				
-//				for(int coloring = 0; coloring < 3; coloring++){
-//					
-//					point[i][j][coloring] = color[coloring];
-//					
-//				}
-//				
-//			}
-//			
-//		}
-//       
-//       int zaehlt = 0;
-//       
-//       int nachRechts = x + 1;
-//       
-//       while(zaehlt < 2){
-//    	   
-//    	   for(int j = y; j < y + 4; j++){
-//    		   
-//    		   for(int coloring = 0; coloring < 3; coloring++){
-//    		   
-//    		   point[nachRechts][j][coloring] = 0;
-//    				   
-//    		   }
-//    		   
-//    	   }
-//    	   
-//    	   nachRechts++;
-//    	   zaehlt++;
-//    	   
-//       }
-//       
-//       zaehlt = 0;
-//       
-//       nachRechts = x;
-//       
-//       while(zaehlt < 2){
-//    	   
-//    	   for(int j = y; j < y + 5; j++){
-//    		   
-//    		   if(j == y + 4){
-//    			   
-//    			   for(int i = 0; i < 3; i++){
-//    				   
-//    				   point[nachRechts][j][i] = 0;
-//    				   
-//    			   }
-//    			   
-//    		   }
-//    		   
-//    	   }
-//    	   
-//    	   nachRechts+=3;
-//    	   zaehlt++;
-//    	   
-//       }
-//		
-//		return point;
-//		
-//	}
-	
 	private static void loss(int[] color){
-		
-		GalaxyDestroyer gade = new GalaxyDestroyer(new int[]{0, -35}, 250, 5);
-		BossaNova bono = new BossaNova(new int[]{10, -25}, 3, 4);
-		BigBoulder bibo = new BigBoulder(new int[]{0, -20}, 2, 3);
-		LangerLulatsch lalu = new LangerLulatsch(new int[]{5, -14}, 1, 2);
-		UnnervingFloatingOctopus ufo = new UnnervingFloatingOctopus(new int[]{13, -10}, 1, 3);
-		DefaultShip noob = new DefaultShip(new int[]{3, -4}, 1, 1);
 		
 		EnemyShip[] endOfWorld = new EnemyShip[6];
 		
-		endOfWorld[0]=noob;
-		endOfWorld[1]=ufo;
-		endOfWorld[2]=lalu;
-		endOfWorld[3]=bibo;
-		endOfWorld[4]=bono;
-		endOfWorld[5]=gade;
+		endOfWorld[0] = new DefaultShip(new int[]{3, -4}, 1, 1);
+		endOfWorld[1] = new UnnervingFloatingOctopus(new int[]{13, -10}, 1, 3);
+		endOfWorld[2] = new LangerLulatsch(new int[]{5, -14}, 1, 2);
+		endOfWorld[3] = new BigBoulder(new int[]{0, -20}, 2, 3);
+		endOfWorld[4] = new BossaNova(new int[]{10, -25}, 3, 4);
+		endOfWorld[5] = new GalaxyDestroyer(new int[]{0, -35}, 250, 5);
 		
 		for(int i=0; i<endOfWorld.length; i++){
 			endOfWorld[i].spawnShip();
 		}
 		
-		int count=0;
-		while(gade.getTopLeftCorner()[1]<22){
+		//This variable counts the amount of times the following loop has been started
+		int loopCount=0;
+		while(endOfWorld[5].getTopLeftCorner()[1]<21){
 		
-			count++;
+			loopCount++;
 			
-			//All projectiles on the screen move down one spot
-			if(count%2==0)
+			//All projectiles on the screen move down one spot every second instance of the loop
+			if(loopCount%2==0)
 			for(int j=0; j<endOfWorld.length; j++){
 				for(int i=0; i<endOfWorld[j].getShots().length; i++){
 					if(endOfWorld[j].getShots()[i] != null){
@@ -752,14 +344,14 @@ public abstract class Endscreen{
 			}
 			
 			//Every 5th instance of the loop, all ships on the board shoot a projectile
-			if(count%5==0){
+			if(loopCount%5==0){
 				for(int i=0; i<endOfWorld.length; i++){
-					if(endOfWorld[i].getTopLeftCorner()[1]+endOfWorld[i].getHeight()-1>=0)endOfWorld[i].shoot();
+					if(endOfWorld[i].getTopLeftCorner()[1]+endOfWorld[i].getHeight()-1>=0)endOfWorld[i].shoot(endOfWorld[i].getCannons()[0]);
 				}
 			}
 			
 			//Every 20th instance of the loop, all ships move down by one spot
-			if(count%20==1){
+			if(loopCount%15==1){
 				for(int i=0; i<endOfWorld.length; i++){
 					endOfWorld[i].move('S');
 				}
@@ -769,61 +361,15 @@ public abstract class Endscreen{
 		
 		}
 		
-//        bono.spawnShip();
-//        
-//        airwing.spawnShip();
-//		
-//		for(int zaehler = 0; bono.getTopLeftCorner()[1] <= 20 || airwing.getTopLeftCorner()[1] <= 20; zaehler++){
-//			
-//		bono.move('S');
-//		
-//		airwing.move('S');
-//		
-//		controller.sleep(100);
-//		
-//		controller.updateLedStripe();
-//		
-//		}
-		
-//		noob.spawnShip();
-//		
-//		lalu.spawnShip();
-//		
-//		bibo.spawnShip();
-//		
-//		for(int zaehler = 0; noob.getTopLeftCorner()[1] <= 20 || lalu.getTopLeftCorner()[1] <= 20 || bibo.getTopLeftCorner()[1] <= 20; zaehler++){
-//			
-//		noob.move('S');
-//		
-//		lalu.move('S');
-//		
-//		bibo.move('S');
-//		
-//		controller.sleep(100);
-//		
-//		controller.updateLedStripe();
-//		
-//		}
-		
-//		controller.sleep(200);
-//		bono.spawnShip();
-//		noob.spawnShip();
-//		airwing.spawnShip();
-//		lalu.spawnShip();
-//		bibo.spawnShip();
-//		controller.updateLedStripe();
-		
-//		Es wäre gut falls du das ersetzen könntest mit den Methoden der Letter Klasse
-//		Jascha :)
-//		Ich versuche dann die Raumschiffe durchs Bild fliegen zu lassen, falls du das ganze
-//		schon gemacht hast, schreibt mir das am besten per whatsapp
-//		damit ich nichts unnötig pushe :)
-//		
-		
         controller.resetColors();
+        
+        //Now all EnemyShips have flown across the screen and the phrase "YOU LOST" will be displayed on the board
 		
 		Word you = new Word("You");
 		Word lost = new Word("lost");
+
+		//Here the color gets inverted
+		color = new int[]{127-color[0], 127-color[1], 127-color[2]};
 		
 		you.displayWordAt(3, 1, color[0], color[1], color[2]);
 		lost.displayWordAt(2, 7, color[0], color[1], color[2]);
@@ -838,39 +384,23 @@ public abstract class Endscreen{
 				point[x][y]=controller.getColorAt(x, y);
 			}
 		}
-//		controller.setColors(generiereEinL(1, 7,point,color));
-//		
-//		controller.updateLedStripe();
-//		
-//		controller.setColors(generiereEinY(2, 0,point,color));
-//		
-//		controller.setColors(generiereEinO(8, 0,point,color));
-//		
-//		controller.setColors(generiereEinU(12, 0,point,color));
-//		
-//		controller.setColors(generiereEinO(5, 7,point,color));
-//		
-//		controller.setColors(generiereEinS(9, 7,point,color));
-//		
-//		controller.setColors(generiereEinT(14, 7,point,color));
 		
 		controller.updateLedStripe();
 		
-		fallenLassen(point,color);
+		letItGo(point,color,15);
 	
 	}
 	
-	public static void fallenLassen(int[][][] point, int[] color){
+	private static void letItGo(int[][][] point, int[] color, int pause){
     	
-	    int[][][] copie = new int[20][20][3];
+	    int[][][] copy = new int[20][20][3];
 	    
-	    for(int i = 0; i < point.length; i++){
-	    	
-	    	for(int j = 0; j < point[i].length; j++){
+	    for(int x=0; x<point.length; x++){
+	    	for(int y=0; y<point[x].length; y++){
 	    		
-	    		for(int coloring = 0; coloring < color.length; coloring++){
+	    		for(int i=0; i<color.length; i++){
 	    			
-	    			copie[i][j][coloring] = point[i][j][coloring];
+	    			copy[x][y][i] = point[x][y][i];
 	    			
 	    		}
 	    		
@@ -878,263 +408,229 @@ public abstract class Endscreen{
 	    	
 	    }
 	
-	boolean isWahr = false;
-	
-//	controller.sleep(50);
-	controller.setColors(point);
-	
-	for(int vonUnten = 19; vonUnten >= 0; vonUnten--){
+		boolean isTrue = false;
 		
-		if(vonUnten == 0){
+//		controller.sleep(pause);
+		controller.setColors(point);
+	
+		for(int fromBelow = 19; fromBelow >= 0; fromBelow--){
 			
-			int zaehler = 0;
-			
-			while(zaehler < 3){
-			
-			
-			for(int geheRechts = 0; geheRechts < point.length; geheRechts++){
+			if(fromBelow == 0){
 				
-				if((point[geheRechts][vonUnten][0] == color[0]) && (point[geheRechts][vonUnten][1] == color[1]) && (point[geheRechts][vonUnten][2] == color[2])){       
-					
-					isWahr = true;
-					
-					for(int i = 0; i < color.length; i++){
-								
-								point[geheRechts][vonUnten][i] = 0;
-								
-								point[geheRechts][vonUnten + 1][i] = color[i];
-							
-					}
-					
-				}else{
-					
-					continue;
-					
-				}
+				int count = 0;
 				
-			}
-			
-			controller.setColors(point);
-			controller.updateLedStripe();
-			
-			zaehler++;
-			vonUnten++;
-			
-			}
-			
-			if(isWahr == true){
+				while(count < 3){
 				
-				for(int nachUnten = vonUnten; nachUnten < point.length; nachUnten++){
-					
-					for(int nachRechts = 0; nachRechts < point.length; nachRechts++){
+					for(int fromRight = 0; fromRight < point.length; fromRight++){
 						
-						if((point[nachRechts][nachUnten][0] == color[0]) && (point[nachRechts][nachUnten][1] == color[1]) && (point[nachRechts][nachUnten][2] == color[2])){       
+						if((point[fromRight][fromBelow][0] == color[0]) && (point[fromRight][fromBelow][1] == color[1]) && (point[fromRight][fromBelow][2] == color[2])){       
+							
+							isTrue = true;
 							
 							for(int i = 0; i < color.length; i++){
-								
-								if(nachUnten == point.length - 1){
-									
-									point[nachRechts][nachUnten - 3][i] = 0;
-									point[nachRechts][nachUnten - 2][i] = 0;
-									point[nachRechts][nachUnten - 1][i] = 0;
-									point[nachRechts][nachUnten][i] = 0;
-									
-								}else{
-									
-									if(nachUnten - 1 > vonUnten){
 										
-										if(color[i] - 35 < 0){
-											
-											point[nachRechts][nachUnten - 3][i] = 0;
-													
-											point[nachRechts][nachUnten - 2][i] = 0;
-											
-											point[nachRechts][nachUnten - 1][i] = 0;
-											
-											point[nachRechts][nachUnten][i] = 0;
-											
-											point[nachRechts][nachUnten + 1][i] = color[i];
-											
-											}else{
-												
-												point[nachRechts][nachUnten - 3][i] = 0;
-												
-												point[nachRechts][nachUnten - 2][i] = color[i] - 35;
-												
-												point[nachRechts][nachUnten - 1][i] = color[i] - 35;
-												
-												point[nachRechts][nachUnten][i] = color[i] - 35;
-												
-												point[nachRechts][nachUnten + 1][i] = color[i];
-												
-											}
-										
-									}else{
-									
-									if(color[i] - 35 < 0){
-										
-										point[nachRechts][nachUnten][i] = 0;
-										
-										point[nachRechts][nachUnten + 1][i] = color[i];
-										
-										}else{
-											
-											point[nachRechts][nachUnten][i] = color[i] - 35;
-											
-											point[nachRechts][nachUnten + 1][i] = color[i];
-											
-										}
-							    
-								}
-									
-								}
+								point[fromRight][fromBelow][i] = 0;
+								point[fromRight][fromBelow + 1][i] = color[i];
 									
 							}
-							
-						}else{
-							
-							continue;
 							
 						}
 						
 					}
-					
+				
 					controller.setColors(point);
-					controller.sleep(25);
 					controller.updateLedStripe();
 					
+					count++;
+					fromBelow++;
+				
 				}
 				
-			}else{
-				
-			}
-			
-			isWahr = false;
-			
-			vonUnten = 0;
-			
-		}else{
-		
-		for(int geheRechts = 0; geheRechts < point.length; geheRechts++){
-			
-			if((point[geheRechts][vonUnten][0] == color[0]) && (point[geheRechts][vonUnten][1] == color[1]) && (point[geheRechts][vonUnten][2] == color[2])){       
-				
-				isWahr = true;
-				
-				for(int i = 0; i < color.length; i++){
-							
-							point[geheRechts][vonUnten][i] = 0;
-							
-							point[geheRechts][vonUnten + 1][i] = color[i];
-						
-				}
-				
-			}else{
-				
-				continue;
-				
-			}
-			
-		}
-		
-		controller.setColors(point);
-		controller.updateLedStripe();
-		
-		if(isWahr == true){
-			
-			for(int nachUnten = vonUnten; nachUnten < point.length; nachUnten++){
-				
-				for(int nachRechts = 0; nachRechts < point.length; nachRechts++){
+				if(isTrue == true){
 					
-					if((point[nachRechts][nachUnten][0] == color[0]) && (point[nachRechts][nachUnten][1] == color[1]) && (point[nachRechts][nachUnten][2] == color[2])){       
+					for(int goDown = fromBelow; goDown < point.length; goDown++){
 						
-						for(int i = 0; i < color.length; i++){
+						for(int goRight = 0; goRight < point.length; goRight++){
 							
-							if(nachUnten == point.length - 1){
+							if((point[goRight][goDown][0] == color[0]) && (point[goRight][goDown][1] == color[1]) && (point[goRight][goDown][2] == color[2])){       
 								
-								point[nachRechts][nachUnten - 3][i] = 0;
-								point[nachRechts][nachUnten - 2][i] = 0;
-								point[nachRechts][nachUnten - 1][i] = 0;
-								point[nachRechts][nachUnten][i] = 0;
-								
-							}else{
-								
-								if(nachUnten - 1 > vonUnten){
+								for(int i = 0; i < color.length; i++){
 									
-									if(color[i] - 35 < 0){
+									if(goDown == point.length - 1){
 										
-										point[nachRechts][nachUnten - 3][i] = 0;
-												
-										point[nachRechts][nachUnten - 2][i] = 0;
-										
-										point[nachRechts][nachUnten - 1][i] = 0;
-										
-										point[nachRechts][nachUnten][i] = 0;
-										
-										point[nachRechts][nachUnten + 1][i] = color[i];
-										
-										}else{
-											
-											point[nachRechts][nachUnten - 3][i] = 0;
-											
-											point[nachRechts][nachUnten - 2][i] = color[i] - 35;
-											
-											point[nachRechts][nachUnten - 1][i] = color[i] - 35;
-											
-											point[nachRechts][nachUnten][i] = color[i] - 35;
-											
-											point[nachRechts][nachUnten + 1][i] = color[i];
-											
-										}
-									
-								}else{
-								
-								if(color[i] - 35 < 0){
-									
-									point[nachRechts][nachUnten][i] = 0;
-									
-									point[nachRechts][nachUnten + 1][i] = color[i];
-									
-									}else{
-										
-										point[nachRechts][nachUnten][i] = color[i] - 35;
-										
-										point[nachRechts][nachUnten + 1][i] = color[i];
+										point[goRight][goDown - 3][i] = 0;
+										point[goRight][goDown - 2][i] = 0;
+										point[goRight][goDown - 1][i] = 0;
+										point[goRight][goDown][i] = 0;
 										
 									}
-						    
+									else{
+										
+										if(goDown - 1 > fromBelow){
+											
+											if(color[i] - 35 < 0){
+												
+												point[goRight][goDown - 3][i] = 0;
+														
+												point[goRight][goDown - 2][i] = 0;
+												
+												point[goRight][goDown - 1][i] = 0;
+												
+												point[goRight][goDown][i] = 0;
+												
+												point[goRight][goDown + 1][i] = color[i];
+												
+											}
+											else{
+													
+												point[goRight][goDown - 3][i] = 0;
+													
+												point[goRight][goDown - 2][i] = color[i] - 35;
+													
+												point[goRight][goDown - 1][i] = color[i] - 35;
+													
+												point[goRight][goDown][i] = color[i] - 35;
+													
+												point[goRight][goDown + 1][i] = color[i];
+													
+											}
+											
+										}
+										else{
+										
+											if(color[i] - 35 < 0){
+												
+												point[goRight][goDown][i] = 0;
+												
+												point[goRight][goDown + 1][i] = color[i];
+												
+											}
+											else{
+													
+												point[goRight][goDown][i] = color[i] - 35;
+													
+												point[goRight][goDown + 1][i] = color[i];
+													
+											}
+										}
+									}
+								}
 							}
-								
-							}
-								
 						}
 						
-					}else{
-						
-						continue;
+						controller.setColors(point);
+						controller.sleep(pause);
+						controller.updateLedStripe();
 						
 					}
-					
 				}
 				
-				controller.setColors(point);
-				controller.sleep(25);
-				controller.updateLedStripe();
+				isTrue = false;
+				fromBelow = 0;
 				
 			}
+			else{
 			
-		}else{
+				for(int goRight=0; goRight<point.length; goRight++){
+					
+					if((point[goRight][fromBelow][0] == color[0]) && (point[goRight][fromBelow][1] == color[1]) && (point[goRight][fromBelow][2] == color[2])){       
+						
+						isTrue = true;
+						
+						for(int i = 0; i < color.length; i++){
+									
+							point[goRight][fromBelow][i] = 0;
+							point[goRight][fromBelow + 1][i] = color[i];
+								
+						}
+					}
+				}
 			
-			
-			
+				controller.setColors(point);
+				controller.updateLedStripe();
+				
+				if(isTrue == true){
+					
+					for(int goDown = fromBelow; goDown < point.length; goDown++){
+						
+						for(int goRight = 0; goRight < point.length; goRight++){
+							
+							if((point[goRight][goDown][0] == color[0]) && (point[goRight][goDown][1] == color[1]) && (point[goRight][goDown][2] == color[2])){       
+								
+								for(int i = 0; i < color.length; i++){
+									
+									if(goDown == point.length - 1){
+										
+										point[goRight][goDown - 3][i] = 0;
+										point[goRight][goDown - 2][i] = 0;
+										point[goRight][goDown - 1][i] = 0;
+										point[goRight][goDown][i] = 0;
+										
+									}
+									else{
+										
+										if(goDown - 1 > fromBelow){
+											
+											if(color[i] - 35 < 0){
+												
+												point[goRight][goDown - 3][i] = 0;
+														
+												point[goRight][goDown - 2][i] = 0;
+												
+												point[goRight][goDown - 1][i] = 0;
+												
+												point[goRight][goDown][i] = 0;
+												
+												point[goRight][goDown + 1][i] = color[i];
+												
+											}
+											else{
+													
+												point[goRight][goDown - 3][i] = 0;
+													
+												point[goRight][goDown - 2][i] = color[i] - 35;
+													
+												point[goRight][goDown - 1][i] = color[i] - 35;
+													
+												point[goRight][goDown][i] = color[i] - 35;
+													
+												point[goRight][goDown + 1][i] = color[i];
+													
+											}
+										}
+										else{
+										
+											if(color[i] - 35 < 0){
+												
+												point[goRight][goDown][i] = 0;
+												
+												point[goRight][goDown + 1][i] = color[i];
+												
+											}
+											else{
+													
+												point[goRight][goDown][i] = color[i] - 35;
+													
+												point[goRight][goDown + 1][i] = color[i];
+													
+											}
+										}
+									}
+								}
+							}
+						}
+						
+						controller.setColors(point);
+						controller.sleep(pause);
+						controller.updateLedStripe();
+						
+					}	
+				}
+				
+				isTrue = false;
+				
+			}
 		}
-		
-		isWahr = false;
-		
 	}
-		
-	}
-	
-}
 
 }

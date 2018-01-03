@@ -64,12 +64,12 @@ public class UnnervingFloatingOctopus extends EnemyShip {
 		super.hit();
 		
 		//And the dot indicating its energy may change color
-		if(this.getLifes()>=this.getMaxLifes()/2){
+		if(this.getLifes()>this.getMaxLifes()/2){
 			this.setColorAt(2, 2, 5, 107, 17);
 			this.setColorAt(3, 2, 5, 107, 17);
 		}
 		else{
-			if(this.getLifes()>=this.getMaxLifes()/4){
+			if(this.getLifes()>this.getMaxLifes()/4){
 				this.setColorAt(2, 2, 127, 127, 0);
 				this.setColorAt(3, 2, 5, 107, 17);
 			}

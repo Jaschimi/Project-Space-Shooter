@@ -108,8 +108,8 @@ public class GalaxyDestroyer extends EnemyShip {
 		super.spawnShip();
 		
 		//This line makes sure the cannons are at their desired location when spawning the ship
-		this.cannons = new int[][]{{this.getTopLeftCorner()[0] + 8, this.getTopLeftCorner()[1] + 7},
-								   {this.getTopLeftCorner()[0] + 2, this.getTopLeftCorner()[1] + 6},
+		this.cannons = new int[][]{{this.getTopLeftCorner()[0] + 2, this.getTopLeftCorner()[1] + 6},
+								   {this.getTopLeftCorner()[0] + 8, this.getTopLeftCorner()[1] + 7},
 								   {this.getTopLeftCorner()[0] + 14, this.getTopLeftCorner()[1] + 6}};
 	}
 	

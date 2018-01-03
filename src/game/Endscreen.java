@@ -346,7 +346,18 @@ public abstract class Endscreen{
 			//Every 5th instance of the loop, all ships on the board shoot a projectile
 			if(loopCount%5==0){
 				for(int i=0; i<endOfWorld.length; i++){
-					if(endOfWorld[i].getTopLeftCorner()[1]+endOfWorld[i].getHeight()-1>=0)endOfWorld[i].shoot(endOfWorld[i].getCannons()[0]);
+					if(endOfWorld[i].getTopLeftCorner()[1]+endOfWorld[i].getHeight()-1>=0){
+						if(i==5){
+							endOfWorld[i].shoot(endOfWorld[i].getCannons()[1]);
+						}
+						else{
+							if(i==1){
+								endOfWorld[i].shoot(endOfWorld[i].getCannons()[1]);
+							}
+							endOfWorld[i].shoot(endOfWorld[i].getCannons()[0]);
+						}
+						
+					}
 				}
 			}
 			

@@ -15,7 +15,7 @@ public abstract class Spaceship extends ColoringField {
 	public abstract void spawnShip();
 	
 	//This method makes a Spaceship shoot a projectile
-	public abstract void shoot();
+	public abstract void shoot(int[] cannon);
 	
 	//This method makes a Spaceship move in one of four direction
 	public abstract void move(char direction);

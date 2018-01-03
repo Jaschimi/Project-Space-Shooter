@@ -1,8 +1,9 @@
 package ufos;
 
 import gameObjects.EnemyShip;
+import gameObjects.Projectile;
 
-//A bigger ship than the DefaultShips
+//A bigger ship than the DefaultShips. It usually has more lifes and can shoot more projectiles.
 public class BigBoulder extends EnemyShip {
 
 	//It is a 5 by 4 ColoringField
@@ -32,6 +33,15 @@ public class BigBoulder extends EnemyShip {
 		this.setColorAt(2, 1,  5, 107, 17);
 	}
 
+	@Override
+	public void spawnShip(){
+		
+		super.spawnShip();
+		
+		//This line makes sure the cannon is at its desired location when spawning the ship
+		this.cannons = new int[][]{{this.getTopLeftCorner()[0] + 2, this.getTopLeftCorner()[1] + 3}};
+	}
+	
 	//This method is triggered once a ship is hit by a projectile
 	public void hit(){
 		//It loses a life
@@ -55,6 +65,24 @@ public class BigBoulder extends EnemyShip {
 			}
 		}
 		this.spawnShip();
+	}
+
+	@Override
+	public void shoot(int[] cannon) {
+
+		//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
+		for(int i=0; i<this.shots.length; i++){
+			if(shots[i]==null){
+				
+				//This is the projectile that will be shot
+				Projectile projectile = new Projectile(100, 127, 100);
+				
+				shots[i]=projectile;
+				projectile.spawnProjectile(cannon[0], cannon[1]);
+				return;
+			}
+		}
+		
 	}
 	
 }

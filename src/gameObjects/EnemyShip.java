@@ -13,6 +13,7 @@ public abstract class EnemyShip extends Spaceship {
 	private int height;
 	private int maxLifes;
 	private int lifes;
+	protected int[][] cannons;
 	protected Projectile[] shots;
 	
 	//Getters and Setters for various things
@@ -26,6 +27,8 @@ public abstract class EnemyShip extends Spaceship {
 
 	public int getMaxLifes() {return maxLifes;}
 	public int getLifes() {return lifes;}
+	
+	public int[][] getCannons() {return cannons;}
 	
 	public Projectile[] getShots() {return shots;}
 	
@@ -66,20 +69,7 @@ public abstract class EnemyShip extends Spaceship {
 	}
 
 	@Override
-	public void shoot() {
-		
-		//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
-		for(int i=0; i<this.shots.length; i++){
-			if(shots[i]==null){
-				//This is the projectile that will be shot
-				Projectile projectile = new Projectile(127, 127, 127);
-				
-				shots[i]=projectile;
-				projectile.spawnProjectile(this.topLeftCorner[0] + this.length/2, this.topLeftCorner[1] + this.height-1);
-				return;
-			}
-		}
-	}
+	public abstract void shoot(int[] cannon);
 
 	@Override
 	public void move(char direction) {

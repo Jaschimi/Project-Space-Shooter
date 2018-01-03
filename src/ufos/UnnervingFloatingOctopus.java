@@ -1,9 +1,13 @@
 package ufos;
 
 import gameObjects.EnemyShip;
+import gameObjects.Projectile;
 
+//This ship has two cannons with which to shoot. It is the biggest ship that isn't classified as a boss.
+//Additionally, it looks like a UFO, but some people are reminded of a certain marine animal when looking at it...
 public class UnnervingFloatingOctopus extends EnemyShip {
 
+	//It is a 7 by 5 ColoringField
 	public UnnervingFloatingOctopus(int[] topLeftCorner, int maxLifes, int ammo) {
 		
 		super(topLeftCorner, 7, 5, maxLifes, ammo);
@@ -45,6 +49,16 @@ public class UnnervingFloatingOctopus extends EnemyShip {
 	}
 
 	@Override
+	public void spawnShip(){
+		
+		super.spawnShip();
+		
+		//This line makes sure the cannons are at their desired location when spawning the ship
+		this.cannons = new int[][]{{this.getTopLeftCorner()[0] + 1, this.getTopLeftCorner()[1] + 4}, 
+								   {this.getTopLeftCorner()[0] + 5, this.getTopLeftCorner()[1] + 4}};
+	}
+	
+	@Override
 	public void hit() {
 		//It loses a life
 		super.hit();
@@ -71,6 +85,24 @@ public class UnnervingFloatingOctopus extends EnemyShip {
 			}
 		}
 		this.spawnShip();
+	}
+
+	@Override
+	public void shoot(int[] cannon) {
+
+		//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
+		for(int i=0; i<this.shots.length; i++){
+			if(shots[i]==null){
+				
+				//This is the projectile that will be shot
+				Projectile projectile = new Projectile(90, 60, 116);
+				
+				shots[i]=projectile;
+				projectile.spawnProjectile(cannon[0], cannon[1]);
+				return;
+			}
+		}
+		
 	}
 
 }

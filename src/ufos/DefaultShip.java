@@ -5,7 +5,7 @@ import gameObjects.Projectile;
 
 //The default EnemyShip
 public class DefaultShip extends EnemyShip {
-
+	
 	//It is a 3 by 3 ColoringField
 	public DefaultShip(int[] topLeftCorner, int maxLifes, int ammo) {
 		
@@ -43,16 +43,26 @@ public class DefaultShip extends EnemyShip {
 	}
 
 	@Override
-	public void shoot() {
+	public void spawnShip(){
+		
+		super.spawnShip();
+		
+		//This line makes sure the cannon is at its desired location when spawning the ship
+		this.cannons = new int[][]{{this.getTopLeftCorner()[0] + 1, this.getTopLeftCorner()[1] + 2}};
+	}
+	
+	@Override
+	public void shoot(int[] cannon) {
 		
 		//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
 		for(int i=0; i<this.shots.length; i++){
 			if(shots[i]==null){
+				
 				//This is the projectile that will be shot
-				Projectile projectile = new Projectile(127, 127, 127);
+				Projectile projectile = new Projectile(127, 127, 100);
 				
 				shots[i]=projectile;
-				projectile.spawnProjectile(this.getTopLeftCorner()[0] + 1, this.getTopLeftCorner()[1] + 2);
+				projectile.spawnProjectile(cannon[0], cannon[1]);
 				return;
 			}
 		}

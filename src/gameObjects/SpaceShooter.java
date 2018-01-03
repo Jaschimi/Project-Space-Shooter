@@ -10,12 +10,15 @@ public class SpaceShooter extends Spaceship{
 	private int[] topLeftCorner = new int[2];
 	private Projectile[] shots;
 	private int lifes;
+	private int[][] cannons;
 	
 	//Getters and Setters for various things
 	public int[] getTopLeftCorner() {return topLeftCorner;}
 	
 	public Projectile[] getShots() {return shots;}
 	
+	public int[][] getCannons() {return cannons;}
+
 	public int getLifes() {return lifes;}
 	public void setLifes(int lifes) {this.lifes = lifes;}
 	
@@ -26,6 +29,7 @@ public class SpaceShooter extends Spaceship{
 		this.topLeftCorner = topLeftCorner;
 		this.shots = new Projectile[ammo];
 		this.lifes = lifes;
+		this.cannons  = new int[][]{{this.topLeftCorner[0] + 1, this.topLeftCorner[1]}};
 		
 	}
 
@@ -42,10 +46,12 @@ public class SpaceShooter extends Spaceship{
 				controller.setColor(x, y, this.positions[x-x1][y-y1][0], this.positions[x-x1][y-y1][1], this.positions[x-x1][y-y1][2]);
 			}
 		}
-		
+		//This line makes sure the cannon is at its desired location when spawning the ship
+		this.cannons = new int[][]{{this.getTopLeftCorner()[0] + 1, this.getTopLeftCorner()[1]}};
 	}
 
-	public void shoot() {
+	@Override
+	public void shoot(int[] cannon) {
 		
 		//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
 		for(int i=0; i<this.shots.length; i++){
@@ -54,7 +60,7 @@ public class SpaceShooter extends Spaceship{
 				Projectile projectile = new Projectile(127, 127, 127);
 				
 				shots[i]=projectile;
-				projectile.spawnProjectile(this.topLeftCorner[0] + 1, this.topLeftCorner[1]);
+				projectile.spawnProjectile(cannon[0], cannon[1]);
 				return;
 			}
 		}

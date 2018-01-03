@@ -1,9 +1,13 @@
 package ufos;
 
 import gameObjects.EnemyShip;
+import gameObjects.Projectile;
 
+//The ultimate EnemyShip. This bad boy is ginormous; it has three cannons, all of which can shoot two projectiles at once
+//(the middle one can even shoot three!), normally a couple hundred lifes and can shoot multiple decades of shots.
 public class GalaxyDestroyer extends EnemyShip {
 
+	//It is a 17 by 10 ColoringField
 	public GalaxyDestroyer(int[] topLeftCorner, int maxLifes, int ammo) {
 		
 		super(topLeftCorner, 17, 10, maxLifes, ammo);
@@ -96,10 +100,19 @@ public class GalaxyDestroyer extends EnemyShip {
 				}
 			}
 		}
-		
-		
 	}
 
+	@Override
+	public void spawnShip(){
+		
+		super.spawnShip();
+		
+		//This line makes sure the cannons are at their desired location when spawning the ship
+		this.cannons = new int[][]{{this.getTopLeftCorner()[0] + 8, this.getTopLeftCorner()[1] + 7},
+								   {this.getTopLeftCorner()[0] + 2, this.getTopLeftCorner()[1] + 6},
+								   {this.getTopLeftCorner()[0] + 14, this.getTopLeftCorner()[1] + 6}};
+	}
+	
 	@Override
 	public void hit() {
 		//It loses a life
@@ -143,6 +156,49 @@ public class GalaxyDestroyer extends EnemyShip {
 			}
 		}
 		this.spawnShip();
+	}
+
+	@Override
+	public void shoot(int[] cannon) {
+
+		//This if statement checks if the specified cannon's y position is where the left or right cannon is located
+		if(cannon[1]==this.getCannons()[0][1]){
+			//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
+			for(int i=0; i<this.shots.length-1; i++){
+				if(shots[i]==null&&shots[i+1]==null){
+					
+					//These are the projectiles that will be shot
+					Projectile projectileTop = new Projectile(127, 70, 70);
+					Projectile projectileBot = new Projectile(127, 70, 70);
+					
+					shots[i+1]=projectileTop;
+					shots[i]=projectileBot;
+					projectileTop.spawnProjectile(cannon[0], cannon[1]);
+					projectileBot.spawnProjectile(cannon[0], cannon[1]+1);
+					return;
+				}
+			}
+		}
+		else{
+			//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
+			for(int i=0; i<this.shots.length-2; i++){
+				if(shots[i]==null&&shots[i+1]==null&&shots[i+2]==null){
+					
+					//These are the projectiles that will be shot
+					Projectile projectileTop = new Projectile(127, 70, 70);
+					Projectile projectileMid = new Projectile(127, 70, 70);
+					Projectile projectileBot = new Projectile(127, 70, 70);
+					
+					shots[i+2]=projectileTop;
+					shots[i+1]=projectileMid;
+					shots[i]=projectileBot;
+					projectileTop.spawnProjectile(cannon[0], cannon[1]);
+					projectileMid.spawnProjectile(cannon[0], cannon[1]+1);
+					projectileBot.spawnProjectile(cannon[0], cannon[1]+2);
+					return;
+				}
+			}
+		}
 	}
 
 }

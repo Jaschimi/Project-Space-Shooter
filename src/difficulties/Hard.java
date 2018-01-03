@@ -29,10 +29,10 @@ public class Hard {
 		//this boolean will be returned to the class Game
 		boolean won = false;
 		
-		//Making of the EnemyShipList for hard mode in three steps:
+		//Making of the EnemyShipList for hard mode in two steps:
 		//Step 1: Create an EnemyShip array with 100 entries
-		//Step 2: Design all one-hundred ships by hand because who needs a life anyway?
-		//Step 3: Convert the array to a list of EnemyShips and set the first entry as the currentUFO
+		//Former Step 2: Design all one-hundred ships by hand because who needs a life anyway?
+		//Step 2: Convert the array to a list of EnemyShips and set the first entry as the currentUFO
 		
 		//Step 1
 		EnemyShip[] ufoArray = new EnemyShip[100];
@@ -114,7 +114,7 @@ public class Hard {
 		ufoArray[71] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray[72] = new DefaultShip(new int[]{5, 3}, 3, 3);
 		ufoArray[73] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[74] = new BigBoulder(new int[]{0, 6}, 5, 5);
+		ufoArray[74] = new BossaNova(new int[]{0, 0}, 75, 6);
 		ufoArray[75] = new DefaultShip(new int[]{5, 0}, 1, 1);
 		ufoArray[76] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray[77] = new DefaultShip(new int[]{5, 3}, 3, 3);
@@ -138,7 +138,7 @@ public class Hard {
 		ufoArray[95] = new DefaultShip(new int[]{5, 0}, 1, 1);
 		ufoArray[96] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray[97] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[98] = new BigBoulder(new int[]{0, 0}, 4, 4);
+		ufoArray[98] = new DefaultShip.GoldenVersion(new int[]{9, 0}, 100, 5);
  
 		ufoArray[99] = new GalaxyDestroyer(new int[]{0, 0}, 250, 25);
 
@@ -232,9 +232,9 @@ public class Hard {
 							for(int y=0; y<currentUFO.getHeight(); y++){
 								if(ss.getShots()[i].getY()-1==currentUFO.getTopLeftCorner()[1]+y
 								   && ss.getShots()[i].getX()==currentUFO.getTopLeftCorner()[0]+x
-								   &&controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[0]!=0
-								   &&controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[1]!=0
-								   &&controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[2]!=0){
+								   &&(controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[0]!=0
+								   ||controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[1]!=0
+								   ||controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[2]!=0)){
 									//If that is also the case, the projectiles color is changed to black,
 									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
 									//the currentUFO is hit (if it still haves lifes) and

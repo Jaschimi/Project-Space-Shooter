@@ -171,9 +171,9 @@ public class Medium {
 							for(int y=0; y<currentUFO.getHeight(); y++){
 								if(ss.getShots()[i].getY()-1==currentUFO.getTopLeftCorner()[1]+y
 								   && ss.getShots()[i].getX()==currentUFO.getTopLeftCorner()[0]+x
-								   &&controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[0]!=0
-								   &&controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[1]!=0
-								   &&controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[2]!=0){
+								   &&(controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[0]!=0
+								   ||controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[1]!=0
+								   ||controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[2]!=0)){
 									//If that is also the case, the projectiles color is changed to black,
 									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
 									//the currentUFO is hit (if it still haves lifes) and

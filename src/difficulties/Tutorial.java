@@ -773,16 +773,17 @@ public class Tutorial{
 		//These variables counts the amount of times the colors of a ship have faded
 		int enemyFadeCount = 0;
 		int ssFadeCount = 0;
+		
 		while(true){
-			//In every instance of the endless loop, nine things are happening:
-			//1.: The loop count increases by one.
+			//In every instance of the endless loop, nine things may happen:
+			//1.: The loop count increases by one
 			//2.: It is checked if the current EnemyShip has no lifes left
 			//3.: It is checked if the SpaceShooter has no lifes left
 			//4.: All shots the SpaceShooter fired are moving upwards by one
 			//5.: All shots the currentUFO fired are moving downwards by one
-			//6.: Every fiftieth instance of the loop, the current ship moves in a random direction
+			//6.: The current ship moves in a direction
 			//7.: The current EnemyShip shoots a projectile
-			//8.: The last keyboard input is detected and one of five actions are performed
+			//8.: The last keyboard input is detected and one of five actions is performed
 			//9.: Finally, the LED stripe is updated
 			
 			//1.

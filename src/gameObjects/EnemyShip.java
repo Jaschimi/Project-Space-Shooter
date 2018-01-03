@@ -77,7 +77,7 @@ public abstract class EnemyShip extends Spaceship {
 		switch(direction){
 		
 		case 'W':
-			if(this.topLeftCorner[1]>0){
+//			if(this.topLeftCorner[1]>0){
 				for(int x=this.topLeftCorner[0]; x<this.topLeftCorner[0] + this.length; x++){
 					for(int y=this.topLeftCorner[1]; y<this.topLeftCorner[1] + this.height; y++){
 						controller.setColor(x, y, 0, 0, 0);
@@ -86,7 +86,7 @@ public abstract class EnemyShip extends Spaceship {
 				
 				this.topLeftCorner[1] -= 1;
 				this.spawnShip();
-			}
+//			}
 			break;
 			
 		case 'S':
@@ -103,7 +103,7 @@ public abstract class EnemyShip extends Spaceship {
 			break;
 		
 		case 'A':
-			if(this.topLeftCorner[0] + this.length/2>0){
+//			if(this.topLeftCorner[0] + this.length/2>0){
 				for(int x=this.topLeftCorner[0]; x<this.topLeftCorner[0] + this.length; x++){
 					for(int y=this.topLeftCorner[1]; y<this.topLeftCorner[1] + this.height; y++){
 						controller.setColor(x, y, 0, 0, 0);
@@ -112,11 +112,11 @@ public abstract class EnemyShip extends Spaceship {
 				
 				this.topLeftCorner[0] -= 1;
 				this.spawnShip();
-			}
+//			}
 			break;
 			
 		case 'D':
-			if(this.topLeftCorner[0]+this.length/2+1<20){
+//			if(this.topLeftCorner[0]+this.length/2+1<20){
 				for(int x=this.topLeftCorner[0]; x<this.topLeftCorner[0] + this.length; x++){
 					for(int y=this.topLeftCorner[1]; y<this.topLeftCorner[1] + this.height; y++){
 						controller.setColor(x, y, 0, 0, 0);
@@ -125,7 +125,7 @@ public abstract class EnemyShip extends Spaceship {
 			
 				this.topLeftCorner[0] += 1;
 				this.spawnShip();
-			}
+//			}
 			break;
 		}
 		

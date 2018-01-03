@@ -20,12 +20,6 @@ public class Hard {
 
 	public static boolean start(SpaceShooter ss){
 		
-		//This variable counts the amount of times the endless loop in all four difficulties has been started
-		int loopCount = 0;
-		//These variables count the amount of times the colors of a ship have faded
-		int fadeCount = 0;
-		int ssFadeCount = 0;
-
 		//this boolean will be returned to the class Game
 		boolean won = false;
 		
@@ -150,17 +144,25 @@ public class Hard {
 
 		ss.spawnShip();
 		currentUFO.spawnShip();
-		
+
+		//This variable counts the amount of times the endless loop in all four difficulties has been started
+		int loopCount = 0;
+		//These variables count the amount of times the colors of a ship have faded
+		int fadeCount = 0;
+		int ssFadeCount = 0;
+		//This boolean determines if the current ship will move left or right
+		boolean right = true;
+
 		while(true){
-			//In every instance of the endless loop, nine things are happening:
-			//1.: The loop count increases by one.
+			//In every instance of the endless loop, nine things may happen:
+			//1.: The loop count increases by one
 			//2.: It is checked if the current EnemyShip has no lifes left
 			//3.: It is checked if the SpaceShooter has no lifes left
 			//4.: All shots the SpaceShooter fired are moving upwards by one
 			//5.: All shots the currentUFO fired are moving downwards by one
-			//6.: Every fiftieth instance of the loop, the current ship moves in a random direction
+			//6.: The current ship moves in a direction
 			//7.: The current EnemyShip shoots a projectile
-			//8.: The last keyboard input is detected and one of five actions are performed
+			//8.: The last keyboard input is detected and one of five actions is performed
 			//9.: Finally, the LED stripe is updated
 			
 			//1.
@@ -282,37 +284,47 @@ public class Hard {
 			}
 			
 			//6.
-			if(loopCount%50==0&&currentUFO.getLifes()>0){
-				
-				//This generates a random integer between 0 and 3
-				int random = (int) (Math.random()*4);
-				
-				//Based on what integer was generated, the char direction becomes one of four values
-				char direction = 0;
-				switch(random){
-				
-				case 0:
-					direction = 'W';
-					break;
-				case 1:
-					direction = 'A';
-					break;
-				case 2:
-					direction = 'S';
-					break;
-				case 3:
-					direction = 'D';
-					break;
+			//EnemyShips only move every 20th instance of the endless loop
+			if(loopCount%20==0&&currentUFO.getLifes()>0){
+
+				//If they are too far left or right above the Space Shooter, they move closer to it
+				if(currentUFO.getTopLeftCorner()[0]+currentUFO.getLength()<=ss.getTopLeftCorner()[0]){
+					currentUFO.move('D');
+					right = true;
 				}
-				
-				//And lastly, the current UFO moves in the generated direction
-				currentUFO.move(direction);
+				else{
+					if(currentUFO.getTopLeftCorner()[0]>ss.getTopLeftCorner()[0]+2){
+						currentUFO.move('A');
+						right = false;
+					}
+					else{
+						//This generates a random double between 0 and 100
+						double random = Math.random()*100;
+						
+						//With a chance of 9.5%, the current ship changes direction
+						if(random<9.5){
+							right=!right;
+						}
+						
+						//If they are inside the range and don't change direction during it, they move completely
+						//to the right end of it, before moving completely left of it and back again.
+						if(right){
+							if(currentUFO.getCannons()[currentUFO.getCannons().length-1][0]<19)currentUFO.move('D');
+							else right=false;
+						}
+						else{
+							if(currentUFO.getCannons()[0][0]>0)currentUFO.move('A');
+							else right=true;
+						}
+					}
+				}
+
 			}
 			
 			//7.
 			//Enemy ships only shoot with a chance of 1/25 in every loop
 			int random = (int) (Math.random()*25);
-			if(random == 2&&currentUFO.getLifes()>0){
+			if(random == 2&&currentUFO.getLifes()<0){
 				
 				//All cannons of a ship are firing (if enough ammunition exists)
 				for(int i=0; i<currentUFO.getCannons().length; i++){

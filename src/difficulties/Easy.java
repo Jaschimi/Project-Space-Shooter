@@ -8,7 +8,6 @@ import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ledControl.gui.KeyBuffer;
 import ufos.UnnervingFloatingOctopus;
-import ufos.BossaNova;
 import ufos.DefaultShip;
 import ufos.LangerLulatsch;
 import ufos.BigBoulder;
@@ -20,12 +19,6 @@ public class Easy {
 	public static KeyBuffer buffer = controller.getKeyBuffer();
 
 	public static boolean start(SpaceShooter ss){
-		
-		//This variable counts the amount of times the endless loop has been started
-		int loopCount = 0;
-		//These variables count the amount of times the colors of a ship have faded
-		int fadeCount = 0;
-		int ssFadeCount = 0;
 		
 		//This boolean will be returned to the class Game
 		boolean won = false;
@@ -41,27 +34,27 @@ public class Easy {
 		ufoArray [1] = new DefaultShip(new int[]{8, 0}, 1, 1);
 		ufoArray [2] = new DefaultShip(new int[]{5, 3}, 1, 1);
 		ufoArray [3] = new DefaultShip(new int[]{0, 0}, 2, 1);
-		ufoArray [4] = new LangerLulatsch(new int[]{0, 6}, 2, 1);
-		ufoArray [5] = new DefaultShip(new int[]{8, 0}, 3, 2);
+		ufoArray [4] = new BigBoulder(new int[]{0, 6}, 5, 2);
+		ufoArray [5] = new DefaultShip(new int[]{8, 0}, 2, 2);
 		ufoArray [6] = new DefaultShip(new int[]{8, 0}, 3, 2);
-		ufoArray [7] = new LangerLulatsch(new int[]{8, 0}, 4, 2);
-		ufoArray [8] = new LangerLulatsch(new int[]{8, 0}, 4, 2);
-		ufoArray [9] = new BigBoulder(new int[]{8, 0}, 5, 2);
-		ufoArray[10] = new LangerLulatsch(new int[]{8, 0}, 5, 3);
-		ufoArray[11] = new BigBoulder(new int[]{8, 0}, 6, 3);
-		ufoArray[12] = new BigBoulder(new int[]{8, 0}, 6, 3);
-		ufoArray[13] = new LangerLulatsch(new int[]{8, 0}, 7, 3);
-		ufoArray[14] = new DefaultShip(new int[]{8, 0}, 7, 3);
-		ufoArray[15] = new BigBoulder(new int[]{8, 0}, 8, 4);
-		ufoArray[16] = new BigBoulder(new int[]{8, 0}, 8, 4);
-		ufoArray[17] = new LangerLulatsch(new int[]{8, 0}, 9, 4);
-		ufoArray[18] = new DefaultShip(new int[]{8, 0}, 9, 4);
-		ufoArray[19] = new UnnervingFloatingOctopus(new int[]{8, 0}, 10, 4);
-		ufoArray[20] = new BigBoulder(new int[]{8, 0}, 15, 5);
-		ufoArray[21] = new UnnervingFloatingOctopus(new int[]{8, 0}, 20, 5);
-		ufoArray[22] = new BigBoulder(new int[]{8, 0}, 25, 5);
-		ufoArray[23] = new DefaultShip(new int[]{8, 0}, 40, 5);
-		ufoArray[24] = new BossaNova(new int[]{0, 0}, 70, 10);
+		ufoArray [7] = new BigBoulder(new int[]{8, 0}, 8, 3);
+		ufoArray [8] = new BigBoulder(new int[]{8, 0}, 10, 4);
+		ufoArray [9] = new DefaultShip(new int[]{8, 0}, 3, 2);
+		ufoArray[10] = new BigBoulder(new int[]{8, 0}, 12, 5);
+		ufoArray[11] = new DefaultShip(new int[]{8, 0}, 4, 3);
+		ufoArray[12] = new LangerLulatsch(new int[]{8, 0}, 6, 2);
+		ufoArray[13] = new BigBoulder(new int[]{8, 0}, 15, 6);
+		ufoArray[14] = new DefaultShip(new int[]{8, 0}, 5, 3);
+		ufoArray[15] = new DefaultShip(new int[]{8, 0}, 8, 4);
+		ufoArray[16] = new LangerLulatsch(new int[]{8, 0}, 9, 4);
+		ufoArray[17] = new BigBoulder(new int[]{8, 0}, 18, 7);
+		ufoArray[18] = new DefaultShip(new int[]{8, 0}, 10, 4);
+		ufoArray[19] = new BigBoulder(new int[]{8, 0}, 20, 8);
+		ufoArray[20] = new LangerLulatsch(new int[]{8, 0}, 15, 4);
+		ufoArray[21] = new BigBoulder(new int[]{8, 0}, 30, 9);
+		ufoArray[22] = new LangerLulatsch(new int[]{8, 0}, 21, 6);
+		ufoArray[23] = new DefaultShip(new int[]{8, 0}, 15, 5);
+		ufoArray[24] = new UnnervingFloatingOctopus(new int[]{0, 0}, 50, 6);
 
 		//Step 2
 		EnemyShip currentUFO = ufoArray[0];
@@ -71,17 +64,25 @@ public class Easy {
 		
 		ss.spawnShip();
 		currentUFO.spawnShip();
+
+		//This variable counts the amount of times the endless loop has been started
+		int loopCount = 0;
+		//These variables count the amount of times the colors of a ship have faded
+		int fadeCount = 0;
+		int ssFadeCount = 0;
+		//This boolean determines if the current ship will move left or right
+		boolean right = true;
 		
 		while(true){
-			//In every instance of the endless loop, nine things are happening:
-			//1.: The loop count increases by one.
+			//In every instance of the endless loop, nine things may happen:
+			//1.: The loop count increases by one
 			//2.: It is checked if the current EnemyShip has no lifes left
 			//3.: It is checked if the SpaceShooter has no lifes left
 			//4.: All shots the SpaceShooter fired are moving upwards by one
 			//5.: All shots the currentUFO fired are moving downwards by one
-			//6.: Every fiftieth instance of the loop, the current ship moves in a random direction
+			//6.: The current ship moves in a direction
 			//7.: The current EnemyShip shoots a projectile
-			//8.: The last keyboard input is detected and one of five actions are performed
+			//8.: The last keyboard input is detected and one of five actions is performed
 			//9.: Finally, the LED stripe is updated
 			
 			//1.
@@ -101,6 +102,7 @@ public class Easy {
 					if(currentUFO.getNext() != null){
 						currentUFO = currentUFO.getNext();
 						currentUFO.spawnShip();
+						right = true;
 					}
 					else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
 						won = true;
@@ -197,31 +199,19 @@ public class Easy {
 			}
 			
 			//6.
-			if(loopCount%50==0&&currentUFO.getLifes()>0){
+			//EnemyShips only move every 30th instance of the endless loop
+			if(loopCount%30==0&&currentUFO.getLifes()>0){
 				
-				//This generates a random integer between 0 and 4
-				int random = (int) (Math.random()*4);
-				
-				//Based on what integer was generated, the char direction becomes one of four values
-				char direction = 0;
-				switch(random){
-				
-				case 0:
-					direction = 'W';
-					break;
-				case 1:
-					direction = 'A';
-					break;
-				case 2:
-					direction = 'S';
-					break;
-				case 3:
-					direction = 'D';
-					break;
+				//They move completely to the right of the board, before moving completely left and back again.
+				if(right){
+					if(currentUFO.getCannons()[currentUFO.getCannons().length-1][0]<19)currentUFO.move('D');
+					else right=false;
+				}
+				else{
+					if(currentUFO.getCannons()[0][0]>0)currentUFO.move('A');
+					else right=true;
 				}
 				
-				//And lastly, the current UFO moves in the generated direction
-				currentUFO.move(direction);
 			}
 			
 			//7.

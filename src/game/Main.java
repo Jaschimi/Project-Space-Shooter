@@ -28,15 +28,14 @@ public abstract class Main {
 
 	public static void main(String[] args) {
 
-//		gameStart();
+		gameStart();
 //		endscreenTest(false);
 //		rainbow();
-//		displaytest();
 //		Goldenization();
 //		shipDiashow();
 //		DisplayAlphabet();
 //		DisplayCiphers();
-		DisplayLogo(6, word);
+//		DisplayLogo(6, word);
 
 	}
 
@@ -81,7 +80,7 @@ public abstract class Main {
 							Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
 							Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
 							
-							break;
+							continue;
 							
 						case java.awt.event.KeyEvent.VK_1:
 							
@@ -96,7 +95,7 @@ public abstract class Main {
 							Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
 							Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
 							
-							break;
+							continue;
 							
 						case java.awt.event.KeyEvent.VK_2:
 							
@@ -111,7 +110,7 @@ public abstract class Main {
 							Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
 							Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
 							
-							break;
+							continue;
 							
 						case java.awt.event.KeyEvent.VK_3:
 							
@@ -126,7 +125,7 @@ public abstract class Main {
 							Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
 							Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
 							
-							break;
+							continue;
 						}
 					}
 				}

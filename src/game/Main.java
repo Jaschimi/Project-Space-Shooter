@@ -29,6 +29,7 @@ public abstract class Main {
 	public static void main(String[] args) {
 
 		gameStart();
+//		nestTest();
 //		endscreenTest(false);
 //		rainbow();
 //		Goldenization();
@@ -37,6 +38,14 @@ public abstract class Main {
 //		DisplayCiphers();
 //		DisplayLogo(6, word);
 
+	}
+	
+	private static void nestTest(){
+		
+		EnemyShip goldie = new DefaultShip.GoldenVersion(new int[]{0, 0}, 4, 4);
+		
+		goldie.spawnShip();
+		controller.updateLedStripe();
 	}
 
 	private static void gameStart(){

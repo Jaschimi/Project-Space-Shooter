@@ -5,7 +5,22 @@ import gameObjects.Projectile;
 
 //The default EnemyShip
 public class DefaultShip extends EnemyShip {
-	
+
+	//This is a special version of it with a different color
+	public static class GoldenVersion extends DefaultShip {
+
+		public GoldenVersion(int[] topLeftCorner, int maxLifes, int ammo) {
+			super(topLeftCorner, maxLifes, ammo);
+
+			this.setColorAt(0, 1, 127, 107, 0);
+			this.setColorAt(0, 2, 127, 107, 0);
+			this.setColorAt(1, 0, 127, 107, 0);
+			this.setColorAt(2, 1, 127, 107, 0);
+			this.setColorAt(2, 2, 127, 107, 0);
+		}
+		
+	}
+
 	//It is a 3 by 3 ColoringField
 	public DefaultShip(int[] topLeftCorner, int maxLifes, int ammo) {
 		
@@ -72,21 +87,41 @@ public class DefaultShip extends EnemyShip {
 	public void hit(){
 		//It loses a life
 		super.hit();
-		
+
 		//And the dot indicating its energy may change color
-		if(this.getLifes()>=3){
-			this.setColorAt(1, 1,  5, 107, 17);
-		}
-		else{
-			if(this.getLifes()==2){
-				this.setColorAt(1, 1, 127, 127, 0);
+		if(this instanceof GoldenVersion){
+			if(this.getLifes()>this.getMaxLifes()/2){
+				this.setColorAt(1, 1,  5, 107, 17);
 			}
 			else{
-				if(this.getLifes()==1){
-					this.setColorAt(1, 1, 69, 4, 4);
+				if(this.getLifes()>this.getMaxLifes()/4){
+					this.setColorAt(1, 1, 127, 127, 0);
 				}
 				else{
-					this.setColorAt(1, 1, 31, 31, 31);
+					if(this.getLifes()>=1){
+						this.setColorAt(1, 1, 69, 4, 4);
+					}
+					else{
+						this.setColorAt(1, 1, 31, 31, 31);
+					}
+				}
+			}
+		}
+		else{
+			if(this.getLifes()>=3){
+				this.setColorAt(1, 1,  5, 107, 17);
+			}
+			else{
+				if(this.getLifes()==2){
+					this.setColorAt(1, 1, 127, 127, 0);
+				}
+				else{
+					if(this.getLifes()==1){
+						this.setColorAt(1, 1, 69, 4, 4);
+					}
+					else{
+						this.setColorAt(1, 1, 31, 31, 31);
+					}
 				}
 			}
 		}

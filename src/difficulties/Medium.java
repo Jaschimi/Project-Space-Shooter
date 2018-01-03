@@ -141,12 +141,22 @@ public class Medium {
 				ss.fade();
 				ssFadeCount++;
 				
-				//Here the Space Shooter is faded out almost completely, so the game ends
+				//Here the Space Shooter is faded out almost completely
 				if(ssFadeCount==63){
 					ssFadeCount=0;
 					ss.fade();
+					
+					//Now that the Space Shooter is completely faded out, the current ship moves off of the board
+					while(currentUFO.getTopLeftCorner()[1]<20){
+						currentUFO.move('S');
+						
+						//TODO all projectiles still on the screen have to move downward too
+						controller.updateLedStripe();
+						controller.sleep(150);
+					}
 					break;
 				}
+				
 			}
 			
 			//4.
@@ -192,7 +202,7 @@ public class Medium {
 					if(currentUFO.getShots()[i].getY()<=19){
 						for(int x=0; x<3; x++){
 							for(int y=0; y<2; y++){
-								if(currentUFO.getShots()[i].getY()-1==ss.getTopLeftCorner()[1]+y
+								if(currentUFO.getShots()[i].getY()+1==ss.getTopLeftCorner()[1]+y
 								   && currentUFO.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x && (x!=1 || y!=0)){
 									controller.setColor(currentUFO.getShots()[i].getX(), currentUFO.getShots()[i].getY(), 0, 0, 0);
 									currentUFO.getShots()[i] = null;
@@ -242,7 +252,10 @@ public class Medium {
 			//Enemy ships only shoot with a chance of 1/35 in every loop
 			int random = (int) (Math.random()*35);
 			if(random == 2&&currentUFO.getLifes()>0){
-				currentUFO.shoot();
+
+				//A random cannon is chosen with which to shoot
+				random = (int) (Math.random()*currentUFO.getCannons().length);
+				currentUFO.shoot(currentUFO.getCannons()[random]);
 			}
 			
 			//8.
@@ -255,7 +268,7 @@ public class Medium {
 					
 					case java.awt.event.KeyEvent.VK_SPACE:
 						//space makes the SS shoot
-						ss.shoot();
+						ss.shoot(ss.getCannons()[0]);
 						break;
 					
 					case java.awt.event.KeyEvent.VK_W:

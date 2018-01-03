@@ -224,7 +224,7 @@ public class Tutorial{
 					
 					case java.awt.event.KeyEvent.VK_SPACE:
 						//Space makes the SS shoot
-						ss.shoot();
+						ss.shoot(ss.getCannons()[0]);
 						//and the count increase by one.
 						count +=1;
 						break;
@@ -369,7 +369,7 @@ public class Tutorial{
 			}
 			
 			if(count%8==0){
-				currentShip.shoot();
+				currentShip.shoot(currentShip.getCannons()[0]);
 			}
 			
 			//Moving the Word one space to the left every 100 milliseconds
@@ -395,7 +395,7 @@ public class Tutorial{
 			
 			//The enemy ship shoots once
 			if(count==56){
-				currentShip.shoot();
+				currentShip.shoot(currentShip.getCannons()[0]);
 			}
 			
 			//The projectile moves down one spot eleven times
@@ -435,7 +435,7 @@ public class Tutorial{
 			
 			//The enemy ship shoots
 			if(count==green.getLength()+yellow.getLength()){
-				currentShip.shoot();
+				currentShip.shoot(currentShip.getCannons()[0]);
 			}
 			
 			//The projectile moves down one spot eleven times
@@ -452,7 +452,7 @@ public class Tutorial{
 			
 			//The enemy ship shoots
 			if(count==green.getLength()+yellow.getLength()+red.getLength()){
-				currentShip.shoot();
+				currentShip.shoot(currentShip.getCannons()[0]);
 			}
 			
 			//The projectile moves down one spot eleven times
@@ -485,7 +485,7 @@ public class Tutorial{
 
 			//The enemy ship shoots once
 			if(count==56){
-				currentShip.shoot();
+				currentShip.shoot(currentShip.getCannons()[0]);
 			}
 			
 			//The projectile moves down one spot eleven times
@@ -546,7 +546,7 @@ public class Tutorial{
 
 			//The Space Shooter shoots once
 			if(count==56){
-				ss.shoot();
+				ss.shoot(ss.getCannons()[0]);
 			}
 			
 			//The projectile moves up one spot eleven times
@@ -603,7 +603,7 @@ public class Tutorial{
 			
 			//The Space Shooter shoots once
 			if(count==16){
-				ss.shoot();
+				ss.shoot(ss.getCannons()[0]);
 			}
 			
 			//The projectile moves up one spot nine times
@@ -622,7 +622,7 @@ public class Tutorial{
 			
 			//The current ship shoots once
 			if(count==40){
-				currentShip.shoot();
+				currentShip.shoot(currentShip.getCannons()[0]);
 			}
 
 			//The projectile moves down one spot twelve times
@@ -645,7 +645,7 @@ public class Tutorial{
 			
 			//The Space Shooter shoots twice
 			if(count==74||count==77){
-				ss.shoot();
+				ss.shoot(ss.getCannons()[0]);
 			}
 			
 			//The first projectile moves up one spot three times
@@ -683,7 +683,7 @@ public class Tutorial{
 			
 			//The current ship shoots once
 			if(count==100){
-				currentShip.shoot();
+				currentShip.shoot(currentShip.getCannons()[0]);
 			}
 
 			//The projectile moves down one spot nine times
@@ -691,7 +691,7 @@ public class Tutorial{
 				//The Space Shooter moves left again
 				if(count==105||count==107||count==109)ss.move('A');
 				//and shoots once
-				if(count==109)ss.shoot();
+				if(count==109)ss.shoot(ss.getCannons()[0]);
 				currentShip.getShots()[0].moveProjectile("down");
 			}
 			
@@ -920,7 +920,7 @@ public class Tutorial{
 			//Enemy ships only shoot with a chance of 1/45 in every loop
 			int random = (int) (Math.random()*45);
 			if(random == 2&&currentShip.getLifes()>0){
-				currentShip.shoot();
+				currentShip.shoot(currentShip.getCannons()[0]);
 			}
 			
 			//8.
@@ -933,7 +933,7 @@ public class Tutorial{
 					
 					case java.awt.event.KeyEvent.VK_SPACE:
 						//space makes the SS shoot
-						ss.shoot();
+						ss.shoot(ss.getCannons()[0]);
 						break;
 					
 					case java.awt.event.KeyEvent.VK_W:

@@ -61,7 +61,7 @@ public class Easy {
 		ufoArray[21] = new BigBoulder(new int[]{bbSpawn, 0}, 20, 5);
 		ufoArray[22] = new LangerLulatsch(new int[]{llSpawn, 0}, 18, 6);
 		ufoArray[23] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 4);
-		ufoArray[24] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 35, 6);
+		ufoArray[24] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 35, 5);
 
 		//Step 2
 		EnemyShip currentUFO = ufoArray[0];

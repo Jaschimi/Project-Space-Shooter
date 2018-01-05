@@ -11,6 +11,8 @@ import ledControl.gui.KeyBuffer;
 import ufos.BossaNova;
 import ufos.DefaultShip;
 import ufos.GalaxyDestroyer;
+import ufos.LangerLulatsch;
+import ufos.UnnervingFloatingOctopus;
 import ufos.BigBoulder;
 
 //This method describes hard mode
@@ -31,110 +33,136 @@ public class Hard {
 		
 		//Step 1
 		EnemyShip[] ufoArray = new EnemyShip[100];
+
+		//The spawning locations of the ships are randomized
+		int dsSpawn = (int) (Math.random()*18);
+		int bbSpawn = (int) (Math.random()*16);
+		int llSpawn = (int) (Math.random()*18);
+		int ufoSpawn = (int) (Math.random()*14);
+
+		ufoArray [0] = new DefaultShip(new int[]{dsSpawn, 0}, 1, 1);
+		ufoArray [1] = new DefaultShip(new int[]{dsSpawn, 0}, 1, 1);
+		ufoArray [2] = new DefaultShip(new int[]{dsSpawn, 0}, 2, 1);
+		ufoArray [3] = new DefaultShip(new int[]{dsSpawn, 0}, 2, 2);
+		ufoArray [4] = new BigBoulder(new int[]{bbSpawn, 0}, 5, 2);
+		ufoArray [5] = new DefaultShip(new int[]{dsSpawn, 0}, 3, 2);
+		ufoArray [6] = new DefaultShip(new int[]{dsSpawn, 0}, 3, 2);
+		ufoArray [7] = new BigBoulder(new int[]{bbSpawn, 0}, 5, 2);
+		ufoArray [8] = new BigBoulder(new int[]{bbSpawn, 0}, 5, 3);
+		ufoArray [9] = new DefaultShip(new int[]{dsSpawn, 0}, 4, 3);
+		ufoArray[10] = new BigBoulder(new int[]{bbSpawn, 0}, 7, 3);
+		ufoArray[11] = new DefaultShip(new int[]{dsSpawn, 0}, 4, 3);
+		ufoArray[12] = new LangerLulatsch(new int[]{llSpawn, 0}, 6, 2);
+		ufoArray[13] = new BigBoulder(new int[]{bbSpawn, 0}, 10, 4);
+		ufoArray[14] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 3);
+		ufoArray[15] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 4);
+		ufoArray[16] = new LangerLulatsch(new int[]{llSpawn, 0}, 9, 4);
+		ufoArray[17] = new BigBoulder(new int[]{bbSpawn, 0}, 10, 4);
+		ufoArray[18] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 4);
+		ufoArray[19] = new BigBoulder(new int[]{bbSpawn, 0}, 15, 5);
+		ufoArray[20] = new LangerLulatsch(new int[]{llSpawn, 0}, 15, 4);
+		ufoArray[21] = new BigBoulder(new int[]{bbSpawn, 0}, 20, 5);
+		ufoArray[22] = new LangerLulatsch(new int[]{llSpawn, 0}, 18, 6);
+		ufoArray[23] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 4);
+		ufoArray[24] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 35, 4);
 		
-		ufoArray [0] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray [1] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray [2] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray [3] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray [4] = new BigBoulder(new int[]{0, 6}, 5, 5);
+		//The spawning locations of the ships are randomized (again)
+		dsSpawn = (int) (Math.random()*18);
+		bbSpawn = (int) (Math.random()*16);
+		llSpawn = (int) (Math.random()*18);
+		ufoSpawn = (int) (Math.random()*14);
+		int bnSpawn = (int) (Math.random()*12);
+				
+		ufoArray[25] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 1);
+		ufoArray[26] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 1);
+		ufoArray[27] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 1);
+		ufoArray[28] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 1);
+		ufoArray[29] = new LangerLulatsch(new int[]{llSpawn, 0}, 15, 2);
+		ufoArray[30] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 2);
+		ufoArray[31] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 2);
+		ufoArray[32] = new LangerLulatsch(new int[]{llSpawn, 0}, 15, 4);
+		ufoArray[33] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 30, 2);
+		ufoArray[34] = new BigBoulder(new int[]{bbSpawn, 0}, 20, 2);
+		ufoArray[35] = new LangerLulatsch(new int[]{llSpawn, 0}, 18, 6);
+		ufoArray[36] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 3);
+		ufoArray[37] = new BigBoulder(new int[]{bbSpawn, 0}, 24, 3);
+		ufoArray[38] = new LangerLulatsch(new int[]{llSpawn, 0}, 21, 6);
+		ufoArray[39] = new DefaultShip(new int[]{dsSpawn, 0}, 15, 3);
+		ufoArray[40] = new DefaultShip(new int[]{dsSpawn, 0}, 15, 4);
+		ufoArray[41] = new BigBoulder(new int[]{bbSpawn, 0}, 28, 4);
+		ufoArray[42] = new LangerLulatsch(new int[]{llSpawn, 0}, 24, 8);
+		ufoArray[43] = new DefaultShip(new int[]{dsSpawn, 0}, 15, 4);
+		ufoArray[44] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 40, 4);
+		ufoArray[45] = new BigBoulder(new int[]{bbSpawn, 0}, 32, 5);
+		ufoArray[46] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 50, 6);
+		ufoArray[47] = new BigBoulder(new int[]{bbSpawn, 0}, 36, 6);
+		ufoArray[48] = new DefaultShip(new int[]{dsSpawn, 0}, 20, 5);
+		ufoArray[49] = new BossaNova(new int[]{bnSpawn, 0}, 75, 4);
 
-		ufoArray [5] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray [6] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray [7] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray [8] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray [9] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[10] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[11] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[12] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[13] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[14] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[15] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[16] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[17] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[18] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[19] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[20] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[21] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[22] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[23] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[24] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[25] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[26] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[27] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[28] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[29] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[30] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[31] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[32] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[33] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[34] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[35] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[36] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[37] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[38] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[39] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[40] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[41] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[42] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[43] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[44] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[45] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[46] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[47] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[48] = new BigBoulder(new int[]{0, 0}, 4, 4);
+		//The spawning locations of the ships are randomized again
+		dsSpawn = (int) (Math.random()*18);
+		bbSpawn = (int) (Math.random()*16);
+		llSpawn = (int) (Math.random()*18);
+		ufoSpawn = (int) (Math.random()*14);
+		bnSpawn = (int) (Math.random()*12);
 
-		ufoArray[49] = new BossaNova(new int[]{0, 0}, 100, 10);
+		ufoArray[50] = new DefaultShip(new int[]{dsSpawn, 0}, 1, 1);
+		ufoArray[51] = new DefaultShip(new int[]{dsSpawn, 0}, 1, 1);
+		ufoArray[52] = new DefaultShip(new int[]{dsSpawn, 0}, 1, 2);
+		ufoArray[53] = new LangerLulatsch(new int[]{llSpawn, 0}, 6, 2);
+		ufoArray[54] = new BigBoulder(new int[]{bbSpawn, 0}, 4, 1);
+		ufoArray[55] = new DefaultShip(new int[]{dsSpawn, 0}, 2, 2);
+		ufoArray[56] = new DefaultShip(new int[]{dsSpawn, 0}, 2, 2);
+		ufoArray[57] = new DefaultShip(new int[]{dsSpawn, 0}, 2, 3);
+		ufoArray[58] = new LangerLulatsch(new int[]{llSpawn, 0}, 9, 4);
+		ufoArray[59] = new BigBoulder(new int[]{bbSpawn, 0}, 8, 2);
+		ufoArray[60] = new DefaultShip(new int[]{dsSpawn, 0}, 3, 3);
+		ufoArray[61] = new DefaultShip(new int[]{dsSpawn, 0}, 3, 3);
+		ufoArray[62] = new DefaultShip(new int[]{dsSpawn, 0}, 3, 4);
+		ufoArray[63] = new LangerLulatsch(new int[]{llSpawn, 0}, 12, 4);
+		ufoArray[64] = new BigBoulder(new int[]{bbSpawn, 0}, 12, 2);
+		ufoArray[65] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 50, 4);
+		ufoArray[66] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 4);
+		ufoArray[67] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 4);
+		ufoArray[68] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 5);
+		ufoArray[69] = new LangerLulatsch(new int[]{llSpawn, 0}, 15, 6);
+		ufoArray[70] = new BigBoulder(new int[]{bbSpawn, 0}, 16, 3);
+		ufoArray[71] = new LangerLulatsch(new int[]{llSpawn, 0}, 18, 6);
+		ufoArray[72] = new BigBoulder(new int[]{bbSpawn, 0}, 20, 3);
+		ufoArray[73] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 60, 6);
+		ufoArray[74] = new BossaNova(new int[]{bnSpawn, 0}, 80, 8);
 
-		ufoArray[50] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[51] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[52] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[53] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[54] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[55] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[56] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[57] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[58] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[59] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[60] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[61] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[62] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[63] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[64] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[65] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[66] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[67] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[68] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[69] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[70] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[71] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[72] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[73] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[74] = new BossaNova(new int[]{0, 0}, 75, 6);
-		ufoArray[75] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[76] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[77] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[78] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[79] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[80] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[81] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[82] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[83] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[84] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[85] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[86] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[87] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[88] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[89] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[90] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[91] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[92] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[93] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[94] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[95] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[96] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[97] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[98] = new DefaultShip.GoldenVersion(new int[]{9, 0}, 100, 5);
- 
+		//The spawning locations of the ships are randomized again
+		dsSpawn = (int) (Math.random()*18);
+		bbSpawn = (int) (Math.random()*16);
+		llSpawn = (int) (Math.random()*18);
+		ufoSpawn = (int) (Math.random()*14);
+		bnSpawn = (int) (Math.random()*12);
+		
+		ufoArray[75] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 1);
+		ufoArray[76] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 2);
+		ufoArray[77] = new LangerLulatsch(new int[]{llSpawn, 0}, 21, 6);
+		ufoArray[78] = new DefaultShip(new int[]{dsSpawn, 0}, 7, 2);
+		ufoArray[79] = new DefaultShip(new int[]{dsSpawn, 0}, 7, 3);
+		ufoArray[80] = new BigBoulder(new int[]{bbSpawn, 0}, 28, 3);
+		ufoArray[81] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 70, 6);
+		ufoArray[82] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 3);
+		ufoArray[83] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 4);
+		ufoArray[84] = new BossaNova(new int[]{bnSpawn, 0}, 110, 12);
+		ufoArray[85] = new DefaultShip(new int[]{dsSpawn, 0}, 12, 4);
+		ufoArray[86] = new LangerLulatsch(new int[]{llSpawn, 0}, 24, 6);
+		ufoArray[87] = new BigBoulder(new int[]{bbSpawn, 0}, 36, 3);
+		ufoArray[88] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 80, 8);
+		ufoArray[89] = new DefaultShip(new int[]{dsSpawn, 0}, 15, 5);
+		ufoArray[90] = new LangerLulatsch(new int[]{llSpawn, 0}, 27, 8);
+		ufoArray[91] = new DefaultShip(new int[]{dsSpawn, 0}, 20, 5);
+		ufoArray[92] = new BigBoulder(new int[]{bbSpawn, 0}, 44, 4);
+		ufoArray[93] = new DefaultShip(new int[]{17, 0}, 2, 10);
+		ufoArray[94] = new LangerLulatsch(new int[]{12, 0}, 30, 10);
+		ufoArray[95] = new BigBoulder(new int[]{14, 0}, 52, 5);
+		ufoArray[96] = new UnnervingFloatingOctopus(new int[]{6, 0}, 90, 10);
+		ufoArray[97] = new BossaNova(new int[]{4, 0}, 150, 16);
+		ufoArray[98] = new DefaultShip.GoldenVersion(new int[]{8, 0}, 100, 5);
 		ufoArray[99] = new GalaxyDestroyer(new int[]{0, 0}, 250, 28);
 
 		//Step 2
@@ -326,11 +354,41 @@ public class Hard {
 			//7.
 			//Enemy ships only shoot with a chance of 1/25 in every loop and if they have any lifes left
 			int random = (int) (Math.random()*25);
-			if(random == 2&&currentUFO.getLifes()<0){
+			if(random == 2&&currentUFO.getLifes()>0){
 				
-				//All cannons of a ship are firing (if enough ammunition exists)
-				for(int i=0; i<currentUFO.getCannons().length; i++){
-					currentUFO.shoot(currentUFO.getCannons()[i]);
+				//The GalaxyDestroyer has a different shooting mechanic than the other ships
+				if(currentUFO instanceof GalaxyDestroyer){
+					random = (int) (Math.random()*9+1);
+					if(random==10){
+						currentUFO.shoot(currentUFO.getCannons()[0]);
+						currentUFO.shoot(currentUFO.getCannons()[1]);
+						currentUFO.shoot(currentUFO.getCannons()[2]);
+					}
+					else{
+						if(random>5){
+							currentUFO.shoot(currentUFO.getCannons()[2]);
+							if(random>7){
+								currentUFO.shoot(currentUFO.getCannons()[1]);
+							}
+						}
+						else{
+							if(random==5){
+								currentUFO.shoot(currentUFO.getCannons()[1]);
+							}
+							else{
+								currentUFO.shoot(currentUFO.getCannons()[0]);
+								if(random<3){
+									currentUFO.shoot(currentUFO.getCannons()[1]);
+								}
+							}
+						}
+					}
+				}
+				else{
+					//All cannons of a ship are firing (if enough ammunition exists)
+					for(int i=0; i<currentUFO.getCannons().length; i++){
+						currentUFO.shoot(currentUFO.getCannons()[i]);
+					}
 				}
 			}
 			

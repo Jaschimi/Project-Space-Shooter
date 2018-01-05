@@ -62,7 +62,7 @@ public class Medium {
 		ufoArray[21] = new BigBoulder(new int[]{bbSpawn, 0}, 20, 5);
 		ufoArray[22] = new LangerLulatsch(new int[]{llSpawn, 0}, 18, 6);
 		ufoArray[23] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 4);
-		ufoArray[24] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 35, 6);
+		ufoArray[24] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 35, 5);
 		
 		//The spawning locations of the ships are randomized (again)
 		dsSpawn = (int) (Math.random()*18);
@@ -92,10 +92,10 @@ public class Medium {
 		ufoArray[43] = new DefaultShip(new int[]{dsSpawn, 0}, 15, 4);
 		ufoArray[44] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 40, 4);
 		ufoArray[45] = new BigBoulder(new int[]{bbSpawn, 0}, 32, 5);
-		ufoArray[46] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 50, 5);
-		ufoArray[47] = new BigBoulder(new int[]{bbSpawn, 0}, 36, 5);
+		ufoArray[46] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 50, 6);
+		ufoArray[47] = new BigBoulder(new int[]{bbSpawn, 0}, 36, 6);
 		ufoArray[48] = new DefaultShip(new int[]{dsSpawn, 0}, 20, 5);
-		ufoArray[49] = new BossaNova(new int[]{bnSpawn, 0}, 75, 0);
+		ufoArray[49] = new BossaNova(new int[]{bnSpawn, 0}, 75, 10);
 		
 		//Step 2
 		EnemyShip currentUFO = ufoArray[0];

@@ -2,6 +2,7 @@ package difficulties;
 
 import java.awt.event.KeyEvent;
 
+import game.Gameplay;
 import gameObjects.EnemyShip;
 import gameObjects.SpaceShooter;
 import ledControl.BoardController;
@@ -30,57 +31,71 @@ public class Medium {
 		
 		//Step 1
 		EnemyShip[] ufoArray = new EnemyShip[50];
+
+		//The spawning locations of the ships are randomized
+		int dsSpawn = (int) (Math.random()*18);
+		int bbSpawn = (int) (Math.random()*16);
+		int llSpawn = (int) (Math.random()*18);
+		int ufoSpawn = (int) (Math.random()*14);
 		
-		ufoArray [0] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray [1] = new DefaultShip(new int[]{8, 0}, 1, 1);
-		ufoArray [2] = new DefaultShip(new int[]{5, 3}, 1, 1);
-		ufoArray [3] = new DefaultShip(new int[]{0, 0}, 2, 1);
-		ufoArray [4] = new LangerLulatsch(new int[]{0, 6}, 2, 1);
-		ufoArray [5] = new DefaultShip(new int[]{8, 0}, 3, 2);
-		ufoArray [6] = new DefaultShip(new int[]{8, 0}, 3, 2);
-		ufoArray [7] = new LangerLulatsch(new int[]{8, 0}, 4, 2);
-		ufoArray [8] = new LangerLulatsch(new int[]{8, 0}, 4, 2);
-		ufoArray [9] = new BigBoulder(new int[]{8, 0}, 5, 2);
-		ufoArray[10] = new LangerLulatsch(new int[]{8, 0}, 5, 3);
-		ufoArray[11] = new BigBoulder(new int[]{8, 0}, 6, 3);
-		ufoArray[12] = new BigBoulder(new int[]{8, 0}, 6, 3);
-		ufoArray[13] = new LangerLulatsch(new int[]{8, 0}, 7, 3);
-		ufoArray[14] = new DefaultShip(new int[]{8, 0}, 7, 3);
-		ufoArray[15] = new BigBoulder(new int[]{8, 0}, 8, 4);
-		ufoArray[16] = new BigBoulder(new int[]{8, 0}, 8, 4);
-		ufoArray[17] = new LangerLulatsch(new int[]{8, 0}, 9, 4);
-		ufoArray[18] = new DefaultShip(new int[]{8, 0}, 9, 4);
-		ufoArray[19] = new UnnervingFloatingOctopus(new int[]{8, 0}, 10, 4);
-		ufoArray[20] = new BigBoulder(new int[]{8, 0}, 15, 5);
-		ufoArray[21] = new UnnervingFloatingOctopus(new int[]{8, 0}, 20, 5);
-		ufoArray[22] = new BigBoulder(new int[]{8, 0}, 25, 5);
-		ufoArray[23] = new DefaultShip(new int[]{8, 0}, 40, 5);
-		ufoArray[24] = new BossaNova(new int[]{0, 0}, 70, 10);
-		ufoArray[25] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[26] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[27] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[28] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[29] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[30] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[31] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[32] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[33] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[34] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[35] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[36] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[37] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[38] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[39] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[40] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[41] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[42] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[43] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[44] = new BigBoulder(new int[]{0, 6}, 5, 5);
-		ufoArray[45] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray[46] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray[47] = new DefaultShip(new int[]{5, 3}, 3, 3);
-		ufoArray[48] = new BigBoulder(new int[]{0, 0}, 4, 4);
-		ufoArray[49] = new BossaNova(new int[]{0, 0}, 0, 0);
+		ufoArray [0] = new DefaultShip(new int[]{dsSpawn, 0}, 1, 1);
+		ufoArray [1] = new DefaultShip(new int[]{dsSpawn, 0}, 1, 1);
+		ufoArray [2] = new DefaultShip(new int[]{dsSpawn, 0}, 2, 1);
+		ufoArray [3] = new DefaultShip(new int[]{dsSpawn, 0}, 2, 2);
+		ufoArray [4] = new BigBoulder(new int[]{bbSpawn, 0}, 5, 2);
+		ufoArray [5] = new DefaultShip(new int[]{dsSpawn, 0}, 3, 2);
+		ufoArray [6] = new DefaultShip(new int[]{dsSpawn, 0}, 3, 2);
+		ufoArray [7] = new BigBoulder(new int[]{bbSpawn, 0}, 5, 2);
+		ufoArray [8] = new BigBoulder(new int[]{bbSpawn, 0}, 5, 3);
+		ufoArray [9] = new DefaultShip(new int[]{dsSpawn, 0}, 4, 3);
+		ufoArray[10] = new BigBoulder(new int[]{bbSpawn, 0}, 7, 3);
+		ufoArray[11] = new DefaultShip(new int[]{dsSpawn, 0}, 4, 3);
+		ufoArray[12] = new LangerLulatsch(new int[]{llSpawn, 0}, 6, 2);
+		ufoArray[13] = new BigBoulder(new int[]{bbSpawn, 0}, 10, 4);
+		ufoArray[14] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 3);
+		ufoArray[15] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 4);
+		ufoArray[16] = new LangerLulatsch(new int[]{llSpawn, 0}, 9, 4);
+		ufoArray[17] = new BigBoulder(new int[]{bbSpawn, 0}, 10, 4);
+		ufoArray[18] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 4);
+		ufoArray[19] = new BigBoulder(new int[]{bbSpawn, 0}, 15, 5);
+		ufoArray[20] = new LangerLulatsch(new int[]{llSpawn, 0}, 15, 4);
+		ufoArray[21] = new BigBoulder(new int[]{bbSpawn, 0}, 20, 5);
+		ufoArray[22] = new LangerLulatsch(new int[]{llSpawn, 0}, 18, 6);
+		ufoArray[23] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 4);
+		ufoArray[24] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 35, 6);
+		
+		//The spawning locations of the ships are randomized (again)
+		dsSpawn = (int) (Math.random()*18);
+		bbSpawn = (int) (Math.random()*16);
+		llSpawn = (int) (Math.random()*18);
+		ufoSpawn = (int) (Math.random()*14);
+		int bnSpawn = (int) (Math.random()*12);
+				
+		ufoArray[25] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 1);
+		ufoArray[26] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 1);
+		ufoArray[27] = new DefaultShip(new int[]{dsSpawn, 3}, 5, 1);
+		ufoArray[28] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 1);
+		ufoArray[29] = new LangerLulatsch(new int[]{llSpawn, 6}, 15, 2);
+		ufoArray[30] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 2);
+		ufoArray[31] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 2);
+		ufoArray[32] = new LangerLulatsch(new int[]{llSpawn, 0}, 15, 4);
+		ufoArray[33] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 30, 2);
+		ufoArray[34] = new BigBoulder(new int[]{bbSpawn, 0}, 20, 2);
+		ufoArray[35] = new LangerLulatsch(new int[]{llSpawn, 0}, 18, 6);
+		ufoArray[36] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 3);
+		ufoArray[37] = new BigBoulder(new int[]{bbSpawn, 0}, 24, 3);
+		ufoArray[38] = new LangerLulatsch(new int[]{llSpawn, 0}, 21, 6);
+		ufoArray[39] = new DefaultShip(new int[]{dsSpawn, 0}, 15, 3);
+		ufoArray[40] = new DefaultShip(new int[]{dsSpawn, 0}, 15, 4);
+		ufoArray[41] = new BigBoulder(new int[]{bbSpawn, 0}, 28, 4);
+		ufoArray[42] = new LangerLulatsch(new int[]{llSpawn, 0}, 24, 8);
+		ufoArray[43] = new DefaultShip(new int[]{dsSpawn, 0}, 15, 4);
+		ufoArray[44] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 40, 4);
+		ufoArray[45] = new BigBoulder(new int[]{bbSpawn, 0}, 32, 5);
+		ufoArray[46] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 50, 5);
+		ufoArray[47] = new BigBoulder(new int[]{bbSpawn, 0}, 36, 5);
+		ufoArray[48] = new DefaultShip(new int[]{dsSpawn, 0}, 20, 5);
+		ufoArray[49] = new BossaNova(new int[]{bnSpawn, 0}, 75, 0);
 		
 		//Step 2
 		EnemyShip currentUFO = ufoArray[0];
@@ -168,7 +183,8 @@ public class Medium {
 				if(ss.getShots()[i] != null){
 					//This if statement checks if the projectile is still on the screen
 					if(ss.getShots()[i].getY()>=0){
-						//If that's the case, the program checks if any part of the current ship is directly above the projectile
+						//If that's the case, the program checks if any part of the current ufo (that isn't black)
+						//is directly above the projectile
 						for(int x=0; x<currentUFO.getLength(); x++){
 							for(int y=0; y<currentUFO.getHeight(); y++){
 								if(ss.getShots()[i].getY()-1==currentUFO.getTopLeftCorner()[1]+y
@@ -223,7 +239,7 @@ public class Medium {
 			}
 			
 			//6.
-			//EnemyShips only move every 25th instance of the endless loop
+			//EnemyShips only move every 25th instance of the endless loop and if they have any lifes left
 			if(loopCount%25==0&&currentUFO.getLifes()>0){
 				
 				//This generates a random double between 0 and 100
@@ -248,7 +264,7 @@ public class Medium {
 			}
 			
 			//7.
-			//Enemy ships only shoot with a chance of 1/35 in every loop
+			//Enemy ships only shoot with a chance of 1/35 in every loop and if they have any lifes left
 			int random = (int) (Math.random()*35);
 			if(random == 2&&currentUFO.getLifes()>0){
 
@@ -264,7 +280,12 @@ public class Medium {
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
 					switch (event.getKeyCode()){
-					
+
+					case java.awt.event.KeyEvent.VK_ESCAPE:
+						//Escape makes the game pause
+						Gameplay.pause();
+						break;
+						
 					case java.awt.event.KeyEvent.VK_SPACE:
 						//space makes the SS shoot
 						ss.shoot(ss.getCannons()[0]);

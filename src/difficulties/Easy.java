@@ -2,6 +2,7 @@ package difficulties;
 
 import java.awt.event.KeyEvent;
 
+import game.Gameplay;
 import gameObjects.EnemyShip;
 import gameObjects.SpaceShooter;
 import ledControl.BoardController;
@@ -30,31 +31,37 @@ public class Easy {
 		//Step 1
 		EnemyShip[] ufoArray = new EnemyShip[25];
 		
-		ufoArray [0] = new DefaultShip(new int[]{5, 0}, 1, 1);
-		ufoArray [1] = new DefaultShip(new int[]{8, 0}, 1, 1);
-		ufoArray [2] = new DefaultShip(new int[]{5, 3}, 1, 1);
-		ufoArray [3] = new DefaultShip(new int[]{0, 0}, 2, 1);
-		ufoArray [4] = new BigBoulder(new int[]{0, 6}, 5, 2);
-		ufoArray [5] = new DefaultShip(new int[]{8, 0}, 2, 2);
-		ufoArray [6] = new DefaultShip(new int[]{8, 0}, 3, 2);
-		ufoArray [7] = new BigBoulder(new int[]{8, 0}, 8, 3);
-		ufoArray [8] = new BigBoulder(new int[]{8, 0}, 10, 4);
-		ufoArray [9] = new DefaultShip(new int[]{8, 0}, 3, 2);
-		ufoArray[10] = new BigBoulder(new int[]{8, 0}, 12, 5);
-		ufoArray[11] = new DefaultShip(new int[]{8, 0}, 4, 3);
-		ufoArray[12] = new LangerLulatsch(new int[]{8, 0}, 6, 2);
-		ufoArray[13] = new BigBoulder(new int[]{8, 0}, 15, 6);
-		ufoArray[14] = new DefaultShip(new int[]{8, 0}, 5, 3);
-		ufoArray[15] = new DefaultShip(new int[]{8, 0}, 8, 4);
-		ufoArray[16] = new LangerLulatsch(new int[]{8, 0}, 9, 4);
-		ufoArray[17] = new BigBoulder(new int[]{8, 0}, 18, 7);
-		ufoArray[18] = new DefaultShip(new int[]{8, 0}, 10, 4);
-		ufoArray[19] = new BigBoulder(new int[]{8, 0}, 20, 8);
-		ufoArray[20] = new LangerLulatsch(new int[]{8, 0}, 15, 4);
-		ufoArray[21] = new BigBoulder(new int[]{8, 0}, 30, 9);
-		ufoArray[22] = new LangerLulatsch(new int[]{8, 0}, 21, 6);
-		ufoArray[23] = new DefaultShip(new int[]{8, 0}, 15, 5);
-		ufoArray[24] = new UnnervingFloatingOctopus(new int[]{0, 0}, 50, 6);
+		//The spawning locations of the ships are randomized
+		int dsSpawn = (int) (Math.random()*18);
+		int bbSpawn = (int) (Math.random()*16);
+		int llSpawn = (int) (Math.random()*18);
+		int ufoSpawn = (int) (Math.random()*14);
+		
+		ufoArray [0] = new DefaultShip(new int[]{dsSpawn, 0}, 1, 1);
+		ufoArray [1] = new DefaultShip(new int[]{dsSpawn, 0}, 1, 1);
+		ufoArray [2] = new DefaultShip(new int[]{dsSpawn, 0}, 2, 1);
+		ufoArray [3] = new DefaultShip(new int[]{dsSpawn, 0}, 2, 2);
+		ufoArray [4] = new BigBoulder(new int[]{bbSpawn, 0}, 5, 2);
+		ufoArray [5] = new DefaultShip(new int[]{dsSpawn, 0}, 3, 2);
+		ufoArray [6] = new DefaultShip(new int[]{dsSpawn, 0}, 3, 2);
+		ufoArray [7] = new BigBoulder(new int[]{bbSpawn, 0}, 5, 2);
+		ufoArray [8] = new BigBoulder(new int[]{bbSpawn, 0}, 5, 3);
+		ufoArray [9] = new DefaultShip(new int[]{dsSpawn, 0}, 4, 3);
+		ufoArray[10] = new BigBoulder(new int[]{bbSpawn, 0}, 7, 3);
+		ufoArray[11] = new DefaultShip(new int[]{dsSpawn, 0}, 4, 3);
+		ufoArray[12] = new LangerLulatsch(new int[]{llSpawn, 0}, 6, 2);
+		ufoArray[13] = new BigBoulder(new int[]{bbSpawn, 0}, 10, 4);
+		ufoArray[14] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 3);
+		ufoArray[15] = new DefaultShip(new int[]{dsSpawn, 0}, 5, 4);
+		ufoArray[16] = new LangerLulatsch(new int[]{llSpawn, 0}, 9, 4);
+		ufoArray[17] = new BigBoulder(new int[]{bbSpawn, 0}, 10, 4);
+		ufoArray[18] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 4);
+		ufoArray[19] = new BigBoulder(new int[]{bbSpawn, 0}, 15, 5);
+		ufoArray[20] = new LangerLulatsch(new int[]{llSpawn, 0}, 15, 4);
+		ufoArray[21] = new BigBoulder(new int[]{bbSpawn, 0}, 20, 5);
+		ufoArray[22] = new LangerLulatsch(new int[]{llSpawn, 0}, 18, 6);
+		ufoArray[23] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 4);
+		ufoArray[24] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 35, 6);
 
 		//Step 2
 		EnemyShip currentUFO = ufoArray[0];
@@ -142,7 +149,8 @@ public class Easy {
 				if(ss.getShots()[i] != null){
 					//This if statement checks if the projectile is still on the screen
 					if(ss.getShots()[i].getY()>=0){
-						//If that's the case, the program checks if any part of the current ufo is directly above the projectile
+						//If that's the case, the program checks if any part of the current ufo (that isn't black)
+						//is directly above the projectile
 						for(int x=0; x<currentUFO.getLength(); x++){
 							for(int y=0; y<currentUFO.getHeight(); y++){
 								if(ss.getShots()[i].getY()-1==currentUFO.getTopLeftCorner()[1]+y
@@ -199,7 +207,7 @@ public class Easy {
 			}
 			
 			//6.
-			//EnemyShips only move every 30th instance of the endless loop
+			//EnemyShips only move every 30th instance of the endless loop and if they have any lifes left
 			if(loopCount%30==0&&currentUFO.getLifes()>0){
 				
 				//They move completely to the right of the board, before moving completely left and back again.
@@ -215,7 +223,7 @@ public class Easy {
 			}
 			
 			//7.
-			//Enemy ships only shoot with a chance of 1/45 in every loop
+			//Enemy ships only shoot with a chance of 1/45 in every loop and if they have any lifes left
 			int random = (int) (Math.random()*45);
 			if(random == 2&&currentUFO.getLifes()>0){
 				
@@ -228,10 +236,15 @@ public class Easy {
 			KeyEvent event = buffer.pop();
 			buffer.clear();
 			if(event != null&&ss.getLifes()>0){
-				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+				if(event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
-					switch (event.getKeyCode()){
+					switch(event.getKeyCode()){
 					
+					case java.awt.event.KeyEvent.VK_ESCAPE:
+						//Escape makes the game pause
+						Gameplay.pause();
+						break;
+						
 					case java.awt.event.KeyEvent.VK_SPACE:
 						//space makes the SS shoot
 						ss.shoot(ss.getCannons()[0]);

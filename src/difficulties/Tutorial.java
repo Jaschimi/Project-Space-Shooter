@@ -3,6 +3,7 @@ package difficulties;
 import java.awt.event.KeyEvent;
 
 import displayObjects.Word;
+import game.Gameplay;
 import gameObjects.EnemyShip;
 import gameObjects.SpaceShooter;
 import ledControl.BoardController;
@@ -931,7 +932,12 @@ public class Tutorial{
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
 					switch (event.getKeyCode()){
-					
+
+					case java.awt.event.KeyEvent.VK_ESCAPE:
+						//Escape makes the game pause
+						Gameplay.pause();
+						break;
+						
 					case java.awt.event.KeyEvent.VK_SPACE:
 						//space makes the SS shoot
 						ss.shoot(ss.getCannons()[0]);

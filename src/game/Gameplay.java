@@ -1,11 +1,15 @@
 package game;
+import java.awt.event.KeyEvent;
+
 import difficulties.Easy;
 import difficulties.Medium;
 import difficulties.Hard;
 import difficulties.Tutorial;
+import displayObjects.Word;
 import gameObjects.SpaceShooter;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
+import ledControl.gui.KeyBuffer;
 
 //This class controls everything that happens during a game
 public abstract class Gameplay{
@@ -72,5 +76,32 @@ public abstract class Gameplay{
 			}
 			Endscreen.outro(won, controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]));
 		}
+	}
+	
+	public static void pause(){
+		
+		int[][][] board = new int[20][20][3];
+		for(int x=0; x<20; x++){
+			for(int y=0; y<20; y++){
+				board[x][y]=controller.getColorAt(x, y);
+			}
+		}
+
+		controller.resetColors();
+		controller.updateLedStripe();
+		
+		KeyBuffer buffer = controller.getKeyBuffer();
+		Word pause = new Word("Pause");
+		pause.displayWordAt(0, 5, 60, 30, 0);
+		controller.updateLedStripe();
+		while(true){
+			KeyEvent event = buffer.pop();
+			buffer.clear();
+			if(event != null&&event.getID() == java.awt.event.KeyEvent.KEY_RELEASED&&event.getKeyCode()==java.awt.event.KeyEvent.VK_ESCAPE){
+				break;
+			}
+		}
+		controller.setColors(board);
+		controller.updateLedStripe();
 	}
 }

@@ -2,6 +2,7 @@ package difficulties;
 
 import java.awt.event.KeyEvent;
 
+import game.Gameplay;
 import gameObjects.EnemyShip;
 import gameObjects.SpaceShooter;
 import ledControl.BoardController;
@@ -134,7 +135,7 @@ public class Hard {
 		ufoArray[97] = new DefaultShip(new int[]{5, 3}, 3, 3);
 		ufoArray[98] = new DefaultShip.GoldenVersion(new int[]{9, 0}, 100, 5);
  
-		ufoArray[99] = new GalaxyDestroyer(new int[]{0, 0}, 250, 25);
+		ufoArray[99] = new GalaxyDestroyer(new int[]{0, 0}, 250, 28);
 
 		//Step 2
 		EnemyShip currentUFO = ufoArray[0];
@@ -229,7 +230,8 @@ public class Hard {
 				if(ss.getShots()[i] != null){
 					//This if statement checks if the projectile is still on the screen
 					if(ss.getShots()[i].getY()>=0){
-						//If that's the case, the program checks if any part of the current ufo is directly above the projectile
+						//If that's the case, the program checks if any part of the current ufo (that isn't black)
+						//is directly above the projectile
 						for(int x=0; x<currentUFO.getLength(); x++){
 							for(int y=0; y<currentUFO.getHeight(); y++){
 								if(ss.getShots()[i].getY()-1==currentUFO.getTopLeftCorner()[1]+y
@@ -284,7 +286,7 @@ public class Hard {
 			}
 			
 			//6.
-			//EnemyShips only move every 20th instance of the endless loop
+			//EnemyShips only move every 20th instance of the endless loop and if they have any lifes left
 			if(loopCount%20==0&&currentUFO.getLifes()>0){
 
 				//If they are too far left or right above the Space Shooter, they move closer to it
@@ -322,7 +324,7 @@ public class Hard {
 			}
 			
 			//7.
-			//Enemy ships only shoot with a chance of 1/25 in every loop
+			//Enemy ships only shoot with a chance of 1/25 in every loop and if they have any lifes left
 			int random = (int) (Math.random()*25);
 			if(random == 2&&currentUFO.getLifes()<0){
 				
@@ -339,7 +341,12 @@ public class Hard {
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
 					switch (event.getKeyCode()){
-					
+
+					case java.awt.event.KeyEvent.VK_ESCAPE:
+						//Escape makes the game pause
+						Gameplay.pause();
+						break;
+						
 					case java.awt.event.KeyEvent.VK_SPACE:
 						//space makes the SS shoot
 						ss.shoot(ss.getCannons()[0]);

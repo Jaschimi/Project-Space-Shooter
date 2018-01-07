@@ -20,14 +20,15 @@ import ufos.BigBoulder;
 //This is the main class of Project Space Shooter.
 //It contains the main method of the program, which starts the intro and let's you begin a game.
 //Additionally, many testing methods exist in this class.
-public abstract class Main {
+public abstract class Main{
 	
-	public static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
-	public static KeyBuffer buffer;
+	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+	private static KeyBuffer buffer;
 	private static Word word = new Word("Horizon");
 
 	public static void main(String[] args) {
 
+		introStart();
 		gameStart();
 //		nestTest();
 //		endscreenTest(false);
@@ -40,6 +41,110 @@ public abstract class Main {
 
 	}
 	
+	private static void introStart(){
+		Intro.titleScreen();
+	}
+	
+	private static void gameStart(){
+		
+		buffer = controller.getKeyBuffer();
+		
+		//Making a sentence to inform the player of the different difficulties
+		final Word difficultyExplanation = new Word("Choose difficulty. 1 is easy, 2 is medium and 3 is hard. 0 is the Tutorial.");
+		
+		//Displaying the four difficulty settings
+		Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
+		Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
+		Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
+		Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
+		
+		while(true){
+			//This loop repeats every time the difficulty settings sentence reaches the left end of the board
+			for(int x=20; x>-difficultyExplanation.getLength() ;x--){
+				
+				KeyEvent event = buffer.pop();
+				buffer.clear();
+				if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
+						
+					switch (event.getKeyCode()){
+					
+					//space makes the SS shoot
+					case java.awt.event.KeyEvent.VK_0:
+						
+						//Pressing 0 starts the tutorial
+						Gameplay.start(0);
+						//After the game is over, all remaining dots on the board are reset
+						controller.resetColors();
+						
+						//These lines make the difficulty settings appear again after the endscreen has been seen
+						Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
+						Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
+						Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
+						Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
+						
+						break;
+						
+					case java.awt.event.KeyEvent.VK_1:
+						
+						//Pressing 1 starts easy mode
+						Gameplay.start(1);
+						//After the game is over, all remaining dots on the board are reset
+						controller.resetColors();
+						
+						//These lines make the difficulty settings appear again after the endscreen has been seen
+						Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
+						Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
+						Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
+						Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
+						
+						break;
+						
+					case java.awt.event.KeyEvent.VK_2:
+						
+						//Pressing 2 starts medium mode
+						Gameplay.start(2);
+						//After the game is over, all remaining dots on the board are reset
+						controller.resetColors();
+						
+						//These lines make the difficulty settings appear again after the endscreen has been seen
+						Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
+						Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
+						Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
+						Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
+						
+						break;
+						
+					case java.awt.event.KeyEvent.VK_3:
+						
+						//Pressing 3 starts hard mode
+						Gameplay.start(3);
+						//After the game is over, all remaining dots on the board are reset
+						controller.resetColors();
+						
+						//These lines make the difficulty settings appear again after the endscreen has been seen
+						Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
+						Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
+						Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
+						Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
+						
+						break;
+					}
+					//This break restarts the difficulty explanation
+					break;
+				}
+				//The following two lines make the sentence move one spot to the left
+				difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
+				difficultyExplanation.displayWordAt(x, 0, 97, 17, 2);
+			
+				//And these two control how fast it is moving. A lower integer in the sleep method means a faster speed.
+				controller.updateLedStripe();
+				controller.sleep(100);
+			}
+		}
+	}
+
+	//With the following methods, a variety of different things can be tested
+	
 	private static void nestTest(){
 		
 		EnemyShip goldie = new DefaultShip.GoldenVersion(new int[]{0, 0}, 4, 4);
@@ -48,108 +153,6 @@ public abstract class Main {
 		controller.updateLedStripe();
 	}
 
-	private static void gameStart(){
-		
-		buffer = controller.getKeyBuffer();
-		
-		//Making a sentence to inform the player of the different difficulties
-		Word difficultyExplanation = new Word("Choose difficulty. 1 is easy, 2 is medium and 3 is hard. 0 is the Tutorial.");
-		
-		//Displaying the four difficulty settings
-		Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
-		Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
-		Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
-		Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
-		
-		//This boolean determines which endscreen will be shown after a game has been played
-		boolean won;
-		
-		while(true){
-			//This loop repeats every time the difficulty settings sentence reaches the left end of the board
-			for(int x=20; x>-difficultyExplanation.getLength() ;x--){
-				
-				KeyEvent event = buffer.pop();
-				buffer.clear();
-				if(event != null){
-					if (event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
-						
-						switch (event.getKeyCode()){
-						
-						//space makes the SS shoot
-						case java.awt.event.KeyEvent.VK_0:
-							
-							//Pressing 0 starts the tutorial
-							Gameplay.start(0);
-							//After the game is over, all remaining dots on the board are reset
-							controller.resetColors();
-							
-							//These lines make the difficulty settings appear again after the endscreen has been seen
-							Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
-							Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
-							Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
-							Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
-							
-							continue;
-							
-						case java.awt.event.KeyEvent.VK_1:
-							
-							//Pressing 1 starts easy mode
-							Gameplay.start(1);
-							//After the game is over, all remaining dots on the board are reset
-							controller.resetColors();
-							
-							//These lines make the difficulty settings appear again after the endscreen has been seen
-							Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
-							Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
-							Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
-							Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
-							
-							continue;
-							
-						case java.awt.event.KeyEvent.VK_2:
-							
-							//Pressing 2 starts medium mode
-							Gameplay.start(2);
-							//After the game is over, all remaining dots on the board are reset
-							controller.resetColors();
-							
-							//These lines make the difficulty settings appear again after the endscreen has been seen
-							Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
-							Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
-							Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
-							Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
-							
-							continue;
-							
-						case java.awt.event.KeyEvent.VK_3:
-							
-							//Pressing 3 starts hard mode
-							Gameplay.start(3);
-							//After the game is over, all remaining dots on the board are reset
-							controller.resetColors();
-							
-							//These lines make the difficulty settings appear again after the endscreen has been seen
-							Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
-							Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
-							Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
-							Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
-							
-							continue;
-						}
-					}
-				}
-				//The following two lines make the sentence move one spot to the left
-				difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
-				difficultyExplanation.displayWordAt(x, 0, 97, 17, 2);
-			
-				//And these two control how fast it is moving. A lower in the sleep method means a faster speed.
-				controller.updateLedStripe();
-				controller.sleep(100);
-			}
-		}
-	}
-
-	//With the following methods, a variety of different things can be tested
 	//See the winning/losing animation
 	private static void endscreenTest(boolean won){
 		Endscreen.outro(won, new int[]{6, 90, 90});

@@ -19,6 +19,23 @@ public class DefaultShip extends EnemyShip {
 			this.setColorAt(2, 2, 127, 107, 0);
 		}
 		
+		@Override
+		public void shoot(int[] cannon) {
+			
+			//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
+			for(int i=0; i<this.shots.length; i++){
+				if(shots[i]==null){
+					
+					//This is the projectile that will be shot
+					Projectile projectile = new Projectile(127, 107, 55);
+					
+					shots[i]=projectile;
+					projectile.spawnProjectile(cannon[0], cannon[1]);
+					return;
+				}
+			}
+		}
+		
 	}
 
 	//It is a 3 by 3 ColoringField

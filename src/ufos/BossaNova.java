@@ -23,9 +23,14 @@ public class BossaNova extends EnemyShip{
 		//First and third row
 		for(int x=1; x<8; x++){
 			for(int y=0; y<3; y+=2){
-				if(x!=3&&x!=5)this.setColorAt(x, y, 18, 18, 87);
+				if(y==0&&x!=4)this.setColorAt(x, y, 18, 18, 87);
+				if(y==2&&x!=3&&x!=5)this.setColorAt(x, y, 18, 18, 87);
 			}
 		}
+		
+		//The dots next to the cannons
+		this.setColorAt(0, 3, 30, 30, 90);
+		this.setColorAt(8, 3, 30, 30, 90);
 		
 		//The cannons
 		this.setColorAt(0, 4, 30, 30, 90);

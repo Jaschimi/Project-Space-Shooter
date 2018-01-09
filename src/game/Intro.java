@@ -9,8 +9,8 @@ import ledControl.gui.KeyBuffer;
 
 public abstract class Intro{
 	
-	public static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
-	public static KeyBuffer buffer;
+	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+	private static KeyBuffer buffer;
 	
 	static void gameName(){
 
@@ -40,8 +40,21 @@ public abstract class Intro{
 		boolean increase = false;
 		int increaseCount = 95;
 		int x, y;
-		int twinkleCount = 0;
+		int loopCount = 0;
 		while(true){
+			
+			loopCount++;
+			
+			System.out.println(loopCount);
+			
+			//After about 45 seconds, the story screen shows up
+			if(loopCount==750){
+				controller.resetColors();
+				story();
+				increase = false;
+				increaseCount = 95;
+				loopCount = 0;
+			}
 			
 			//All white/grey dots get dimmer
 			for(int i=0; i<20; i++){
@@ -55,7 +68,7 @@ public abstract class Intro{
 				}
 			}
 			
-			if(twinkleCount==0&&Math.random()*100<=5){
+			if(Math.random()*100<=5){
 				
 				x = (int) (Math.random()*20);
 				y = (int) (Math.random()*20);
@@ -104,4 +117,32 @@ public abstract class Intro{
 		}
 	}
 
+	private static void story(){
+
+		buffer = controller.getKeyBuffer();
+		
+		Word story = new Word("It is the year 5018.    "
+				+ "The invading forces have conquered almost all defense stations.    "
+				+ "There is only one last hope...    "
+				+ "The Space Shooter!");
+		
+		for(int x=20; x>-story.getLength(); x--){
+			//Pressing any key ends the story time
+			KeyEvent event = buffer.pop();
+			buffer.clear();
+			if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
+				break;
+			}
+			
+			//The following two lines make the sentence move one spot to the left
+			story.displayWordAt(x+1, 0, 0, 0, 0);
+			story.displayWordAt(x, 0, 96, 87, 12);
+			
+			//And these two control how fast it is moving. A lower integer in the sleep method means a faster speed.
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		controller.resetColors();
+	}
 }

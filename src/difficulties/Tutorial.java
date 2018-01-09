@@ -787,6 +787,10 @@ public class Tutorial{
 			//8.: The last keyboard input is detected and one of five actions is performed
 			//9.: Finally, the LED stripe is updated
 			
+			if(skip){
+				won = true;
+				break;
+			}
 			//1.
 			count++;
 			
@@ -980,6 +984,7 @@ public class Tutorial{
 			//Wrapping up the tutorial
 			for(int x=20; x>-allSet.getLength() ;x--){
 				
+				if(skip)break;
 				//Moving the Word one space to the left every 100 milliseconds
 				allSet.displayWordAt(x+1, 0, 0, 0, 0);
 				allSet.displayWordAt(x, 0, 97, 17, 2);
@@ -988,7 +993,37 @@ public class Tutorial{
 			}
 			
 			//Informing the player of the other types of ships
+			EnemyShip peter = new DefaultShip(new int[]{0,10}, ssFadeCount, ssFadeCount);
+			EnemyShip kopernikus = new BigBoulder(new int[]{17,15}, ssFadeCount, ssFadeCount);
+			peter.spawnShip();
+			kopernikus.spawnShip();
+			char dsDirection = 'D';
+			char bbDirection = 'A';
+			count=-1;
 			for(int x=20; x>-ships.getLength() ;x--){
+				
+				count++;
+				
+				if(count%240==85){
+					dsDirection = 'S';
+					bbDirection = 'W';
+				}
+				if(count%240==120){
+					dsDirection = 'A';
+					bbDirection = 'D';
+				}
+				if(count%240==205){
+					dsDirection = 'W';
+					bbDirection = 'S';
+				}
+				if(count%240==0){
+					dsDirection = 'D';
+					bbDirection = 'A';
+				}
+				if(count%5==0){
+					peter.move(dsDirection);
+					kopernikus.move(bbDirection);
+				}
 				
 				//Moving the Word one space to the left every 100 milliseconds
 				ships.displayWordAt(x+1, 0, 0, 0, 0);

@@ -924,16 +924,18 @@ public class Tutorial{
 				
 				case 'A':
 					for(int i=0; i<ss.getShots().length; i++){
-						for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
-							if(ss.getShots()[i]!=null){
-								if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==currentShip.getTopLeftCorner()[0]-1){
-									if(controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[0]!=0
-									 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[1]!=0
-									 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[2]!=0){
-										//the currentUFO is hit
-										currentShip.hit();
-										//and the projectile is set to null.
-										ss.getShots()[i] = null;
+						for(int x=currentShip.getTopLeftCorner()[0]; x<currentShip.getTopLeftCorner()[0]+currentShip.getLength(); x++){
+							for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
+								if(ss.getShots()[i]!=null){
+									if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==x-1){
+										if(controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[0]!=0
+										 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[1]!=0
+										 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[2]!=0){
+											//the currentUFO is hit
+											currentShip.hit();
+											//and the projectile is set to null.
+											ss.getShots()[i] = null;
+										}
 									}
 								}
 							}
@@ -944,16 +946,18 @@ public class Tutorial{
 				case 'D':
 					//The following lines check if a projectile is on the position the current ship moved to
 					for(int i=0; i<ss.getShots().length; i++){
-						for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
-							if(ss.getShots()[i]!=null){
-								if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==currentShip.getTopLeftCorner()[0]+currentShip.getLength()){
-									if(controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[0]!=0
-									 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[1]!=0
-									 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[2]!=0){
-										//the currentUFO is hit
-										currentShip.hit();
-										//and the projectile is set to null.
-										ss.getShots()[i] = null;
+						for(int x=currentShip.getTopLeftCorner()[0]; x<currentShip.getTopLeftCorner()[0]+currentShip.getLength(); x++){
+							for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
+								if(ss.getShots()[i]!=null){
+									if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==x+1){
+										if(controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[0]!=0
+										 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[1]!=0
+										 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[2]!=0){
+											//the currentUFO is hit
+											currentShip.hit();
+											//and the projectile is set to null.
+											ss.getShots()[i] = null;
+										}
 									}
 								}
 							}
@@ -980,7 +984,7 @@ public class Tutorial{
 			if(event != null&&ss.getLifes()>0){
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
-					switch (event.getKeyCode()){
+					switch(event.getKeyCode()){
 
 					case java.awt.event.KeyEvent.VK_ESCAPE:
 						//Escape makes the game pause

@@ -322,11 +322,13 @@ public class Hard {
 				if(currentShip.getTopLeftCorner()[0]+currentShip.getLength()<=ss.getTopLeftCorner()[0]){
 					//The following lines check if a projectile is on the position the current ship is moving to
 					for(int i=0; i<ss.getShots().length; i++){
-						for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
-							if(ss.getShots()[i]!=null){
-								//If there is, the ship won't move
-								if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==currentShip.getTopLeftCorner()[0]+currentShip.getLength()){
+						for(int x=currentShip.getTopLeftCorner()[0]; x<currentShip.getTopLeftCorner()[0]+currentShip.getLength(); x++){
+							for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
+								if(ss.getShots()[i]!=null){
+									//If there is, the ship won't move
+									if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==x+1){
 									move = false;
+									}
 								}
 							}
 						}
@@ -340,11 +342,13 @@ public class Hard {
 					if(currentShip.getTopLeftCorner()[0]>ss.getTopLeftCorner()[0]+2){
 						//The following lines check if a projectile is on the position the current ship is moving to
 						for(int i=0; i<ss.getShots().length; i++){
-							for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
-								if(ss.getShots()[i]!=null){
-									//If there is, the ship won't move
-									if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==currentShip.getTopLeftCorner()[0]-1){
-										move = false;
+							for(int x=currentShip.getTopLeftCorner()[0]; x<currentShip.getTopLeftCorner()[0]+currentShip.getLength(); x++){
+								for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
+									if(ss.getShots()[i]!=null){
+										//If there is, the ship won't move
+										if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==x-1){
+											move = false;
+										}
 									}
 								}
 							}
@@ -369,11 +373,13 @@ public class Hard {
 							if(currentShip.getCannons()[currentShip.getCannons().length-1][0]<19){
 								//The following lines check if a projectile is on the position the current ship is moving to
 								for(int i=0; i<ss.getShots().length; i++){
-									for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
-										if(ss.getShots()[i]!=null){
-											//If there is, the ship won't move
-											if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==currentShip.getTopLeftCorner()[0]+currentShip.getLength()){
-												move = false;
+									for(int x=currentShip.getTopLeftCorner()[0]; x<currentShip.getTopLeftCorner()[0]+currentShip.getLength(); x++){
+										for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
+											if(ss.getShots()[i]!=null){
+												//If there is, the ship won't move
+												if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==x+1){
+													move = false;
+												}
 											}
 										}
 									}
@@ -388,11 +394,13 @@ public class Hard {
 							if(currentShip.getCannons()[0][0]>0){
 								//The following lines check if a projectile is on the position the current ship is moving to
 								for(int i=0; i<ss.getShots().length; i++){
-									for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
-										if(ss.getShots()[i]!=null){
-											//If there is, the ship won't move
-											if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==currentShip.getTopLeftCorner()[0]-1){
+									for(int x=currentShip.getTopLeftCorner()[0]; x<currentShip.getTopLeftCorner()[0]+currentShip.getLength(); x++){
+										for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
+											if(ss.getShots()[i]!=null){
+												//If there is, the ship won't move
+												if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==x-1){
 												move = false;
+												}
 											}
 										}
 									}

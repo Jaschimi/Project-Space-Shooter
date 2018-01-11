@@ -64,13 +64,13 @@ public class Easy {
 		ufoArray[24] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 35, 5);
 
 		//Step 2
-		EnemyShip currentUFO = ufoArray[0];
+		EnemyShip currentShip = ufoArray[0];
 		for(int i=1; i<ufoArray.length; i++){
 			ufoArray[i-1].setNext(ufoArray[i]);
 		}
 		
 		ss.spawnShip();
-		currentUFO.spawnShip();
+		currentShip.spawnShip();
 
 		//This variable counts the amount of times the endless loop has been started
 		int loopCount = 0;
@@ -96,19 +96,19 @@ public class Easy {
 			loopCount+=1;
 			
 			//2.
-			if(currentUFO.getLifes() <= 0){//here the current ship has no lifes left
+			if(currentShip.getLifes() <= 0){//here the current ship has no lifes left
 				//Letting the colors of the destroyed ship fade away
-				currentUFO.fade();
-				currentUFO.fade();
+				currentShip.fade();
+				currentShip.fade();
 				fadeCount++;
 
 				//Here the enemy ship is completely faded away
 				if(fadeCount==63){
 					fadeCount=0;
 					//If there's another UFO in the ufoList, it will become the new current UFO and be spawned now
-					if(currentUFO.getNext() != null){
-						currentUFO = currentUFO.getNext();
-						currentUFO.spawnShip();
+					if(currentShip.getNext() != null){
+						currentShip = currentShip.getNext();
+						currentShip.spawnShip();
 						right = true;
 					}
 					else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
@@ -131,8 +131,8 @@ public class Easy {
 					ss.fade();
 					
 					//Now that the Space Shooter is completely faded out, the current ship moves off of the board
-					while(currentUFO.getTopLeftCorner()[1]<20){
-						currentUFO.move('S');
+					while(currentShip.getTopLeftCorner()[1]<20){
+						currentShip.move('S');
 						
 						//TODO all projectiles still on the screen have to move downward too
 						controller.updateLedStripe();
@@ -151,17 +151,17 @@ public class Easy {
 					if(ss.getShots()[i].getY()>=0){
 						//If that's the case, the program checks if any part of the current ufo (that isn't black)
 						//is directly above the projectile
-						for(int x=0; x<currentUFO.getLength(); x++){
-							for(int y=0; y<currentUFO.getHeight(); y++){
-								if(ss.getShots()[i].getY()-1==currentUFO.getTopLeftCorner()[1]+y
-								   && ss.getShots()[i].getX()==currentUFO.getTopLeftCorner()[0]+x
+						for(int x=0; x<currentShip.getLength(); x++){
+							for(int y=0; y<currentShip.getHeight(); y++){
+								if(ss.getShots()[i].getY()-1==currentShip.getTopLeftCorner()[1]+y
+								   && ss.getShots()[i].getX()==currentShip.getTopLeftCorner()[0]+x
 								   &&(controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[0]!=0
 								   ||controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[1]!=0
 								   ||controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[2]!=0)){
 									//If that is also the case, the projectiles color is changed to black,
 									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
 									//the currentUFO is hit (if it still haves lifes) and
-									if(currentUFO.getLifes()>0)currentUFO.hit();
+									if(currentShip.getLifes()>0)currentShip.hit();
 									//the projectile is set to null.
 									ss.getShots()[i] = null;
 									break;
@@ -182,25 +182,25 @@ public class Easy {
 			
 			//5.
 			if(loopCount%2==0){//Enemy projectiles only move every second instance of the endless loop
-				for(int i=0; i<currentUFO.getShots().length; i++){
-					if(currentUFO.getShots()[i] != null){
-						if(currentUFO.getShots()[i].getY()<=19){
+				for(int i=0; i<currentShip.getShots().length; i++){
+					if(currentShip.getShots()[i] != null){
+						if(currentShip.getShots()[i].getY()<=19){
 							for(int x=0; x<3; x++){
 								for(int y=0; y<2; y++){
-									if(currentUFO.getShots()[i].getY()+1==ss.getTopLeftCorner()[1]+y
-									   && currentUFO.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x && (x!=1 || y!=0)){
-										controller.setColor(currentUFO.getShots()[i].getX(), currentUFO.getShots()[i].getY(), 0, 0, 0);
-										currentUFO.getShots()[i] = null;
+									if(currentShip.getShots()[i].getY()+1==ss.getTopLeftCorner()[1]+y
+									   && currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x && (x!=1 || y!=0)){
+										controller.setColor(currentShip.getShots()[i].getX(), currentShip.getShots()[i].getY(), 0, 0, 0);
+										currentShip.getShots()[i] = null;
 										if(ss.getLifes()>0)ss.hit();
 										break;
 									}
 								}
-								if(currentUFO.getShots()[i]==null)break;
+								if(currentShip.getShots()[i]==null)break;
 							}
-							if(currentUFO.getShots()[i]!=null)currentUFO.getShots()[i].moveProjectile("down");
+							if(currentShip.getShots()[i]!=null)currentShip.getShots()[i].moveProjectile("down");
 						}
 						else{//here the shot is offscreen, so its corresponding array entry can be set to null
-							currentUFO.getShots()[i] = null;
+							currentShip.getShots()[i] = null;
 						}
 					}
 				}
@@ -208,15 +208,49 @@ public class Easy {
 			
 			//6.
 			//EnemyShips only move every 30th instance of the endless loop and if they have any lifes left
-			if(loopCount%30==0&&currentUFO.getLifes()>0){
+			if(loopCount%30==0&&currentShip.getLifes()>0){
 				
 				//They move completely to the right of the board, before moving completely left and back again.
 				if(right){
-					if(currentUFO.getCannons()[currentUFO.getCannons().length-1][0]<19)currentUFO.move('D');
+					//The following lines check if a projectile is on the position the current ship moved to
+					for(int i=0; i<ss.getShots().length; i++){
+						for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
+							if(ss.getShots()[i]!=null){
+								if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==currentShip.getTopLeftCorner()[0]+currentShip.getLength()){
+									if(controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[0]!=0
+									 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[1]!=0
+									 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[2]!=0){
+										//the currentUFO is hit
+										currentShip.hit();
+										//and the projectile is set to null.
+										ss.getShots()[i] = null;
+									}
+								}
+							}
+						}
+					}
+					if(currentShip.getCannons()[currentShip.getCannons().length-1][0]<19)currentShip.move('D');
 					else right=false;
 				}
 				else{
-					if(currentUFO.getCannons()[0][0]>0)currentUFO.move('A');
+					//The following lines check if a projectile is on the position the current ship moved to
+					for(int i=0; i<ss.getShots().length; i++){
+						for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
+							if(ss.getShots()[i]!=null){
+								if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==currentShip.getTopLeftCorner()[0]-1){
+									if(controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[0]!=0
+									 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[1]!=0
+									 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[2]!=0){
+										//the currentUFO is hit
+										currentShip.hit();
+										//and the projectile is set to null.
+										ss.getShots()[i] = null;
+									}
+								}
+							}
+						}
+					}
+					if(currentShip.getCannons()[0][0]>0)currentShip.move('A');
 					else right=true;
 				}
 				
@@ -225,11 +259,11 @@ public class Easy {
 			//7.
 			//Enemy ships only shoot with a chance of 1/45 in every loop and if they have any lifes left
 			int random = (int) (Math.random()*45);
-			if(random == 2&&currentUFO.getLifes()>0){
+			if(random == 2&&currentShip.getLifes()>0){
 				
 				//A random cannon is chosen with which to shoot
-				random = (int) (Math.random()*currentUFO.getCannons().length);
-				currentUFO.shoot(currentUFO.getCannons()[random]);
+				random = (int) (Math.random()*currentShip.getCannons().length);
+				currentShip.shoot(currentShip.getCannons()[random]);
 			}
 			
 			//8.
@@ -262,15 +296,48 @@ public class Easy {
 						
 					case java.awt.event.KeyEvent.VK_A:
 						//A makes the SS move left
+						//The following lines check if a projectile is on the position the Space Shooter is moving to
+						for(int i=0; i<currentShip.getShots().length; i++){
+							for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]; y++){
+								if(currentShip.getShots()[i]!=null){
+									if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]){
+										if(controller.getColorAt(currentShip.getShots()[i].getX()+1, currentShip.getShots()[i].getY())[0]!=0
+										 ||controller.getColorAt(currentShip.getShots()[i].getX()+1, currentShip.getShots()[i].getY())[1]!=0
+										 ||controller.getColorAt(currentShip.getShots()[i].getX()+1, currentShip.getShots()[i].getY())[2]!=0){
+											//The Space Shooter is hit
+											ss.hit();
+											//and the projectile is set to null.
+											currentShip.getShots()[i] = null;
+										}
+									}
+								}
+							}
+						}
 						ss.move('A');
 						break;
 					
 					case java.awt.event.KeyEvent.VK_D:
 						//D makes the SS move right
+						//The following lines check if a projectile is on the position the Space Shooter is moving to
+						for(int i=0; i<currentShip.getShots().length; i++){
+							for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+3; y++){
+								if(currentShip.getShots()[i]!=null){
+									if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]+3){
+										if(controller.getColorAt(currentShip.getShots()[i].getX()-1, currentShip.getShots()[i].getY())[0]!=0
+										 ||controller.getColorAt(currentShip.getShots()[i].getX()-1, currentShip.getShots()[i].getY())[1]!=0
+										 ||controller.getColorAt(currentShip.getShots()[i].getX()-1, currentShip.getShots()[i].getY())[2]!=0){
+											//The Space Shooter is hit
+											ss.hit();
+											//and the projectile is set to null.
+											currentShip.getShots()[i] = null;
+										}
+									}
+								}
+							}
+						}
 						ss.move('D');
 						break;
 						
-					default:
 					}
 				}
 			}

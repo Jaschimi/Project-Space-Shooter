@@ -32,7 +32,7 @@ public class Tutorial{
 		Word shoot = new Word("Press Space to shoot.");
 		
 		Word UFO = new Word("This is an enemy ship.");
-		Word move = new Word("It can also move.");
+		Word movement = new Word("It can also move.");
 		Word projectile = new Word("Watch out for its projectiles!");
 		Word hit = new Word("If they hit you, you lose a life.");
 		
@@ -314,7 +314,7 @@ public class Tutorial{
 		
 		//Starting enemy moving test. The current ship moves in a different direction every time the loop starts again.
 		count = -1;
-		for(int x=20; x>-move.getLength()-2 ;x--){
+		for(int x=20; x>-movement.getLength()-2 ;x--){
 			
 			//Shortcut
 			if(skip)break;
@@ -339,8 +339,8 @@ public class Tutorial{
 				}
 			}
 			//Moving the Word one space to the left every 100 milliseconds
-			move.displayWordAt(x+1, 0, 0, 0, 0);
-			move.displayWordAt(x, 0, 97, 17, 2);
+			movement.displayWordAt(x+1, 0, 0, 0, 0);
+			movement.displayWordAt(x, 0, 97, 17, 2);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -787,10 +787,6 @@ public class Tutorial{
 			//8.: The last keyboard input is detected and one of five actions is performed
 			//9.: Finally, the LED stripe is updated
 			
-			if(skip){
-				won = true;
-				break;
-			}
 			//1.
 			count++;
 			
@@ -902,24 +898,73 @@ public class Tutorial{
 				
 				//Based on what integer was generated, the char direction becomes one of four values
 				char direction = 0;
+				boolean move = true;
 				switch(random){
 				
 				case 0:
-					direction = 'W';
+					if(currentShip.getTopLeftCorner()[1]>0)direction = 'W';
+					else move = false;
 					break;
 				case 1:
-					direction = 'A';
+					if(currentShip.getTopLeftCorner()[0]>0)direction = 'A';
+					else move = false;
 					break;
 				case 2:
-					direction = 'S';
+					if(currentShip.getTopLeftCorner()[1]+currentShip.getHeight()<19)direction = 'S';
+					else move = false;
 					break;
 				case 3:
-					direction = 'D';
+					if(currentShip.getTopLeftCorner()[0]+currentShip.getLength()<19)direction = 'D';
+					else move = false;
+					break;
+				}
+				
+				//The following lines check if a projectile is on the position the current ship moved to
+				switch(direction){
+				
+				case 'A':
+					for(int i=0; i<ss.getShots().length; i++){
+						for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
+							if(ss.getShots()[i]!=null){
+								if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==currentShip.getTopLeftCorner()[0]-1){
+									if(controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[0]!=0
+									 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[1]!=0
+									 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[2]!=0){
+										//the currentUFO is hit
+										currentShip.hit();
+										//and the projectile is set to null.
+										ss.getShots()[i] = null;
+									}
+								}
+							}
+						}
+					}
+					break;
+					
+				case 'D':
+					//The following lines check if a projectile is on the position the current ship moved to
+					for(int i=0; i<ss.getShots().length; i++){
+						for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
+							if(ss.getShots()[i]!=null){
+								if(ss.getShots()[i].getY()==y&&ss.getShots()[i].getX()==currentShip.getTopLeftCorner()[0]+currentShip.getLength()){
+									if(controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[0]!=0
+									 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[1]!=0
+									 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[2]!=0){
+										//the currentUFO is hit
+										currentShip.hit();
+										//and the projectile is set to null.
+										ss.getShots()[i] = null;
+									}
+								}
+							}
+						}
+					}
 					break;
 				}
 				
 				//And lastly, the current ship moves in the generated direction
-				currentShip.move(direction);
+				if(move)currentShip.move(direction);
+
 			}
 			
 			//7.
@@ -959,15 +1004,48 @@ public class Tutorial{
 						
 					case java.awt.event.KeyEvent.VK_A:
 						//A makes the SS move left
+						//The following lines check if a projectile is on the position the Space Shooter is moving to
+						for(int i=0; i<currentShip.getShots().length; i++){
+							for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]; y++){
+								if(currentShip.getShots()[i]!=null){
+									if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]){
+										if(controller.getColorAt(currentShip.getShots()[i].getX()+1, currentShip.getShots()[i].getY())[0]!=0
+										 ||controller.getColorAt(currentShip.getShots()[i].getX()+1, currentShip.getShots()[i].getY())[1]!=0
+										 ||controller.getColorAt(currentShip.getShots()[i].getX()+1, currentShip.getShots()[i].getY())[2]!=0){
+											//The Space Shooter is hit
+											ss.hit();
+											//and the projectile is set to null.
+											currentShip.getShots()[i] = null;
+										}
+									}
+								}
+							}
+						}
 						ss.move('A');
 						break;
 					
 					case java.awt.event.KeyEvent.VK_D:
 						//D makes the SS move right
+						//The following lines check if a projectile is on the position the Space Shooter is moving to
+						for(int i=0; i<currentShip.getShots().length; i++){
+							for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+3; y++){
+								if(currentShip.getShots()[i]!=null){
+									if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]+3){
+										if(controller.getColorAt(currentShip.getShots()[i].getX()-1, currentShip.getShots()[i].getY())[0]!=0
+										 ||controller.getColorAt(currentShip.getShots()[i].getX()-1, currentShip.getShots()[i].getY())[1]!=0
+										 ||controller.getColorAt(currentShip.getShots()[i].getX()-1, currentShip.getShots()[i].getY())[2]!=0){
+											//The Space Shooter is hit
+											ss.hit();
+											//and the projectile is set to null.
+											currentShip.getShots()[i] = null;
+										}
+									}
+								}
+							}
+						}
 						ss.move('D');
 						break;
 						
-					default:
 					}
 				}
 			}
@@ -984,7 +1062,6 @@ public class Tutorial{
 			//Wrapping up the tutorial
 			for(int x=20; x>-allSet.getLength() ;x--){
 				
-				if(skip)break;
 				//Moving the Word one space to the left every 100 milliseconds
 				allSet.displayWordAt(x+1, 0, 0, 0, 0);
 				allSet.displayWordAt(x, 0, 97, 17, 2);

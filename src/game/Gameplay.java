@@ -78,6 +78,7 @@ public abstract class Gameplay{
 		}
 	}
 	
+	//This method displays the pause screen
 	public static void pause(){
 		
 		int[][][] board = new int[20][20][3];

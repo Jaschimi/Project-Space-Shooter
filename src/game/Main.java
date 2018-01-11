@@ -28,8 +28,9 @@ public abstract class Main{
 
 	public static void main(String[] args) {
 
-		introStart();
 		gameStart();
+//		introStart();
+//		story();
 //		nestTest();
 //		endscreenTest(false);
 //		rainbow();
@@ -41,11 +42,9 @@ public abstract class Main{
 
 	}
 	
-	private static void introStart(){
-		Intro.titleScreen();
-	}
-	
 	private static void gameStart(){
+
+		introStart();
 		
 		buffer = controller.getKeyBuffer();
 		
@@ -71,6 +70,10 @@ public abstract class Main{
 					//space makes the SS shoot
 					case java.awt.event.KeyEvent.VK_0:
 						
+						//The pressed option lights up
+						Letter.DrawLetterAt('0', 9, 7, 127, 127, 127);
+						controller.updateLedStripe();
+						controller.sleep(500);
 						//Pressing 0 starts the tutorial
 						Gameplay.start(0);
 						//After the game is over, all remaining dots on the board are reset
@@ -85,7 +88,11 @@ public abstract class Main{
 						break;
 						
 					case java.awt.event.KeyEvent.VK_1:
-						
+
+						//The pressed option lights up
+						Letter.DrawLetterAt('1', 2, 14, 127, 127, 127);
+						controller.updateLedStripe();
+						controller.sleep(500);
 						//Pressing 1 starts easy mode
 						Gameplay.start(1);
 						//After the game is over, all remaining dots on the board are reset
@@ -100,7 +107,11 @@ public abstract class Main{
 						break;
 						
 					case java.awt.event.KeyEvent.VK_2:
-						
+
+						//The pressed option lights up
+						Letter.DrawLetterAt('2',  9, 14, 127, 127, 127);
+						controller.updateLedStripe();
+						controller.sleep(500);
 						//Pressing 2 starts medium mode
 						Gameplay.start(2);
 						//After the game is over, all remaining dots on the board are reset
@@ -115,7 +126,11 @@ public abstract class Main{
 						break;
 						
 					case java.awt.event.KeyEvent.VK_3:
-						
+
+						//The pressed option lights up
+						Letter.DrawLetterAt('3', 16, 14, 127, 127, 127);
+						controller.updateLedStripe();
+						controller.sleep(500);
 						//Pressing 3 starts hard mode
 						Gameplay.start(3);
 						//After the game is over, all remaining dots on the board are reset
@@ -143,6 +158,14 @@ public abstract class Main{
 		}
 	}
 
+	private static void story(){
+		Intro.story();
+	}
+	
+	private static void introStart(){
+		Intro.titleScreen();
+	}
+	
 	//With the following methods, a variety of different things can be tested
 	
 	private static void nestTest(){

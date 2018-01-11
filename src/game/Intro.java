@@ -27,7 +27,7 @@ public abstract class Intro{
 	
 	static void titleScreen(){
 
-		//These will be continuously displayed on the title screen
+		//These Words will be continuously displayed on the title screen
 		final Word press = new Word("Press");
 		final Word space = new Word("Space");
 
@@ -44,8 +44,6 @@ public abstract class Intro{
 		while(true){
 			
 			loopCount++;
-			
-			System.out.println(loopCount);
 			
 			//After about 45 seconds, the story screen shows up
 			if(loopCount==750){
@@ -68,11 +66,13 @@ public abstract class Intro{
 				}
 			}
 			
+			//With a chance of 5%, a star spawns at a random location on the board
 			if(Math.random()*100<=5){
 				
 				x = (int) (Math.random()*20);
 				y = (int) (Math.random()*20);
 				
+				//The height of the star is adjusted so that it not coincides with the displayed text
 				if(y>=4&&y<=5)y-=2;
 				if(y>=6&&y<=8)y+=3;
 				if(y>=12&&y<=13)y-=2;
@@ -117,32 +117,108 @@ public abstract class Intro{
 		}
 	}
 
-	private static void story(){
+	protected static void story(){
 
 		buffer = controller.getKeyBuffer();
 		
-		Word story = new Word("It is the year 5018.    "
-				+ "The invading forces have conquered almost all defense stations.    "
-				+ "There is only one last hope...    "
-				+ "The Space Shooter!");
+		//
+		boolean skip = false;
 		
-		for(int x=20; x>-story.getLength(); x--){
-			//Pressing any key ends the story time
+		//The uber-amazing story!
+		Word year = new Word("5018");
+		Word conquer = new Word("The invading forces have conquered almost all defense stations.");
+		Word hope = new Word("There is only one last hope...");
+		Word spaceShooter = new Word("The Space Shooter!");
+		
+		int count = 0;
+		final int maxCount = 196;
+		while(count!=maxCount){
+
+			//The count is increased by one
+			count++;
+			
+			//If skip is activated, the loop is exited
+			if(skip)break;
+			
+			//Pressing any key activates the skip
 			KeyEvent event = buffer.pop();
 			buffer.clear();
 			if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
-				break;
+				skip = true;
+			}
+			
+			if(count<=maxCount/2){
+				year.displayWordAt(2, 7, count, count/4, count/2);
+				controller.updateLedStripe();
+			}
+			else{
+				year.displayWordAt(2, 7, maxCount-count, (maxCount-count)/4, (maxCount-count)/2);
+				controller.updateLedStripe();
+			}
+		}
+		
+		for(int x=20; x>-conquer.getLength(); x--){
+			
+			//If skip is activated, the loop is exited
+			if(skip)break;
+			
+			//Pressing any key activates the skip
+			KeyEvent event = buffer.pop();
+			buffer.clear();
+			if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
+				skip = true;
 			}
 			
 			//The following two lines make the sentence move one spot to the left
-			story.displayWordAt(x+1, 0, 0, 0, 0);
-			story.displayWordAt(x, 0, 96, 87, 12);
+			conquer.displayWordAt(x+1, 0, 0, 0, 0);
+			conquer.displayWordAt(x, 0, 96, 87, 12);
 			
 			//And these two control how fast it is moving. A lower integer in the sleep method means a faster speed.
 			controller.updateLedStripe();
 			controller.sleep(125);
 		}
 		
+		for(int x=20; x>-hope.getLength(); x--){
+			
+			//If skip is activated, the loop is exited
+			if(skip)break;
+			
+			//Pressing any key activates the skip
+			KeyEvent event = buffer.pop();
+			buffer.clear();
+			if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
+				skip = true;
+			}
+			
+			//The following two lines make the sentence move one spot to the left
+			hope.displayWordAt(x+1, 0, 0, 0, 0);
+			hope.displayWordAt(x, 0, 96, 87, 12);
+			
+			//And these two control how fast it is moving. A lower integer in the sleep method means a faster speed.
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
+		
+		for(int x=20; x>-spaceShooter.getLength(); x--){
+			
+			//If skip is activated, the loop is exited
+			if(skip)break;
+			
+			//Pressing any key activates the skip
+			KeyEvent event = buffer.pop();
+			buffer.clear();
+			if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
+				skip = true;
+			}
+			
+			//The following two lines make the sentence move one spot to the left
+			spaceShooter.displayWordAt(x+1, 0, 0, 0, 0);
+			spaceShooter.displayWordAt(x, 0, 96, 87, 12);
+			
+			//And these two control how fast it is moving. A lower integer in the sleep method means a faster speed.
+			controller.updateLedStripe();
+			controller.sleep(125);
+		}
 		controller.resetColors();
 	}
 }

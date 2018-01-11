@@ -58,11 +58,13 @@ public abstract class EnemyShip extends Spaceship {
 		int x1 = this.topLeftCorner[0];
 		int y1 = this.topLeftCorner[1];
 		
-		//Starting from the top left corner, this loop draws every entry of the EnemyShips positions array onto the board
-		//in its corresponding color
+		//Starting from the top left corner, this loop draws every entry of the EnemyShips positions array that isn't black
+		//onto the board in its corresponding color
 		for(int x=x1; x<x1 + this.length; x++){
 			for(int y=y1; y<y1 + this.height; y++){
-				controller.setColor(x, y, this.positions[x-x1][y-y1][0], this.positions[x-x1][y-y1][1], this.positions[x-x1][y-y1][2]);
+				if(this.positions[x-x1][y-y1][0]!=0||this.positions[x-x1][y-y1][1]!=0||this.positions[x-x1][y-y1][2]!=0){
+					controller.setColor(x, y, this.positions[x-x1][y-y1][0], this.positions[x-x1][y-y1][1], this.positions[x-x1][y-y1][2]);
+				}
 			}
 		}
 		

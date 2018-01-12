@@ -64,86 +64,117 @@ public abstract class Main{
 				KeyEvent event = buffer.pop();
 				buffer.clear();
 				if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
-						
+					
+					int wait=250;
 					switch (event.getKeyCode()){
 					
 					//space makes the SS shoot
 					case java.awt.event.KeyEvent.VK_0:
 						
-						//The pressed option lights up
+						//The explanation disappears,
+						difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
+						
+						//The pressed option blinks a few times
 						Letter.DrawLetterAt('0', 9, 7, 127, 127, 127);
 						controller.updateLedStripe();
-						controller.sleep(500);
+						controller.sleep(wait);
+						Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						Letter.DrawLetterAt('0', 9, 7, 127, 127, 127);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						
 						//Pressing 0 starts the tutorial
 						Gameplay.start(0);
-						//After the game is over, all remaining dots on the board are reset
-						controller.resetColors();
-						
-						//These lines make the difficulty settings appear again after the endscreen has been seen
-						Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
-						Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
-						Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
-						Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
 						
 						break;
 						
 					case java.awt.event.KeyEvent.VK_1:
 
-						//The pressed option lights up
+						//The explanation disappears,
+						difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
+						
+						//The pressed option blinks a few times
 						Letter.DrawLetterAt('1', 2, 14, 127, 127, 127);
 						controller.updateLedStripe();
-						controller.sleep(500);
+						controller.sleep(wait);
+						Letter.DrawLetterAt('1', 2, 14, 0, 127, 0);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						Letter.DrawLetterAt('1', 2, 14, 127, 127, 127);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						Letter.DrawLetterAt('1', 2, 14, 0, 127, 0);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						
 						//Pressing 1 starts easy mode
 						Gameplay.start(1);
-						//After the game is over, all remaining dots on the board are reset
-						controller.resetColors();
-						
-						//These lines make the difficulty settings appear again after the endscreen has been seen
-						Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
-						Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
-						Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
-						Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
 						
 						break;
 						
 					case java.awt.event.KeyEvent.VK_2:
 
-						//The pressed option lights up
+						//The explanation disappears,
+						difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
+						
+						//The pressed option blinks a few times
 						Letter.DrawLetterAt('2',  9, 14, 127, 127, 127);
 						controller.updateLedStripe();
-						controller.sleep(500);
+						controller.sleep(wait);
+						Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						Letter.DrawLetterAt('2',  9, 14, 127, 127, 127);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						
 						//Pressing 2 starts medium mode
 						Gameplay.start(2);
-						//After the game is over, all remaining dots on the board are reset
-						controller.resetColors();
-						
-						//These lines make the difficulty settings appear again after the endscreen has been seen
-						Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
-						Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
-						Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
-						Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
 						
 						break;
 						
 					case java.awt.event.KeyEvent.VK_3:
 
-						//The pressed option lights up
+						//The explanation disappears,
+						difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
+						controller.updateLedStripe();
+						
+						//The pressed option blinks a few times
 						Letter.DrawLetterAt('3', 16, 14, 127, 127, 127);
 						controller.updateLedStripe();
-						controller.sleep(500);
+						controller.sleep(wait);
+						Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						Letter.DrawLetterAt('3', 16, 14, 127, 127, 127);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						
 						//Pressing 3 starts hard mode
 						Gameplay.start(3);
-						//After the game is over, all remaining dots on the board are reset
-						controller.resetColors();
-						
-						//These lines make the difficulty settings appear again after the endscreen has been seen
-						Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
-						Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
-						Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
-						Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
 						
 						break;
 					}
+					//After the game is over, all remaining dots on the board are reset
+					controller.resetColors();
+					
+					//These lines make the difficulty settings appear again after the endscreen has been seen
+					Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
+					Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
+					Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
+					Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
+					
 					//This break restarts the difficulty explanation
 					break;
 				}

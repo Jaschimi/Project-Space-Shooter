@@ -402,7 +402,7 @@ public abstract class Endscreen{
 	
 	}
 	
-	private static void letItGo(int[][][] point, int[] color, int pause){
+	static void letItGo(int[][][] point, int[] color, int pause){
     	
 	    int[][][] copy = new int[20][20][3];
 	    
@@ -551,7 +551,9 @@ public abstract class Endscreen{
 						for(int i = 0; i < color.length; i++){
 									
 							point[goRight][fromBelow][i] = 0;
-							point[goRight][fromBelow + 1][i] = color[i];
+							if(fromBelow<19){
+								point[goRight][fromBelow + 1][i] = color[i];
+							}
 								
 						}
 					}

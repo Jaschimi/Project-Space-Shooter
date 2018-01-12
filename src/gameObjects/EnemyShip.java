@@ -133,12 +133,12 @@ public abstract class EnemyShip extends Spaceship {
 		
 	}
 
-	//This method is triggered once a ship is hit by a projectile
+	@Override
 	public void hit(){
 		this.lifes -=1;
 	}
 	
-	//This method is useful for making an enemy ship fade away over time after it is destroyed
+	@Override
 	public void fade(){
 		//Every color
 		for(int i=0;i<3;i++){

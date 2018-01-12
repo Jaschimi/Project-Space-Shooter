@@ -41,9 +41,9 @@ public class SpaceShooter extends Spaceship{
 		
 		//Starting from the top left corner, this loop draws every entry of the SpaceShooters positions array onto the board
 		//in its corresponding color
-		for(int x=x1; x<x1 + 3; x++){
-			for(int y=y1; y<y1 + 2; y++){
-				controller.setColor(x, y, this.positions[x-x1][y-y1][0], this.positions[x-x1][y-y1][1], this.positions[x-x1][y-y1][2]);
+		for(int x=x1; x<x1+3; x++){
+			for(int y=y1; y<y1+2; y++){
+				if(x!=x1+1||y!=y1)controller.setColor(x, y, this.positions[x-x1][y-y1][0], this.positions[x-x1][y-y1][1], this.positions[x-x1][y-y1][2]);
 			}
 		}
 		//This line makes sure the cannon is at its desired location when spawning the ship
@@ -125,13 +125,14 @@ public class SpaceShooter extends Spaceship{
 		}
 	}
 
+	@Override
 	public void hit(){
 		//It loses a life
 		this.setLifes(this.getLifes()-1);
 		
 		//And the dot indicating its energy may change color
 		if(this.getLifes()>=3){
-			this.setColorAt(1, 1,  5, 107, 17);
+			this.setColorAt(1, 1, 5, 107, 17);
 		}
 		else{
 			if(this.getLifes()==2){
@@ -149,7 +150,7 @@ public class SpaceShooter extends Spaceship{
 		this.spawnShip();
 	}
 	
-	//This method is useful for making the Space Shooter fade away over time after it is destroyed
+	@Override
 	public void fade(){
 		//Every color
 		for(int i=0;i<3;i++){

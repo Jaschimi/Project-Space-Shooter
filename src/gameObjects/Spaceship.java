@@ -19,4 +19,10 @@ public abstract class Spaceship extends ColoringField {
 	
 	//This method makes a Spaceship move in one of four direction
 	public abstract void move(char direction);
+	
+	//This method is triggered once a ship is hit by a projectile
+	public abstract void hit();
+	
+	//This method is useful for making the Space Shooter fade away over time after it is destroyed
+	public abstract void fade();
 }

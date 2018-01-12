@@ -931,7 +931,7 @@ public class Tutorial{
 										if(controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[0]!=0
 										 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[1]!=0
 										 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[2]!=0){
-											//the currentUFO is hit
+											//The current ship is hit
 											currentShip.hit();
 											//and the projectile is set to null.
 											ss.getShots()[i] = null;
@@ -953,7 +953,7 @@ public class Tutorial{
 										if(controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[0]!=0
 										 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[1]!=0
 										 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[2]!=0){
-											//the currentUFO is hit
+											//The current ship is hit
 											currentShip.hit();
 											//and the projectile is set to null.
 											ss.getShots()[i] = null;
@@ -988,7 +988,7 @@ public class Tutorial{
 
 					case java.awt.event.KeyEvent.VK_ESCAPE:
 						//Escape makes the game pause
-						Gameplay.pause();
+						Gameplay.pause(ss);
 						break;
 						
 					case java.awt.event.KeyEvent.VK_SPACE:
@@ -1010,12 +1010,10 @@ public class Tutorial{
 						//A makes the SS move left
 						//The following lines check if a projectile is on the position the Space Shooter is moving to
 						for(int i=0; i<currentShip.getShots().length; i++){
-							for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]; y++){
-								if(currentShip.getShots()[i]!=null){
-									if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]){
-										if(controller.getColorAt(currentShip.getShots()[i].getX()+1, currentShip.getShots()[i].getY())[0]!=0
-										 ||controller.getColorAt(currentShip.getShots()[i].getX()+1, currentShip.getShots()[i].getY())[1]!=0
-										 ||controller.getColorAt(currentShip.getShots()[i].getX()+1, currentShip.getShots()[i].getY())[2]!=0){
+							for(int x=ss.getTopLeftCorner()[0]; x<ss.getTopLeftCorner()[0]+3; x++){
+								for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+2; y++){
+									if(currentShip.getShots()[i]!=null){
+										if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x-1&&(x!=1 || y!=0)){
 											//The Space Shooter is hit
 											ss.hit();
 											//and the projectile is set to null.
@@ -1032,12 +1030,10 @@ public class Tutorial{
 						//D makes the SS move right
 						//The following lines check if a projectile is on the position the Space Shooter is moving to
 						for(int i=0; i<currentShip.getShots().length; i++){
-							for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+3; y++){
-								if(currentShip.getShots()[i]!=null){
-									if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]+3){
-										if(controller.getColorAt(currentShip.getShots()[i].getX()-1, currentShip.getShots()[i].getY())[0]!=0
-										 ||controller.getColorAt(currentShip.getShots()[i].getX()-1, currentShip.getShots()[i].getY())[1]!=0
-										 ||controller.getColorAt(currentShip.getShots()[i].getX()-1, currentShip.getShots()[i].getY())[2]!=0){
+							for(int x=ss.getTopLeftCorner()[0]; x<ss.getTopLeftCorner()[0]+3; x++){
+								for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+2; y++){
+									if(currentShip.getShots()[i]!=null){
+										if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x+1&&(x!=1 || y!=0)){
 											//The Space Shooter is hit
 											ss.hit();
 											//and the projectile is set to null.

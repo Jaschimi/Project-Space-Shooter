@@ -79,7 +79,7 @@ public abstract class Gameplay{
 	}
 	
 	//This method displays the pause screen
-	public static void pause(){
+	public static void pause(SpaceShooter ss){
 		
 		int[][][] board = new int[20][20][3];
 		for(int x=0; x<20; x++){
@@ -98,11 +98,169 @@ public abstract class Gameplay{
 		while(true){
 			KeyEvent event = buffer.pop();
 			buffer.clear();
-			if(event != null&&event.getID() == java.awt.event.KeyEvent.KEY_RELEASED&&event.getKeyCode()==java.awt.event.KeyEvent.VK_ESCAPE){
-				break;
+			if(event != null&&event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+				if(event.getKeyCode()==java.awt.event.KeyEvent.VK_ESCAPE){
+					break;
+				}
+				if(event.getKeyCode()==java.awt.event.KeyEvent.VK_CONTROL){
+					cheat(ss);
+					controller.resetColors();
+					pause.displayWordAt(0, 5, 60, 30, 0);
+					controller.updateLedStripe();
+				}
 			}
 		}
 		controller.setColors(board);
 		controller.updateLedStripe();
 	}
+	
+	//This method displays the cheat screen :O
+	public static void cheat(SpaceShooter ss){
+		
+		controller.resetColors();
+		controller.updateLedStripe();
+		
+		KeyBuffer buffer = controller.getKeyBuffer();
+		Word pause = new Word("Cheat");
+		pause.displayWordAt(0, 0, 127, 107, 0);
+		controller.updateLedStripe();
+		
+		String code = "";
+		Word cheatCode = new Word(code);
+		while(true){
+			
+			if(code != ""){
+				cheatCode = new Word(code);
+				cheatCode.displayWordAt(0, 6, 100, 100, 9);
+			}
+			controller.updateLedStripe();
+			
+			KeyEvent event = buffer.pop();
+			buffer.clear();
+			if(event != null&&event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+				
+				switch(event.getKeyCode()){
+				
+				case java.awt.event.KeyEvent.VK_ESCAPE:
+					return;
+					
+				case java.awt.event.KeyEvent.VK_0:
+					
+					if(code.length()<4){
+						code += "0";
+					}
+					break;
+					
+				case java.awt.event.KeyEvent.VK_1:
+					
+					if(code.length()<4){
+						code += "1";
+					}
+					break;
+
+				case java.awt.event.KeyEvent.VK_2:
+					
+					if(code.length()<4){
+						code += "2";
+					}
+					break;
+
+				case java.awt.event.KeyEvent.VK_3:
+					
+					if(code.length()<4){
+						code += "3";
+					}
+					break;
+
+				case java.awt.event.KeyEvent.VK_4:
+					
+					if(code.length()<4){
+						code += "4";
+					}
+					break;
+
+				case java.awt.event.KeyEvent.VK_5:
+					
+					if(code.length()<4){
+						code += "5";
+					}
+					break;
+
+				case java.awt.event.KeyEvent.VK_6:
+					
+					if(code.length()<4){
+						code += "6";
+					}
+					break;
+
+				case java.awt.event.KeyEvent.VK_7:
+					
+					if(code.length()<4){
+						code += "7";
+					}
+					break;
+
+				case java.awt.event.KeyEvent.VK_8:
+					
+					if(code.length()<4){
+						code += "8";
+					}
+					break;
+
+				case java.awt.event.KeyEvent.VK_9:
+					
+					if(code.length()<4){
+						code += "9";
+					}
+					break;
+				
+				case java.awt.event.KeyEvent.VK_ENTER:
+					
+					switch(code){
+					
+					default:
+						
+						int x, y;
+						controller.resetColors();
+						for(x=0, y=0; x<20 && y<20; x++, y++){
+							controller.setColor(x, y, 69, 4, 4);
+							controller.updateLedStripe();
+						}
+						for(x=20, y=0; x>0 && y<20; x--, y++){
+							controller.setColor(x, y, 69, 4, 4);
+							controller.updateLedStripe();
+						}
+						Endscreen.letItGo(controller.getColors(), new int[]{69,4,4}, 10);
+						System.exit(666);
+						
+					case "5500":
+						
+						ss.setLifes(0);
+						ss.setColorAt(1, 1, 31, 31, 31);
+						break;
+						
+					case "5501":
+						
+						ss.setLifes(1);
+						ss.setColorAt(1, 1, 69, 4, 4);
+						break;
+					
+					case "5502":
+						
+						ss.setLifes(2);
+						ss.setColorAt(1, 1, 127, 127, 0);
+						break;
+					
+					case "5503":
+						
+						ss.setLifes(3);
+						ss.setColorAt(1, 1, 5, 107, 17);
+						break;
+					}
+					return;
+				}
+			}
+		}
+	}
+
 }

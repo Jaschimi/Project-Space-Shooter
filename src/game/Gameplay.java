@@ -6,6 +6,7 @@ import difficulties.Medium;
 import difficulties.Hard;
 import difficulties.Tutorial;
 import displayObjects.Word;
+import gameObjects.EnemyShip;
 import gameObjects.SpaceShooter;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
@@ -79,7 +80,7 @@ public abstract class Gameplay{
 	}
 	
 	//This method displays the pause screen
-	public static void pause(SpaceShooter ss){
+	public static void pause(SpaceShooter ss, EnemyShip currentShip){
 		
 		int[][][] board = new int[20][20][3];
 		for(int x=0; x<20; x++){
@@ -103,7 +104,7 @@ public abstract class Gameplay{
 					break;
 				}
 				if(event.getKeyCode()==java.awt.event.KeyEvent.VK_CONTROL){
-					cheat(ss);
+					cheat(board, ss, currentShip);
 					controller.resetColors();
 					pause.displayWordAt(0, 5, 60, 30, 0);
 					controller.updateLedStripe();
@@ -115,7 +116,7 @@ public abstract class Gameplay{
 	}
 	
 	//This method displays the cheat screen :O
-	public static void cheat(SpaceShooter ss){
+	public static void cheat(int[][][] board, SpaceShooter ss, EnemyShip currentShip){
 		
 		controller.resetColors();
 		controller.updateLedStripe();
@@ -233,29 +234,128 @@ public abstract class Gameplay{
 						Endscreen.letItGo(controller.getColors(), new int[]{69,4,4}, 10);
 						System.exit(666);
 						
-					case "5500":
+					case "5570":
 						
 						ss.setLifes(0);
 						ss.setColorAt(1, 1, 31, 31, 31);
 						break;
 						
-					case "5501":
+					case "5571":
 						
 						ss.setLifes(1);
 						ss.setColorAt(1, 1, 69, 4, 4);
 						break;
 					
-					case "5502":
+					case "5572":
 						
 						ss.setLifes(2);
 						ss.setColorAt(1, 1, 127, 127, 0);
 						break;
 					
-					case "5503":
+					case "5573":
 						
 						ss.setLifes(3);
 						ss.setColorAt(1, 1, 5, 107, 17);
 						break;
+
+					case "5579":
+						
+						ss.setLifes(99);
+						ss.setColorAt(1, 1, 127, 0, 127);
+						break;
+						
+					case "5590":
+						
+						for(int i=0; i<3; i++){
+							board[ss.getShots()[0].getX()][ss.getShots()[0].getY()][i]=0;
+						}
+						ss.getShots()[0]=null;
+						break;
+						
+					case "5591":
+						
+						for(int i=0; i<3; i++){
+							board[ss.getShots()[1].getX()][ss.getShots()[1].getY()][i]=0;
+						}
+						ss.getShots()[1]=null;
+						break;
+						
+					case "5592":
+						
+						for(int i=0; i<3; i++){
+							board[ss.getShots()[2].getX()][ss.getShots()[2].getY()][i]=0;
+						}
+						ss.getShots()[2]=null;
+						break;
+						
+					case "6570":
+						
+						currentShip.setLifes(0);
+						currentShip.spawnShip();
+						break;
+						
+					case "6571":
+						
+						currentShip.setLifes(1);
+						currentShip.spawnShip();
+						break;
+						
+					case "6572":
+						
+						currentShip.setLifes(currentShip.getMaxLifes()/2);
+						currentShip.spawnShip();
+						break;
+						
+					case "6573":
+						
+						currentShip.setLifes(currentShip.getMaxLifes()/3);
+						currentShip.spawnShip();
+						break;
+						
+					case "6574":
+						
+						currentShip.setLifes(currentShip.getMaxLifes()/4);
+						currentShip.spawnShip();
+						break;
+						
+					case "6575":
+						
+						currentShip.setLifes(currentShip.getMaxLifes()/5);
+						currentShip.spawnShip();
+						break;
+						
+					case "6579":
+						
+						currentShip.setLifes(currentShip.getMaxLifes());
+						currentShip.spawnShip();
+						break;
+						
+					case "6590":
+						
+						for(int j=0; j<currentShip.getShots().length; j++){
+							for(int i=0; i<3; i++){
+								board[currentShip.getShots()[j].getX()][currentShip.getShots()[j].getY()][i]=0;
+							}
+						}
+						currentShip.getShots()[1]=null;
+						break;
+						
+					case "6591":
+						
+						for(int i=0; i<3; i++){
+							board[currentShip.getShots()[0].getX()][currentShip.getShots()[0].getY()][i]=0;
+						}
+						currentShip.getShots()[0]=null;
+						break;
+					
+					case "6599":
+						
+						for(int i=0; i<3; i++){
+							board[currentShip.getShots()[currentShip.getShots().length-1].getX()][currentShip.getShots()[currentShip.getShots().length-1].getY()][i]=0;
+						}
+						currentShip.getShots()[2]=null;
+						break;
+						
 					}
 					return;
 				}

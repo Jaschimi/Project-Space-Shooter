@@ -326,7 +326,7 @@ public class Medium {
 
 					case java.awt.event.KeyEvent.VK_ESCAPE:
 						//Escape makes the game pause
-						Gameplay.pause(ss);
+						Gameplay.pause(ss, currentShip);
 						break;
 						
 					case java.awt.event.KeyEvent.VK_SPACE:

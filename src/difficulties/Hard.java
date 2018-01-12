@@ -213,7 +213,7 @@ public class Hard {
 						currentShip.spawnShip();
 						//In addition to spawning a new ship, the Space Shooter becomes more and more
 						//golden with every UFO it destroys
-						int[] shipColor = controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]);
+						int[] shipColor = controller.getColorAt(ss.getTopLeftCorner()[0]==-1 ? ss.getTopLeftCorner()[0]+2 : ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]);
 						ss.setColorAt(0, 0, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
 						ss.setColorAt(2, 0, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
 						ss.setColorAt(0, 1, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
@@ -467,7 +467,7 @@ public class Hard {
 
 					case java.awt.event.KeyEvent.VK_ESCAPE:
 						//Escape makes the game pause
-						Gameplay.pause(ss);
+						Gameplay.pause(ss, currentShip);
 						break;
 						
 					case java.awt.event.KeyEvent.VK_SPACE:

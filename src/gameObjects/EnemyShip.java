@@ -27,6 +27,7 @@ public abstract class EnemyShip extends Spaceship {
 
 	public int getMaxLifes() {return maxLifes;}
 	public int getLifes() {return lifes;}
+	public void setLifes(int lifes) {this.lifes = lifes;}
 	
 	public int[][] getCannons() {return cannons;}
 	

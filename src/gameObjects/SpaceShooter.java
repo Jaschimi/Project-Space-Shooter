@@ -131,7 +131,7 @@ public class SpaceShooter extends Spaceship{
 		this.setLifes(this.getLifes()-1);
 		
 		//And the dot indicating its energy may change color
-		if(this.getLifes()>=3){
+		if(this.getLifes()==3){
 			this.setColorAt(1, 1, 5, 107, 17);
 		}
 		else{
@@ -143,7 +143,12 @@ public class SpaceShooter extends Spaceship{
 					this.setColorAt(1, 1, 69, 4, 4);
 				}
 				else{
-					this.setColorAt(1, 1, 31, 31, 31);
+					if(this.getLifes()==0){
+						this.setColorAt(1, 1, 31, 31, 31);
+					}
+					else{
+						this.setColorAt(1, 1, 127, 0, 127);
+					}
 				}
 			}
 		}

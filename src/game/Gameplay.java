@@ -75,6 +75,7 @@ public abstract class Gameplay{
 					}
 				}
 			}
+			//After a game in easy, medium or hard mode, the outro boots up
 			Endscreen.outro(won, controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]));
 		}
 	}
@@ -286,6 +287,16 @@ public abstract class Gameplay{
 							board[ss.getShots()[2].getX()][ss.getShots()[2].getY()][i]=0;
 						}
 						ss.getShots()[2]=null;
+						break;
+						
+					case "6550":
+						
+						if(currentShip.getNext()!=null&&currentShip.getNext().getNext()!=null)currentShip.setNext(currentShip.getNext().getNext());
+						break;
+
+					case "6559":
+						
+						while(currentShip.getNext()!=null&&currentShip.getNext().getNext()!=null)currentShip.setNext(currentShip.getNext().getNext());
 						break;
 						
 					case "6570":

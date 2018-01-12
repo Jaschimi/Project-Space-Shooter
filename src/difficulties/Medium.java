@@ -215,25 +215,27 @@ public class Medium {
 			}
 			
 			//5.
-			for(int i=0; i<currentShip.getShots().length; i++){
-				if(currentShip.getShots()[i] != null){
-					if(currentShip.getShots()[i].getY()<=19){
-						for(int x=0; x<3; x++){
-							for(int y=0; y<2; y++){
-								if(currentShip.getShots()[i].getY()+1==ss.getTopLeftCorner()[1]+y
-								   && currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x && (x!=1 || y!=0)){
-									controller.setColor(currentShip.getShots()[i].getX(), currentShip.getShots()[i].getY(), 0, 0, 0);
-									currentShip.getShots()[i] = null;
-									if(ss.getLifes()>0)ss.hit();
-									break;
+			if(loopCount%3!=0){//Enemy projectiles only move every two out of three instances of the endless loop
+				for(int i=0; i<currentShip.getShots().length; i++){
+					if(currentShip.getShots()[i] != null){
+						if(currentShip.getShots()[i].getY()<=19){
+							for(int x=0; x<3; x++){
+								for(int y=0; y<2; y++){
+									if(currentShip.getShots()[i].getY()+1==ss.getTopLeftCorner()[1]+y
+									   && currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x && (x!=1 || y!=0)){
+										controller.setColor(currentShip.getShots()[i].getX(), currentShip.getShots()[i].getY(), 0, 0, 0);
+										currentShip.getShots()[i] = null;
+										if(ss.getLifes()>0)ss.hit();
+										break;
+									}
 								}
+								if(currentShip.getShots()[i]==null)break;
 							}
-							if(currentShip.getShots()[i]==null)break;
+							if(currentShip.getShots()[i]!=null)currentShip.getShots()[i].moveProjectile("down");
 						}
-						if(currentShip.getShots()[i]!=null)currentShip.getShots()[i].moveProjectile("down");
-					}
-					else{//here the shot is offscreen, so its corresponding array entry can be set to null
-						currentShip.getShots()[i] = null;
+						else{//here the shot is offscreen, so its corresponding array entry can be set to null
+							currentShip.getShots()[i] = null;
+						}
 					}
 				}
 			}

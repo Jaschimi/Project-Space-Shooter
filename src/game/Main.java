@@ -28,11 +28,11 @@ public abstract class Main{
 
 	public static void main(String[] args) {
 
-		gameStart();
+//		gameStart();
 //		introStart();
 //		story();
 //		nestTest();
-//		endscreenTest(false);
+		endscreenTest(true);
 //		rainbow();
 //		Goldenization();
 //		shipDiashow();

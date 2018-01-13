@@ -10,18 +10,20 @@ import ufos.GalaxyDestroyer;
 import ufos.LangerLulatsch;
 import ufos.BigBoulder;
 
-public abstract class Endscreen{
+public abstract class Endscreen extends VersucheWas{
 
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR); 
 	
 	public static void outro(boolean won, int[] shipColor){
 		
-		if(won) win(shipColor);
+		int zufallszahl = (int)(2);
+		
+		if(won) win(shipColor, zufallszahl);
 		else loss(shipColor);
 		
 	}
 	
-	private static void win(int[] fireworkColor){
+	private static void win(int[] fireworkColor, int zufallszahl){
 		
         int[][][] point = new int[20][20][3];
 		
@@ -162,6 +164,14 @@ public abstract class Endscreen{
 			count = 0;
 			int mid = 9;
 			
+			
+			
+			int leffi = 9;
+			int rightti = 10;
+			int leftUppi = 19;
+			int rightUppi = 19;
+			
+			
 			while(count < 14){
 				
 				if(count == 0){
@@ -176,21 +186,61 @@ public abstract class Endscreen{
 					}
 				    
 				    top-=2;
-				    count++;
+				    count+=2;
+				    
 				    
 				}
 				else{
+					
+					if(zufallszahl == 2) {
+					
+					if(count > 2 && count < 14){
+						
+						leftUppi-=1;
+						leffi-=1;
+						
+						rightUppi-=1;
+						rightti+=1;
+						
+					}
+					
+					}
 			
 					for(int i=0; i<3; i++){
 				
 					point[mid][top][i] = fireworkColor[i];
 					point[mid][top + 2][i] = 0;
+					
+					if(zufallszahl == 2) {
+					
+					if(count > 2 && count < 14){
+						
+						if(count == 4){
+							
+							point[leffi][leftUppi][i] = fireworkColor[i];
+							point[rightti][rightUppi][i] = fireworkColor[i];
+							
+							
+						}else if(count > 4 && count < 14){
+							
+							point[leffi][leftUppi][i] = fireworkColor[i];
+							point[rightti][rightUppi][i] = fireworkColor[i];
+							
+							point[leffi + 1][leftUppi + 1][i] = 0;
+							point[rightti - 1][rightUppi + 1][i] = 0;
+							
+							
+						}
+						
+					}
+					
+					}
 				
 					controller.setColors(point);
 					controller.updateLedStripe();
 				
 					}
-		    
+					
 				top-=2;
 				count+=2;
 			
@@ -207,11 +257,25 @@ public abstract class Endscreen{
 			    controller.updateLedStripe();
 				
 			}
-			
-			for(int j=0; j<5 ; j++){
+            
+            if(zufallszahl < 2) {
+				
+				macheBoom(point,fireworkColor,mid,top, 5, zufallszahl);
+				
+            }else {
+            	
+            	int a = 0;
+				
+				for(int j=0; j<5 ; j++){
 				
 				if(j<4){
-				
+					
+					if(j%2 ==1) {
+						
+						a++;
+						
+					}
+					
 					for(int i=0; i<3; i++){
 						
 						point[left - (j - 1)][leftUp][i] = 0;
@@ -225,6 +289,17 @@ public abstract class Endscreen{
 					
 					    point[left][leftUp + (j - 1)][i] = 0;
 					    point[right][rightUp + (j - 1)][i] = 0;
+					    
+					    
+					    point[mid + (a - 1)][top + (a - 1)][i] = 0;
+					    point[mid - (a - 1)][top - (a - 1)][i] = 0;
+					    
+					    point[mid + (a - 1)][top - (a - 1)][i] = 0;
+					    
+					    point[mid - (a - 1)][top + (a - 1)][i] = 0;
+					    
+					    
+					    
 				
 						point[mid - (j - 1)][top][i] = 0;
 					    
@@ -233,9 +308,9 @@ public abstract class Endscreen{
 					    point[mid][top - (j - 1)][i] = 0;
 					    
 					    point[mid][top + (j - 1)][i] = 0;
-			    
-//------------------------------------------------------------------------------------
 				
+//---------------------------------------------------------------------------------------
+					    
 					    point[left - j][leftUp][i] = fireworkColor[i];
 					    point[right - j][rightUp][i] = fireworkColor[i];	
 					
@@ -247,6 +322,15 @@ public abstract class Endscreen{
 					
 					    point[left][leftUp + j][i] = fireworkColor[i];
 					    point[right][rightUp + j][i] = fireworkColor[i];
+					    
+					   
+					    point[mid - a][top - a][i] = fireworkColor[i];
+					    point[mid + a][top - a][i] = fireworkColor[i];
+					    
+					    point[mid - a][top + a][i] = fireworkColor[i];
+					    point[mid + a][top + a][i] = fireworkColor[i];
+					    
+					    
 					    
 				        point[mid - j][top][i] = fireworkColor[i];
 					    
@@ -285,13 +369,15 @@ public abstract class Endscreen{
 					
 					    point[left][leftUp + (speicher - 1)][i] = 0;
 					    point[right][rightUp + (speicher - 1)][i] = 0;
-					    
+
 					    controller.setColors(point);
 					    controller.updateLedStripe();
 					
 					}
 				}
 			}
+            	
+            }
 			
 			//Now that all fireworks are done, the phrase "You won" will be displayed on the board
 			controller.resetColors();

@@ -69,8 +69,8 @@ public class Easy {
 			ufoArray[i-1].setNext(ufoArray[i]);
 		}
 		
-		ss.spawnShip();
-		currentShip.spawnShip();
+		ss.spawn();
+		currentShip.spawn();
 
 		//This variable counts the amount of times the endless loop has been started
 		int loopCount = 0;
@@ -108,7 +108,7 @@ public class Easy {
 					//If there's another UFO in the ufoList, it will become the new current UFO and be spawned now
 					if(currentShip.getNext() != null){
 						currentShip = currentShip.getNext();
-						currentShip.spawnShip();
+						currentShip.spawn();
 						right = true;
 					}
 					else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited

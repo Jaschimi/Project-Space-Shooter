@@ -33,7 +33,7 @@ public class SpaceShooter extends Spaceship{
 		
 	}
 
-	public void spawnShip(){
+	public void spawn(){
 		
 		//Two helping variables
 		int x1 = this.topLeftCorner[0];
@@ -41,9 +41,11 @@ public class SpaceShooter extends Spaceship{
 		
 		//Starting from the top left corner, this loop draws every entry of the SpaceShooters positions array onto the board
 		//in its corresponding color
-		for(int x=x1; x<x1+3; x++){
-			for(int y=y1; y<y1+2; y++){
-				if(x!=x1+1||y!=y1)controller.setColor(x, y, this.positions[x-x1][y-y1][0], this.positions[x-x1][y-y1][1], this.positions[x-x1][y-y1][2]);
+		for(int x=0; x<3; x++){
+			for(int y=0; y<2; y++){
+				if(x!=1||y!=0){
+					controller.setColor(x+x1, y+y1, this.positions[x][y][0], this.positions[x][y][1], this.positions[x][y][2]);
+				}
 			}
 		}
 		//This line makes sure the cannon is at its desired location when spawning the ship
@@ -80,7 +82,7 @@ public class SpaceShooter extends Spaceship{
 				}
 				
 				this.topLeftCorner[1] -= 1;
-				this.spawnShip();
+				this.spawn();
 			}
 			break;
 			
@@ -93,7 +95,7 @@ public class SpaceShooter extends Spaceship{
 				}
 				
 				this.topLeftCorner[1] += 1;
-				this.spawnShip();
+				this.spawn();
 			}
 			break;
 		
@@ -106,7 +108,7 @@ public class SpaceShooter extends Spaceship{
 				}
 				
 				this.topLeftCorner[0] -= 1;
-				this.spawnShip();
+				this.spawn();
 			}
 			break;
 			
@@ -119,7 +121,7 @@ public class SpaceShooter extends Spaceship{
 				}
 			
 				this.topLeftCorner[0] += 1;
-				this.spawnShip();
+				this.spawn();
 			}
 			break;
 		}
@@ -152,7 +154,7 @@ public class SpaceShooter extends Spaceship{
 				}
 			}
 		}
-		this.spawnShip();
+		this.spawn();
 	}
 	
 	@Override
@@ -164,7 +166,7 @@ public class SpaceShooter extends Spaceship{
 				for(int y=0;y<2;y++){
 					//is reduced by one if it isn't zero.
 					if(this.positions[x][y][i]!=0)this.positions[x][y][i]-=1;
-					this.spawnShip();
+					this.spawn();
 				}
 			}
 		}

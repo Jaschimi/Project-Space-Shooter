@@ -171,8 +171,8 @@ public class Hard {
 			ufoArray[i-1].setNext(ufoArray[i]);
 		}
 
-		ss.spawnShip();
-		currentShip.spawnShip();
+		ss.spawn();
+		currentShip.spawn();
 
 		//This variable counts the amount of times the endless loop in all four difficulties has been started
 		int loopCount = 0;
@@ -210,7 +210,7 @@ public class Hard {
 					//If there's another UFO in the ufoList, it will become the new current UFO and be spawned now
 					if(currentShip.getNext() != null){
 						currentShip = currentShip.getNext();
-						currentShip.spawnShip();
+						currentShip.spawn();
 						//In addition to spawning a new ship, the Space Shooter becomes more and more
 						//golden with every UFO it destroys
 						int[] shipColor = controller.getColorAt(ss.getTopLeftCorner()[0]==-1 ? ss.getTopLeftCorner()[0]+2 : ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]);
@@ -218,7 +218,7 @@ public class Hard {
 						ss.setColorAt(2, 0, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
 						ss.setColorAt(0, 1, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
 						ss.setColorAt(2, 1, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
-						ss.spawnShip();
+						ss.spawn();
 					}
 					else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
 						won = true;

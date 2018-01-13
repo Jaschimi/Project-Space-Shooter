@@ -49,9 +49,9 @@ public class UnnervingFloatingOctopus extends EnemyShip {
 	}
 
 	@Override
-	public void spawnShip(){
+	public void spawn(){
 		
-		super.spawnShip();
+		super.spawn();
 		
 		//This line makes sure the cannons are at their desired location when spawning the ship
 		this.cannons = new int[][]{{this.getTopLeftCorner()[0] + 1, this.getTopLeftCorner()[1] + 4}, 
@@ -84,7 +84,7 @@ public class UnnervingFloatingOctopus extends EnemyShip {
 				}
 			}
 		}
-		this.spawnShip();
+		this.spawn();
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public abstract class Spaceship extends ColoringField {
 		
 	}
 	//This method makes a Spaceship appear on the board
-	public abstract void spawnShip();
+	public abstract void spawn();
 	
 	//This method makes a Spaceship shoot a projectile
 	public abstract void shoot(int[] cannon);

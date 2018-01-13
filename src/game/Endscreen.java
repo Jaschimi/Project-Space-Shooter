@@ -10,7 +10,7 @@ import ufos.GalaxyDestroyer;
 import ufos.LangerLulatsch;
 import ufos.BigBoulder;
 
-public abstract class Endscreen extends VersucheWas{
+public abstract class Endscreen extends TrySmth{
 
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR); 
 	
@@ -260,7 +260,7 @@ public abstract class Endscreen extends VersucheWas{
             
             if(zufallszahl < 2) {
 				
-				macheBoom(point,fireworkColor,mid,top, 5, zufallszahl);
+				makeBoom(point,fireworkColor,mid,top, 5, zufallszahl);
 				
             }else {
             	
@@ -405,7 +405,7 @@ public abstract class Endscreen extends VersucheWas{
 		endOfWorld[5] = new GalaxyDestroyer(new int[]{0, -35}, 250, 5);
 		
 		for(int i=0; i<endOfWorld.length; i++){
-			endOfWorld[i].spawnShip();
+			endOfWorld[i].spawn();
 		}
 		
 		//This variable counts the amount of times the following loop has been started

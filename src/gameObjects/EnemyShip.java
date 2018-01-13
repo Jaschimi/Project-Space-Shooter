@@ -53,7 +53,7 @@ public abstract class EnemyShip extends Spaceship {
 	}
 	
 	@Override
-	public void spawnShip(){
+	public void spawn(){
 		
 		//Two helping variables
 		int x1 = this.topLeftCorner[0];
@@ -61,10 +61,10 @@ public abstract class EnemyShip extends Spaceship {
 		
 		//Starting from the top left corner, this loop draws every entry of the EnemyShips positions array that isn't black
 		//onto the board in its corresponding color
-		for(int x=x1; x<x1 + this.length; x++){
-			for(int y=y1; y<y1 + this.height; y++){
-				if(this.positions[x-x1][y-y1][0]!=0||this.positions[x-x1][y-y1][1]!=0||this.positions[x-x1][y-y1][2]!=0){
-					controller.setColor(x, y, this.positions[x-x1][y-y1][0], this.positions[x-x1][y-y1][1], this.positions[x-x1][y-y1][2]);
+		for(int x=0; x<this.length; x++){
+			for(int y=0; y<this.height; y++){
+				if(this.positions[x][y][0]!=0||this.positions[x][y][1]!=0||this.positions[x][y][2]!=0){
+					controller.setColor(x+x1, y+y1, this.positions[x][y][0], this.positions[x][y][1], this.positions[x][y][2]);
 				}
 			}
 		}
@@ -88,7 +88,7 @@ public abstract class EnemyShip extends Spaceship {
 				}
 				
 				this.topLeftCorner[1] -= 1;
-				this.spawnShip();
+				this.spawn();
 //			}
 			break;
 			
@@ -101,7 +101,7 @@ public abstract class EnemyShip extends Spaceship {
 				}
 				
 				this.topLeftCorner[1] += 1;
-				this.spawnShip();
+				this.spawn();
 //			}
 			break;
 		
@@ -114,7 +114,7 @@ public abstract class EnemyShip extends Spaceship {
 				}
 				
 				this.topLeftCorner[0] -= 1;
-				this.spawnShip();
+				this.spawn();
 //			}
 			break;
 			
@@ -127,7 +127,7 @@ public abstract class EnemyShip extends Spaceship {
 				}
 			
 				this.topLeftCorner[0] += 1;
-				this.spawnShip();
+				this.spawn();
 //			}
 			break;
 		}
@@ -148,7 +148,7 @@ public abstract class EnemyShip extends Spaceship {
 				for(int y=0;y<this.height;y++){
 					//is reduced by one if it isn't zero.
 					if(this.positions[x][y][i]!=0)this.positions[x][y][i]-=1;
-					this.spawnShip();
+					this.spawn();
 				}
 			}
 		}

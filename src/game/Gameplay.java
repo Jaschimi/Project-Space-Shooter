@@ -302,43 +302,43 @@ public abstract class Gameplay{
 					case "6570":
 						
 						currentShip.setLifes(0);
-						currentShip.spawnShip();
+						currentShip.spawn();
 						break;
 						
 					case "6571":
 						
 						currentShip.setLifes(1);
-						currentShip.spawnShip();
+						currentShip.spawn();
 						break;
 						
 					case "6572":
 						
 						currentShip.setLifes(currentShip.getMaxLifes()/2);
-						currentShip.spawnShip();
+						currentShip.spawn();
 						break;
 						
 					case "6573":
 						
 						currentShip.setLifes(currentShip.getMaxLifes()/3);
-						currentShip.spawnShip();
+						currentShip.spawn();
 						break;
 						
 					case "6574":
 						
 						currentShip.setLifes(currentShip.getMaxLifes()/4);
-						currentShip.spawnShip();
+						currentShip.spawn();
 						break;
 						
 					case "6575":
 						
 						currentShip.setLifes(currentShip.getMaxLifes()/5);
-						currentShip.spawnShip();
+						currentShip.spawn();
 						break;
 						
 					case "6579":
 						
 						currentShip.setLifes(currentShip.getMaxLifes());
-						currentShip.spawnShip();
+						currentShip.spawn();
 						break;
 						
 					case "6590":

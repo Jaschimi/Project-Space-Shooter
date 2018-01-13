@@ -75,9 +75,9 @@ public class DefaultShip extends EnemyShip {
 	}
 
 	@Override
-	public void spawnShip(){
+	public void spawn(){
 		
-		super.spawnShip();
+		super.spawn();
 		
 		//This line makes sure the cannon is at its desired location when spawning the ship
 		this.cannons = new int[][]{{this.getTopLeftCorner()[0] + 1, this.getTopLeftCorner()[1] + 2}};
@@ -142,7 +142,7 @@ public class DefaultShip extends EnemyShip {
 				}
 			}
 		}
-		this.spawnShip();
+		this.spawn();
 	}
 
 	

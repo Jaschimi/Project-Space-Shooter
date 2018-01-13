@@ -89,7 +89,7 @@ public class Tutorial{
 		}
 		
 		//Spawning the SpaceShooter and explaining what it is
-		ss.spawnShip();
+		ss.spawn();
 		for(int x=20; x>-SS.getLength() ;x--){
 			
 			//Shortcut
@@ -299,7 +299,7 @@ public class Tutorial{
 		
 		//Secondly, a new DefaultShip is created and spawned, while its explanation appears on the screen
 		EnemyShip currentShip = new DefaultShip(new int[]{8, 6}, 1, 1);
-		currentShip.spawnShip();
+		currentShip.spawn();
 		for(int x=20; x>-UFO.getLength() ;x--){
 			
 			//Shortcut
@@ -431,7 +431,7 @@ public class Tutorial{
 			if(count==green.getLength()){
 				ss.setLifes(3);
 				ss.setColorAt(1, 1, 5, 107, 17);
-				ss.spawnShip();
+				ss.spawn();
 			}
 			
 			//The enemy ship shoots
@@ -534,7 +534,7 @@ public class Tutorial{
 		ss.setColorAt(1, 1, 5, 107, 17);
 		ss.setColorAt(2, 1, 107, 0, 127);
 		ss.setLifes(3);
-		ss.spawnShip();
+		ss.spawn();
 		
 		//Shooting at the currentShip and destroying it
 		count=0;
@@ -584,7 +584,7 @@ public class Tutorial{
 			
 			count++;
 			
-			if(count==80)currentShip.spawnShip();
+			if(count==80)currentShip.spawn();
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			next.displayWordAt(x+1, 0, 0, 0, 0);
@@ -617,7 +617,7 @@ public class Tutorial{
 				controller.setColor(ss.getShots()[0].getX(), ss.getShots()[0].getY(), 0, 0, 0);
 				ss.getShots()[0]=null;
 				currentShip.hit();
-				currentShip.spawnShip();
+				currentShip.spawn();
 			}
 			
 			
@@ -664,7 +664,7 @@ public class Tutorial{
 				controller.setColor(ss.getShots()[0].getX(), ss.getShots()[0].getY(), 0, 0, 0);
 				ss.getShots()[0]=null;
 				currentShip.hit();
-				currentShip.spawnShip();
+				currentShip.spawn();
 				//The other projectile keeps moving upwards
 				ss.getShots()[1].moveProjectile("up");
 			}
@@ -717,7 +717,7 @@ public class Tutorial{
 				controller.setColor(ss.getShots()[0].getX(), ss.getShots()[0].getY(), 0, 0, 0);
 				ss.getShots()[0]=null;
 				currentShip.hit();
-				currentShip.spawnShip();
+				currentShip.spawn();
 			}
 			
 			//Letting the colors of the currentShip fade out over time
@@ -769,8 +769,8 @@ public class Tutorial{
 		//Reviving, recoloring and respawning the Space Shooter
 		ss.setLifes(3);
 		ss.setColorAt(1, 1, 5, 107, 17);
-		ss.spawnShip();
-		currentShip.spawnShip();
+		ss.spawn();
+		currentShip.spawn();
 		//These variables counts the amount of times the colors of a ship have faded
 		int enemyFadeCount = 0;
 		int ssFadeCount = 0;
@@ -803,7 +803,7 @@ public class Tutorial{
 					//If there's another ship in the shipList, it will become the new current ship and be spawned now
 					if(currentShip.getNext() != null){
 						currentShip = currentShip.getNext();
-						currentShip.spawnShip();
+						currentShip.spawn();
 					}
 					else{//here all enemies have been defeated, so the game has been won and the endless loop can be exited
 						won = true;
@@ -1072,8 +1072,8 @@ public class Tutorial{
 			//Informing the player of the other types of ships
 			EnemyShip peter = new DefaultShip(new int[]{0,10}, ssFadeCount, ssFadeCount);
 			EnemyShip kopernikus = new BigBoulder(new int[]{17,15}, ssFadeCount, ssFadeCount);
-			peter.spawnShip();
-			kopernikus.spawnShip();
+			peter.spawn();
+			kopernikus.spawn();
 			char dsDirection = 'D';
 			char bbDirection = 'A';
 			count=-1;

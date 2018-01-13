@@ -203,7 +203,7 @@ public abstract class Main{
 		
 		EnemyShip goldie = new DefaultShip.GoldenVersion(new int[]{0, 0}, 4, 4);
 		
-		goldie.spawnShip();
+		goldie.spawn();
 		controller.updateLedStripe();
 	}
 
@@ -300,13 +300,13 @@ public abstract class Main{
 			ss.setColorAt(2, 1, 107, 0, 127);
 			}
 		}
-		ss.spawnShip();
-		gade.spawnShip();
-		bono.spawnShip();
-		noob.spawnShip();
-		bibo.spawnShip();
-		lalu.spawnShip();
-		ufo.spawnShip();
+		ss.spawn();
+		gade.spawn();
+		bono.spawn();
+		noob.spawn();
+		bibo.spawn();
+		lalu.spawn();
+		ufo.spawn();
 		controller.updateLedStripe();
 	}
 	
@@ -322,7 +322,7 @@ public abstract class Main{
 		ss.setColorAt(1, 1, 5, 107, 17);
 		ss.setColorAt(2, 1, 28, 8, 99);
 		
-		ss.spawnShip();
+		ss.spawn();
 		
 		for(int i=1; i<100;i++){
 			int[] shipColor = controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]);
@@ -330,7 +330,7 @@ public abstract class Main{
 			ss.setColorAt(2, 0, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
 			ss.setColorAt(0, 1, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
 			ss.setColorAt(2, 1, shipColor[0]+1, shipColor[1]+1, shipColor[2]-1);
-			ss.spawnShip();
+			ss.spawn();
 			
 			controller.updateLedStripe();
 			controller.sleep(100);

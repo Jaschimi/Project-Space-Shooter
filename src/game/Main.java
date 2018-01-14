@@ -27,12 +27,11 @@ public abstract class Main{
 	private static Word word = new Word("Horizon");
 
 	public static void main(String[] args) {
-
-//		gameStart();
+		gameStart();
 //		introStart();
 //		story();
 //		nestTest();
-		endscreenTest(true);
+//		endscreenTest(true);
 //		rainbow();
 //		Goldenization();
 //		shipDiashow();
@@ -194,6 +193,7 @@ public abstract class Main{
 	}
 	
 	private static void introStart(){
+		Intro.sun();
 		Intro.titleScreen();
 	}
 	

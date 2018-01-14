@@ -27,7 +27,7 @@ public abstract class Main{
 	private static Word word = new Word("Horizon");
 
 	public static void main(String[] args) {
-//		gameStart();
+		gameStart();
 //		introStart();
 		sunStart();
 //		story();

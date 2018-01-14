@@ -16,8 +16,10 @@ public class SpaceShooter extends Spaceship{
 	public int[] getTopLeftCorner() {return topLeftCorner;}
 	
 	public Projectile[] getShots() {return shots;}
-	
+	public void setShots(Projectile[] shots) {this.shots = shots;}
+
 	public int[][] getCannons() {return cannons;}
+	public void setCannons(int[][] cannons) {this.cannons = cannons;}
 
 	public int getLifes() {return lifes;}
 	public void setLifes(int lifes) {this.lifes = lifes;}

@@ -14,16 +14,14 @@ public abstract class Endscreen extends TrySmth{
 
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR); 
 	
-	public static void outro(boolean won, int[] shipColor){
+	public static void outro(boolean won, int[] shipColor, int difficulty){
 		
-		int zufallszahl = (int)(2);
-		
-		if(won) win(shipColor, zufallszahl);
+		if(won) win(shipColor, difficulty);
 		else loss(shipColor);
 		
 	}
 	
-	private static void win(int[] fireworkColor, int zufallszahl){
+	private static void win(int[] fireworkColor, int difficulty){
 		
         int[][][] point = new int[20][20][3];
 		
@@ -192,7 +190,7 @@ public abstract class Endscreen extends TrySmth{
 				}
 				else{
 					
-					if(zufallszahl == 2) {
+					if(difficulty == 3) {
 					
 					if(count > 2 && count < 14){
 						
@@ -211,7 +209,7 @@ public abstract class Endscreen extends TrySmth{
 					point[mid][top][i] = fireworkColor[i];
 					point[mid][top + 2][i] = 0;
 					
-					if(zufallszahl == 2) {
+					if(difficulty == 3) {
 					
 					if(count > 2 && count < 14){
 						
@@ -258,9 +256,9 @@ public abstract class Endscreen extends TrySmth{
 				
 			}
             
-            if(zufallszahl < 2) {
+            if(difficulty < 2) {
 				
-				makeBoom(point,fireworkColor,mid,top, 5, zufallszahl);
+				makeBoom(point,fireworkColor,mid,top, 5, difficulty);
 				
             }else {
             	
@@ -732,4 +730,7 @@ public abstract class Endscreen extends TrySmth{
 		}
 	}
 
+	static void credits(){
+		
+	}
 }

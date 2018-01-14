@@ -30,8 +30,10 @@ public abstract class EnemyShip extends Spaceship {
 	public void setLifes(int lifes) {this.lifes = lifes;}
 	
 	public int[][] getCannons() {return cannons;}
+	protected void setCannons(int[][] cannons) {this.cannons = cannons;}
 	
 	public Projectile[] getShots() {return shots;}
+	protected void setShots(Projectile[] shots) {this.shots = shots;}
 	
 	//In addition to a top left corner, a length, a height, lifes and ammunition, EnemyShips also have a successor called next,
 	//which is always null when a new EnemyShip is created.

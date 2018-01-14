@@ -6,9 +6,9 @@ public class TrySmth {
 	
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	
-	public static void makeBoom(int[][][] point,int[] color,int wantedPointX, int wantedPointY, int wantedHeight, int random) {
+	public static void makeBoom(int[][][] point,int[] color,int wantedPointX, int wantedPointY, int wantedHeight, int difficulty) {
 		
-		if(random == 1) {
+		if(difficulty == 2) {
 			
 			for(int j = 0, z = wantedHeight; j < wantedHeight;z--, j++) {
 				
@@ -38,11 +38,11 @@ public class TrySmth {
 										
 								}
 							
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX - j,wantedPointY - j,wantedPointY + j,point,color));
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX + j,wantedPointY - j,wantedPointY + j,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX - j,wantedPointY - j,wantedPointY + j,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX + j,wantedPointY - j,wantedPointY + j,point,color));
 							
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY - j,wantedPointX - j,wantedPointX + j,point,color));
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY + j,wantedPointX - j,wantedPointX + j,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY - j,wantedPointX - j,wantedPointX + j,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY + j,wantedPointX - j,wantedPointX + j,point,color));
 							
 							controller.sleep(70);
 							controller.updateLedStripe();
@@ -53,22 +53,22 @@ public class TrySmth {
 							
 							int[] farbe = {0,0,0};
 							
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX - (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX + (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
+							controller.setColors(createLineFromToInYDirection(wantedPointX - (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
+							controller.setColors(createLineFromToInYDirection(wantedPointX + (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
 							
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY - (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY + (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
+							controller.setColors(createLineFromToInXDirection(wantedPointY - (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
+							controller.setColors(createLineFromToInXDirection(wantedPointY + (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
 							
 							controller.sleep(70);
 							controller.updateLedStripe();
 							
 							
 							
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX - j,wantedPointY - j,wantedPointY + j,point,color));
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX + j,wantedPointY - j,wantedPointY + j,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX - j,wantedPointY - j,wantedPointY + j,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX + j,wantedPointY - j,wantedPointY + j,point,color));
 							
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY - j,wantedPointX - j,wantedPointX + j,point,color));
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY + j,wantedPointX - j,wantedPointX + j,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY - j,wantedPointX - j,wantedPointX + j,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY + j,wantedPointX - j,wantedPointX + j,point,color));
 							
 							controller.sleep(70);
 							controller.updateLedStripe();
@@ -79,22 +79,22 @@ public class TrySmth {
 							
 							int[] farbe = {0,0,0};
 							
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX - (j - 1),wantedPointY - (z + 1),wantedPointY + (z + 1),point,farbe));
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX + (j - 1),wantedPointY - (z + 1),wantedPointY + (z + 1),point,farbe));
+							controller.setColors(createLineFromToInYDirection(wantedPointX - (j - 1),wantedPointY - (z + 1),wantedPointY + (z + 1),point,farbe));
+							controller.setColors(createLineFromToInYDirection(wantedPointX + (j - 1),wantedPointY - (z + 1),wantedPointY + (z + 1),point,farbe));
 							
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY - (j - 1),wantedPointX - (z + 1),wantedPointX + (z + 1),point,farbe));
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY + (j - 1),wantedPointX - (z + 1),wantedPointX + (z + 1),point,farbe));
+							controller.setColors(createLineFromToInXDirection(wantedPointY - (j - 1),wantedPointX - (z + 1),wantedPointX + (z + 1),point,farbe));
+							controller.setColors(createLineFromToInXDirection(wantedPointY + (j - 1),wantedPointX - (z + 1),wantedPointX + (z + 1),point,farbe));
 							
 							controller.sleep(70);
 							controller.updateLedStripe();
 							
 							
 							
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX - j,wantedPointY - z,wantedPointY + z,point,color));
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX + j,wantedPointY - z,wantedPointY + z,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX - j,wantedPointY - z,wantedPointY + z,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX + j,wantedPointY - z,wantedPointY + z,point,color));
 							
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY - j,wantedPointX - z,wantedPointX + z,point,color));
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY + j,wantedPointX - z,wantedPointX + z,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY - j,wantedPointX - z,wantedPointX + z,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY + j,wantedPointX - z,wantedPointX + z,point,color));
 							
 							controller.sleep(70);
 							controller.updateLedStripe();
@@ -109,7 +109,7 @@ public class TrySmth {
 				
 			}
 			
-		}else if(random == 0) {
+		}else if(difficulty == 1) {
 			
             for(int j = 0; j < wantedHeight; j++) {
 				
@@ -139,11 +139,11 @@ public class TrySmth {
 										
 								}
 							
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX - j,wantedPointY - j,wantedPointY + j,point,color));
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX + j,wantedPointY - j,wantedPointY + j,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX - j,wantedPointY - j,wantedPointY + j,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX + j,wantedPointY - j,wantedPointY + j,point,color));
 							
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY - j,wantedPointX - j,wantedPointX + j,point,color));
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY + j,wantedPointX - j,wantedPointX + j,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY - j,wantedPointX - j,wantedPointX + j,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY + j,wantedPointX - j,wantedPointX + j,point,color));
 							
 							controller.sleep(70);
 							controller.updateLedStripe();
@@ -154,22 +154,22 @@ public class TrySmth {
 							
 							int[] farbe = {0,0,0};
 							
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX - (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX + (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
+							controller.setColors(createLineFromToInYDirection(wantedPointX - (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
+							controller.setColors(createLineFromToInYDirection(wantedPointX + (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
 							
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY - (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY + (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
+							controller.setColors(createLineFromToInXDirection(wantedPointY - (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
+							controller.setColors(createLineFromToInXDirection(wantedPointY + (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
 							
 							controller.sleep(70);
 							controller.updateLedStripe();
 							
 							
 							
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX - j,wantedPointY - j,wantedPointY + j,point,color));
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX + j,wantedPointY - j,wantedPointY + j,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX - j,wantedPointY - j,wantedPointY + j,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX + j,wantedPointY - j,wantedPointY + j,point,color));
 							
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY - j,wantedPointX - j,wantedPointX + j,point,color));
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY + j,wantedPointX - j,wantedPointX + j,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY - j,wantedPointX - j,wantedPointX + j,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY + j,wantedPointX - j,wantedPointX + j,point,color));
 							
 							controller.sleep(70);
 							controller.updateLedStripe();
@@ -178,22 +178,22 @@ public class TrySmth {
 							
 							int[] farbe = {0,0,0};
 							
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX - (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX + (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
+							controller.setColors(createLineFromToInYDirection(wantedPointX - (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
+							controller.setColors(createLineFromToInYDirection(wantedPointX + (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
 							
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY - (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY + (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
+							controller.setColors(createLineFromToInXDirection(wantedPointY - (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
+							controller.setColors(createLineFromToInXDirection(wantedPointY + (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
 							
 							controller.sleep(70);
 							controller.updateLedStripe();
 							
 							
 							
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX - j,wantedPointY - j,wantedPointY + j,point,color));
-							controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX + j,wantedPointY - j,wantedPointY + j,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX - j,wantedPointY - j,wantedPointY + j,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX + j,wantedPointY - j,wantedPointY + j,point,color));
 							
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY - j,wantedPointX - j,wantedPointX + j,point,color));
-							controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY + j,wantedPointX - j,wantedPointX + j,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY - j,wantedPointX - j,wantedPointX + j,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY + j,wantedPointX - j,wantedPointX + j,point,color));
 							
 							controller.sleep(70);
 							controller.updateLedStripe();
@@ -211,51 +211,37 @@ public class TrySmth {
         
         int j = wantedHeight;
 		
-		controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX - (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
-		controller.setColors(erzeugeStrichVonBisInYRichtung(wantedPointX + (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
+		controller.setColors(createLineFromToInYDirection(wantedPointX - (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
+		controller.setColors(createLineFromToInYDirection(wantedPointX + (j - 1),wantedPointY - (j - 1),wantedPointY + (j - 1),point,farbe));
 		
-		controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY - (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
-		controller.setColors(erzeugeStrichVonBisInXRichtung(wantedPointY + (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
+		controller.setColors(createLineFromToInXDirection(wantedPointY - (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
+		controller.setColors(createLineFromToInXDirection(wantedPointY + (j - 1),wantedPointX - (j - 1),wantedPointX + (j - 1),point,farbe));
 		
 		controller.sleep(50);
 		controller.updateLedStripe();
 		
 	}
 	
-	private static int[][][] erzeugeStrichVonBisInYRichtung(int woAufXAchse,int von, int bis, int[][][] point, int[] color){
+	private static int[][][] createLineFromToInYDirection(int whereOnXAchsis,int from, int to, int[][][] point, int[] color){
 		
-		int anfang  = von;
-		
-		for(int i = 0; i < color.length; i++) {
-		
-		for(von = anfang; von <= bis; von++) {
-				
-				point[woAufXAchse][von][i] = color[i];
-				
-		}
-		
+		for(int i=0; i<3; i++){
+			for(int position=from; position<=to; position++){
+				point[whereOnXAchsis][position][i] = color[i];	
+			}
 		}
 		
 		return point;
-		
 	}
 	
-    private static int[][][] erzeugeStrichVonBisInXRichtung(int woAufYAchse,int von, int bis, int[][][] point, int[] color){
+    private static int[][][] createLineFromToInXDirection(int whereOnYAchsis,int from, int to, int[][][] point, int[] color){
     	
-    	    int anfang  = von;
-    	
-        for(von = anfang; von <= bis; von++) {
-			
-			for(int i = 0; i < color.length; i++) {
-				
-				point[von][woAufYAchse][i] = color[i];
-				
+        for(int i=0; i<3; i++){
+			for(int position=from; position<=to; position++){
+				point[position][whereOnYAchsis][i] = color[i];
 			}
-			
 		}
 		
 		return point;
-		
 	}
 
 }

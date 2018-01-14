@@ -28,11 +28,11 @@ public abstract class Main{
 
 	public static void main(String[] args) {
 
-//		gameStart();
+		gameStart();
 //		introStart();
 //		story();
 //		nestTest();
-		endscreenTest(true);
+//		endscreenTest(true, 1);
 //		rainbow();
 //		Goldenization();
 //		shipDiashow();
@@ -52,7 +52,9 @@ public abstract class Main{
 		final Word difficultyExplanation = new Word("Choose difficulty. 1 is easy, 2 is medium and 3 is hard. 0 is the Tutorial.");
 		
 		//Displaying the four difficulty settings
+		
 		Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
+		Letter.DrawLetterAt('C', 16, 7, 0, 127, 107);
 		Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
 		Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
 		Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
@@ -61,6 +63,14 @@ public abstract class Main{
 			//This loop repeats every time the difficulty settings sentence reaches the left end of the board
 			for(int x=20; x>-difficultyExplanation.getLength() ;x--){
 				
+				//The following two lines make the sentence move one spot to the left
+				difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
+				difficultyExplanation.displayWordAt(x, 0, 97, 17, 2);
+			
+				//And these two control how fast it is moving. A lower integer in the sleep method means a faster speed.
+				controller.updateLedStripe();
+				controller.sleep(100);
+				
 				KeyEvent event = buffer.pop();
 				buffer.clear();
 				if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
@@ -68,11 +78,15 @@ public abstract class Main{
 					int wait=250;
 					switch (event.getKeyCode()){
 					
+					default:
+						
+						continue;
+					
 					//space makes the SS shoot
 					case java.awt.event.KeyEvent.VK_0:
 						
 						//The explanation disappears,
-						difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
+						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
 						Letter.DrawLetterAt('0', 9, 7, 127, 127, 127);
@@ -96,7 +110,7 @@ public abstract class Main{
 					case java.awt.event.KeyEvent.VK_1:
 
 						//The explanation disappears,
-						difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
+						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
 						Letter.DrawLetterAt('1', 2, 14, 127, 127, 127);
@@ -120,19 +134,19 @@ public abstract class Main{
 					case java.awt.event.KeyEvent.VK_2:
 
 						//The explanation disappears,
-						difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
+						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
-						Letter.DrawLetterAt('2',  9, 14, 127, 127, 127);
+						Letter.DrawLetterAt('2', 9, 14, 127, 127, 127);
 						controller.updateLedStripe();
 						controller.sleep(wait);
-						Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
+						Letter.DrawLetterAt('2', 9, 14, 0, 0, 127);
 						controller.updateLedStripe();
 						controller.sleep(wait);
-						Letter.DrawLetterAt('2',  9, 14, 127, 127, 127);
+						Letter.DrawLetterAt('2', 9, 14, 127, 127, 127);
 						controller.updateLedStripe();
 						controller.sleep(wait);
-						Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
+						Letter.DrawLetterAt('2', 9, 14, 0, 0, 127);
 						controller.updateLedStripe();
 						controller.sleep(wait);
 						
@@ -144,7 +158,7 @@ public abstract class Main{
 					case java.awt.event.KeyEvent.VK_3:
 
 						//The explanation disappears,
-						difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
+						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						controller.updateLedStripe();
 						
 						//The pressed option blinks a few times
@@ -165,12 +179,37 @@ public abstract class Main{
 						Gameplay.start(3);
 						
 						break;
+						
+					case java.awt.event.KeyEvent.VK_C:
+
+						//The explanation disappears,
+						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
+						
+						//The pressed option blinks a few times
+						Letter.DrawLetterAt('C', 16, 7, 127, 127, 127);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						Letter.DrawLetterAt('C', 16, 7, 0, 127, 107);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						Letter.DrawLetterAt('C', 16, 7, 127, 127, 127);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						Letter.DrawLetterAt('C', 16, 7, 0, 127, 107);
+						controller.updateLedStripe();
+						controller.sleep(wait);
+						
+						//Pressing C shows the credits
+						Endscreen.credits();
+						
+						break;
 					}
 					//After the game is over, all remaining dots on the board are reset
 					controller.resetColors();
 					
 					//These lines make the difficulty settings appear again after the endscreen has been seen
 					Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
+					Letter.DrawLetterAt('C', 16, 7, 0, 127, 107);
 					Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
 					Letter.DrawLetterAt('2',  9, 14, 0, 0, 127);
 					Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
@@ -178,13 +217,6 @@ public abstract class Main{
 					//This break restarts the difficulty explanation
 					break;
 				}
-				//The following two lines make the sentence move one spot to the left
-				difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
-				difficultyExplanation.displayWordAt(x, 0, 97, 17, 2);
-			
-				//And these two control how fast it is moving. A lower integer in the sleep method means a faster speed.
-				controller.updateLedStripe();
-				controller.sleep(100);
 			}
 		}
 	}
@@ -208,8 +240,8 @@ public abstract class Main{
 	}
 
 	//See the winning/losing animation
-	private static void endscreenTest(boolean won){
-		Endscreen.outro(won, new int[]{6, 90, 90});
+	private static void endscreenTest(boolean won, int difficulty){
+		Endscreen.outro(won, new int[]{6, 90, 90}, difficulty);
 		controller.resetColors();
 		controller.updateLedStripe();
 	}

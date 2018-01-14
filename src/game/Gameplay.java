@@ -7,6 +7,7 @@ import difficulties.Hard;
 import difficulties.Tutorial;
 import displayObjects.Word;
 import gameObjects.EnemyShip;
+import gameObjects.Projectile;
 import gameObjects.SpaceShooter;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
@@ -75,8 +76,8 @@ public abstract class Gameplay{
 					}
 				}
 			}
-			//After a game in easy, medium or hard mode, the outro boots up
-			Endscreen.outro(won, controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]));
+			//After a game in easy, medium or hard mode is over, the outro boots up
+			Endscreen.outro(won, controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]), difficulty);
 		}
 	}
 	
@@ -145,6 +146,25 @@ public abstract class Gameplay{
 				
 				case java.awt.event.KeyEvent.VK_ESCAPE:
 					return;
+					
+				case java.awt.event.KeyEvent.VK_BACK_SPACE:
+					if(code.length()>0){
+						if(code.length()==1){
+							cheatCode = new Word(code);
+							cheatCode.displayWordAt(0, 6, 0, 0, 0);
+							code = "";
+						}
+						else{
+							cheatCode = new Word(code);
+							cheatCode.displayWordAt(0, 6, 0, 0, 0);
+							char[] codeArray = code.toCharArray();
+							code = "";
+							for(int i=0; i<codeArray.length-1; i++){
+								code +=codeArray[i];
+							}
+						}
+					}
+					break;
 					
 				case java.awt.event.KeyEvent.VK_0:
 					
@@ -235,6 +255,42 @@ public abstract class Gameplay{
 						Endscreen.letItGo(controller.getColors(), new int[]{69,4,4}, 10);
 						System.exit(666);
 						
+					case "5550":
+						ss.setShots(new Projectile[0]);
+						break;
+
+					case "5551":
+						ss.setShots(new Projectile[1]);
+						break;
+
+					case "5552":
+						ss.setShots(new Projectile[2]);
+						break;
+
+					case "5553":
+						ss.setShots(new Projectile[3]);
+						break;
+
+					case "5554":
+						ss.setShots(new Projectile[4]);
+						break;
+
+					case "5555":
+						ss.setShots(new Projectile[5]);
+						break;
+
+					case "5556":
+						ss.setShots(new Projectile[6]);
+						break;
+
+					case "5557":
+						ss.setShots(new Projectile[7]);
+						break;
+
+					case "5559":
+						ss.setShots(new Projectile[99]);
+						break;
+						
 					case "5570":
 						
 						ss.setLifes(0);
@@ -289,14 +345,18 @@ public abstract class Gameplay{
 						ss.getShots()[2]=null;
 						break;
 						
-					case "6550":
+					case "6551":
 						
-						if(currentShip.getNext()!=null&&currentShip.getNext().getNext()!=null)currentShip.setNext(currentShip.getNext().getNext());
+						if(currentShip.getNext()!=null&&currentShip.getNext().getNext()!=null){
+							currentShip.setNext(currentShip.getNext().getNext());
+						}
 						break;
 
 					case "6559":
 						
-						while(currentShip.getNext()!=null&&currentShip.getNext().getNext()!=null)currentShip.setNext(currentShip.getNext().getNext());
+						while(currentShip.getNext()!=null&&currentShip.getNext().getNext()!=null){
+							currentShip.setNext(currentShip.getNext().getNext());
+						}
 						break;
 						
 					case "6570":

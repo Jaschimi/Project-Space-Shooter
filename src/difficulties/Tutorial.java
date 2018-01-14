@@ -24,35 +24,35 @@ public class Tutorial{
 		boolean won = false;
 		
 		//These Words will be used throughout the tutorial
-		Word tutorial = new Word("In this tutorial, you will learn the basics of the game.");
+		final Word tutorial = new Word("In this tutorial, you will learn the basics of the game.");
 		
-		Word SS = new Word("This is your ship, the Space Shooter.");
-		Word leftRight = new Word("Press A or D to move left and right.");
-		Word upDown = new Word("Press W or S to move up and down.");
-		Word shoot = new Word("Press Space to shoot.");
+		final Word SS = new Word("This is your ship, the Space Shooter.");
+		final Word leftRight = new Word("Press A or D to move left and right.");
+		final Word upDown = new Word("Press W or S to move up and down.");
+		final Word shoot = new Word("Press Space to shoot.");
 		
-		Word UFO = new Word("This is an enemy ship.");
-		Word movement = new Word("It can also move.");
-		Word projectile = new Word("Watch out for its projectiles!");
-		Word hit = new Word("If they hit you, you lose a life.");
+		final Word UFO = new Word("This is an enemy ship.");
+		final Word movement = new Word("It can also move.");
+		final Word projectile = new Word("Watch out for its projectiles!");
+		final Word hit = new Word("If they hit you, you lose a life.");
 		
-		Word lives = new Word("Depending on how many you have, the dot in the center of your ship is green, yellow or red.");
-		Word green = new Word("Depending on how many you have, the dot in the center of your ship is ");
-		Word yellow = new Word("green, ");
-		Word red = new Word("yellow or");
-		Word dead = new Word("Once you lose all, your ship is destroyed and the Game Over screen appears.");
+		final Word lives = new Word("Depending on how many you have, the dot in the center of your ship is green, yellow or red.");
+		final Word green = new Word("Depending on how many you have, the dot in the center of your ship is ");
+		final Word yellow = new Word("green, ");
+		final Word red = new Word("yellow or");
+		final Word dead = new Word("Once you lose all, your ship is destroyed and the Game Over screen appears.");
 		
-		Word dot = new Word("As with your ship, the dot in the enemy ships center shows its lives.");
-		Word destroy = new Word("An enemy ship is destroyed when it too loses all lives.");
-		Word next = new Word("If you destroy a ship, another one may spawn.");
-		Word goal = new Word("Your goal is to destroy all of them without dying.");
+		final Word dot = new Word("As with your ship, the dot in the enemy ships center shows its lives.");
+		final Word destroy = new Word("An enemy ship is destroyed when it too loses all lives.");
+		final Word next = new Word("If you destroy a ship, another one may spawn.");
+		final Word goal = new Word("Your goal is to destroy all of them without dying.");
 		
-		Word test = new Word("Try beating the following 5 enemies.");
+		final Word test = new Word("Try beating the following 5 enemies.");
 		
-		Word allSet = new Word("Now you are all set to play a regular game.");
-		Word ships = new Word("There are a lot more than just these two types of enemy ships, so be prepared.");
-		Word good = new Word("Good");
-		Word luck = new Word("luck!");
+		final Word allSet = new Word("Now you are all set to play a regular game.");
+		final Word ships = new Word("There are a lot more than just these two types of enemy ships, so be prepared.");
+		final Word good = new Word("Good");
+		final Word luck = new Word("luck!");
 		
 		//This is a shortcut ;-)
 		boolean skip = false;
@@ -1123,9 +1123,9 @@ public class Tutorial{
 		}
 		else{
 			//...
-			Word tooBad = new Word("Whelp, you failed the tutorial.");
-			Word tryAgain = new Word("You may want to try it again before playing an actual game.");
-			Word proTip = new Word("Tip: You can skip straight to the interactive part with pressing ENTER at the start.");
+			final Word tooBad = new Word("Whelp, you failed the tutorial.");
+			final Word tryAgain = new Word("You may want to try it again before playing an actual game.");
+			final Word proTip = new Word("Tip: You can skip straight to the interactive part with pressing ENTER at the start.");
 			
 			//Rip
 			for(int x=20; x>-tooBad.getLength() ;x--){

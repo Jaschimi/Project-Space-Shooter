@@ -30,7 +30,7 @@ public abstract class Main{
 		
 		gameStart();
 //		introStart();
-		sunStart();
+//		sunrise();
 //		story();
 //		nestTest();
 //		endscreenTest(true, 1);
@@ -45,6 +45,7 @@ public abstract class Main{
 	
 	private static void gameStart(){
 
+		//At the beginning, there was an intro...
 		introStart();
 		
 		buffer = controller.getKeyBuffer();
@@ -222,16 +223,18 @@ public abstract class Main{
 		}
 	}
 
+	private static void introStart(){
+		Intro.logoScreen();
+		Intro.gameName();
+		Intro.titleScreen();
+	}
+	
 	private static void story(){
 		Intro.story();
 	}
 	
-	private static void introStart(){
-		Intro.sun();
-		Intro.titleScreen();
-	}
-	private static void sunStart(){
-		Intro.sun();
+	private static void sunrise(){
+		Intro.logoScreen();
 	}
 	
 	//With the following methods, a variety of different things can be tested

@@ -2,7 +2,8 @@ package game;
 
 import java.awt.event.KeyEvent;
 
-import displayObjects.Sun;
+import displayObjects.CelestialBodies;
+import displayObjects.Letter;
 import displayObjects.Word;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
@@ -12,25 +13,134 @@ public abstract class Intro{
 	
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	private static KeyBuffer buffer;
-	
-	static void gameName(){
 
-		final Word project = new Word("Project");
-		final Word space = new Word("Space");
-		final Word shooter = new Word("Shooter");
+
+	//This method displays our team name on a stylized screen
+	public static void logoScreen(){
+
+//		final Word sw = new Word("A long time ago in a galaxy far, far away...");
+//		for(int x=20; x>-sw.getLength() ;x--){
+//			sw.displayWordAt(x+1, 5, 0, 0, 0);
+//			sw.displayWordAt(x, 5,0, 0, 100);
+//			controller.updateLedStripe();
+//			controller.sleep(100);
+//		}
+
+		int[] yellow = new int[] { 127, 127, 0 };
+		int[] black = new int[] { 0, 0, 0 };
+
+		int x = 16;
+		int y = 21;
+		int intensity = 30;
 		
-		project.displayWordAt(0, 3, 60, 60, 60);
-		space.displayWordAt(0, 9, 60, 60, 60);
-		shooter.displayWordAt(0, 15, 60, 60, 60);
+		//The following loop makes a sun rise behind a planet
+		for(int count=0; count<177; count++){
+
+			if(count%5==0){
+				y--;
+				CelestialBodies.displaySun(x, y+1, black);
+				CelestialBodies.displaySun(x, y, yellow);
+			}
+
+			CelestialBodies.displayPlanet(intensity+count/2);
+			controller.updateLedStripe();
+
+			count++;
+			
+		}
+		
+		controller.sleep(250);
+
+		//This loop shows up to eight rays of light around the risen sun
+		for(int i=5; i<8; i++){
+			if(x+i<20)controller.setColor(x+i, y, yellow);
+			if(x-i>=0)controller.setColor(x-i, y, yellow);
+			if(y+i<20)controller.setColor(x, y+i, yellow);
+			if(y-i>=0)controller.setColor(x, y-i, yellow);
+			if(x+i-2<20&&y+i-2<20)controller.setColor(x+i-2, y+i-2, yellow);
+			if(x-i+2>=0&&y+i-2<20)controller.setColor(x-i+2, y+i-2, yellow);
+			if(x+i-2<20&&y-i+2>=0)controller.setColor(x+i-2, y-i+2, yellow);
+			if(x-i+2>=0&&y-i+2>=0)controller.setColor(x-i+2, y-i+2, yellow);
+			controller.updateLedStripe();
+			controller.sleep(250);
+		}
 		
 		controller.updateLedStripe();
+		controller.sleep(1000);
+		
+		Word rizon = new Word("rizon");
+		
+		//This loop lets the word HORIZON slowly get brighter on the board
+		for(intensity = 0; intensity<128; intensity++){
+			
+			//The H is shown on the top left,
+			Letter.DrawLetterAt('H', 4, 1, 0, intensity, 0);
+			
+			//the first O is displayed inside the Sun
+			for(int i=15; i<18; i++){
+				controller.setColor(i, 1, 127-intensity, 127, 0);
+				controller.setColor(i, 5, 127-intensity, 127, 0);
+			}
+			for(int i=2; i<5; i++){
+				controller.setColor(14, i, 127-intensity, 127, 0);
+				controller.setColor(18, i, 127-intensity, 127, 0);
+			}
+			
+			//and the rest of the word is shown below it.
+			rizon.displayWordAt(0, 8, 0, intensity, 0);
+			controller.setColor(11, 8, 127-intensity, 127, 0);
+			controller.setColor(16, 9, 127-intensity, 127, 0);
+			
+			controller.updateLedStripe();
+		}
+		
+		controller.sleep(3500);
+		
+		for(int count=0; count<128; count++){
+			for(x=0; x<20; x++){
+				for(y=0; y<20; y++){
+					for(int i=0; i<3; i++){
+						if(controller.getColorAt(x, y)[i]!=0){
+							int[] color = controller.getColorAt(x, y);
+							color[i]--;
+							controller.setColor(x, y, color);
+						}
+					}
+				}
+			}
+			controller.updateLedStripe();
+		}
+		
+	}
+
+	static void gameName(){
+
+		final Word pro = new Word("Pro");
+		final Word ject = new Word("ject");
+		
+		pro.displayWordAt(5, 3, 90, 90, 90);
+		ject.displayWordAt(2, 9, 90, 90, 90);
+
+		controller.updateLedStripe();
+		controller.sleep(3000);
+		controller.resetColors();
+		
+		final Word space = new Word("Space");
+		final Word shoo = new Word("Shoo");
+		final Word ter = new Word("ter");
+		
+		space.displayWordAt(0, 0, 127, 107, 0);
+		shoo.displayWordAt(2, 9, 107, 127, 0);
+		ter.displayWordAt(5, 15, 107, 127, 0);
+		
+		controller.updateLedStripe();
+		controller.sleep(5000);
+		controller.resetColors();
 	}
 	
 	static void titleScreen(){
 
 		//These Words will be continuously displayed on the title screen
-		controller.sleep(225);
-
 		final Word press = new Word("Press");
 		final Word space = new Word("Space");
 
@@ -223,109 +333,6 @@ public abstract class Intro{
 			controller.sleep(125);
 		}
 		controller.resetColors();
-	}
-
-	public static void makeBlue() {
-
-		int[] blue = new int[] { 0, 0, 100 };
-		int[] g = new int[] { 127, 127, 0 };
-		int[] black = new int[] { 0, 0, 0 };
-
-		for (int x = 0; x < 20; x++) {
-			for (int y = 17; y < 20; y++) {
-				controller.setColor(x, y, blue);
-			}
-		}
-		for (int x = 1; x < 19; x++) {
-			controller.setColor(x, 16, blue);
-		}
-		for (int x = 2; x < 18; x++) {
-			controller.setColor(x, 15, blue);
-		}
-		for (int x = 3; x < 17; x++) {
-			controller.setColor(x, 14, blue);
-		}
-		controller.updateLedStripe();
-
-	}
-	///some chnges 
-	/// 
-	///---------------------------------------------
-	public static void sun() {
-		final Word sw = new Word("A long time ago in a galaxy far, far away....");
-		for(int x=20; x>-sw.getLength() ;x--){
-			sw.displayWordAt(x+1, 5,  0, 0,0);
-			sw.displayWordAt(x+1, 5, 0, 0, 0);
-			sw.displayWordAt(x, 5,0, 0, 100);
-			controller.updateLedStripe();
-			controller.sleep(100);
-		}
-
-		int[] blue = new int[] { 0, 0, 100 };
-		int[] g = new int[] { 127, 127, 0 };
-		int[] black = new int[] { 0, 0, 0 };
-
-		makeBlue();
-		 controller.updateLedStripe();
-		int xpos = 10;
-
-		for (int ypos = 21; ypos > -5; ypos--) {
-
-			controller.sleep(200);
-
-			for (int i = -2; i < 3; i++) {
-				for (int a = -2; a < 3; a++) {
-					controller.setColor(xpos + i, ypos + a, g);
-				}
-			}
-			for (int x = -1; x < 2; x++) {
-				controller.setColor(xpos + x, ypos + 3, g);
-				controller.setColor(xpos + x, ypos - 3, g);
-			}
-			for (int y = -1; y < 2; y++) {
-				controller.setColor(xpos + 3, ypos + y, g);
-				controller.setColor(xpos - 3, ypos + y, g);
-			}
-
-			controller.setColor(xpos, ypos - 4, g);
-			controller.setColor(xpos, ypos + 4, g);
-			controller.setColor(xpos - 4, ypos, g);
-			controller.setColor(xpos + 4, ypos, g);
-			makeBlue();
-			controller.updateLedStripe();
-
-			controller.sleep(200);
-
-			// while (loopCount != 1000) {
-			// loopCount++;
-			// }
-
-			for (int i = -2; i < 3; i++) {
-				for (int a = -2; a < 3; a++) {
-
-					controller.setColor(xpos + i, ypos + a, black);
-				}
-			}
-			for (int x = -1; x < 2; x++) {
-				controller.setColor(xpos + x, ypos + 3, black);
-				controller.setColor(xpos + x, ypos - 3, black);
-			}
-			for (int y = -1; y < 2; y++) {
-				controller.setColor(xpos + 3, ypos + y, black);
-				controller.setColor(xpos - 3, ypos + y, black);
-			}
-			controller.setColor(xpos, ypos - 4, black);
-			controller.setColor(xpos, ypos + 4, black);
-			controller.setColor(xpos - 4, ypos, black);
-			controller.setColor(xpos + 4, ypos, black);
-			makeBlue();
-			controller.updateLedStripe();
-
-		}
-		controller.sleep(325);
-
-		controller.resetColors();
-		
 	}
 
 }

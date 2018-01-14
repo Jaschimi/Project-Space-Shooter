@@ -257,7 +257,7 @@ public abstract class Intro{
 		controller.updateLedStripe();
 		int xpos = 10;
 		int loopCount = 0;
-		for (int ypos = 11; ypos > -5; ypos--) {
+		for (int ypos = 20; ypos > -5; ypos--) {
 			loopCount = 0;
 			while (loopCount != 1000) {
 				loopCount++;

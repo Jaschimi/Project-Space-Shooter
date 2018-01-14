@@ -257,24 +257,29 @@ public abstract class Intro{
 		controller.updateLedStripe();
 		int xpos = 10;
 		int loopCount = 0;
-		for (int ypos = 20; ypos > -5; ypos--) {
+		for (int ypos = 11; ypos > -5; ypos--) {
 			loopCount = 0;
 			while (loopCount != 1000) {
 				loopCount++;
 			}
 			for (int i = -2; i < 3; i++) {
 				for (int a = -2; a < 3; a++) {
-					if (ypos + a > 12) {
-						controller.setColor(xpos + i, ypos + a, blue);
-						break;
-					}
 					controller.setColor(xpos + i, ypos + a, g);
 				}
 			}
-			controller.setColor(xpos, ypos - 3, g);
-			controller.setColor(xpos, ypos + 3, g);
-			controller.setColor(xpos - 3, ypos, g);
-			controller.setColor(xpos + 3, ypos, g);
+			for (int x=-1;x<2;x++) {
+				controller.setColor(xpos+x, ypos+3, g);
+				controller.setColor(xpos+x, ypos-3, g);
+			}
+			for (int y=-1;y<2;y++) {
+				controller.setColor(xpos+3, ypos+y, g);
+				controller.setColor(xpos-3, ypos+y, g);
+			}
+			
+			controller.setColor(xpos, ypos - 4, g);
+			controller.setColor(xpos, ypos + 4, g);
+			controller.setColor(xpos - 4, ypos, g);
+			controller.setColor(xpos + 4, ypos, g);
 			makeBlue();
 			controller.updateLedStripe();
 			loopCount = 0;
@@ -283,17 +288,22 @@ public abstract class Intro{
 			}
 			for (int i = -2; i < 3; i++) {
 				for (int a = -2; a < 3; a++) {
-					if (ypos + a > 12) {
-						controller.setColor(xpos + i, ypos + a, blue);
-						break;
-					}
+					
 					controller.setColor(xpos + i, ypos + a, black);
 				}
 			}
-			controller.setColor(xpos, ypos - 3, black);
-			controller.setColor(xpos, ypos + 3, black);
-			controller.setColor(xpos - 3, ypos, black);
-			controller.setColor(xpos + 3, ypos, black);
+			for (int x=-1;x<2;x++) {
+				controller.setColor(xpos+x, ypos+3, black);
+				controller.setColor(xpos+x, ypos-3, black);
+			}
+			for (int y=-1;y<2;y++) {
+				controller.setColor(xpos+3, ypos+y, black);
+				controller.setColor(xpos-3, ypos+y, black);
+			}
+			controller.setColor(xpos, ypos - 4, black);
+			controller.setColor(xpos, ypos + 4, black);
+			controller.setColor(xpos - 4, ypos, black);
+			controller.setColor(xpos + 4, ypos, black);
 			makeBlue();
 			controller.updateLedStripe();
 			loopCount = 0;

@@ -2,6 +2,7 @@ package game;
 
 import java.awt.event.KeyEvent;
 
+import displayObjects.Sun;
 import displayObjects.Word;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
@@ -28,6 +29,8 @@ public abstract class Intro{
 	static void titleScreen(){
 
 		//These Words will be continuously displayed on the title screen
+		controller.sleep(225);
+
 		final Word press = new Word("Press");
 		final Word space = new Word("Space");
 
@@ -221,4 +224,108 @@ public abstract class Intro{
 		}
 		controller.resetColors();
 	}
+
+	public static void makeBlue() {
+
+		int[] blue = new int[] { 0, 0, 100 };
+		int[] g = new int[] { 127, 127, 0 };
+		int[] black = new int[] { 0, 0, 0 };
+
+		for (int x = 0; x < 20; x++) {
+			for (int y = 17; y < 20; y++) {
+				controller.setColor(x, y, blue);
+			}
+		}
+		for (int x = 1; x < 19; x++) {
+			controller.setColor(x, 16, blue);
+		}
+		for (int x = 2; x < 18; x++) {
+			controller.setColor(x, 15, blue);
+		}
+		for (int x = 3; x < 17; x++) {
+			controller.setColor(x, 14, blue);
+		}
+		controller.updateLedStripe();
+
+	}
+	///some chnges 
+	/// 
+	///---------------------------------------------
+	public static void sun() {
+		final Word sw = new Word("A long time ago in a galaxy far, far away....");
+		for(int x=20; x>-sw.getLength() ;x--){
+			sw.displayWordAt(x+1, 5,  0, 0,0);
+			sw.displayWordAt(x+1, 5, 0, 0, 0);
+			sw.displayWordAt(x, 5,0, 0, 100);
+			controller.updateLedStripe();
+			controller.sleep(100);
+		}
+
+		int[] blue = new int[] { 0, 0, 100 };
+		int[] g = new int[] { 127, 127, 0 };
+		int[] black = new int[] { 0, 0, 0 };
+
+		makeBlue();
+		 controller.updateLedStripe();
+		int xpos = 10;
+
+		for (int ypos = 21; ypos > -5; ypos--) {
+
+			controller.sleep(200);
+
+			for (int i = -2; i < 3; i++) {
+				for (int a = -2; a < 3; a++) {
+					controller.setColor(xpos + i, ypos + a, g);
+				}
+			}
+			for (int x = -1; x < 2; x++) {
+				controller.setColor(xpos + x, ypos + 3, g);
+				controller.setColor(xpos + x, ypos - 3, g);
+			}
+			for (int y = -1; y < 2; y++) {
+				controller.setColor(xpos + 3, ypos + y, g);
+				controller.setColor(xpos - 3, ypos + y, g);
+			}
+
+			controller.setColor(xpos, ypos - 4, g);
+			controller.setColor(xpos, ypos + 4, g);
+			controller.setColor(xpos - 4, ypos, g);
+			controller.setColor(xpos + 4, ypos, g);
+			makeBlue();
+			controller.updateLedStripe();
+
+			controller.sleep(200);
+
+			// while (loopCount != 1000) {
+			// loopCount++;
+			// }
+
+			for (int i = -2; i < 3; i++) {
+				for (int a = -2; a < 3; a++) {
+
+					controller.setColor(xpos + i, ypos + a, black);
+				}
+			}
+			for (int x = -1; x < 2; x++) {
+				controller.setColor(xpos + x, ypos + 3, black);
+				controller.setColor(xpos + x, ypos - 3, black);
+			}
+			for (int y = -1; y < 2; y++) {
+				controller.setColor(xpos + 3, ypos + y, black);
+				controller.setColor(xpos - 3, ypos + y, black);
+			}
+			controller.setColor(xpos, ypos - 4, black);
+			controller.setColor(xpos, ypos + 4, black);
+			controller.setColor(xpos - 4, ypos, black);
+			controller.setColor(xpos + 4, ypos, black);
+			makeBlue();
+			controller.updateLedStripe();
+
+		}
+		controller.sleep(325);
+
+		controller.resetColors();
+		
+	}
+
 }

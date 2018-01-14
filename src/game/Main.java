@@ -27,9 +27,10 @@ public abstract class Main{
 	private static Word word = new Word("Horizon");
 
 	public static void main(String[] args) {
-
+		
 		gameStart();
 //		introStart();
+		sunStart();
 //		story();
 //		nestTest();
 //		endscreenTest(true, 1);
@@ -226,7 +227,11 @@ public abstract class Main{
 	}
 	
 	private static void introStart(){
+		Intro.sun();
 		Intro.titleScreen();
+	}
+	private static void sunStart(){
+		Intro.sun();
 	}
 	
 	//With the following methods, a variety of different things can be tested

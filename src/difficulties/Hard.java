@@ -18,8 +18,8 @@ import ufos.BigBoulder;
 //This method describes hard mode
 public class Hard {
 
-	public static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
-	public static KeyBuffer buffer = controller.getKeyBuffer();
+	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+	private static KeyBuffer buffer = controller.getKeyBuffer();
 
 	public static boolean start(SpaceShooter ss){
 		

@@ -9,24 +9,56 @@ public class CelestialBodies {
 
 	public static void displayPlanet(int intensity){
 
-		int[] blue = new int[] { 0, 0, intensity };
-		int[] green = new int[] { 0, intensity, 0 };
+		int[] blue = new int[] { 0, 0, intensity};
+		int[] green = new int[] { 0, intensity, intensity/3};
 
-		for (int x=0; x<20; x++) {
-			for (int y=17; y<20; y++) {
-				controller.setColor(x, y, blue);
+		//Line #1
+		for(int x=0; x<20; x++) {
+			controller.setColor(x, 19, blue);
+		}
+		for(int x=3; x<18; x++) {
+			if(x!=11&&x!=12&&x!=13&&x!=14)controller.setColor(x, 19, green);
+		}
+		
+		//Line #2
+		for(int x=0; x<20; x++) {
+			controller.setColor(x, 18, blue);
+		}
+		for(int x=1; x<18; x++) {
+			if(x!=5&&x!=11&&x!=12&&x!=13&&x!=14)controller.setColor(x, 18, green);
+		}
+		
+		//Line #3
+		for(int x=0; x<20; x++) {
+			controller.setColor(x, 17, blue);
+		}
+		for(int x=0; x<19; x++) {
+			if(x!=4&&x!=5&&x!=11&&x!=12&&x!=13&&x!=14)controller.setColor(x, 17, green);
+		}
+				
+		//Line #4
+		for(int x=9; x<15; x++) {
+			if(x!=12)controller.setColor(x, 16, blue);
+		}
+		for(int x=1; x<19; x++) {
+			if(x!=9&&x!=10&&x!=11&&x!=13&&x!=14)controller.setColor(x, 16, green);
+		}
+		
+		//Line #5
+		for(int x=8; x<16; x++) {
+			controller.setColor(x, 15, blue);
+		}
+		for(int x=3; x<17; x++) {
+			if(x==8){
+				x=15;
+			}
+			else{
+				controller.setColor(x, 15, green);
 			}
 		}
 		
-		for (int x=1; x<19; x++) {
-			controller.setColor(x, 16, blue);
-		}
-		
-		for (int x=3; x<17; x++) {
-			controller.setColor(x, 15, blue);
-		}
-		
-		for (int x=6; x<14; x++) {
+		//Line #6
+		for(int x=6; x<14; x++) {
 			controller.setColor(x, 14, blue);
 		}
 		

@@ -26,41 +26,40 @@ public abstract class Intro{
 //			controller.sleep(100);
 //		}
 
-		int[] yellow = new int[] { 127, 127, 0 };
-		int[] black = new int[] { 0, 0, 0 };
+		int[] yellow = new int[] { 127, 127, 0};
+		int[] black = new int[] { 0, 0, 0};
 
-		int x = 16;
-		int y = 21;
+		int sunX = 10;
+		int sunY = 21;
 		int intensity = 30;
 		
 		//The following loop makes a sun rise behind a planet
 		for(int count=0; count<177; count++){
 
 			if(count%5==0){
-				y--;
-				CelestialBodies.displaySun(x, y+1, black);
-				CelestialBodies.displaySun(x, y, yellow);
+				sunY--;
+				CelestialBodies.displaySun(sunX, sunY+1, black);
+				CelestialBodies.displaySun(sunX, sunY, yellow);
 			}
 
 			CelestialBodies.displayPlanet(intensity+count/2);
 			controller.updateLedStripe();
 
 			count++;
-			
 		}
 		
 		controller.sleep(250);
 
 		//This loop shows up to eight rays of light around the risen sun
 		for(int i=5; i<8; i++){
-			if(x+i<20)controller.setColor(x+i, y, yellow);
-			if(x-i>=0)controller.setColor(x-i, y, yellow);
-			if(y+i<20)controller.setColor(x, y+i, yellow);
-			if(y-i>=0)controller.setColor(x, y-i, yellow);
-			if(x+i-2<20&&y+i-2<20)controller.setColor(x+i-2, y+i-2, yellow);
-			if(x-i+2>=0&&y+i-2<20)controller.setColor(x-i+2, y+i-2, yellow);
-			if(x+i-2<20&&y-i+2>=0)controller.setColor(x+i-2, y-i+2, yellow);
-			if(x-i+2>=0&&y-i+2>=0)controller.setColor(x-i+2, y-i+2, yellow);
+			if(sunX+i<20)controller.setColor(sunX+i, sunY, yellow);
+			if(sunX-i>=0)controller.setColor(sunX-i, sunY, yellow);
+			if(sunY+i<20)controller.setColor(sunX, sunY+i, yellow);
+			if(sunY-i>=0)controller.setColor(sunX, sunY-i, yellow);
+			if(sunX+i-2<20&&sunY+i-2<20)controller.setColor(sunX+i-2, sunY+i-2, yellow);
+			if(sunX-i+2>=0&&sunY+i-2<20)controller.setColor(sunX-i+2, sunY+i-2, yellow);
+			if(sunX+i-2<20&&sunY-i+2>=0)controller.setColor(sunX+i-2, sunY-i+2, yellow);
+			if(sunX-i+2>=0&&sunY-i+2>=0)controller.setColor(sunX-i+2, sunY-i+2, yellow);
 			controller.updateLedStripe();
 			controller.sleep(250);
 		}
@@ -71,38 +70,57 @@ public abstract class Intro{
 		Word rizon = new Word("rizon");
 		
 		//This loop lets the word HORIZON slowly get brighter on the board
-		for(intensity = 0; intensity<128; intensity++){
+		for(intensity = 0; intensity<128; intensity+=2){
 			
 			//The H is shown on the top left,
-			Letter.DrawLetterAt('H', 4, 1, 0, intensity, 0);
-			
-			//the first O is displayed inside the Sun
-			for(int i=15; i<18; i++){
-				controller.setColor(i, 1, 127-intensity, 127, 0);
-				controller.setColor(i, 5, 127-intensity, 127, 0);
+			Letter.DrawLetterAt('H', 3, 1, 0, intensity, 0);
+			for(int x=sunX-5; x>sunX-8; x--){
+				controller.setColor(x, 3, 127-intensity, 127, 0);
 			}
-			for(int i=2; i<5; i++){
-				controller.setColor(14, i, 127-intensity, 127, 0);
-				controller.setColor(18, i, 127-intensity, 127, 0);
+			
+			//the first O is displayed inside the Sun,
+			for(int x=sunX-1; x<sunX+2; x++){
+				controller.setColor(x, sunY-2, 127-intensity, 127, 0);
+				controller.setColor(x, sunY+2, 127-intensity, 127, 0);
+			}
+			for(int y=sunY-1; y<sunY+2; y++){
+				controller.setColor(sunX-2, y, 127-intensity, 127, 0);
+				controller.setColor(sunX+2, y, 127-intensity, 127, 0);
+			}
+			
+			//a dash takes the place of the right sunray
+			for(int x=sunX+5; x<sunX+8; x++){
+				controller.setColor(x, 3, 127-intensity, 127, 0);
 			}
 			
 			//and the rest of the word is shown below it.
 			rizon.displayWordAt(0, 8, 0, intensity, 0);
-			controller.setColor(11, 8, 127-intensity, 127, 0);
-			controller.setColor(16, 9, 127-intensity, 127, 0);
+			for(int y=sunY+6; y<sunY+8; y++){
+				controller.setColor(sunX, y, 127-intensity, 127, 0);
+			}
+			controller.setColor(sunX+5, sunY+5, 127-intensity, 127, 0);
 			
 			controller.updateLedStripe();
+			
+			//This line makes the intensity reach the otherwise skipped value 127
+			if(intensity == 126)intensity=125;
 		}
 		
 		controller.sleep(3500);
 		
-		for(int count=0; count<128; count++){
-			for(x=0; x<20; x++){
-				for(y=0; y<20; y++){
+		//At the end, everything fades away
+		for(int count=0; count<128; count+=2){
+			for(int x=0; x<20; x++){
+				for(int y=0; y<20; y++){
 					for(int i=0; i<3; i++){
-						if(controller.getColorAt(x, y)[i]!=0){
+						if(controller.getColorAt(x, y)[i]==1){
 							int[] color = controller.getColorAt(x, y);
 							color[i]--;
+							controller.setColor(x, y, color);
+						}
+						if(controller.getColorAt(x, y)[i]!=0){
+							int[] color = controller.getColorAt(x, y);
+							color[i]-=2;
 							controller.setColor(x, y, color);
 						}
 					}
@@ -118,24 +136,82 @@ public abstract class Intro{
 		final Word pro = new Word("Pro");
 		final Word ject = new Word("ject");
 		
-		pro.displayWordAt(5, 3, 90, 90, 90);
-		ject.displayWordAt(2, 9, 90, 90, 90);
-
+		//The word Project lights up on the board,
+		for(int color=0; color<81; color+=4){
+//			if(color==64){
+//				controller.sleep(1000);
+//			}
+//			if(color>63){
+//				color+=4;
+//			}
+			pro.displayWordAt(5, 3, color, color, color);
+			ject.displayWordAt(2, 9, color, color, color);
+			controller.updateLedStripe();
+			controller.sleep(15);
+		}
+		controller.sleep(800);
+		
+//		//grows a bit darker again
+//		for(int color=127; color>86; color-=8){
+//			pro.displayWordAt(5, 3, color, color, color);
+//			ject.displayWordAt(2, 9, color, color, color);
+//			controller.updateLedStripe();
+//			controller.sleep(-1000000000);
+//		}
+		
+		
+		//and gains/loses some color
+//		for(int color=88; color>79; color-=2){
+//			pro.displayWordAt(5, 3, color, color, color);
+//			ject.displayWordAt(2, 9, color, color, color);
+//			controller.updateLedStripe();
+//		}
+		for(int color=79; color>39; color-=2){
+			pro.displayWordAt(5, 3, color, color, 80);
+			ject.displayWordAt(2, 9, color, color, 80);
+			controller.updateLedStripe();
+		}
+		for(int color=39; color>29; color-=2){
+			pro.displayWordAt(5, 3, 40, 40, 80);
+			ject.displayWordAt(2, 9, color, 40, 80);
+			controller.updateLedStripe();
+		}
+		
 		controller.updateLedStripe();
-		controller.sleep(3000);
+		controller.sleep(1000);
 		controller.resetColors();
 		
 		final Word space = new Word("Space");
-		final Word shoo = new Word("Shoo");
+		final Word sh = new Word("Sh");
 		final Word ter = new Word("ter");
+
+		for(int color=0; color<41; color+=2){
+			space.displayWordAt(0, 0, color+27, color+27, 0);
+			sh.displayWordAt(0, 9, color+27, color+27, 0);
+			Letter.DrawLetterAt('∞', sh.getLength(), 9, color+27, color+27, 0);
+			Letter.DrawLetterAt('-', sh.getLength()+8, 9, color+27, color+27, 0);
+			ter.displayWordAt(0, 15, color+27, color+27, 0);
+			controller.updateLedStripe();
+			controller.sleep(25);
+		}
+		controller.sleep(750);
 		
-		space.displayWordAt(0, 0, 127, 107, 0);
-		shoo.displayWordAt(2, 9, 107, 127, 0);
-		ter.displayWordAt(5, 15, 107, 127, 0);
+		for(int color=0; color<41; color+=2){
+			space.displayWordAt(0, 0, color+67, 3*color/2+67, 0);
+			controller.updateLedStripe();
+			controller.sleep(25);
+		}
+		controller.sleep(1250);
 		
-		controller.updateLedStripe();
-		controller.sleep(5000);
-		controller.resetColors();
+		for(int color=0; color<41; color+=2){
+			sh.displayWordAt(0, 9, 3*color/2+67, color+67, 0);
+			Letter.DrawLetterAt('∞', sh.getLength(), 9, 3*color/2+67, 67-color/1, 0);
+			Letter.DrawLetterAt('-', sh.getLength()+8, 9, 3*color/2+67, color+67, 0);
+			ter.displayWordAt(0, 15, 3*color/2+67, color+67, 0);
+			controller.updateLedStripe();
+			controller.sleep(25);
+		}
+		controller.sleep(2500);
 	}
 	
 	static void titleScreen(){
@@ -146,8 +222,8 @@ public abstract class Intro{
 
 		KeyBuffer buffer = controller.getKeyBuffer();
 		
-		press.displayWordAt(0, 4, 127, 127, 0);
-		space.displayWordAt(0, 12, 127, 127, 0);
+		press.displayWordAt(0, 4, 95, 80, 0);
+		space.displayWordAt(0, 12, 95, 80, 0);
 		controller.updateLedStripe();
 		
 		boolean increase = false;

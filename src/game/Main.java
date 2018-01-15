@@ -28,7 +28,8 @@ public abstract class Main{
 
 	public static void main(String[] args) {
 		
-		gameStart();
+//		gameStart();
+		gameName();
 //		introStart();
 //		sunrise();
 //		story();
@@ -91,18 +92,8 @@ public abstract class Main{
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
-						Letter.DrawLetterAt('0', 9, 7, 127, 127, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('0', 9, 7, 127, 127, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
+						Letter.BlinkLetter('0', 9, 7, 127, 127, 127, wait);
+						Letter.BlinkLetter('0', 9, 7, 127, 127, 127, wait);
 						
 						//Pressing 0 starts the tutorial
 						Gameplay.start(0);
@@ -115,18 +106,8 @@ public abstract class Main{
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
-						Letter.DrawLetterAt('1', 2, 14, 127, 127, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('1', 2, 14, 0, 127, 0);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('1', 2, 14, 127, 127, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('1', 2, 14, 0, 127, 0);
-						controller.updateLedStripe();
-						controller.sleep(wait);
+						Letter.BlinkLetter('1', 2, 14, 127, 127, 127, wait);
+						Letter.BlinkLetter('1', 2, 14, 127, 127, 127, wait);
 						
 						//Pressing 1 starts easy mode
 						Gameplay.start(1);
@@ -139,18 +120,8 @@ public abstract class Main{
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
-						Letter.DrawLetterAt('2', 9, 14, 127, 127, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('2', 9, 14, 0, 0, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('2', 9, 14, 127, 127, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('2', 9, 14, 0, 0, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
+						Letter.BlinkLetter('2', 9, 14, 127, 127, 127, wait);
+						Letter.BlinkLetter('2', 9, 14, 127, 127, 127, wait);
 						
 						//Pressing 2 starts medium mode
 						Gameplay.start(2);
@@ -164,18 +135,8 @@ public abstract class Main{
 						controller.updateLedStripe();
 						
 						//The pressed option blinks a few times
-						Letter.DrawLetterAt('3', 16, 14, 127, 127, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('3', 16, 14, 127, 127, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
-						controller.updateLedStripe();
-						controller.sleep(wait);
+						Letter.BlinkLetter('3', 16, 14, 127, 127, 127, wait);
+						Letter.BlinkLetter('3', 16, 14, 127, 127, 127, wait);
 						
 						//Pressing 3 starts hard mode
 						Gameplay.start(3);
@@ -186,20 +147,11 @@ public abstract class Main{
 
 						//The explanation disappears,
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
+						controller.updateLedStripe();
 						
 						//The pressed option blinks a few times
-						Letter.DrawLetterAt('C', 16, 7, 127, 127, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('C', 16, 7, 0, 127, 107);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('C', 16, 7, 127, 127, 127);
-						controller.updateLedStripe();
-						controller.sleep(wait);
-						Letter.DrawLetterAt('C', 16, 7, 0, 127, 107);
-						controller.updateLedStripe();
-						controller.sleep(wait);
+						Letter.BlinkLetter('C', 16, 7, 127, 127, 127, wait);
+						Letter.BlinkLetter('C', 16, 7, 127, 127, 127, wait);
 						
 						//Pressing C shows the credits
 						Endscreen.credits();
@@ -223,10 +175,16 @@ public abstract class Main{
 		}
 	}
 
+	//With the following methods, a variety of different things can be tested
+
 	private static void introStart(){
 		Intro.logoScreen();
 		Intro.gameName();
 		Intro.titleScreen();
+	}
+	
+	private static void gameName(){
+		Intro.gameName();
 	}
 	
 	private static void story(){
@@ -236,8 +194,6 @@ public abstract class Main{
 	private static void sunrise(){
 		Intro.logoScreen();
 	}
-	
-	//With the following methods, a variety of different things can be tested
 	
 	private static void nestTest(){
 		

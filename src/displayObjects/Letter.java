@@ -16,7 +16,7 @@ public class Letter {
 	int getLength() {return length;}
 	int getHeight() {return height;}
 
-	//A Letter consists of a length and a height, and they automatically define the dimensions of the positions array.
+	//A Letter consists of a length and a height, which define the dimensions of the positions array.
 	private Letter(int length, int height){
 		
 		this.length = length;
@@ -42,7 +42,7 @@ public class Letter {
 		//This switch statement designs all Letters
 		switch(character){
 		
-		//First the symbols
+		//First the symbols,
 		case ' ':
 			letter = new Letter(2, 1);
 			for(int x=0; x<2; x++){
@@ -52,42 +52,65 @@ public class Letter {
 			
 		case '.':
 			letter = new Letter(1, 5);
-			for(int y=0;y<4;y++){
+			for(int y=0; y<4; y++){
 				letter.positions[0][y] = false;
 			}
 			break;
 			
 		case ':':
 			letter = new Letter(1, 5);
-			for(int y=0;y<5;y+=2){
+			for(int y=0; y<5; y+=2){
 				letter.positions[0][y] = false;
 			}
 			break;
 			
 		case ',':
 			letter = new Letter(2, 6);
-			for(int y=0;y<6;y++){
+			for(int y=0; y<6; y++){
 				if(y!=5)letter.positions[0][y] = false;
 				if(y!=4)letter.positions[1][y] = false;
 			}
 			break;
 
+		case '-':
+			letter = new Letter(3, 5);
+			for(int x=0; x<3; x++){
+				for(int y=0; y<5; y++){
+					if(y!=2)letter.positions[x][y] = false;
+				}
+			}
+			break;
+			
 		case '!':
 			letter = new Letter(1, 5);
 			letter.positions[0][3] = false;
 			break;
 			
-		//Then all ten ciphers
+		case '∞':
+			letter = new Letter(7,5);
+			for(int x=0; x<7; x+=3){
+				for(int y=0; y<5; y+=4){
+					letter.positions[x][y] = false;
+				}
+			}
+			for(int x=1; x<6; x++){
+				for(int y=1; y<4; y++){
+					if(x!=3)letter.positions[x][y] = false;
+				}
+			}
+			break;
+			
+		//then all ten Arabian ciphers
 		case '0':
 			letter = new Letter(3, 5);
-			for(int y=1;y<4; y++){
+			for(int y=1; y<4; y++){
 				letter.positions[1][y] = false;
 			}
 			break;
 
 		case '1':
 			letter = new Letter(3, 5);
-			for(int y=0;y<5; y++){
+			for(int y=0; y<5; y++){
 				if(y!=2)letter.positions[0][y] = false;
 				if(y!=1)letter.positions[1][y] = false;
 			}
@@ -95,7 +118,7 @@ public class Letter {
 
 		case '2':
 			letter = new Letter(3, 5);
-			for(int x=0;x<3;x++){
+			for(int x=0; x<3; x++){
 				if(x!=2)letter.positions[x][1] = false;
 				if(x!=0)letter.positions[x][3] = false;
 			}
@@ -103,7 +126,7 @@ public class Letter {
 
 		case'3':
 			letter = new Letter(3, 5);
-			for(int x=0;x<3;x++){
+			for(int x=0; x<3; x++){
 				if(x!=2)letter.positions[x][1] = false;
 				if(x!=2)letter.positions[x][3] = false;
 			}
@@ -111,7 +134,7 @@ public class Letter {
 
 		case'4':
 			letter = new Letter(3, 5);
-			for(int y=0;y<5; y++){
+			for(int y=0; y<5; y++){
 				if(y!= 0 && y!=1 && y!=2)letter.positions[0][y] = false;
 				if(y!=2)letter.positions[1][y] = false;
 			}
@@ -119,7 +142,7 @@ public class Letter {
 
 		case'5':
 			letter = new Letter(3, 5);
-			for(int x=0;x<3;x++){
+			for(int x=0; x<3; x++){
 				if(x!=0)letter.positions[x][1] = false;
 				if(x!=2)letter.positions[x][3] = false;
 			}
@@ -127,7 +150,7 @@ public class Letter {
 
 		case'6':
 			letter = new Letter(3, 5);
-			for(int x=0;x<3;x++){
+			for(int x=0; x<3; x++){
 				if(x!=0)letter.positions[x][1] = false;
 				if(x!=0 && x!=2)letter.positions[x][3] = false;
 			}
@@ -135,7 +158,7 @@ public class Letter {
 
 		case'7':
 			letter = new Letter(3, 5);
-			for(int y=1;y<5; y++){
+			for(int y=1; y<5; y++){
 				letter.positions[0][y] = false;
 				letter.positions[1][y] = false;
 			}
@@ -149,13 +172,13 @@ public class Letter {
 
 		case'9':
 			letter = new Letter(3, 5);
-			for(int x=0;x<3;x++){
+			for(int x=0; x<3; x++){
 				if(x!=0 && x!=2)letter.positions[x][1] = false;
 				if(x!=2)letter.positions[x][3] = false;
 			}
 			break;
 		
-		//And lastly all letters in the Latin alphabet
+		//and lastly all letters in the Latin alphabet
 		case'A':
 			letter = new Letter(3, 5);
 			letter.positions[0][0] = false;
@@ -232,7 +255,7 @@ public class Letter {
 		
 		case'H':
 			letter = new Letter(3, 5);
-			for(int y=0;y<5;y++){
+			for(int y=0; y<5; y++){
 				if(y!=2)letter.positions[1][y] = false;
 			}
 			break;
@@ -245,7 +268,7 @@ public class Letter {
 		
 		case'J':
 			letter = new Letter(3, 5);
-			for(int y=0;y<4;y++){
+			for(int y=0; y<4; y++){
 				if(y!=3)letter.positions[0][y] = false;
 				letter.positions[1][y] = false;
 			}
@@ -254,13 +277,13 @@ public class Letter {
 		
 		case'K':
 			letter = new Letter(4, 5);
-			for(int y=1;y<4; y++){
+			for(int y=1; y<4; y++){
 				letter.positions[3][y] = false;
 			}
-			for(int y=0;y<5; y+=2){
+			for(int y=0; y<5; y+=2){
 				letter.positions[2][y] = false;
 			}
-			for(int y=0;y<5; y++){
+			for(int y=0; y<5; y++){
 				if(y!=2)letter.positions[1][y] = false;
 			}
 			break;
@@ -268,7 +291,7 @@ public class Letter {
 		
 		case'L':
 			letter = new Letter(3, 5);
-			for(int y=0;y<4; y++){
+			for(int y=0; y<4; y++){
 				letter.positions[1][y] = false;
 				letter.positions[2][y] = false;
 			}
@@ -277,7 +300,7 @@ public class Letter {
 		
 		case'M':
 			letter = new Letter(5, 5);
-			for(int y=0;y<5; y++){
+			for(int y=0; y<5; y++){
 				if(y!=1)letter.positions[1][y] = false;
 				if(y!=2)letter.positions[2][y] = false;
 				if(y!=1)letter.positions[3][y] = false;
@@ -287,7 +310,7 @@ public class Letter {
 			
 		case'N':
 			letter = new Letter(5, 5);
-			for(int y=0;y<5; y++){
+			for(int y=0; y<5; y++){
 				if(y!=1)letter.positions[1][y] = false;
 				if(y!=2)letter.positions[2][y] = false;
 				if(y!=3)letter.positions[3][y] = false;
@@ -297,8 +320,8 @@ public class Letter {
 			
 		case'O':
 			letter = new Letter(4, 5);
-			for(int x=1;x<3; x++){
-			for(int y=1;y<4; y++){
+			for(int x=1; x<3; x++){
+			for(int y=1; y<4; y++){
 				letter.positions[x][y] = false;
 			}
 			}
@@ -311,7 +334,7 @@ public class Letter {
 			
 		case'P':
 			letter = new Letter(3, 5);
-			for(int y=1;y<5; y++){
+			for(int y=1; y<5; y++){
 				if(y!=2)letter.positions[1][y] = false;
 				if(y!=1 && y!=2)letter.positions[2][y] = false;
 			}
@@ -320,7 +343,7 @@ public class Letter {
 			
 		case'Q':
 			letter = new Letter(4, 5);
-			for(int y=0;y<4; y++){
+			for(int y=0; y<4; y++){
 				if(y!=0 && y!=4)letter.positions[1][y] = false;
 				letter.positions[3][y] = false;
 			}
@@ -333,7 +356,7 @@ public class Letter {
 			
 		case'R':
 			letter = new Letter(3, 5);
-			for(int y=1;y<5; y++){
+			for(int y=1; y<5; y++){
 				if(y!=2)letter.positions[1][y] = false;
 			}
 			letter.positions[2][2] = false;	
@@ -342,7 +365,7 @@ public class Letter {
 			
 		case'S':
 			letter = new Letter(3, 5);
-			for(int y=0;y<5;y++){
+			for(int y=0; y<5; y++){
 				if(y!=1 && y!=4)letter.positions[0][y] = false;
 				if(y%2 !=0)letter.positions[1][y] = false;
 				if(y!=0 && y!=3)letter.positions[2][y] = false;
@@ -352,7 +375,7 @@ public class Letter {
 			
 		case'T':
 			letter = new Letter(3, 5);
-			for(int y=1;y<5;y++){
+			for(int y=1; y<5; y++){
 				letter.positions[0][y] = false;
 				letter.positions[2][y] = false;
 			}
@@ -361,7 +384,7 @@ public class Letter {
 			
 		case'U':
 			letter = new Letter(3, 5);
-			for(int y=0;y<4;y++){
+			for(int y=0; y<4; y++){
 				letter.positions[1][y] = false;
 			}
 			break;
@@ -369,7 +392,7 @@ public class Letter {
 			
 		case'V':
 			letter = new Letter(3, 5);
-			for(int y=0;y<4;y++){
+			for(int y=0; y<4; y++){
 				letter.positions[1][y] = false;
 			}
 			letter.positions[0][4] = false;
@@ -379,7 +402,7 @@ public class Letter {
 			
 		case'W':
 			letter = new Letter(5, 5);
-			for(int y=0;y<5; y++){
+			for(int y=0; y<5; y++){
 				if(y!=3)letter.positions[1][y] = false;
 				if(y!=2)letter.positions[2][y] = false;
 				if(y!=3)letter.positions[3][y] = false;
@@ -389,7 +412,7 @@ public class Letter {
 			
 		case'X':
 			letter = new Letter(3, 5);
-			for(int y=0;y<5;y++){
+			for(int y=0; y<5; y++){
 				if(y!=2)letter.positions[1][y] = false;
 			}
 			letter.positions[0][2] = false;
@@ -399,7 +422,7 @@ public class Letter {
 			
 		case'Y':
 			letter = new Letter(3, 5);
-			for(int y=0;y<2;y++){
+			for(int y=0; y<2; y++){
 				letter.positions[1][y] = false;
 			}
 			for(int y=2;y<5;y++){
@@ -411,7 +434,7 @@ public class Letter {
 			
 		case'Z':
 			letter = new Letter(3, 5);
-			for(int y=1;y<4;y++){
+			for(int y=1; y<4; y++){
 				if(y!=3)letter.positions[0][y] = false;
 				if(y%2 !=0)letter.positions[1][y] = false;
 				if(y!=1)letter.positions[2][y] = false;
@@ -422,7 +445,7 @@ public class Letter {
 		return letter;
 	}
 	
-	//This is the public method that can display a letter in a given position and color on the LED board
+	//This is the public method that can display a letter at a given position and color on the LED board
 	public static void DrawLetterAt(char character, int x, int y, int red, int green, int blue){
 		
 		//First, the given char gets converted into a Letter
@@ -443,4 +466,16 @@ public class Letter {
 		
 	}
 	
+	public static void BlinkLetter(char character, int x, int y, int red, int green, int blue, int wait){
+
+		BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+		
+		Letter.DrawLetterAt(character, x, y, 127, 127, 127);
+		controller.updateLedStripe();
+		controller.sleep(wait);
+		Letter.DrawLetterAt(character, x, y, red, green, blue);
+		controller.updateLedStripe();
+		controller.sleep(wait);
+		
+	}
 }

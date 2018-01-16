@@ -26,172 +26,133 @@ public abstract class Endscreen extends TrySmth{
         int[][][] point = new int[20][20][3];
 		
 		int count = 0;
-		int left = 9;
+		int left = 8;
 		int right = 10;
-		int leftUp = 19;
-		int rightUp = 19;
+		int up = 19;
 
 		for(int i=0; i<3; i++){
 			
-			point[left][leftUp][i] = fireworkColor[i];
-			point[right][rightUp][i] = fireworkColor[i];
+			point[left][up][i] = fireworkColor[i];
+			point[right][up][i] = fireworkColor[i];
 			
 			controller.setColors(point);
 			controller.updateLedStripe();
-			
 		}
 		
-		leftUp--;
+		up--;
 		left--;
-		
-		rightUp--;
 		right++;
 				
 		for(count=0; count<4; count++){
 			
 			for(int i=0; i<3; i++){
 				
-				point[left][leftUp][i] = fireworkColor[i];
-				point[right][rightUp][i] = fireworkColor[i];
+				point[left][up][i] = fireworkColor[i];
+				point[right][up][i] = fireworkColor[i];
 				
-				point[left + 1][leftUp + 1][i] = 0;
-				point[right - 1][rightUp + 1][i] = 0;
+				point[left + 1][up + 1][i] = 0;
+				point[right - 1][up + 1][i] = 0;
 				
 				controller.setColors(point);
 			    controller.updateLedStripe();
 				
 			}
 			
-			leftUp--;
+			up--;
 			left--;
-			
-			rightUp--;
 			right++;
 		}
 		
 		for(int i=0; i<3; i++){
 			
-			point[left][leftUp][i] = fireworkColor[i];
-			point[right][rightUp][i] = fireworkColor[i];
+			point[left][up][i] = fireworkColor[i];
+			point[right][up][i] = fireworkColor[i];
 			
-			point[left + 1][leftUp + 1][i] = 0;
-			point[right - 1][rightUp + 1][i] = 0;
+			point[left + 1][up + 1][i] = 0;
+			point[right - 1][up + 1][i] = 0;
 			
 			controller.setColors(point);
 		    controller.updateLedStripe();
 			
 		}
 		
-		int speicher = 0;
+		int speicher = 3;
 			
-			for(int j=0; j<5; j++){
-				
-				if(j<4){
-				
-					for(int i=0; i<3; i++){
+		for(int j=0; j<4; j++){
+			for(int i=0; i<3; i++){
+	
+				point[left - (j - 1)][up][i] = 0;
+			    point[right - (j - 1)][up][i] = 0;	
 			
-						point[left - (j - 1)][leftUp][i] = 0;
-					    point[right - (j - 1)][rightUp][i] = 0;	
-					
-					    point[left + (j - 1)][leftUp][i] = 0;
-					    point[right + (j - 1)][rightUp][i] = 0;
-					
-					    point[left][leftUp - (j - 1)][i] = 0;
-					    point[right][rightUp - (j - 1)][i] = 0;
-					
-					    point[left][leftUp + (j - 1)][i] = 0;
-					    point[right][rightUp + (j - 1)][i] = 0;
-					    
-//------------------------------------------------------------------------------------
-				
-				        point[left - j][leftUp][i] = fireworkColor[i];
-					    point[right - j][rightUp][i] = fireworkColor[i];	
-					
-					    point[left + j][leftUp][i] = fireworkColor[i];
-					    point[right + j][rightUp][i] = fireworkColor[i];
-					
-					    point[left][leftUp - j][i] = fireworkColor[i];
-					    point[right][rightUp - j][i] = fireworkColor[i];
-					
-					    point[left][leftUp + j][i] = fireworkColor[i];
-					    point[right][rightUp + j][i] = fireworkColor[i];
-					    
-		
-						
-						controller.setColors(point);
-					    controller.updateLedStripe();
+			    point[left + (j - 1)][up][i] = 0;
+			    point[right + (j - 1)][up][i] = 0;
+			
+			    point[left][up - (j - 1)][i] = 0;
+			    point[right][up - (j - 1)][i] = 0;
+			
+			    point[left][up + (j - 1)][i] = 0;
+			    point[right][up + (j - 1)][i] = 0;
 			    
-					}
-					if(j < 3){
-				    
-				    speicher += j; 
-				    
-					}
-				
-				}
-				else{
-					
-					for(int i=0; i<3; i++){
-						
-						point[left - (speicher )][leftUp][i] = 0;
-					    point[right - (speicher )][rightUp][i] = 0;	
-					
-					    point[left + (speicher )][leftUp][i] = 0;
-					    point[right + (speicher )][rightUp][i] = 0;
-					
-					    point[left][leftUp - (speicher )][i] = 0;
-					    point[right][rightUp - (speicher )][i] = 0;
-					
-					    point[left][leftUp + (speicher )][i] = 0;
-					    point[right][rightUp + (speicher )][i] = 0;
-					    
-
-						
-						controller.setColors(point);
-					    controller.updateLedStripe();
-					    
-						}
-					
-				}
+//------------------------------------------------------------------------------------
+		
+		        point[left - j][up][i] = fireworkColor[i];
+			    point[right - j][up][i] = fireworkColor[i];	
 			
+			    point[left + j][up][i] = fireworkColor[i];
+			    point[right + j][up][i] = fireworkColor[i];
+			
+			    point[left][up - j][i] = fireworkColor[i];
+			    point[right][up - j][i] = fireworkColor[i];
+			
+			    point[left][up + j][i] = fireworkColor[i];
+			    point[right][up + j][i] = fireworkColor[i];
+			    
+
+				
+				controller.setColors(point);
+			    controller.updateLedStripe();
 			}
 			
-			//Fireworks on both sides are done, so now the middle one starts
+		}
+
+		//For some reason, controller.resetColors() doesn't work here :/
+		point = new int[20][20][3];
+		controller.setColors(point);
+		
+		//Fireworks on both sides are done, so now the middle one starts
+		int top = 19;
+		count = 0;
+		int mid = 9;
+		
+		
+		
+		int leffi = 8;
+		int rightti = 10;
+		int leftUppi = 19;
+		int rightUppi = 19;
+		
+		
+		while(count < 14){
 			
-			int top = 19;
-			count = 0;
-			int mid = 9;
-			
-			
-			
-			int leffi = 9;
-			int rightti = 10;
-			int leftUppi = 19;
-			int rightUppi = 19;
-			
-			
-			while(count < 14){
+			if(count == 0){
 				
-				if(count == 0){
+				for(int i=0; i<3; i++){
 					
-					for(int i=0; i<3; i++){
-						
-						point[mid][top][i] = fireworkColor[i];
-						
-						controller.setColors(point);
-					    controller.updateLedStripe();
-						
-					}
-				    
-				    top-=2;
-				    count+=2;
-				    
-				    
+					point[mid][top][i] = fireworkColor[i];
+					
+					controller.setColors(point);
+				    controller.updateLedStripe();
+					
 				}
-				else{
-					
-					if(difficulty == 3) {
-					
+			    
+			    top-=2;
+			    count+=2;
+			    
+			    
+			}
+			else{
+				
+				if(difficulty == 3){
 					if(count > 2 && count < 14){
 						
 						leftUppi-=1;
@@ -201,193 +162,182 @@ public abstract class Endscreen extends TrySmth{
 						rightti+=1;
 						
 					}
-					
-					}
+				}
+		
+				for(int i=0; i<3; i++){
 			
-					for(int i=0; i<3; i++){
-				
 					point[mid][top][i] = fireworkColor[i];
 					point[mid][top + 2][i] = 0;
 					
 					if(difficulty == 3) {
-					
-					if(count > 2 && count < 14){
+
+						point[leffi][leftUppi][i] = fireworkColor[i];
+						point[rightti][rightUppi][i] = fireworkColor[i];
 						
-						if(count == 4){
-							
-							point[leffi][leftUppi][i] = fireworkColor[i];
-							point[rightti][rightUppi][i] = fireworkColor[i];
-							
-							
-						}else if(count > 4 && count < 14){
-							
+						if(count > 3 && count < 14){
+		
 							point[leffi][leftUppi][i] = fireworkColor[i];
 							point[rightti][rightUppi][i] = fireworkColor[i];
 							
 							point[leffi + 1][leftUppi + 1][i] = 0;
 							point[rightti - 1][rightUppi + 1][i] = 0;
-							
-							
-						}
 						
-					}
-					
-					}
+						}
 				
 					controller.setColors(point);
 					controller.updateLedStripe();
 				
 					}
-					
-				top-=2;
-				count+=2;
-			
 				}
 				
+			top-=2;
+			count+=2;
+		
 			}
+		}
+		
+        for(int i=0; i<3; i++){
 			
-            for(int i=0; i<3; i++){
+			point[mid][top][i] = fireworkColor[i];
+			point[mid][top + 2][i] = 0;
+			
+			controller.setColors(point);
+		    controller.updateLedStripe();
+		}
+        
+        if(difficulty < 3) {
+			
+			makeBoom(point,fireworkColor,mid,top, 5, difficulty);
+			
+        }
+        else{
+        	
+        	int a = 0;
+			
+			for(int j=0; j<5 ; j++){
+			
+			if(j<4){
 				
-				point[mid][top][i] = fireworkColor[i];
-				point[mid][top + 2][i] = 0;
-				
-				controller.setColors(point);
-			    controller.updateLedStripe();
-				
-			}
-            
-            if(difficulty < 2) {
-				
-				makeBoom(point,fireworkColor,mid,top, 5, difficulty);
-				
-            }else {
-            	
-            	int a = 0;
-				
-				for(int j=0; j<5 ; j++){
-				
-				if(j<4){
+				if(j%2 ==1) {
 					
-					if(j%2 ==1) {
-						
-						a++;
-						
-					}
+					a++;
 					
-					for(int i=0; i<3; i++){
-						
-						point[left - (j - 1)][leftUp][i] = 0;
-					    point[right - (j - 1)][rightUp][i] = 0;	
-					
-					    point[left + (j - 1)][leftUp][i] = 0;
-					    point[right + (j - 1)][rightUp][i] = 0;
-					
-					    point[left][leftUp - (j - 1)][i] = 0;
-					    point[right][rightUp - (j - 1)][i] = 0;
-					
-					    point[left][leftUp + (j - 1)][i] = 0;
-					    point[right][rightUp + (j - 1)][i] = 0;
-					    
-					    
-					    point[mid + (a - 1)][top + (a - 1)][i] = 0;
-					    point[mid - (a - 1)][top - (a - 1)][i] = 0;
-					    
-					    point[mid + (a - 1)][top - (a - 1)][i] = 0;
-					    
-					    point[mid - (a - 1)][top + (a - 1)][i] = 0;
-					    
-					    
-					    
+				}
 				
-						point[mid - (j - 1)][top][i] = 0;
-					    
-					    point[mid + (j - 1)][top][i] = 0;
-					    
-					    point[mid][top - (j - 1)][i] = 0;
-					    
-					    point[mid][top + (j - 1)][i] = 0;
+				for(int i=0; i<3; i++){
+					
+					point[left - (j - 1)][up][i] = 0;
+				    point[right - (j - 1)][up][i] = 0;	
 				
+				    point[left + (j - 1)][up][i] = 0;
+				    point[right + (j - 1)][up][i] = 0;
+				
+				    point[left][up - (j - 1)][i] = 0;
+				    point[right][up - (j - 1)][i] = 0;
+				
+				    point[left][up + (j - 1)][i] = 0;
+				    point[right][up + (j - 1)][i] = 0;
+				    
+				    
+				    point[mid + (a - 1)][top + (a - 1)][i] = 0;
+				    point[mid - (a - 1)][top - (a - 1)][i] = 0;
+				    
+				    point[mid + (a - 1)][top - (a - 1)][i] = 0;
+				    
+				    point[mid - (a - 1)][top + (a - 1)][i] = 0;
+				    
+				    
+				    
+			
+					point[mid - (j - 1)][top][i] = 0;
+				    
+				    point[mid + (j - 1)][top][i] = 0;
+				    
+				    point[mid][top - (j - 1)][i] = 0;
+				    
+				    point[mid][top + (j - 1)][i] = 0;
+			
 //---------------------------------------------------------------------------------------
-					    
-					    point[left - j][leftUp][i] = fireworkColor[i];
-					    point[right - j][rightUp][i] = fireworkColor[i];	
-					
-					    point[left + j][leftUp][i] = fireworkColor[i];
-					    point[right + j][rightUp][i] = fireworkColor[i];
-					
-					    point[left][leftUp - j][i] = fireworkColor[i];
-					    point[right][rightUp - j][i] = fireworkColor[i];
-					
-					    point[left][leftUp + j][i] = fireworkColor[i];
-					    point[right][rightUp + j][i] = fireworkColor[i];
-					    
-					   
-					    point[mid - a][top - a][i] = fireworkColor[i];
-					    point[mid + a][top - a][i] = fireworkColor[i];
-					    
-					    point[mid - a][top + a][i] = fireworkColor[i];
-					    point[mid + a][top + a][i] = fireworkColor[i];
-					    
-					    
-					    
-				        point[mid - j][top][i] = fireworkColor[i];
-					    
-					    point[mid + j][top][i] = fireworkColor[i];
-					    
-					    point[mid][top - j][i] = fireworkColor[i];
-					    
-					    point[mid][top + j][i] = fireworkColor[i];
-					    
-					    controller.setColors(point);
-					    controller.updateLedStripe();
-					    
-					}
-			    
+				    
+				    point[left - j][up][i] = fireworkColor[i];
+				    point[right - j][up][i] = fireworkColor[i];	
+				
+				    point[left + j][up][i] = fireworkColor[i];
+				    point[right + j][up][i] = fireworkColor[i];
+				
+				    point[left][up - j][i] = fireworkColor[i];
+				    point[right][up - j][i] = fireworkColor[i];
+				
+				    point[left][up + j][i] = fireworkColor[i];
+				    point[right][up + j][i] = fireworkColor[i];
+				    
+				   
+				    point[mid - a][top - a][i] = fireworkColor[i];
+				    point[mid + a][top - a][i] = fireworkColor[i];
+				    
+				    point[mid - a][top + a][i] = fireworkColor[i];
+				    point[mid + a][top + a][i] = fireworkColor[i];
+				    
+				    
+				    
+			        point[mid - j][top][i] = fireworkColor[i];
+				    
+				    point[mid + j][top][i] = fireworkColor[i];
+				    
+				    point[mid][top - j][i] = fireworkColor[i];
+				    
+				    point[mid][top + j][i] = fireworkColor[i];
+				    
+				    controller.setColors(point);
+				    controller.updateLedStripe();
+				    
 				}
-				else{
+		    
+			}
+			else{
+				
+				for(int i=0; i<3; i++){
 					
-					for(int i=0; i<3; i++){
-						
-						point[mid - (j - 1)][top][i] = 0;
-					    
-					    point[mid + (j - 1)][top][i] = 0;
-					    
-					    point[mid][top - (j - 1)][i] = 0;
-					    
-					    point[mid][top + (j - 1)][i] = 0;
-					    
-					    point[left - (speicher - 1)][leftUp][i] = 0;
-					    point[right - (speicher - 1)][rightUp][i] = 0;	
-					
-					    point[left + (speicher - 1)][leftUp][i] = 0;
-					    point[right + (speicher - 1)][rightUp][i] = 0;
-					
-					    point[left][leftUp - (speicher - 1)][i] = 0;
-					    point[right][rightUp - (speicher - 1)][i] = 0;
-					
-					    point[left][leftUp + (speicher - 1)][i] = 0;
-					    point[right][rightUp + (speicher - 1)][i] = 0;
+					point[mid - (j - 1)][top][i] = 0;
+				    
+				    point[mid + (j - 1)][top][i] = 0;
+				    
+				    point[mid][top - (j - 1)][i] = 0;
+				    
+				    point[mid][top + (j - 1)][i] = 0;
+				    
+				    point[left - (speicher - 1)][up][i] = 0;
+				    point[right - (speicher - 1)][up][i] = 0;	
+				
+				    point[left + (speicher - 1)][up][i] = 0;
+				    point[right + (speicher - 1)][up][i] = 0;
+				
+				    point[left][up - (speicher - 1)][i] = 0;
+				    point[right][up - (speicher - 1)][i] = 0;
+				
+				    point[left][up + (speicher - 1)][i] = 0;
+				    point[right][up + (speicher - 1)][i] = 0;
 
-					    controller.setColors(point);
-					    controller.updateLedStripe();
-					
-					}
+				    controller.setColors(point);
+				    controller.updateLedStripe();
+				
 				}
 			}
-            	
-            }
-			
-			//Now that all fireworks are done, the phrase "You won" will be displayed on the board
-			controller.resetColors();
-			
-			Word you = new Word("You");
-			Word won = new Word("won");
-			
-			you.displayWordAt(5, 4, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
-			won.displayWordAt(3, 10, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
-			
-			controller.updateLedStripe();
-			controller.sleep(4000);
+		}
+        	
+        }
+		
+		//Now that all fireworks are done, the phrase "You won" will be displayed on the board
+		controller.resetColors();
+		
+		Word you = new Word("You");
+		Word won = new Word("won");
+		
+		you.displayWordAt(5, 4, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
+		won.displayWordAt(3, 10, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
+		
+		controller.updateLedStripe();
+		controller.sleep(4000);
 		
 	}
 	

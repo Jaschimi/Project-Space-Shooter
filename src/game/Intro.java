@@ -211,11 +211,13 @@ public abstract class Intro{
 			controller.updateLedStripe();
 			controller.sleep(25);
 		}
-		controller.sleep(2500);
+		controller.sleep(3000);
 	}
 	
 	static void titleScreen(){
 
+		controller.resetColors();
+		
 		//These Words will be continuously displayed on the title screen
 		final Word press = new Word("Press");
 		final Word space = new Word("Space");
@@ -294,13 +296,13 @@ public abstract class Intro{
 				increase = true;
 			}
 			
-			//Pressing space really does break the endless loop
+			//Pressing space really does end the method
 			KeyEvent event = buffer.pop();
 			buffer.clear();
 			if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
 				if(event.getKeyCode()==java.awt.event.KeyEvent.VK_SPACE){
 					controller.resetColors();
-					break;
+					return;
 				}
 			}
 		}

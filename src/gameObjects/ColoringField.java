@@ -1,6 +1,6 @@
 package gameObjects;
 
-//This class represents the superclass of all game objects.
+//This class represents the superclass of all game objects
 public abstract class ColoringField {
 	
 	int[][][] positions;

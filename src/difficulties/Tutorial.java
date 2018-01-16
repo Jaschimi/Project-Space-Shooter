@@ -40,7 +40,7 @@ public class Tutorial{
 		final Word green = new Word("Depending on how many you have, the dot in the center of your ship is ");
 		final Word yellow = new Word("green, ");
 		final Word red = new Word("yellow or");
-		final Word dead = new Word("Once you lose all, your ship is destroyed and the Game Over screen appears.");
+		final Word dead = new Word("Once you lose all, your ship is destroyed and the game is over.");
 		
 		final Word dot = new Word("As with your ship, the dot in the enemy ships center shows its lives.");
 		final Word destroy = new Word("An enemy ship is destroyed when it too loses all lives.");
@@ -776,6 +776,12 @@ public class Tutorial{
 		int ssFadeCount = 0;
 		
 		while(true){
+
+			if(skip){
+				won=true;
+				break;
+			}
+				
 			//In every instance of the endless loop, nine things may happen:
 			//1.: The loop count increases by one
 			//2.: It is checked if the current EnemyShip has no lifes left
@@ -990,10 +996,12 @@ public class Tutorial{
 						//Escape makes the game pause
 						Gameplay.pause(ss, currentShip);
 						break;
-						
+
 					case java.awt.event.KeyEvent.VK_SPACE:
 						//space makes the SS shoot
-						ss.shoot(ss.getCannons()[0]);
+						for(int i=0; i<ss.getCannons().length; i++){
+							ss.shoot(ss.getCannons()[i]);
+						}
 						break;
 					
 					case java.awt.event.KeyEvent.VK_W:
@@ -1062,6 +1070,8 @@ public class Tutorial{
 			//Wrapping up the tutorial
 			for(int x=20; x>-allSet.getLength() ;x--){
 				
+				if(skip)break;
+					
 				//Moving the Word one space to the left every 100 milliseconds
 				allSet.displayWordAt(x+1, 0, 0, 0, 0);
 				allSet.displayWordAt(x, 0, 97, 17, 2);
@@ -1070,8 +1080,8 @@ public class Tutorial{
 			}
 			
 			//Informing the player of the other types of ships
-			EnemyShip peter = new DefaultShip(new int[]{0,10}, ssFadeCount, ssFadeCount);
-			EnemyShip kopernikus = new BigBoulder(new int[]{17,15}, ssFadeCount, ssFadeCount);
+			EnemyShip peter = new DefaultShip(new int[]{-5,10}, ssFadeCount, ssFadeCount);
+			EnemyShip kopernikus = new BigBoulder(new int[]{20,15}, ssFadeCount, ssFadeCount);
 			peter.spawn();
 			kopernikus.spawn();
 			char dsDirection = 'D';
@@ -1081,25 +1091,33 @@ public class Tutorial{
 				
 				count++;
 				
-				if(count%240==85){
-					dsDirection = 'S';
-					bbDirection = 'W';
+				if(count>25&&count<ships.getLength()-20){
+					if(count%215==85){
+						dsDirection = 'S';
+						bbDirection = 'W';
+					}
+					if(count%215==120){
+						dsDirection = 'A';
+						bbDirection = 'D';
+					}
+					if(count%215==180){
+						dsDirection = 'W';
+						bbDirection = 'S';
+					}
+					if(count%215==0){
+						dsDirection = 'D';
+						bbDirection = 'A';
+					}
+					if(count%5==0){
+						peter.move(dsDirection);
+						kopernikus.move(bbDirection);
+					}
 				}
-				if(count%240==120){
-					dsDirection = 'A';
-					bbDirection = 'D';
-				}
-				if(count%240==205){
-					dsDirection = 'W';
-					bbDirection = 'S';
-				}
-				if(count%240==0){
-					dsDirection = 'D';
-					bbDirection = 'A';
-				}
-				if(count%5==0){
-					peter.move(dsDirection);
-					kopernikus.move(bbDirection);
+				else{
+					if(count%5==0){
+						peter.move(dsDirection);
+						kopernikus.move(bbDirection);
+					}
 				}
 				
 				//Moving the Word one space to the left every 100 milliseconds
@@ -1111,8 +1129,8 @@ public class Tutorial{
 			
 			//Wishing them good luck
 			for(int x=20;x>-luck.getLength();x--){
-				good.displayWordAt(x+3, 5, 0, 0, 0);
-				good.displayWordAt(x+2, 5, 127, 127, 52);
+				good.displayWordAt(x+1, 5, 0, 0, 0);
+				good.displayWordAt(x+0, 5, 127, 127, 52);
 				luck.displayWordAt(x+1, 12, 0, 0, 0);
 				luck.displayWordAt(x+0, 12, 127, 127, 52);
 				controller.updateLedStripe();

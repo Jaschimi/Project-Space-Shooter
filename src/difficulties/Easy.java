@@ -75,7 +75,7 @@ public class Easy {
 		//This variable counts the amount of times the endless loop has been started
 		int loopCount = 0;
 		//These variables count the amount of times the colors of a ship have faded
-		int fadeCount = 0;
+		int enemyFadeCount = 0;
 		int ssFadeCount = 0;
 		//This boolean determines if the current ship will move left or right
 		boolean right = true;
@@ -100,11 +100,11 @@ public class Easy {
 				//Letting the colors of the destroyed ship fade away
 				currentShip.fade();
 				currentShip.fade();
-				fadeCount++;
+				enemyFadeCount++;
 
 				//Here the enemy ship is completely faded away
-				if(fadeCount==63){
-					fadeCount=0;
+				if(enemyFadeCount==63){
+					enemyFadeCount=0;
 					//If there's another UFO in the ufoList, it will become the new current UFO and be spawned now
 					if(currentShip.getNext() != null){
 						currentShip = currentShip.getNext();
@@ -286,10 +286,12 @@ public class Easy {
 						//Escape makes the game pause
 						Gameplay.pause(ss, currentShip);
 						break;
-						
+
 					case java.awt.event.KeyEvent.VK_SPACE:
 						//space makes the SS shoot
-						ss.shoot(ss.getCannons()[0]);
+						for(int i=0; i<ss.getCannons().length; i++){
+							ss.shoot(ss.getCannons()[i]);
+						}
 						break;
 					
 					case java.awt.event.KeyEvent.VK_W:

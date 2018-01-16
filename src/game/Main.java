@@ -28,13 +28,13 @@ public abstract class Main{
 
 	public static void main(String[] args) {
 		
-//		gameStart();
+		gameStart();
 //		gameName();
 //		introStart();
 //		sunrise();
 //		story();
 //		nestTest();
-		endscreenTest(true, 2);
+//		endscreenTest(true, 1);
 //		rainbow();
 //		Goldenization();
 //		shipDiashow();
@@ -47,7 +47,7 @@ public abstract class Main{
 	private static void gameStart(){
 
 		//At the beginning, there was an intro...
-		introStart();
+//		introStart();
 		
 		buffer = controller.getKeyBuffer();
 		

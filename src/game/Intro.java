@@ -216,14 +216,15 @@ public abstract class Intro{
 	
 	static void titleScreen(){
 
+		KeyBuffer buffer = controller.getKeyBuffer();
+		
 		controller.resetColors();
+		buffer.clear();
 		
 		//These Words will be continuously displayed on the title screen
 		final Word press = new Word("Press");
 		final Word space = new Word("Space");
 
-		KeyBuffer buffer = controller.getKeyBuffer();
-		
 		press.displayWordAt(0, 4, 95, 80, 0);
 		space.displayWordAt(0, 12, 95, 80, 0);
 		controller.updateLedStripe();

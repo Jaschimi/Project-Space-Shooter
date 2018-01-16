@@ -183,11 +183,10 @@ public abstract class Endscreen extends TrySmth{
 							point[rightti - 1][rightUppi + 1][i] = 0;
 						
 						}
+					}
 				
 					controller.setColors(point);
 					controller.updateLedStripe();
-				
-					}
 				}
 				
 			top-=2;

@@ -255,6 +255,62 @@ public abstract class Gameplay{
 						Endscreen.letItGo(controller.getColors(), new int[]{69,4,4}, 10);
 						System.exit(666);
 						
+					case "5500":
+						for(x=0; x<3; x++){
+							for(y=0; y<2; y++){
+								ss.setColorAt(x, y, 0, 0, 0);
+							}
+						}
+						break;
+
+					case "5501":
+						ss.setColorAt(0, 0, 0, 127, 107);
+						ss.setColorAt(2, 0, 0, 127, 107);
+						ss.setColorAt(0, 1, 0, 127, 107);
+						ss.setColorAt(2, 1, 0, 127, 107);
+						break;
+
+					case "5502":
+						for(x=0; x<3; x++){
+							for(y=0; y<2; y++){
+								if(x==1 && y==1)ss.setColorAt(1, 1, 5, 107, 17);
+								else{
+									if(y==0 && x==1)ss.setColorAt(x, y, 0, 0, 0);
+									else{
+										ss.setColorAt(x, y, 99, 28, 29);
+									}
+								}
+							}
+						}
+						break;
+
+					case "5503":
+						ss.setColorAt(0, 0, 28, 8, 99);
+						ss.setColorAt(2, 0, 28, 8, 99);
+						ss.setColorAt(0, 1, 28, 8, 99);
+						ss.setColorAt(2, 1, 28, 8, 99);
+						break;
+
+					case "5509":
+						for(x=0; x<3; x++){
+							for(y=0; y<2; y++){
+								ss.setColorAt(x, y, 127, 127, 127);
+							}
+						}
+						break;
+
+					case "5510":
+						y = ss.getTopLeftCorner()[1]-1;
+						ss.setCannons(new int[][]{{0,y},{2,y},{4,y},{6,y},{8,y},{10,y},{12,y},{14,y},{16,y},{18,y}});
+						ss.setShots(new Projectile[20]);
+						break;
+						
+					case "5519":
+						y = ss.getTopLeftCorner()[1]-1;
+						ss.setCannons(new int[][]{{0,y},{1,y},{2,y},{3,y},{4,y},{5,y},{6,y},{7,y},{8,y},{9,y},{10,y},{11,y},{12,y},{13,y},{14,y},{15,y},{16,y},{17,y},{18,y},{19,y}});
+						ss.setShots(new Projectile[100]);
+						break;
+						
 					case "5550":
 						ss.setShots(new Projectile[0]);
 						break;

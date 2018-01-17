@@ -54,6 +54,12 @@ public class Tutorial{
 		final Word good = new Word("Good");
 		final Word luck = new Word("luck!");
 		
+		//They will be displayed in the following color
+		int c1,c2,c3;
+		c1=47;
+		c2=97;
+		c3=2;
+		
 		//This is a shortcut ;-)
 		boolean skip = false;
 		//Displaying the first Word
@@ -83,7 +89,7 @@ public class Tutorial{
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			tutorial.displayWordAt(x+1, 0, 0, 0, 0);
-			tutorial.displayWordAt(x, 0, 97, 17, 2);
+			tutorial.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -97,144 +103,150 @@ public class Tutorial{
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			SS.displayWordAt(x+1, 0, 0, 0, 0);
-			SS.displayWordAt(x, 0, 97, 17, 2);
+			SS.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
 		
-		//Starting the left/right movement test. It ends once this variable reaches 10 or the Word is off screen.
+		//Starting the left/right movement test. It ends once this variable reaches 10.
 		int count = 0;
 		buffer.clear();
-		for(int x=20; x>-leftRight.getLength() ;x--){
-			
-			//Shortcut
-			if(skip)break;
-			
-			KeyEvent event = buffer.pop();
-			buffer.clear();
-			if(event != null){
-				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
-					
-					switch (event.getKeyCode()){
-					
-					case java.awt.event.KeyEvent.VK_A:
-						//A makes the SS move left
-						ss.move('A');
-						//and the bufferCount increase by one.
-						count +=1;
-						break;
-					
-					case java.awt.event.KeyEvent.VK_D:
-						//D makes the SS move right
-						ss.move('D');
-						//and the bufferCount increase by one.
-						count+=1;
-						break;
-					}
-				}
-			}
+		while(count<10){
+			for(int x=20; x>-leftRight.getLength() ;x--){
 				
-			//Moving the Word one space to the left every 100 milliseconds
-			leftRight.displayWordAt(x+1, 0, 0, 0, 0);
-			//Putting the break statement here makes sure that no text is still visible after it
-			if(count == 10){
-				break;
+				//Shortcut
+				if(skip)break;
+				
+				KeyEvent event = buffer.pop();
+				buffer.clear();
+				if(event != null){
+					if(event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+						
+						switch(event.getKeyCode()){
+						
+						case java.awt.event.KeyEvent.VK_A:
+							//A makes the SS move left
+							ss.move('A');
+							//and the bufferCount increase by one.
+							count +=1;
+							break;
+						
+						case java.awt.event.KeyEvent.VK_D:
+							//D makes the SS move right
+							ss.move('D');
+							//and the bufferCount increase by one.
+							count+=1;
+							break;
+						}
+					}
+				}
+					
+				//Moving the Word one space to the left every 100 milliseconds
+				leftRight.displayWordAt(x+1, 0, 0, 0, 0);
+				//Putting the break statement here makes sure that no text is still visible after it
+				if(count == 10){
+					break;
+				}
+				leftRight.displayWordAt(x, 0, c1, c2, c3);
+				controller.updateLedStripe();
+				controller.sleep(100);
 			}
-			leftRight.displayWordAt(x, 0, 97, 17, 2);
-			controller.updateLedStripe();
-			controller.sleep(100);
 		}
 		
-		//Starting the up/down movement test. It ends once this variable reaches 10 or the Word is off screen.
+		//Starting the up/down movement test. It ends once this variable reaches 10.
 		count = 0;
-		for(int x=20; x>-upDown.getLength() ;x--){
-			
-			//Shortcut
-			if(skip)break;
-			
-			KeyEvent event = buffer.pop();
-			buffer.clear();
-			if(event != null){
-				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
-					
-					switch (event.getKeyCode()){
-					
-					case java.awt.event.KeyEvent.VK_W:
-						//W makes the SS move up
-						ss.move('W');
-						//and the bufferCount increase by one.
-						count +=1;
-						break;
-					
-					case java.awt.event.KeyEvent.VK_S:
-						//S makes the SS move down
-						ss.move('S');
-						//and the bufferCount increase by one.
-						count+=1;
-						break;
+		while(count<10){
+			for(int x=20; x>-upDown.getLength() ;x--){
+				
+				//Shortcut
+				if(skip)break;
+				
+				KeyEvent event = buffer.pop();
+				buffer.clear();
+				if(event != null){
+					if(event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+						
+						switch(event.getKeyCode()){
+						
+						case java.awt.event.KeyEvent.VK_W:
+							//W makes the SS move up
+							ss.move('W');
+							//and the bufferCount increase by one.
+							count +=1;
+							break;
+						
+						case java.awt.event.KeyEvent.VK_S:
+							//S makes the SS move down
+							ss.move('S');
+							//and the bufferCount increase by one.
+							count+=1;
+							break;
+						}
 					}
+				}	
+				//Moving the Word one space to the left every 100 milliseconds
+				upDown.displayWordAt(x+1, 0, 0, 0, 0);
+				//Putting the break statement here makes sure that no text is still visible after it
+				if(count == 10){
+					break;
 				}
-			}	
-			//Moving the Word one space to the left every 100 milliseconds
-			upDown.displayWordAt(x+1, 0, 0, 0, 0);
-			//Putting the break statement here makes sure that no text is still visible after it
-			if(count == 10){
-				break;
+				upDown.displayWordAt(x, 0, c1, c2, c3);
+				controller.updateLedStripe();
+				controller.sleep(100);
 			}
-			upDown.displayWordAt(x, 0, 97, 17, 2);
-			controller.updateLedStripe();
-			controller.sleep(100);
 		}
 		
-		//Starting the shooting test. It ends once this variable reaches 7 or the Word is off screen.
+		//Starting the shooting test. It ends once this variable reaches 7.
 		count = 0;
-		for(int x=20; x>-shoot.getLength() ;x--){
-			
-			//Shortcut
-			if(skip)break;
-			
-			//Moving the Word one space to the left every 100 milliseconds
-			shoot.displayWordAt(x+1, 0, 0, 0, 0);
-			//Putting the break statement here makes sure that no text is still visible after it
-			if(count == 7){
-				break;
-			}
-			shoot.displayWordAt(x, 0, 97, 17, 2);
-			
-			//This loop makes all projectiles shot move up by one
-			for(int i=0; i<ss.getShots().length; i++){
-				//Only when an entry is not null(i.e. a projectile has been shot), the rest of the code is accessed
-				if(ss.getShots()[i] != null){
-					//This if statement checks if the projectile is still on the screen
-					if(ss.getShots()[i].getY()>=0){
-						//If that's the case, it will move up by one spot
-						ss.getShots()[i].moveProjectile("up");
-					}
-					else{//here the shot is offscreen, so its corresponding array entry can be set to null
-						ss.getShots()[i] = null;
+		while(count<7){
+			for(int x=20; x>-shoot.getLength() ;x--){
+				
+				//Shortcut
+				if(skip)break;
+				
+				//Moving the Word one space to the left every 100 milliseconds
+				shoot.displayWordAt(x+1, 0, 0, 0, 0);
+				//Putting the break statement here makes sure that no text is still visible after it
+				if(count == 7){
+					break;
+				}
+				shoot.displayWordAt(x, 0, c1, c2, c3);
+				
+				//This loop makes all projectiles shot move up by one
+				for(int i=0; i<ss.getShots().length; i++){
+					//Only when an entry is not null(i.e. a projectile has been shot), the rest of the code is accessed
+					if(ss.getShots()[i] != null){
+						//This if statement checks if the projectile is still on the screen
+						if(ss.getShots()[i].getY()>=0){
+							//If that's the case, it will move up by one spot
+							ss.getShots()[i].moveProjectile("up");
+						}
+						else{//here the shot is offscreen, so its corresponding array entry can be set to null
+							ss.getShots()[i] = null;
+						}
 					}
 				}
-			}
-
-			KeyEvent event = buffer.pop();
-			buffer.clear();
-			if(event != null){
-				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
-					
-					switch (event.getKeyCode()){
-					
-					case java.awt.event.KeyEvent.VK_SPACE:
-						//Space makes the SS shoot
-						ss.shoot(ss.getCannons()[0]);
-						//and the count increase by one.
-						count +=1;
-						break;
+	
+				KeyEvent event = buffer.pop();
+				buffer.clear();
+				if(event != null){
+					if(event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+						
+						switch(event.getKeyCode()){
+						
+						case java.awt.event.KeyEvent.VK_SPACE:
+							//Space makes the SS shoot
+							ss.shoot(ss.getCannons()[0]);
+							//and the count increase by one.
+							count +=1;
+							break;
+						}
 					}
 				}
+				
+				controller.updateLedStripe();
+				controller.sleep(100);
 			}
-			
-			controller.updateLedStripe();
-			controller.sleep(100);
 		}
 		
 		//Before the EnemyShip explanation starts, the Space Shooter moves to its starting location again
@@ -307,7 +319,7 @@ public class Tutorial{
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			UFO.displayWordAt(x+1, 0, 0, 0, 0);
-			UFO.displayWordAt(x, 0, 97, 17, 2);
+			UFO.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -340,7 +352,7 @@ public class Tutorial{
 			}
 			//Moving the Word one space to the left every 100 milliseconds
 			movement.displayWordAt(x+1, 0, 0, 0, 0);
-			movement.displayWordAt(x, 0, 97, 17, 2);
+			movement.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -375,7 +387,7 @@ public class Tutorial{
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			projectile.displayWordAt(x+1, 0, 0, 0, 0);
-			projectile.displayWordAt(x, 0, 97, 17, 2);
+			projectile.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -413,7 +425,7 @@ public class Tutorial{
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			hit.displayWordAt(x+1, 0, 0, 0, 0);
-			hit.displayWordAt(x, 0, 97, 17, 2);
+			hit.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -470,7 +482,7 @@ public class Tutorial{
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			lives.displayWordAt(x+1, 0, 0, 0, 0);
-			lives.displayWordAt(x, 0, 97, 17, 2);
+			lives.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -508,7 +520,7 @@ public class Tutorial{
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			dead.displayWordAt(x+1, 0, 0, 0, 0);
-			dead.displayWordAt(x, 0, 97, 17, 2);
+			dead.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -521,7 +533,7 @@ public class Tutorial{
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			dot.displayWordAt(x+1, 0, 0, 0, 0);
-			dot.displayWordAt(x, 0, 97, 17, 2);
+			dot.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -569,7 +581,7 @@ public class Tutorial{
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			destroy.displayWordAt(x+1, 0, 0, 0, 0);
-			destroy.displayWordAt(x, 0, 97, 17, 2);
+			destroy.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -588,7 +600,7 @@ public class Tutorial{
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			next.displayWordAt(x+1, 0, 0, 0, 0);
-			next.displayWordAt(x, 0, 97, 17, 2);
+			next.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -727,7 +739,7 @@ public class Tutorial{
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			goal.displayWordAt(x+1, 0, 0, 0, 0);
-			goal.displayWordAt(x, 0, 97, 17, 2);
+			goal.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -740,7 +752,7 @@ public class Tutorial{
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			test.displayWordAt(x+1, 0, 0, 0, 0);
-			test.displayWordAt(x, 0, 97, 17, 2);
+			test.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -774,23 +786,19 @@ public class Tutorial{
 		//These variables counts the amount of times the colors of a ship have faded
 		int enemyFadeCount = 0;
 		int ssFadeCount = 0;
+
+		controller.updateLedStripe();
 		
 		while(true){
-
-			if(skip){
-				won=true;
-				break;
-			}
-				
 			//In every instance of the endless loop, nine things may happen:
 			//1.: The loop count increases by one
 			//2.: It is checked if the current EnemyShip has no lifes left
 			//3.: It is checked if the SpaceShooter has no lifes left
-			//4.: All shots the SpaceShooter fired are moving upwards by one
-			//5.: All shots the currentUFO fired are moving downwards by one
+			//4.: All shots the SpaceShooter fired move upwards by one
+			//5.: All shots the current ship fired move downwards by one
 			//6.: The current ship moves in a direction
 			//7.: The current EnemyShip shoots a projectile
-			//8.: The last keyboard input is detected and one of five actions is performed
+			//8.: The last keyboard input is detected and one of six actions is performed
 			//9.: Finally, the LED stripe is updated
 			
 			//1.
@@ -1074,7 +1082,7 @@ public class Tutorial{
 					
 				//Moving the Word one space to the left every 100 milliseconds
 				allSet.displayWordAt(x+1, 0, 0, 0, 0);
-				allSet.displayWordAt(x, 0, 97, 17, 2);
+				allSet.displayWordAt(x, 0, c1, c2, c3);
 				controller.updateLedStripe();
 				controller.sleep(100);
 			}
@@ -1122,7 +1130,7 @@ public class Tutorial{
 				
 				//Moving the Word one space to the left every 100 milliseconds
 				ships.displayWordAt(x+1, 0, 0, 0, 0);
-				ships.displayWordAt(x, 0, 97, 17, 2);
+				ships.displayWordAt(x, 0, c1, c2, c3);
 				controller.updateLedStripe();
 				controller.sleep(100);
 			}

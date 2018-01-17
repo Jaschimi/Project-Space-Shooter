@@ -144,7 +144,7 @@ public abstract class Intro{
 //			if(color>63){
 //				color+=4;
 //			}
-			pro.displayWordAt(5, 3, color, color, color);
+			pro.displayWordAt(4, 3, color, color, color);
 			ject.displayWordAt(2, 9, color, color, color);
 			controller.updateLedStripe();
 			controller.sleep(15);
@@ -167,12 +167,12 @@ public abstract class Intro{
 //			controller.updateLedStripe();
 //		}
 		for(int color=79; color>39; color-=2){
-			pro.displayWordAt(5, 3, color, color, 80);
+			pro.displayWordAt(4, 3, color, color, 80);
 			ject.displayWordAt(2, 9, color, color, 80);
 			controller.updateLedStripe();
 		}
 		for(int color=39; color>29; color-=2){
-			pro.displayWordAt(5, 3, 40, 40, 80);
+			pro.displayWordAt(4, 3, 40, 40, 80);
 			ject.displayWordAt(2, 9, color, 40, 80);
 			controller.updateLedStripe();
 		}

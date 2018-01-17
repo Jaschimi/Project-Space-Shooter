@@ -1,8 +1,13 @@
 package game;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
-public class TrySmth {
+public class Misc{
 	
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	
@@ -243,5 +248,37 @@ public class TrySmth {
 		
 		return point;
 	}
+    
+    //This method restarts a java application. I found it online and it isn't really needed for the program to work, but I thought
+    //it would be nice to have a reset button just in case.
+    public static void restartProgram(){
+    	
+      final String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+      File currentJar = null;
+	try {
+		currentJar = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+	} catch (URISyntaxException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 
+      // is it a jar file?
+      if(!currentJar.getName().endsWith(".jar"))return;
+
+      // Build command: java -jar application.jar
+      final ArrayList<String> command = new ArrayList<String>();
+      command.add(javaBin);
+      command.add("-jar");
+      command.add(currentJar.getPath());
+
+      final ProcessBuilder builder = new ProcessBuilder(command);
+      try {
+		builder.start();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+      System.exit(0);
+    }
+    
 }

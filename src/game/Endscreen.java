@@ -10,7 +10,7 @@ import ufos.GalaxyDestroyer;
 import ufos.LangerLulatsch;
 import ufos.BigBoulder;
 
-public abstract class Endscreen extends TrySmth{
+public abstract class Endscreen extends Misc{
 
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR); 
 	

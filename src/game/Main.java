@@ -46,10 +46,17 @@ public abstract class Main{
 	
 	private static void gameStart(){
 
+		buffer = controller.getKeyBuffer();
+		KeyEvent event = null;
+		
+		//For presentations and such, the following lines can be used to start the game with a keystroke
+		while(event==null){
+			event = buffer.pop();
+		}
+		event = null;
+		
 		//At the beginning, there was an intro...
 //		introStart();
-		
-		buffer = controller.getKeyBuffer();
 		
 		//Making a sentence to inform the player of the different difficulties
 		final Word difficultyExplanation = new Word("Choose difficulty. 1 is easy, 2 is medium and 3 is hard. 0 is the Tutorial.");
@@ -63,6 +70,8 @@ public abstract class Main{
 		Letter.DrawLetterAt('3', 16, 14, 127, 0, 0);
 		
 		while(true){
+			
+			buffer.clear();
 			//This loop repeats every time the difficulty settings sentence reaches the left end of the board
 			for(int x=20; x>-difficultyExplanation.getLength() ;x--){
 				
@@ -74,7 +83,7 @@ public abstract class Main{
 				controller.updateLedStripe();
 				controller.sleep(100);
 				
-				KeyEvent event = buffer.pop();
+				event = buffer.pop();
 				buffer.clear();
 				if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
 					
@@ -92,8 +101,8 @@ public abstract class Main{
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
-						Letter.BlinkLetter('0', 9, 7, 127, 127, 127, wait);
-						Letter.BlinkLetter('0', 9, 7, 127, 127, 127, wait);
+						Letter.BlinkLetter('0', 9, 7, 127, 0, 127, wait);
+						Letter.BlinkLetter('0', 9, 7, 127, 0, 127, wait);
 						
 						//Pressing 0 starts the tutorial
 						Gameplay.start(0);
@@ -106,8 +115,8 @@ public abstract class Main{
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
-						Letter.BlinkLetter('1', 2, 14, 127, 127, 127, wait);
-						Letter.BlinkLetter('1', 2, 14, 127, 127, 127, wait);
+						Letter.BlinkLetter('1', 2, 14, 0, 127, 0, wait);
+						Letter.BlinkLetter('1', 2, 14, 0, 127, 0, wait);
 						
 						//Pressing 1 starts easy mode
 						Gameplay.start(1);
@@ -120,8 +129,8 @@ public abstract class Main{
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
-						Letter.BlinkLetter('2', 9, 14, 127, 127, 127, wait);
-						Letter.BlinkLetter('2', 9, 14, 127, 127, 127, wait);
+						Letter.BlinkLetter('2', 9, 14, 0, 0, 127, wait);
+						Letter.BlinkLetter('2', 9, 14, 0, 0, 127, wait);
 						
 						//Pressing 2 starts medium mode
 						Gameplay.start(2);
@@ -135,8 +144,8 @@ public abstract class Main{
 						controller.updateLedStripe();
 						
 						//The pressed option blinks a few times
-						Letter.BlinkLetter('3', 16, 14, 127, 127, 127, wait);
-						Letter.BlinkLetter('3', 16, 14, 127, 127, 127, wait);
+						Letter.BlinkLetter('3', 16, 14, 127, 0, 0, wait);
+						Letter.BlinkLetter('3', 16, 14, 127, 0, 0, wait);
 						
 						//Pressing 3 starts hard mode
 						Gameplay.start(3);
@@ -150,15 +159,23 @@ public abstract class Main{
 						controller.updateLedStripe();
 						
 						//The pressed option blinks a few times
-						Letter.BlinkLetter('C', 16, 7, 127, 127, 127, wait);
-						Letter.BlinkLetter('C', 16, 7, 127, 127, 127, wait);
+						Letter.BlinkLetter('C', 16, 7, 0, 127, 107, wait);
+						Letter.BlinkLetter('C', 16, 7, 0, 127, 107, wait);
 						
 						//Pressing C shows the credits
 						Endscreen.credits();
 						
 						break;
+						
+					case java.awt.event.KeyEvent.VK_BACK_SPACE:
+						Intro.titleScreen();
+						break;
+						
+					case java.awt.event.KeyEvent.VK_ENTER:
+						
+						Misc.restartProgram();
 					}
-					//After the game is over, all remaining dots on the board are reset
+					//After the chosen option is over, all remaining dots on the board are reset
 					controller.resetColors();
 					
 					//These lines make the difficulty settings appear again after the endscreen has been seen

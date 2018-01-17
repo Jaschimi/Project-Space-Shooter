@@ -105,7 +105,7 @@ public abstract class Gameplay{
 				if(event.getKeyCode()==java.awt.event.KeyEvent.VK_ESCAPE){
 					break;
 				}
-				if(event.getKeyCode()==java.awt.event.KeyEvent.VK_CONTROL){
+				if(event.isAltDown()&&event.isShiftDown()&&event.getKeyCode()==java.awt.event.KeyEvent.VK_C){
 					cheat(board, ss, currentShip);
 					controller.resetColors();
 					pause.displayWordAt(0, 5, 60, 30, 0);

@@ -40,6 +40,7 @@ public abstract class Tutorial{
 		final Word green = new Word("Depending on how many you have, the dot in the center of your ship is ");
 		final Word yellow = new Word("green, ");
 		final Word red = new Word("yellow or");
+		final Word alt = new Word("alt");
 		final Word dead = new Word("Once you lose all, your ship is destroyed and the game is over.");
 		
 		final Word dot = new Word("As with your ship, the dot in the enemy ships center shows its lives.");
@@ -1142,6 +1143,7 @@ public abstract class Tutorial{
 			for(int x=20;x>-luck.getLength();x--){
 				good.displayWordAt(x+1, 5, 0, 0, 0);
 				good.displayWordAt(x+0, 5, 127, 127, 52);
+				alt.displayWordAt(0, 5, 0, 5, 4);
 				luck.displayWordAt(x+1, 12, 0, 0, 0);
 				luck.displayWordAt(x+0, 12, 127, 127, 52);
 				controller.updateLedStripe();

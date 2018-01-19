@@ -260,7 +260,7 @@ public abstract class Gameplay{
 							controller.setColor(x, y, 69, 4, 4);
 							controller.updateLedStripe();
 						}
-						for(x=20, y=0; x>0 && y<20; x--, y++){
+						for(x=19, y=0; x>0 && y<20; x--, y++){
 							controller.setColor(x, y, 69, 4, 4);
 							controller.updateLedStripe();
 						}

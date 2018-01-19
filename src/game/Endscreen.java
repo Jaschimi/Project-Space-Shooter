@@ -17,7 +17,7 @@ public abstract class Endscreen{
 	public static void outro(boolean won, int[] shipColor, int difficulty){
 		
 		if(won) win(shipColor, difficulty);
-		else loss(shipColor);
+		else loss(shipColor, difficulty);
 		
 	}
 	
@@ -132,7 +132,7 @@ public abstract class Endscreen{
 		
 		while(count < 14){
 			
-			if(difficulty == 1) {
+			if(difficulty == 3) {
 				
 				MegaPop.makeAll(point, fireworkColor);
 				
@@ -171,7 +171,7 @@ public abstract class Endscreen{
 			}
 			else{
 				
-				if(difficulty == 3){
+				if(difficulty == 1){
 					if(count > 2 && count < 14){
 						
 						uppi-=1;
@@ -188,7 +188,7 @@ public abstract class Endscreen{
 					point[mid][top][i] = fireworkColor[i];
 					point[mid][top + 2][i] = 0;
 					
-					if(difficulty == 3) {
+					if(difficulty == 2) {
 
 						point[leffi][uppi][i] = fireworkColor[i];
 						point[rightti][uppi][i] = fireworkColor[i];
@@ -226,19 +226,19 @@ public abstract class Endscreen{
 
         if(difficulty < 3) {
         	
-        	if(difficulty == 2) {
+//        	if(difficulty == 1) {
 			
 			Misc.makeBoom(point,fireworkColor,mid,top, 5, difficulty);
 			
-        	}else if(difficulty == 1){
+//        	}else if(difficulty == 2){
         		
-        		return;
+//        		return;
         		
-        	}
+//        	}
 			
         }
-        else{
-        	if(difficulty==1){
+        if(difficulty!=1){
+        	if(difficulty==3){
         		MegaPop.makeMegaBoom(point, fireworkColor);
         	}
         	
@@ -360,27 +360,40 @@ public abstract class Endscreen{
 		//Now that all fireworks are done, the phrase "You won" will be displayed on the board
 		controller.resetColors();
 		
-		Word you = new Word("You");
-		Word won = new Word("won");
+		final Word you = new Word("You");
+		final Word won = new Word("won");
 		
-		you.displayWordAt(5, 4, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
-		won.displayWordAt(3, 10, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
+		you.displayWordAt(5, 3, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
+		won.displayWordAt(3, 9, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
+		
+		if(difficulty==1){
+			final Word shift = new Word("shift");
+			shift.displayWordAt(0, 15, 5, 0, 4);
+		}
 		
 		controller.updateLedStripe();
 		controller.sleep(4000);
 		
 	}
 	
-	private static void loss(int[] color){
+	private static void loss(int[] color, int difficulty){
 		
-		EnemyShip[] endOfWorld = new EnemyShip[6];
-		
+		EnemyShip[] endOfWorld = new EnemyShip[4];
+
+		if(difficulty==2){
+			endOfWorld = new EnemyShip[5];
+			endOfWorld[4] = new BossaNova(new int[]{10, -25}, 3, 4);
+		}
+		if(difficulty==3){
+			endOfWorld = new EnemyShip[6];
+			endOfWorld[4] = new BossaNova(new int[]{10, -25}, 3, 4);
+			endOfWorld[5] = new GalaxyDestroyer(new int[]{0, -35}, 250, 5);
+		}
+
 		endOfWorld[0] = new DefaultShip(new int[]{3, -4}, 1, 1);
-		endOfWorld[1] = new UnnervingFloatingOctopus(new int[]{13, -10}, 1, 3);
+		endOfWorld[1] = new UnnervingFloatingOctopus(new int[]{13, -10}, 1, 4);
 		endOfWorld[2] = new LangerLulatsch(new int[]{5, -14}, 1, 2);
-		endOfWorld[3] = new BigBoulder(new int[]{0, -20}, 2, 3);
-		endOfWorld[4] = new BossaNova(new int[]{10, -25}, 3, 4);
-		endOfWorld[5] = new GalaxyDestroyer(new int[]{0, -35}, 250, 5);
+		endOfWorld[3] = new BigBoulder(new int[]{0, -20}, 2, 2);
 		
 		for(int i=0; i<endOfWorld.length; i++){
 			endOfWorld[i].spawn();
@@ -388,7 +401,7 @@ public abstract class Endscreen{
 		
 		//This variable counts the amount of times the following loop has been started
 		int loopCount=0;
-		while(endOfWorld[5].getTopLeftCorner()[1]<21){
+		while(endOfWorld[endOfWorld.length-1].getTopLeftCorner()[1]<21){
 		
 			loopCount++;
 			
@@ -407,6 +420,13 @@ public abstract class Endscreen{
 				}
 			}
 			
+			//Every 15th instance of the loop, all ships move down by one spot
+			if(loopCount%15==0){
+				for(int i=0; i<endOfWorld.length; i++){
+					endOfWorld[i].move('S');
+				}
+			}
+		
 			//Every 5th instance of the loop, all ships on the board shoot a projectile
 			if(loopCount%5==0){
 				for(int i=0; i<endOfWorld.length; i++){
@@ -422,13 +442,6 @@ public abstract class Endscreen{
 						}
 						
 					}
-				}
-			}
-			
-			//Every 20th instance of the loop, all ships move down by one spot
-			if(loopCount%15==1){
-				for(int i=0; i<endOfWorld.length; i++){
-					endOfWorld[i].move('S');
 				}
 			}
 		

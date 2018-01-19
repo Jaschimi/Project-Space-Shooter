@@ -25,7 +25,7 @@ public abstract class Main{
 	
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	private static KeyBuffer buffer;
-	final private static Word word = new Word("Horizon");
+	private final static Word word = new Word("Horizon");
 
 	public static void main(String[] args) {
 		
@@ -41,7 +41,7 @@ public abstract class Main{
 	public static boolean launch() {
 
 		boolean restart = false;
-		
+
 		restart = gameStart();
 //		randomColor();
 //		gameName();
@@ -49,7 +49,7 @@ public abstract class Main{
 //		sunrise();
 //		story();
 //		nestTest();
-//		endscreenTest(true, 1);
+//		endscreenTest(false, 3, 28, 8, 99);
 //		rainbow();
 //		Goldenization();
 //		shipDiashow();
@@ -73,7 +73,7 @@ public abstract class Main{
 		event = null;
 		
 		//At the beginning, there was an intro...
-//		introStart();
+		introStart();
 		
 		//Making a sentence to inform the player of the different difficulties
 		final Word difficultyExplanation = new Word("Choose difficulty. 1 is easy, 2 is medium and 3 is hard. 0 is the Tutorial.");
@@ -214,6 +214,7 @@ public abstract class Main{
 
 	//With the following methods, a variety of different things can be tested
 
+	//Display a random color on the whole board alongside its color code every time a key is pressed
 	private static void randomColor(){
 		buffer = controller.getKeyBuffer();
 		while(true){
@@ -234,24 +235,29 @@ public abstract class Main{
 		
 	}
 	
+	//This method starts the whole intro sequence
 	private static void introStart(){
 		Intro.logoScreen();
 		Intro.gameName();
 		Intro.titleScreen();
 	}
 	
+	//This shows the name of the game
 	private static void gameName(){
 		Intro.gameName();
 	}
 	
+	//This displays the story
 	private static void story(){
 		Intro.story();
 	}
 	
+	//Show the rising sun on the horizon, our logo
 	private static void sunrise(){
 		Intro.logoScreen();
 	}
 	
+	//Show the golden version of the DefaultShip
 	private static void nestTest(){
 		
 		EnemyShip goldie = new DefaultShip.GoldenVersion(new int[]{0, 0}, 4, 4);
@@ -261,8 +267,8 @@ public abstract class Main{
 	}
 
 	//See the winning/losing animation
-	private static void endscreenTest(boolean won, int difficulty){
-		Endscreen.outro(won, new int[]{6, 90, 90}, difficulty);
+	private static void endscreenTest(boolean won, int difficulty, int red, int green, int blue){
+		Endscreen.outro(won, new int[]{red, green, blue}, difficulty);
 		controller.resetColors();
 		controller.updateLedStripe();
 	}

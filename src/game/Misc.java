@@ -8,7 +8,7 @@ public class Misc{
 	
 	public static void makeBoom(int[][][] point,int[] color,int wantedPointX, int wantedPointY, int wantedHeight, int difficulty) {
 		
-		if(difficulty == 2) {
+		if(difficulty == 1) {
 			
 			for(int j = 0, z = wantedHeight; j < wantedHeight;z--, j++) {
 				
@@ -109,7 +109,8 @@ public class Misc{
 				
 			}
 			
-		}else if(difficulty == 1) {
+		}
+		if(difficulty == 3) {
 			
             for(int j = 0; j < wantedHeight; j++) {
 				

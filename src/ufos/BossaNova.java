@@ -62,8 +62,8 @@ public class BossaNova extends EnemyShip{
 		super.spawn();
 		
 		//This line makes sure the cannons are at their desired location when spawning the ship
-		this.cannons = new int[][]{{this.getTopLeftCorner()[0] + 1, this.getTopLeftCorner()[1] + 4},
-								   {this.getTopLeftCorner()[0] + 6, this.getTopLeftCorner()[1] + 4}};
+		this.cannons = new int[][]{{this.getTopLeftCorner()[0] + 1, this.getTopLeftCorner()[1] + 5},
+								   {this.getTopLeftCorner()[0] + 6, this.getTopLeftCorner()[1] + 5}};
 	}
 	
 	@Override

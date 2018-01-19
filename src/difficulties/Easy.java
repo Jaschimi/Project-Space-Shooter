@@ -14,11 +14,13 @@ import ufos.LangerLulatsch;
 import ufos.BigBoulder;
 
 //This class describes easy mode
-public class Easy {
+public abstract class Easy {
 
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	private static KeyBuffer buffer = controller.getKeyBuffer();
 
+	public static boolean broken = false;
+	
 	public static boolean start(SpaceShooter ss){
 		
 		//This boolean will be returned to the class Game
@@ -297,7 +299,8 @@ public class Easy {
 					
 					case java.awt.event.KeyEvent.VK_ESCAPE:
 						//Escape makes the game pause
-						Gameplay.pause(ss, currentShip);
+						broken = Gameplay.pause(ss, currentShip);
+						if(broken)return false;
 						break;
 
 					case java.awt.event.KeyEvent.VK_SPACE:

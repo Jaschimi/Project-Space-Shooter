@@ -140,7 +140,7 @@ public class SpaceShooter extends Spaceship{
 		}
 		else{
 			if(this.getLifes()==2){
-				this.setColorAt(1, 1, 127, 127, 0);
+				this.setColorAt(1, 1, 122, 100, 7);
 			}
 			else{
 				if(this.getLifes()==1){

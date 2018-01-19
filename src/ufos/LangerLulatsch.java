@@ -49,7 +49,7 @@ public class LangerLulatsch extends EnemyShip {
 		}
 		else{
 			if(this.getLifes()>this.getMaxLifes()/3){
-				this.setColorAt(1, 1, 127, 127, 0);
+				this.setColorAt(1, 1, 122, 100, 7);
 			}
 			else{
 				if(this.getLifes()>=1){

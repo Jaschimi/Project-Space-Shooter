@@ -31,12 +31,12 @@ public abstract class Gameplay{
 		
 		//These if statements start a game based on what difficulty has been chosen in the main method
 		if(difficulty == 0){
-			ss.setColorAt(0, 0, 107, 0, 127);
+			ss.setColorAt(0, 0, 104, 23, 47);
 			ss.setColorAt(1, 0, 0, 0, 0);
-			ss.setColorAt(2, 0, 107, 0, 127);
-			ss.setColorAt(0, 1, 107, 0, 127);
+			ss.setColorAt(2, 0, 104, 23, 47);
+			ss.setColorAt(0, 1, 104, 23, 47);
 			ss.setColorAt(1, 1, 5, 107, 17);
-			ss.setColorAt(2, 1, 107, 0, 127);
+			ss.setColorAt(2, 1, 104, 23, 47);
 			Tutorial.start(ss);
 		}
 		else{
@@ -76,13 +76,21 @@ public abstract class Gameplay{
 					}
 				}
 			}
-			//After a game in easy, medium or hard mode is over, the outro boots up
-			Endscreen.outro(won, controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]), difficulty);
+			//After a game in easy, medium or hard mode is has been won or lost, the outro boots up
+			if(!Easy.broken&&!Medium.broken&&!Hard.broken){
+				Endscreen.outro(won, controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]), difficulty);
+			}
+			else{
+				Easy.broken = false;
+				Medium.broken = false;
+				Hard.broken = false;
+				return;
+			}
 		}
 	}
 	
 	//This method displays the pause screen
-	public static void pause(SpaceShooter ss, EnemyShip currentShip){
+	public static boolean pause(SpaceShooter ss, EnemyShip currentShip){
 		
 		int[][][] board = new int[20][20][3];
 		for(int x=0; x<20; x++){
@@ -103,7 +111,9 @@ public abstract class Gameplay{
 			buffer.clear();
 			if(event != null&&event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 				if(event.getKeyCode()==java.awt.event.KeyEvent.VK_ESCAPE){
-					break;
+					controller.setColors(board);
+					controller.updateLedStripe();
+					return false;
 				}
 				if(event.isAltDown()&&event.isShiftDown()&&event.getKeyCode()==java.awt.event.KeyEvent.VK_C){
 					cheat(board, ss, currentShip);
@@ -111,10 +121,12 @@ public abstract class Gameplay{
 					pause.displayWordAt(0, 5, 60, 30, 0);
 					controller.updateLedStripe();
 				}
+				if(event.getKeyCode()==java.awt.event.KeyEvent.VK_BACK_SPACE){
+					controller.setColors(board);
+					return true;
+				}
 			}
 		}
-		controller.setColors(board);
-		controller.updateLedStripe();
 	}
 	
 	//This method displays the cheat screen :O

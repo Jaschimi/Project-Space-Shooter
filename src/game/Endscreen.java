@@ -711,6 +711,102 @@ public abstract class Endscreen{
 	}
 
 	static void credits(){
+
+		controller.resetColors();
 		
+		Word cre = new Word("Cre-");
+		Word dits = new Word("dits");
+		
+		Word ja = new Word("Ja-");
+		Word scha = new Word("scha");
+		Word oli = new Word("Oli-");
+		Word ver = new Word("ver");
+		Word oleh = new Word("Oleh");
+		Word mar = new Word("Mar-");
+		Word vin = new Word("vin");
+		
+		Word idea = new Word("Idea");
+		
+		Word head = new Word("head");
+		Word of = new Word("of");
+		Word deve = new Word("deve-");
+		Word lop = new Word("lop-");
+		Word ment = new Word("ment");
+
+		Word de = new Word("de-");
+		Word sign = new Word("sign");
+		
+		Word crea = new Word("crea-");
+		Word tive = new Word("tive");
+
+		Word supper = new Word("super");
+		Word visor = new Word("visor");
+		
+		Word spe = new Word("spe-");
+		Word cial = new Word("cial");
+		Word thanks = new Word("thanks");
+		
+		Word big = new Word("big");
+		Word help = new Word("Help");
+//		Word axel = new Word("Axel");
+		Word re = new Word("re");
+		Word dac = new Word("dac");
+		Word ted = new Word("ted");
+		
+		Word eme = new Word("Eme-");
+		Word rald = new Word("rald");
+		
+		Word bug = new Word("Bug");
+		Word hun = new Word("Hun-");
+		Word ter = new Word("ter");
+		Word tom = new Word("Tom");
+		
+		Word nice = new Word("nice");
+		Word dudes = new Word("dudes");
+		Word pal = new Word("pal");
+		Word uno = new Word("uno");
+		
+		Word space = new Word("");
+		Word[] credits = new Word[]{cre, dits, space, space, idea, space, oleh, space, crea, tive, de, sign, space, oli, ver, space,
+				head, of, deve, lop, ment, space, ja, scha, space, supper, visor, space, mar, vin, space};
+		
+		int[] black = new int[]{0, 0, 0};
+		int[] gold = new int[]{127, 107, 0};
+		int[] title = new int[]{90, 90, 90};
+		int[] person = new int[]{90, 0, 90};
+		int[] jascha = new int[]{121, 69, 57};
+		int[] oliver = new int[]{37, 124, 89};
+		int[] oleg = new int[]{92, 5, 36};
+		int[] marvin = new int[]{117, 80, 2};
+		
+		int[][] colors = new int[][]{gold,gold,black,black,title,black,oleg,black,title,title,title,title,black,oliver,oliver,black,
+						title,title,title,title,title,black,jascha,jascha,black,title,title,black,marvin,marvin,black};
+		for(int y=20; y>-credits.length*6+5; y--){
+			for(int i=0; i<credits.length; i++){
+				credits[i].displayWordAt(0, y+i*6+1, 0, 0, 0);
+				credits[i].displayWordAt(0, y+i*6, colors[i][0], colors[i][1], colors[i][2]);
+			}
+			controller.updateLedStripe();
+			controller.sleep(175);
+		}
+		
+		credits = new Word[]{spe, cial, thanks, space, space, de, sign, help, space, eme, rald, space, bug, hun, ter, space,
+							 tom, space, nice, dudes, space, pal, uno, space, big, help, space, re, dac, ted, space};
+		
+		title = new int[]{125, 125, 118};
+		int[] special = new int[]{110, 45, 59};
+		int[] emerald = new int[]{32, 122, 4};
+		
+		colors = new int[][]{special,special,special,black,black,title,title,title,black,emerald,emerald,black,title,title,title,black,
+							 person,black,title,title,black,person,person,black,title,title,black,person,person,person,black};
+			
+		for(int y=20; y>-credits.length*6+5; y--){
+			for(int i=0; i<credits.length; i++){
+				credits[i].displayWordAt(0, y+i*6+1, 0, 0, 0);
+				credits[i].displayWordAt(0, y+i*6, colors[i][0], colors[i][1], colors[i][2]);
+			}
+			controller.updateLedStripe();
+			controller.sleep(175);
+		}
 	}
 }

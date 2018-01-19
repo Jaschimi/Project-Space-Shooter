@@ -178,9 +178,14 @@ public abstract class Intro{
 			controller.updateLedStripe();
 		}
 		
-		controller.updateLedStripe();
 		controller.sleep(1000);
-		controller.resetColors();
+		
+		//Finally, it fades away
+		for(int color=80; color>=0; color-=2){
+			pro.displayWordAt(4, 3, color/2, color/2, color);
+			ject.displayWordAt(2, 9, 3*color/8, color/2, color);
+			controller.updateLedStripe();
+		}
 		
 		final Word space = new Word("Space");
 		final Word sh = new Word("Sh");

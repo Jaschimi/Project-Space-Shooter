@@ -16,12 +16,6 @@ public class BossaNova extends EnemyShip{
 		for(int x=2; x<7; x++){
 			this.setColorAt(x, 0, 18, 18, 87);
 		}
-		//The energy display
-		for(int x=3; x<6; x++){
-			for(int y=1; y<4; y++){
-				this.setColorAt(x, y, 5, 107, 18);
-			}
-		}
 		
 		//The second row
 		for(int x=0; x<9; x++){
@@ -52,7 +46,14 @@ public class BossaNova extends EnemyShip{
 		this.setColorAt(6, 4, 30, 30, 90);
 		this.setColorAt(7, 4, 30, 30, 90);
 		this.setColorAt(8, 4, 30, 30, 90);
-		this.setColorAt(8, 5, 30, 30, 90);	
+		this.setColorAt(8, 5, 30, 30, 90);
+		
+		//The energy display
+		for(int x=3; x<6; x++){
+			for(int y=1; y<4; y++){
+				if(((x!=3&&x!=5)||y!=3)&&(x!=4||y!=1))this.setColorAt(x, y, 5, 107, 18);
+			}
+		}
 	}
 
 	@Override
@@ -72,18 +73,34 @@ public class BossaNova extends EnemyShip{
 		
 		//And the dot indicating its energy may change color
 		if(this.getLifes()>this.getMaxLifes()/2){
-			this.setColorAt(4, 1, 5, 107, 17);
+			for(int x=3; x<6; x++){
+				for(int y=1; y<4; y++){
+					if(((x!=3&&x!=5)||y!=3)&&(x!=4||y!=1))this.setColorAt(x, y, 5, 107, 18);
+				}
+			}
 		}
 		else{
 			if(this.getLifes()>this.getMaxLifes()/4){
-				this.setColorAt(4, 1, 127, 127, 0);
+				for(int x=3; x<6; x++){
+					for(int y=1; y<4; y++){
+						if(((x!=3&&x!=5)||y!=3)&&(x!=4||y!=1))this.setColorAt(4, 1, 122, 100, 7);
+					}
+				}
 			}
 			else{
 				if(this.getLifes()>=1){
-					this.setColorAt(4, 1, 69, 4, 4);
+					for(int x=3; x<6; x++){
+						for(int y=1; y<4; y++){
+							if(((x!=3&&x!=5)||y!=3)&&(x!=4||y!=1))this.setColorAt(4, 1, 69, 4, 4);
+						}
+					}
 				}
 				else{
-					this.setColorAt(4, 1, 31, 31, 31);
+					for(int x=3; x<6; x++){
+						for(int y=1; y<4; y++){
+							if(((x!=3&&x!=5)||y!=3)&&(x!=4||y!=1))this.setColorAt(4, 1, 31, 31, 31);
+						}
+					}
 				}
 			}
 		}

@@ -13,7 +13,7 @@ import ufos.DefaultShip;
 import ufos.BigBoulder;
 
 //This class describes the tutorial
-public class Tutorial{
+public abstract class Tutorial{
 
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	private static KeyBuffer buffer = controller.getKeyBuffer();
@@ -112,10 +112,11 @@ public class Tutorial{
 		int count = 0;
 		buffer.clear();
 		while(count<10){
+			
+			//Shortcut
+			if(skip)break;
+			
 			for(int x=20; x>-leftRight.getLength() ;x--){
-				
-				//Shortcut
-				if(skip)break;
 				
 				KeyEvent event = buffer.pop();
 				buffer.clear();
@@ -156,10 +157,11 @@ public class Tutorial{
 		//Starting the up/down movement test. It ends once this variable reaches 10.
 		count = 0;
 		while(count<10){
+			
+			//Shortcut
+			if(skip)break;
+			
 			for(int x=20; x>-upDown.getLength() ;x--){
-				
-				//Shortcut
-				if(skip)break;
 				
 				KeyEvent event = buffer.pop();
 				buffer.clear();
@@ -199,10 +201,11 @@ public class Tutorial{
 		//Starting the shooting test. It ends once this variable reaches 7.
 		count = 0;
 		while(count<7){
+			
+			//Shortcut
+			if(skip)break;
+			
 			for(int x=20; x>-shoot.getLength() ;x--){
-				
-				//Shortcut
-				if(skip)break;
 				
 				//Moving the Word one space to the left every 100 milliseconds
 				shoot.displayWordAt(x+1, 0, 0, 0, 0);
@@ -999,12 +1002,12 @@ public class Tutorial{
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
 					switch(event.getKeyCode()){
-
+					
 					case java.awt.event.KeyEvent.VK_ESCAPE:
 						//Escape makes the game pause
 						Gameplay.pause(ss, currentShip);
 						break;
-
+						
 					case java.awt.event.KeyEvent.VK_SPACE:
 						//space makes the SS shoot
 						for(int i=0; i<ss.getCannons().length; i++){

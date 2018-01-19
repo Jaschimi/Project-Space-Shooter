@@ -70,8 +70,8 @@ public class UnnervingFloatingOctopus extends EnemyShip {
 		}
 		else{
 			if(this.getLifes()>this.getMaxLifes()/4){
-				this.setColorAt(2, 2, 127, 127, 0);
-				this.setColorAt(4, 2, 127, 127, 0);
+				this.setColorAt(2, 2, 122, 100, 7);
+				this.setColorAt(4, 2, 122, 100, 7);
 			}
 			else{
 				if(this.getLifes()>=1){

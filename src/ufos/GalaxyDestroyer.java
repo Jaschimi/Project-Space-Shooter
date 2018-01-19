@@ -130,10 +130,10 @@ public class GalaxyDestroyer extends EnemyShip {
 		else{
 			if(this.getLifes()>=this.getMaxLifes()/4){
 				for(int y=2; y<5; y++){
-					this.setColorAt(8, y, 127, 127, 0);
+					this.setColorAt(8, y, 122, 100, 7);
 				}
 				for(int x=7; x<10; x++){
-					this.setColorAt(x, 3, 127, 127, 0);
+					this.setColorAt(x, 3, 122, 100, 7);
 				}
 			}
 			else{

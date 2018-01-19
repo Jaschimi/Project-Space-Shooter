@@ -1,5 +1,6 @@
 package game;
 import java.awt.event.KeyEvent;
+import java.io.Console;
 
 import displayObjects.Letter;
 import displayObjects.Word;
@@ -16,15 +17,15 @@ import ufos.GalaxyDestroyer;
 import ufos.LangerLulatsch;
 import ufos.BigBoulder;
 
-
 //This is the main class of Project Space Shooter.
-//It contains the main method of the program, which starts the intro and let's you begin a game.
+//It contains the main method of the program, which starts the launch method (a way to restart the main method when needed)
+//and let's you begin a game.
 //Additionally, many testing methods exist in this class.
 public abstract class Main{
 	
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	private static KeyBuffer buffer;
-	private static Word word = new Word("Horizon");
+	final private static Word word = new Word("Horizon");
 
 	public static void main(String[] args) {
 		
@@ -42,12 +43,13 @@ public abstract class Main{
 		boolean restart = false;
 		
 		restart = gameStart();
+//		randomColor();
 //		gameName();
 //		introStart();
 //		sunrise();
 //		story();
 //		nestTest();
-//		endscreenTest(false, 1);
+//		endscreenTest(true, 1);
 //		rainbow();
 //		Goldenization();
 //		shipDiashow();
@@ -65,10 +67,10 @@ public abstract class Main{
 		KeyEvent event = null;
 		
 		//For presentations and such, the following lines can be used to start the game with a keystroke
-//		while(event==null){
-//			event = buffer.pop();
-//		}
-//		event = null;
+		while(event==null){
+			event = buffer.pop();
+		}
+		event = null;
 		
 		//At the beginning, there was an intro...
 //		introStart();
@@ -92,7 +94,7 @@ public abstract class Main{
 				
 				//The following two lines make the sentence move one spot to the left
 				difficultyExplanation.displayWordAt(x+1, 0, 0, 0, 0);
-				difficultyExplanation.displayWordAt(x, 0, 97, 17, 2);
+				difficultyExplanation.displayWordAt(x, 0, 126, 30, 9);
 			
 				//And these two control how fast it is moving. A lower integer in the sleep method means a faster speed.
 				controller.updateLedStripe();
@@ -212,6 +214,26 @@ public abstract class Main{
 
 	//With the following methods, a variety of different things can be tested
 
+	private static void randomColor(){
+		buffer = controller.getKeyBuffer();
+		while(true){
+			int red = (int) (Math.random()*128), green = (int) (Math.random()*128), blue = (int) (Math.random()*128);
+			System.out.println("\n" + "Red: " + red + "\n" + "Green: " + green + "\n" + "Blue: " + blue);
+			controller.setBackgroundColor(red, green, blue);
+			controller.resetColors();
+			controller.updateLedStripe();
+			KeyEvent event = null;
+			while(true){
+				event = buffer.pop();
+				if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
+					break;
+				}
+			}
+			buffer.clear();
+		}
+		
+	}
+	
 	private static void introStart(){
 		Intro.logoScreen();
 		Intro.gameName();

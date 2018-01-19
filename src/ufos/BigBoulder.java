@@ -53,7 +53,7 @@ public class BigBoulder extends EnemyShip {
 		}
 		else{
 			if(this.getLifes()>this.getMaxLifes()/4){
-				this.setColorAt(2, 1, 127, 127, 0);
+				this.setColorAt(2, 1, 122, 100, 7);
 			}
 			else{
 				if(this.getLifes()>=1){

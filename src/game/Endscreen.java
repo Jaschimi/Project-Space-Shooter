@@ -10,7 +10,7 @@ import ufos.GalaxyDestroyer;
 import ufos.LangerLulatsch;
 import ufos.BigBoulder;
 
-public abstract class Endscreen extends Misc{
+public abstract class Endscreen{
 
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR); 
 	
@@ -115,7 +115,8 @@ public abstract class Endscreen extends Misc{
 			
 		}
 
-		//For some reason, controller.resetColors() doesn't work here :/
+		//Since we are working with a 3-dim. array to set the colors, it has to be set to null, otherwise everything saved
+		//in it would be displayed again once it is used to do that
 		point = new int[20][20][3];
 		controller.setColors(point);
 		
@@ -124,13 +125,9 @@ public abstract class Endscreen extends Misc{
 		count = 0;
 		int mid = 9;
 		
-		
-		
 		int leffi = 8;
 		int rightti = 10;
-		int leftUppi = 19;
-		int rightUppi = 19;
-		
+		int uppi = 19;
 		
 		while(count < 14){
 			
@@ -155,10 +152,10 @@ public abstract class Endscreen extends Misc{
 				if(difficulty == 3){
 					if(count > 2 && count < 14){
 						
-						leftUppi-=1;
+						uppi-=1;
 						leffi-=1;
 						
-						rightUppi-=1;
+						uppi-=1;
 						rightti+=1;
 						
 					}
@@ -171,16 +168,16 @@ public abstract class Endscreen extends Misc{
 					
 					if(difficulty == 3) {
 
-						point[leffi][leftUppi][i] = fireworkColor[i];
-						point[rightti][rightUppi][i] = fireworkColor[i];
+						point[leffi][uppi][i] = fireworkColor[i];
+						point[rightti][uppi][i] = fireworkColor[i];
 						
 						if(count > 3 && count < 14){
 		
-							point[leffi][leftUppi][i] = fireworkColor[i];
-							point[rightti][rightUppi][i] = fireworkColor[i];
+							point[leffi][uppi][i] = fireworkColor[i];
+							point[rightti][uppi][i] = fireworkColor[i];
 							
-							point[leffi + 1][leftUppi + 1][i] = 0;
-							point[rightti - 1][rightUppi + 1][i] = 0;
+							point[leffi + 1][uppi + 1][i] = 0;
+							point[rightti - 1][uppi + 1][i] = 0;
 						
 						}
 					}
@@ -204,12 +201,15 @@ public abstract class Endscreen extends Misc{
 		    controller.updateLedStripe();
 		}
         
-        if(difficulty < 3) {
+        if(difficulty == 2) {
 			
-			makeBoom(point,fireworkColor,mid,top, 5, difficulty);
+			Misc.makeBoom(point,fireworkColor,mid,top, 5, difficulty);
 			
         }
         else{
+        	if(difficulty==1){
+        		MegaPop.makeMegaBoom(point, fireworkColor);
+        	}
         	
         	int a = 0;
 			

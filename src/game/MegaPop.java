@@ -165,4 +165,11 @@ public class MegaPop {
 		
 	}
 	
+	public static void makeAll(int[][][] point, int[] color) {
+		
+		goUp(point, color);
+		makeMegaBoom(point, color);
+		
+	}
+	
 }

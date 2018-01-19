@@ -131,8 +131,28 @@ public abstract class Endscreen extends Misc{
 		int leftUppi = 19;
 		int rightUppi = 19;
 		
-		
 		while(count < 14){
+			
+			if(difficulty == 1) {
+				
+				MegaPop.makeAll(point, fireworkColor);
+				
+				controller.resetColors();
+				
+				Word you = new Word("You");
+				Word won = new Word("won");
+				
+				you.displayWordAt(5, 4, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
+				won.displayWordAt(3, 10, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
+				
+				controller.updateLedStripe();
+				controller.sleep(4000);
+
+				controller.resetColors();
+				
+				return;
+				
+			}
 			
 			if(count == 0){
 				
@@ -205,8 +225,16 @@ public abstract class Endscreen extends Misc{
 		}
         
         if(difficulty < 3) {
+        	
+        	if(difficulty == 2) {
 			
 			makeBoom(point,fireworkColor,mid,top, 5, difficulty);
+			
+        	}else if(difficulty == 1){
+        		
+        		return;
+        		
+        	}
 			
         }
         else{

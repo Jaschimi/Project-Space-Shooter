@@ -26,7 +26,7 @@ public class SpaceShooter extends Spaceship{
 	
 	public SpaceShooter(int[] topLeftCorner, int lifes, int ammo) {
 		
-		super(topLeftCorner, 3, 2, 3, 3);
+		super(topLeftCorner, 3, 2, lifes, ammo);
 		
 		this.topLeftCorner = topLeftCorner;
 		this.shots = new Projectile[ammo];

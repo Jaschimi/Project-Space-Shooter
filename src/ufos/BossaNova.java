@@ -10,37 +10,49 @@ public class BossaNova extends EnemyShip{
 	//It is a 9 by 5 ColoringField
 	public BossaNova(int[] topLeftCorner, int maxLifes, int ammo) {
 		
-		super(topLeftCorner, 9, 5, maxLifes, ammo);
+		super(topLeftCorner, 9, 6, maxLifes, ammo);
 		
-		//The energy dot
-		this.setColorAt(4, 1, 5, 107, 18);
+		//The first row
+		for(int x=2; x<7; x++){
+			this.setColorAt(x, 0, 18, 18, 87);
+		}
+		//The energy display
+		for(int x=3; x<6; x++){
+			for(int y=1; y<4; y++){
+				this.setColorAt(x, y, 5, 107, 18);
+			}
+		}
 		
 		//The second row
 		for(int x=0; x<9; x++){
-			if(x!=4)this.setColorAt(x, 1, 18, 18, 87);
+			if(x!=4&&x!=3&&x!=5)this.setColorAt(x, 2, 18, 18, 87);
 		}
 		
 		//First and third row
 		for(int x=1; x<8; x++){
-			for(int y=0; y<3; y+=2){
-				if(y==0&&x!=4)this.setColorAt(x, y, 18, 18, 87);
-				if(y==2&&x!=3&&x!=5)this.setColorAt(x, y, 18, 18, 87);
+			for(int y=1; y<4; y+=2){
+				if(y==1&&x!=3&&x!=5)this.setColorAt(x, y, 18, 18, 87);
+				if(y==3&&x!=4)this.setColorAt(x, y, 18, 18, 87);
 			}
 		}
 		
-		//The dots next to the cannons
-		this.setColorAt(0, 3, 30, 30, 90);
-		this.setColorAt(8, 3, 30, 30, 90);
+		//The dots between the cannons
+		for(int x=3; x<6; x++){
+			this.setColorAt(x, 4, 18, 18, 87);
+		}
+		this.setColorAt(4, 5, 18, 18, 87);
 		
 		//The cannons
 		this.setColorAt(0, 4, 30, 30, 90);
-		this.setColorAt(1, 3, 30, 30, 90);
-		this.setColorAt(2, 3, 30, 30, 90);
-		this.setColorAt(3, 4, 30, 30, 90);
-		this.setColorAt(5, 4, 30, 30, 90);
-		this.setColorAt(6, 3, 30, 30, 90);
-		this.setColorAt(7, 3, 30, 30, 90);
-		this.setColorAt(8, 4, 30, 30, 90);	
+		this.setColorAt(0, 5, 30, 30, 90);
+		this.setColorAt(1, 4, 30, 30, 90);
+		this.setColorAt(2, 4, 30, 30, 90);
+		this.setColorAt(3, 5, 30, 30, 90);
+		this.setColorAt(5, 5, 30, 30, 90);
+		this.setColorAt(6, 4, 30, 30, 90);
+		this.setColorAt(7, 4, 30, 30, 90);
+		this.setColorAt(8, 4, 30, 30, 90);
+		this.setColorAt(8, 5, 30, 30, 90);	
 	}
 
 	@Override

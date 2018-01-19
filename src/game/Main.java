@@ -28,13 +28,26 @@ public abstract class Main{
 
 	public static void main(String[] args) {
 		
-		gameStart();
+		boolean restart;
+		//When the Main.launch() method returns true, it is started again
+        do{
+            restart = launch();
+        }
+        while (restart);
+
+	}
+	
+	public static boolean launch() {
+
+		boolean restart = false;
+		
+		restart = gameStart();
 //		gameName();
 //		introStart();
 //		sunrise();
 //		story();
 //		nestTest();
-//		endscreenTest(true, 1);
+//		endscreenTest(false, 1);
 //		rainbow();
 //		Goldenization();
 //		shipDiashow();
@@ -42,18 +55,20 @@ public abstract class Main{
 //		DisplayCiphers();
 //		DisplayLogo(6, word);
 
+		return restart;
 	}
 	
-	private static void gameStart(){
+	private static boolean gameStart(){
 
 		buffer = controller.getKeyBuffer();
+		buffer.clear();
 		KeyEvent event = null;
 		
 		//For presentations and such, the following lines can be used to start the game with a keystroke
-		while(event==null){
-			event = buffer.pop();
-		}
-		event = null;
+//		while(event==null){
+//			event = buffer.pop();
+//		}
+//		event = null;
 		
 		//At the beginning, there was an intro...
 //		introStart();
@@ -85,10 +100,10 @@ public abstract class Main{
 				
 				event = buffer.pop();
 				buffer.clear();
-				if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
+				if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
 					int wait=250;
-					switch (event.getKeyCode()){
+					switch(event.getKeyCode()){
 					
 					default:
 						
@@ -167,13 +182,16 @@ public abstract class Main{
 						
 						break;
 						
+					//Pressing back space returns to the title screen
 					case java.awt.event.KeyEvent.VK_BACK_SPACE:
 						Intro.titleScreen();
 						break;
 						
+					//Pressing enter restarts the game
 					case java.awt.event.KeyEvent.VK_ENTER:
-						
-						Misc.restartProgram();
+						controller.resetColors();
+						controller.updateLedStripe();
+						return true;
 					}
 					//After the chosen option is over, all remaining dots on the board are reset
 					controller.resetColors();

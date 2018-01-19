@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import displayObjects.CelestialBodies;
 import displayObjects.Letter;
 import displayObjects.Word;
+import gameObjects.SpaceShooter;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ledControl.gui.KeyBuffer;
@@ -70,7 +71,7 @@ public abstract class Intro{
 		Word rizon = new Word("rizon");
 		
 		//This loop lets the word HORIZON slowly get brighter on the board
-		for(intensity = 0; intensity<128; intensity+=2){
+		for(intensity = 0; intensity<128; intensity+=3){
 			
 			//The H is shown on the top left,
 			Letter.DrawLetterAt('H', 3, 1, 0, intensity, 0);
@@ -102,8 +103,8 @@ public abstract class Intro{
 			
 			controller.updateLedStripe();
 			
-			//This line makes the intensity reach the otherwise skipped value 127
-			if(intensity == 126)intensity=125;
+			//This line makes the intensity reach the otherwise unreachable value 127
+			if(intensity == 126)intensity=124;
 		}
 		
 		controller.sleep(3500);
@@ -212,6 +213,22 @@ public abstract class Intro{
 			controller.sleep(25);
 		}
 		controller.sleep(3000);
+		
+		for(int count=127; count>0; count-=4){
+			for(int x=0; x<20; x++){
+				for(int y=0; y<20; y++){
+					int[] color = new int[]{0,0,0};
+					for(int i=0; i<3; i++){
+						if(controller.getColorAt(x, y)[i]>3){
+							color[i]=controller.getColorAt(x, y)[i]-4;
+						}
+						else color[i]=0;
+					}
+					controller.setColor(x, y, color);
+				}
+			}
+			controller.updateLedStripe();
+		}
 	}
 	
 	static void titleScreen(){
@@ -313,14 +330,15 @@ public abstract class Intro{
 
 		buffer = controller.getKeyBuffer();
 		
-		//
+		//This boolean can skip the story
 		boolean skip = false;
 		
 		//The uber-amazing story!
-		Word year = new Word("5018");
-		Word conquer = new Word("The invading forces have conquered almost all defense stations.");
-		Word hope = new Word("There is only one last hope...");
-		Word spaceShooter = new Word("The Space Shooter!");
+		final Word year = new Word("5018");
+		final Word ad = new Word("A.D.");
+		final Word conquer = new Word("The invading forces have conquered almost all defense stations.");
+		final Word hope = new Word("There is only one last hope...");
+		final Word spaceShooter = new Word("The Space Shooter!");
 		
 		int count = 0;
 		final int maxCount = 196;
@@ -340,11 +358,13 @@ public abstract class Intro{
 			}
 			
 			if(count<=maxCount/2){
-				year.displayWordAt(2, 7, count, count/4, count/2);
+				year.displayWordAt(2, 4, count, count/4, count/2);
+				ad.displayWordAt(4, 12, count, count/4, count/2);
 				controller.updateLedStripe();
 			}
 			else{
-				year.displayWordAt(2, 7, maxCount-count, (maxCount-count)/4, (maxCount-count)/2);
+				year.displayWordAt(2, 4, maxCount-count, (maxCount-count)/4, (maxCount-count)/2);
+				ad.displayWordAt(4, 12, maxCount-count, (maxCount-count)/4, (maxCount-count)/2);
 				controller.updateLedStripe();
 			}
 		}
@@ -391,6 +411,7 @@ public abstract class Intro{
 			controller.sleep(125);
 		}
 		
+		SpaceShooter ss = new SpaceShooter(new int[]{0, 20}, 3, 3);
 		for(int x=20; x>-spaceShooter.getLength(); x--){
 			
 			//If skip is activated, the loop is exited

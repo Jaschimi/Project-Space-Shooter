@@ -25,7 +25,7 @@ public abstract class Main{
 	
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	private static KeyBuffer buffer = controller.getKeyBuffer();
-	private final static Word word = new Word("Horizon");
+	final static Word word = new Word("Horizon");
 
 	public static void main(String[] args) {
 		
@@ -34,7 +34,7 @@ public abstract class Main{
         do{
             restart = launch();
         }
-        while (restart);
+        while(restart);
 
 	}
 	
@@ -213,8 +213,37 @@ public abstract class Main{
 
 	//With the following methods, a variety of different things can be tested
 
+	//This method starts the whole intro sequence
+	private static void introStart(){
+		sunrise();
+		gameName();
+		Intro.titleScreen();
+	}
+
+	//Show the rising sun on the horizon, our logo
+	private static void sunrise(){
+		Intro.logoScreen();
+	}
+
+	//This shows the name of the game
+	private static void gameName(){
+		Intro.gameName();
+	}
+	
+	//This displays the story
+	static void story(){
+		Intro.story();
+	}
+	
+	//See the winning/losing animation
+	private static void endscreenTest(boolean won, int difficulty, int red, int green, int blue){
+		Endscreen.outro(won, new int[]{red, green, blue}, difficulty);
+		controller.resetColors();
+		controller.updateLedStripe();
+	}
+	
 	//Display a random color on the whole board alongside its color code every time a key is pressed
-	private static void randomColor(){
+	static void randomColor(){
 		buffer = controller.getKeyBuffer();
 		while(true){
 			int red = (int) (Math.random()*128), green = (int) (Math.random()*128), blue = (int) (Math.random()*128);
@@ -226,6 +255,12 @@ public abstract class Main{
 			while(true){
 				event = buffer.pop();
 				if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
+					if(event.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+						controller.setBackgroundColor(0, 0, 0);
+						controller.resetColors();
+						controller.updateLedStripe();
+						return;
+					}
 					break;
 				}
 			}
@@ -234,101 +269,101 @@ public abstract class Main{
 		
 	}
 	
-	//This method starts the whole intro sequence
-	private static void introStart(){
-		Intro.logoScreen();
-		Intro.gameName();
-		Intro.titleScreen();
-	}
-	
-	//This shows the name of the game
-	private static void gameName(){
-		Intro.gameName();
-	}
-	
-	//This displays the story
-	private static void story(){
-		Intro.story();
-	}
-	
-	//Show the rising sun on the horizon, our logo
-	private static void sunrise(){
-		Intro.logoScreen();
-	}
-	
 	//Show the golden version of the DefaultShip
-	private static void nestTest(){
+	static void nestTest(){
+		
+		controller.resetColors();
 		
 		EnemyShip goldie = new DefaultShip.GoldenVersion(new int[]{0, 0}, 4, 4);
 		
 		goldie.spawn();
 		controller.updateLedStripe();
+		
+		KeyEvent event = null;
+		while(event==null){
+			event = buffer.pop();
+		}
+		buffer.clear();
 	}
 
-	//See the winning/losing animation
-	private static void endscreenTest(boolean won, int difficulty, int red, int green, int blue){
-		Endscreen.outro(won, new int[]{red, green, blue}, difficulty);
-		controller.resetColors();
-		controller.updateLedStripe();
-	}
-	
 	//Display a rainbow on the whole board
-	private static void rainbow(){
+	static void rainbow(){
 		
+		KeyEvent event = null;
 		while(true){
 			for(int green=0;green<128;green++){
+				event = buffer.pop();
 				for(int x=0; x<20; x++){
 					for(int y=0; y<20; y++){
 						controller.setColor(x, y, 127, green, 0);
 					}
 				}
+				if(event!=null)return;
+				buffer.clear();
 				controller.updateLedStripe();
 			}
 			for(int red=127;red>0;red--){
+				event = buffer.pop();
 				for(int x=0; x<20; x++){
 					for(int y=0; y<20; y++){
 						controller.setColor(x, y, red, 127, 0);
 					}
 				}
+				if(event!=null)return;
+				buffer.clear();
 				controller.updateLedStripe();
 			}
 			for(int blue=0;blue<128;blue++){
+				event = buffer.pop();
 				for(int x=0; x<20; x++){
 					for(int y=0; y<20; y++){
 						controller.setColor(x, y, 0, 127, blue);
 					}
 				}
+				if(event!=null)return;
+				buffer.clear();
 				controller.updateLedStripe();
 			}
 			for(int green=127;green>0;green--){
+				event = buffer.pop();
 				for(int x=0; x<20; x++){
 					for(int y=0; y<20; y++){
 						controller.setColor(x, y, 0, green, 127);
 					}
 				}
+				if(event!=null)return;
+				buffer.clear();
 				controller.updateLedStripe();
 			}
 			for(int red=0;red<128;red++){
+				event = buffer.pop();
 				for(int x=0; x<20; x++){
 					for(int y=0; y<20; y++){
 						controller.setColor(x, y, red, 0, 127);
 					}
 				}
+				if(event!=null)return;
+				buffer.clear();
 				controller.updateLedStripe();
 			}
 			for(int blue=127;blue>0;blue--){
+				event = buffer.pop();
 				for(int x=0; x<20; x++){
 					for(int y=0; y<20; y++){
 						controller.setColor(x, y, 127, 0, blue);
 					}
 				}
+				if(event!=null)return;
+				buffer.clear();
 				controller.updateLedStripe();
 			}
 		}
 	}
 	
 	//With this method, all of the ships in the game can be displayed on the board at the same time
-	private static void shipDiashow(){
+	static void shipDiashow(){
+
+		controller.resetColors();
 		
 		GalaxyDestroyer gade = new GalaxyDestroyer(new int[]{0, 0}, 250, 0);
 		BossaNova bono = new BossaNova(new int[]{10, 9}, 3, 1);
@@ -366,10 +401,18 @@ public abstract class Main{
 		lalu.spawn();
 		ufo.spawn();
 		controller.updateLedStripe();
+		
+		KeyEvent event = null;
+		while(event==null){
+			event = buffer.pop();
+		}
+		buffer.clear();
 	}
 	
 	//You can see the Space Shooter change color from teal to gold with this method
-	private static void Goldenization(){
+	static void Goldenization(){
+
+		controller.resetColors();
 		
 		SpaceShooter ss = new SpaceShooter(new int[]{9, 18}, 3, 3);
 		
@@ -396,7 +439,9 @@ public abstract class Main{
 	}
 	
 	//This method displays all 26 letters of the Latin alphabet on the board
-	private static void DisplayAlphabet(){
+	static void DisplayAlphabet(){
+
+		controller.resetColors();
 		
 		char[] alphabet = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
 		for(int i=0; i<alphabet.length; i++){
@@ -413,7 +458,9 @@ public abstract class Main{
 	}
 	
 	//This letter displays all 10 Arabian ciphers on the board
-	private static void DisplayCiphers(){
+	static void DisplayCiphers(){
+
+		controller.resetColors();
 		
 		char[] ciphers = {'0','1','2','3','4','5','6','7','8','9'};
 		for(int i=0; i<ciphers.length; i++){
@@ -430,15 +477,24 @@ public abstract class Main{
 	}
 	
 	//This method lets a string move from right to left on the board
-	private static void DisplayLogo(int line, Word logo){
+	static void DisplayLogo(int line, Word logo){
+
+		controller.resetColors();
 		
+		KeyEvent event = null;
 		while(true){
 			for(int x=20; x>-logo.getLength() ;x--){
+
+				event = buffer.pop();
 				logo.displayWordAt(x+1, line, 0, 0, 0);
-				
 				logo.displayWordAt(x, line, 97, 17, 2);
+				
 				controller.updateLedStripe();
 				controller.sleep(125);
+				if(event!=null){
+					buffer.clear();
+					return;
+				}
 			}
 		}
 	}

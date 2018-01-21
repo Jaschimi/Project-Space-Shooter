@@ -503,6 +503,51 @@ public abstract class Gameplay{
 						currentShip.getShots()[2]=null;
 						break;
 						
+					case "7000":
+						
+						Main.randomColor();
+						break;
+
+					case "7001":
+						
+						Main.nestTest();
+						break;
+
+					case "7002":
+						
+						Main.rainbow();
+						break;
+
+					case "7003":
+						
+						Main.Goldenization();
+						break;
+
+					case "7004":
+						
+						Main.shipDiashow();
+						break;
+
+					case "7005":
+						
+						Main.DisplayLogo(6, Main.word);
+						break;
+
+					case "7006":
+						
+						Main.DisplayAlphabet();
+						break;
+
+					case "7007":
+						
+						Main.DisplayCiphers();
+						break;
+
+					case "7008":
+						
+						Main.story();
+						break;
+						
 					}
 					return;
 				}

@@ -3,7 +3,8 @@ package displayObjects;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
-public class CelestialBodies {
+//In this class, display methods for a sun and a planet can be found. They are mostly used in the intro, on the logo screen.
+public abstract class CelestialBodies {
 
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 
@@ -68,16 +69,16 @@ public class CelestialBodies {
 	
 	public static void displaySun(int xpos, int ypos, int[] color){
 		
-		for (int i=-2; i<3; i++) {
-			for (int a=-2; a<3; a++) {
-				controller.setColor(xpos + i, ypos + a, color);
+		for(int x=-2; x<3; x++) {
+			for(int y=-2; y<3; y++) {
+				controller.setColor(xpos + x, ypos + y, color);
 			}
 		}
-		for (int x=-1; x<2; x++) {
+		for(int x=-1; x<2; x++) {
 			controller.setColor(xpos + x, ypos + 3, color);
 			controller.setColor(xpos + x, ypos - 3, color);
 		}
-		for (int y=-1; y<2; y++) {
+		for(int y=-1; y<2; y++) {
 			controller.setColor(xpos + 3, ypos + y, color);
 			controller.setColor(xpos - 3, ypos + y, color);
 		}

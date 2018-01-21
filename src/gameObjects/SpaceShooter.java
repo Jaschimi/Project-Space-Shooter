@@ -3,38 +3,25 @@ package gameObjects;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
+//This is the class that contains all methods for the controllable ship, the Space Shooter, to function properly ingame
 public class SpaceShooter extends Spaceship{
 	
-	static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	
-	private int[] topLeftCorner = new int[2];
-	private Projectile[] shots;
-	private int lifes;
-	private int[][] cannons;
-	
-	//Getters and Setters for various things
-	public int[] getTopLeftCorner() {return topLeftCorner;}
-	
-	public Projectile[] getShots() {return shots;}
-	public void setShots(Projectile[] shots) {this.shots = shots;}
-
-	public int[][] getCannons() {return cannons;}
-	public void setCannons(int[][] cannons) {this.cannons = cannons;}
-
-	public int getLifes() {return lifes;}
-	public void setLifes(int lifes) {this.lifes = lifes;}
-	
-	public SpaceShooter(int[] topLeftCorner, int lifes, int ammo) {
+	//The length of the Space Shooter is always three, the height always two.
+	public SpaceShooter(int[] topLeftCorner, int lives, int ammo) {
 		
-		super(topLeftCorner, 3, 2, lifes, ammo);
+		super(topLeftCorner, 3, 2, lives, ammo);
 		
 		this.topLeftCorner = topLeftCorner;
+		this.length = 3;
+		this.height = 2;
 		this.shots = new Projectile[ammo];
-		this.lifes = lifes;
-		this.cannons  = new int[][]{{this.topLeftCorner[0] + 1, this.topLeftCorner[1]}};
+		this.lives = lives;
 		
 	}
 
+	@Override
 	public void spawn(){
 		
 		//Two helping variables
@@ -76,7 +63,7 @@ public class SpaceShooter extends Spaceship{
 		switch(direction){
 		
 		case 'W':
-			if(this.topLeftCorner[1]>0){
+//			if(this.topLeftCorner[1]>0){
 				for(int x=this.topLeftCorner[0]; x<this.topLeftCorner[0] + 3; x++){
 					for(int y=this.topLeftCorner[1]; y<this.topLeftCorner[1] + 2; y++){
 						controller.setColor(x, y, 0, 0, 0);
@@ -85,11 +72,11 @@ public class SpaceShooter extends Spaceship{
 				
 				this.topLeftCorner[1] -= 1;
 				this.spawn();
-			}
+//			}
 			break;
 			
 		case 'S':
-			if(this.topLeftCorner[1]+2<20){
+//			if(this.topLeftCorner[1]+2<20){
 				for(int x=this.topLeftCorner[0]; x<this.topLeftCorner[0] + 3; x++){
 					for(int y=this.topLeftCorner[1]; y<this.topLeftCorner[1] + 2; y++){
 						controller.setColor(x, y, 0, 0, 0);
@@ -98,11 +85,11 @@ public class SpaceShooter extends Spaceship{
 				
 				this.topLeftCorner[1] += 1;
 				this.spawn();
-			}
+//			}
 			break;
 		
 		case 'A':
-			if(this.topLeftCorner[0]+3/2>0){
+//			if(this.topLeftCorner[0]+3/2>0){
 				for(int x=this.topLeftCorner[0]; x<this.topLeftCorner[0] + 3; x++){
 					for(int y=this.topLeftCorner[1]; y<this.topLeftCorner[1] + 2; y++){
 						controller.setColor(x, y, 0, 0, 0);
@@ -111,11 +98,11 @@ public class SpaceShooter extends Spaceship{
 				
 				this.topLeftCorner[0] -= 1;
 				this.spawn();
-			}
+//			}
 			break;
 			
 		case 'D':
-			if(this.topLeftCorner[0]+3/2+1<20){
+//			if(this.topLeftCorner[0]+3/2+1<20){
 				for(int x=this.topLeftCorner[0]; x<this.topLeftCorner[0] + 3; x++){
 					for(int y=this.topLeftCorner[1]; y<this.topLeftCorner[1] + 2; y++){
 						controller.setColor(x, y, 0, 0, 0);
@@ -124,30 +111,30 @@ public class SpaceShooter extends Spaceship{
 			
 				this.topLeftCorner[0] += 1;
 				this.spawn();
-			}
+//			}
 			break;
 		}
 	}
 
 	@Override
-	public void hit(){
-		//It loses a life
-		this.setLifes(this.getLifes()-1);
+	public boolean hit(){
+		//It loses a life,
+		this.setLives(this.getLives()-1);
 		
-		//And the dot indicating its energy may change color
-		if(this.getLifes()==3){
+		//the dot indicating its energy may change color
+		if(this.getLives()==3){
 			this.setColorAt(1, 1, 5, 107, 17);
 		}
 		else{
-			if(this.getLifes()==2){
+			if(this.getLives()==2){
 				this.setColorAt(1, 1, 122, 100, 7);
 			}
 			else{
-				if(this.getLifes()==1){
+				if(this.getLives()==1){
 					this.setColorAt(1, 1, 69, 4, 4);
 				}
 				else{
-					if(this.getLifes()==0){
+					if(this.getLives()==0){
 						this.setColorAt(1, 1, 31, 31, 31);
 					}
 					else{
@@ -157,20 +144,30 @@ public class SpaceShooter extends Spaceship{
 			}
 		}
 		this.spawn();
-	}
-	
-	@Override
-	public void fade(){
-		//Every color
-		for(int i=0;i<3;i++){
-			//in every entry of the positions array
-			for(int x=0;x<3;x++){
-				for(int y=0;y<2;y++){
-					//is reduced by one if it isn't zero.
-					if(this.positions[x][y][i]!=0)this.positions[x][y][i]-=1;
-					this.spawn();
-				}
+		
+		//and it lights up. The intensity of the white is determined by the highest color component of the ship's topLeftCorner
+		int[] hitColor = controller.getColorAt(this.topLeftCorner[0], this.topLeftCorner[1]);
+		if(hitColor[0]<hitColor[1]){
+			hitColor[0]=hitColor[1];
+		}
+		if(hitColor[0]>hitColor[1]){
+			hitColor[1]=hitColor[0];
+		}
+		if(hitColor[2]<hitColor[1]){
+			hitColor[2]=hitColor[1];
+		}
+		if(hitColor[2]>hitColor[1]){
+			hitColor[1]=hitColor[2];
+			hitColor[0]=hitColor[2];
+		}
+		
+		for(int x=0; x<3; x+=2){
+			for(int y=0; y<2; y++){
+				controller.setColor(this.topLeftCorner[0]+x, this.topLeftCorner[1]+y, hitColor);
 			}
 		}
+		
+		return true;
 	}
+	
 }

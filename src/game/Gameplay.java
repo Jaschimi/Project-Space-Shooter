@@ -26,7 +26,7 @@ public abstract class Gameplay{
 		//This boolean determines if the game has been won
 		boolean won = false;
 
-		//Create the SpaceShooter with three lifes, three ammo and a spawning location on the bottom mid of the board
+		//Create the SpaceShooter with three lives, three ammo and a spawning location on the bottom mid of the board
 		SpaceShooter ss = new SpaceShooter(new int[]{9, 18}, 3, 3);
 		
 		//These if statements start a game based on what difficulty has been chosen in the main method
@@ -40,6 +40,7 @@ public abstract class Gameplay{
 			Tutorial.start(ss);
 		}
 		else{
+			int[] shipColor;
 			if(difficulty == 1){
 				ss.setColorAt(0, 0, 0, 127, 107);
 				ss.setColorAt(1, 0, 0, 0, 0);
@@ -48,6 +49,7 @@ public abstract class Gameplay{
 				ss.setColorAt(1, 1, 5, 107, 17);
 				ss.setColorAt(2, 1, 0, 127, 107);
 				won = Easy.start(ss);
+				shipColor = new int[]{0, 127, 107};
 			}
 			else{
 				if(difficulty == 2){
@@ -63,6 +65,7 @@ public abstract class Gameplay{
 						}
 					}
 					won = Medium.start(ss);
+					shipColor = new int[]{99, 28, 29};
 				}
 				else{
 					if(difficulty == 3){
@@ -73,12 +76,17 @@ public abstract class Gameplay{
 						ss.setColorAt(1, 1, 5, 107, 17);
 						ss.setColorAt(2, 1, 28, 8, 99);
 						won = Hard.start(ss);
+						shipColor = new int[]{28+Hard.colorCount, 8+Hard.colorCount, 99-Hard.colorCount};
+						Hard.colorCount=0;
+					}
+					else{
+						shipColor = new int[]{127, 127, 127};
 					}
 				}
 			}
 			//After a game in easy, medium or hard mode is has been won or lost, the outro boots up
 			if(!Easy.broken&&!Medium.broken&&!Hard.broken){
-				Endscreen.outro(won, controller.getColorAt(ss.getTopLeftCorner()[0], ss.getTopLeftCorner()[1]), difficulty);
+				Endscreen.outro(won, shipColor, difficulty);
 			}
 			else{
 				Easy.broken = false;
@@ -361,31 +369,31 @@ public abstract class Gameplay{
 						
 					case "5570":
 						
-						ss.setLifes(0);
+						ss.setLives(0);
 						ss.setColorAt(1, 1, 31, 31, 31);
 						break;
 						
 					case "5571":
 						
-						ss.setLifes(1);
+						ss.setLives(1);
 						ss.setColorAt(1, 1, 69, 4, 4);
 						break;
 					
 					case "5572":
 						
-						ss.setLifes(2);
+						ss.setLives(2);
 						ss.setColorAt(1, 1, 127, 127, 0);
 						break;
 					
 					case "5573":
 						
-						ss.setLifes(3);
+						ss.setLives(3);
 						ss.setColorAt(1, 1, 5, 107, 17);
 						break;
 
 					case "5579":
 						
-						ss.setLifes(99);
+						ss.setLives(99);
 						ss.setColorAt(1, 1, 127, 0, 127);
 						break;
 						
@@ -429,43 +437,43 @@ public abstract class Gameplay{
 						
 					case "6570":
 						
-						currentShip.setLifes(0);
+						currentShip.setLives(0);
 						currentShip.spawn();
 						break;
 						
 					case "6571":
 						
-						currentShip.setLifes(1);
+						currentShip.setLives(1);
 						currentShip.spawn();
 						break;
 						
 					case "6572":
 						
-						currentShip.setLifes(currentShip.getMaxLifes()/2);
+						currentShip.setLives(currentShip.getMaxLives()/2);
 						currentShip.spawn();
 						break;
 						
 					case "6573":
 						
-						currentShip.setLifes(currentShip.getMaxLifes()/3);
+						currentShip.setLives(currentShip.getMaxLives()/3);
 						currentShip.spawn();
 						break;
 						
 					case "6574":
 						
-						currentShip.setLifes(currentShip.getMaxLifes()/4);
+						currentShip.setLives(currentShip.getMaxLives()/4);
 						currentShip.spawn();
 						break;
 						
 					case "6575":
 						
-						currentShip.setLifes(currentShip.getMaxLifes()/5);
+						currentShip.setLives(currentShip.getMaxLives()/5);
 						currentShip.spawn();
 						break;
 						
 					case "6579":
 						
-						currentShip.setLifes(currentShip.getMaxLifes());
+						currentShip.setLives(currentShip.getMaxLives());
 						currentShip.spawn();
 						break;
 						

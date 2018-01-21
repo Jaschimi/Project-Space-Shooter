@@ -111,30 +111,42 @@ public abstract class Medium {
 		//This variable counts the amount of times the endless loop has been started
 		int loopCount = 0;
 		//These variables count the amount of times the colors of a ship have faded
-		int enemyFadeCount = 0;
-		int ssFadeCount = 0;
+		int enemyFadeCount = 0, ssFadeCount = 0;
+		//And these variables notice if a ship has been hit
+		boolean enemyHit = false, ssHit = false;
 		//This boolean determines if the current ship will move left or right
 		boolean right = true;
 
 		controller.updateLedStripe();
 		
 		while(true){
-			//In every instance of the endless loop, nine things may happen:
-			//1.: The loop count increases by one
-			//2.: It is checked if the current EnemyShip has no lifes left
-			//3.: It is checked if the SpaceShooter has no lifes left
+			//In every instance of the endless loop, ten things may happen:
+			//0.: The loop count increases by one
+			//1.: Hit ships regain color
+			//2.: It is checked if the current EnemyShip has no lives left
+			//3.: It is checked if the SpaceShooter has no lives left
 			//4.: All shots the SpaceShooter fired move upwards by one
 			//5.: All shots the current ship fired move downwards by one
 			//6.: The current ship moves in a direction
 			//7.: The current EnemyShip shoots a projectile
 			//8.: The last keyboard input is detected and one of six actions is performed
 			//9.: Finally, the LED stripe is updated
-			
-			//1.
+
+			//0.
 			loopCount+=1;
 			
+			//1.
+			if(ssHit){
+				ss.spawn();
+				ssHit = false;
+			}
+			if(enemyHit){
+				currentShip.spawn();
+				enemyHit = false;
+			}
+			
 			//2.
-			if(currentShip.getLifes() <= 0){//here the current ship has no lifes left
+			if(currentShip.getLives() <= 0){//here the current ship has no lives left
 				//Letting the colors of the destroyed ship fade away
 				currentShip.fade();
 				currentShip.fade();
@@ -156,7 +168,7 @@ public abstract class Medium {
 			}
 			
 			//3.
-			if(ss.getLifes()==0){
+			if(ss.getLives()==0){
 				//removing the colors of the destroyed ship
 				ss.fade();
 				ss.fade();
@@ -198,7 +210,7 @@ public abstract class Medium {
 				if(ss.getShots()[i] != null){
 					//This if statement checks if the projectile is still on the screen
 					if(ss.getShots()[i].getY()>=0){
-						//If that's the case, the program checks if any part of the current ufo (that isn't black)
+						//If that's the case, the program checks if any part of the current ship (that isn't black)
 						//is directly above the projectile
 						for(int x=0; x<currentShip.getLength(); x++){
 							for(int y=0; y<currentShip.getHeight(); y++){
@@ -209,8 +221,8 @@ public abstract class Medium {
 								   ||controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[2]!=0)){
 									//If that is also the case, the projectiles color is changed to black,
 									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
-									//the currentUFO is hit (if it still haves lifes) and
-									if(currentShip.getLifes()>0)currentShip.hit();
+									//the currentUFO is hit (if it still haves lives) and
+									if(currentShip.getLives()>0)enemyHit = currentShip.hit();
 									//the projectile is set to null.
 									ss.getShots()[i] = null;
 									break;
@@ -240,7 +252,7 @@ public abstract class Medium {
 									   && currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x && (x!=1 || y!=0)){
 										controller.setColor(currentShip.getShots()[i].getX(), currentShip.getShots()[i].getY(), 0, 0, 0);
 										currentShip.getShots()[i] = null;
-										if(ss.getLifes()>0)ss.hit();
+										if(ss.getLives()>0)ssHit = ss.hit();
 										break;
 									}
 								}
@@ -256,8 +268,8 @@ public abstract class Medium {
 			}
 			
 			//6.
-			//EnemyShips only move every 25th instance of the endless loop and if they have any lifes left
-			if(loopCount%25==0&&currentShip.getLifes()>0){
+			//EnemyShips only move every 25th instance of the endless loop and if they have any lives left
+			if(loopCount%25==0&&currentShip.getLives()>0){
 				
 				//This generates a random double between 0 and 100
 				double random = Math.random()*100;
@@ -281,7 +293,7 @@ public abstract class Medium {
 											 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[1]!=0
 											 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[2]!=0){
 												//The current ship is hit
-												currentShip.hit();
+												enemyHit = currentShip.hit();
 												//and the projectile is set to null.
 												ss.getShots()[i] = null;
 											}
@@ -307,7 +319,7 @@ public abstract class Medium {
 											 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[1]!=0
 											 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[2]!=0){
 												//The current ship is hit
-												currentShip.hit();
+												enemyHit = currentShip.hit();
 												//and the projectile is set to null.
 												ss.getShots()[i] = null;
 											}
@@ -324,9 +336,9 @@ public abstract class Medium {
 			}
 			
 			//7.
-			//Enemy ships only shoot with a chance of 1/35 in every loop and if they have any lifes left
+			//Enemy ships only shoot with a chance of 1/35 in every loop and if they have any lives left
 			int random = (int) (Math.random()*35);
-			if(random == 2&&currentShip.getLifes()>0){
+			if(random == 2&&currentShip.getLives()>0){
 
 				//A random cannon is chosen with which to shoot
 				random = (int) (Math.random()*currentShip.getCannons().length);
@@ -336,7 +348,7 @@ public abstract class Medium {
 			//8.
 			KeyEvent event = buffer.pop();
 			buffer.clear();
-			if(event != null&&ss.getLifes()>0){
+			if(event != null&&ss.getLives()>0){
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
 					switch (event.getKeyCode()){
@@ -356,12 +368,12 @@ public abstract class Medium {
 					
 					case java.awt.event.KeyEvent.VK_W:
 						//W makes the SS move up
-						ss.move('W');
+						if(ss.getTopLeftCorner()[1]>6)ss.move('W');
 						break;
 					
 					case java.awt.event.KeyEvent.VK_S:
 						//S makes the SS move down
-						ss.move('S');
+						if(ss.getTopLeftCorner()[1]+2<20)ss.move('S');
 						break;
 						
 					case java.awt.event.KeyEvent.VK_A:
@@ -373,7 +385,7 @@ public abstract class Medium {
 									if(currentShip.getShots()[i]!=null){
 										if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x-1&&(x!=1 || y!=0)){
 											//The Space Shooter is hit
-											ss.hit();
+											ssHit = ss.hit();
 											//and the projectile is set to null.
 											currentShip.getShots()[i] = null;
 										}
@@ -381,7 +393,7 @@ public abstract class Medium {
 								}
 							}
 						}
-						ss.move('A');
+						if(ss.getTopLeftCorner()[0]+3/2>0)ss.move('A');
 						break;
 					
 					case java.awt.event.KeyEvent.VK_D:
@@ -393,7 +405,7 @@ public abstract class Medium {
 									if(currentShip.getShots()[i]!=null){
 										if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x+1&&(x!=1 || y!=0)){
 											//The Space Shooter is hit
-											ss.hit();
+											ssHit = ss.hit();
 											//and the projectile is set to null.
 											currentShip.getShots()[i] = null;
 										}
@@ -401,7 +413,7 @@ public abstract class Medium {
 								}
 							}
 						}
-						ss.move('D');
+						if(ss.getTopLeftCorner()[0]+3/2+1<20)ss.move('D');
 						break;
 						
 					}
@@ -412,7 +424,7 @@ public abstract class Medium {
 			controller.updateLedStripe();
 			
 		}
-		//These lines only activate once all enemy ships are defeated or the SS has no lifes left
+		//These lines only activate once all enemy ships are defeated or the SS has no lives left
 		controller.updateLedStripe();
 		return won;
 	}

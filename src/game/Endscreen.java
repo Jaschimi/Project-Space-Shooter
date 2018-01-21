@@ -134,7 +134,7 @@ public abstract class Endscreen{
 			
 			if(difficulty == 3) {
 				
-				MegaPop.makeAll(point, fireworkColor);
+				Misc.makeAll(point, fireworkColor);
 				
 				controller.resetColors();
 				
@@ -239,7 +239,7 @@ public abstract class Endscreen{
         }
         if(difficulty!=1){
         	if(difficulty==3){
-        		MegaPop.makeMegaBoom(point, fireworkColor);
+        		Misc.makeMegaBoom(point, fireworkColor);
         	}
         	
         	int a = 0;

@@ -445,7 +445,7 @@ public abstract class Tutorial{
 			
 			//The dot turns green
 			if(count==green.getLength()){
-				ss.setLifes(3);
+				ss.setLives(3);
 				ss.setColorAt(1, 1, 5, 107, 17);
 				ss.spawn();
 			}
@@ -549,7 +549,7 @@ public abstract class Tutorial{
 		ss.setColorAt(0, 1, 107, 0, 127);
 		ss.setColorAt(1, 1, 5, 107, 17);
 		ss.setColorAt(2, 1, 107, 0, 127);
-		ss.setLifes(3);
+		ss.setLives(3);
 		ss.spawn();
 		
 		//Shooting at the currentShip and destroying it
@@ -783,33 +783,46 @@ public abstract class Tutorial{
 		count=0;
 		controller.resetColors();
 		//Reviving, recoloring and respawning the Space Shooter
-		ss.setLifes(3);
+		ss.setLives(3);
 		ss.setColorAt(1, 1, 5, 107, 17);
 		ss.spawn();
 		currentShip.spawn();
+		
 		//These variables counts the amount of times the colors of a ship have faded
-		int enemyFadeCount = 0;
-		int ssFadeCount = 0;
-
+		int enemyFadeCount = 0, ssFadeCount = 0;
+		//And these variables notice if a ship has been hit
+		boolean enemyHit = false, ssHit = false;
+		
 		controller.updateLedStripe();
 		
 		while(true){
-			//In every instance of the endless loop, nine things may happen:
-			//1.: The loop count increases by one
-			//2.: It is checked if the current EnemyShip has no lifes left
-			//3.: It is checked if the SpaceShooter has no lifes left
+			//In every instance of the endless loop, ten things may happen:
+			//0.: The loop count increases by one
+			//1.: Hit ships regain color
+			//2.: It is checked if the current EnemyShip has no lives left
+			//3.: It is checked if the SpaceShooter has no lives left
 			//4.: All shots the SpaceShooter fired move upwards by one
 			//5.: All shots the current ship fired move downwards by one
 			//6.: The current ship moves in a direction
 			//7.: The current EnemyShip shoots a projectile
 			//8.: The last keyboard input is detected and one of six actions is performed
 			//9.: Finally, the LED stripe is updated
+
+			//0.
+			count+=1;
 			
 			//1.
-			count++;
+			if(ssHit){
+				ss.spawn();
+				ssHit = false;
+			}
+			if(enemyHit){
+				currentShip.spawn();
+				enemyHit = false;
+			}
 			
 			//2.
-			if(currentShip.getLifes() == 0){
+			if(currentShip.getLives() == 0){
 				//removing the colors of the destroyed ship
 				currentShip.fade();
 				currentShip.fade();
@@ -831,7 +844,7 @@ public abstract class Tutorial{
 			}
 			
 			//3.
-			if(ss.getLifes()==0){
+			if(ss.getLives()==0){
 				//removing the colors of the destroyed ship
 				ss.fade();
 				ss.fade();
@@ -862,8 +875,8 @@ public abstract class Tutorial{
 								   ||controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[2]!=0)){
 									//If that is also the case, the projectile's color is changed to black,
 									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
-									//the currentUFO is hit (if it still has lifes)
-									if(currentShip.getLifes()>0)currentShip.hit();
+									//the currentUFO is hit (if it still has lives)
+									if(currentShip.getLives()>0)enemyHit = currentShip.hit();
 									//and the projectile is set to null.
 									ss.getShots()[i] = null;
 									break;
@@ -893,7 +906,7 @@ public abstract class Tutorial{
 									   && currentShip.getShots()[i].getX()==ss.getTopLeftCorner()[0]+x && (x!=1 || y!=0)){
 										controller.setColor(currentShip.getShots()[i].getX(), currentShip.getShots()[i].getY(), 0, 0, 0);
 										currentShip.getShots()[i] = null;
-										if(ss.getLifes()>0)ss.hit();
+										if(ss.getLives()>0)ssHit = ss.hit();
 										break;
 									}
 								}
@@ -909,7 +922,7 @@ public abstract class Tutorial{
 			}
 			
 			//6.
-			if(count%50==0&&currentShip.getLifes()>0){
+			if(count%50==0&&currentShip.getLives()>0){
 				
 				//This generates a random integer from 0 to 3
 				int random = (int) (Math.random()*4);
@@ -928,7 +941,7 @@ public abstract class Tutorial{
 					else move = false;
 					break;
 				case 2:
-					if(currentShip.getTopLeftCorner()[1]+currentShip.getHeight()<19)direction = 'S';
+					if(currentShip.getTopLeftCorner()[1]+currentShip.getHeight()<9)direction = 'S';
 					else move = false;
 					break;
 				case 3:
@@ -950,7 +963,7 @@ public abstract class Tutorial{
 										 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[1]!=0
 										 ||controller.getColorAt(ss.getShots()[i].getX()+1, ss.getShots()[i].getY())[2]!=0){
 											//The current ship is hit
-											currentShip.hit();
+											enemyHit = currentShip.hit();
 											//and the projectile is set to null.
 											ss.getShots()[i] = null;
 										}
@@ -972,7 +985,7 @@ public abstract class Tutorial{
 										 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[1]!=0
 										 ||controller.getColorAt(ss.getShots()[i].getX()-1, ss.getShots()[i].getY())[2]!=0){
 											//The current ship is hit
-											currentShip.hit();
+											enemyHit = currentShip.hit();
 											//and the projectile is set to null.
 											ss.getShots()[i] = null;
 										}
@@ -992,14 +1005,14 @@ public abstract class Tutorial{
 			//7.
 			//Enemy ships only shoot with a chance of 1/45 in every loop
 			int random = (int) (Math.random()*45);
-			if(random == 2&&currentShip.getLifes()>0){
+			if(random == 2&&currentShip.getLives()>0){
 				currentShip.shoot(currentShip.getCannons()[0]);
 			}
 			
 			//8.
 			KeyEvent event = buffer.pop();
 			buffer.clear();
-			if(event != null&&ss.getLifes()>0){
+			if(event != null&&ss.getLives()>0){
 				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
 					switch(event.getKeyCode()){
@@ -1018,12 +1031,12 @@ public abstract class Tutorial{
 					
 					case java.awt.event.KeyEvent.VK_W:
 						//W makes the SS move up
-						ss.move('W');
+						if(ss.getTopLeftCorner()[1]>10)ss.move('W');
 						break;
 					
 					case java.awt.event.KeyEvent.VK_S:
 						//S makes the SS move down
-						ss.move('S');
+						if(ss.getTopLeftCorner()[1]+2<20)ss.move('S');
 						break;
 						
 					case java.awt.event.KeyEvent.VK_A:
@@ -1035,7 +1048,7 @@ public abstract class Tutorial{
 									if(currentShip.getShots()[i]!=null){
 										if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x-1&&(x!=1 || y!=0)){
 											//The Space Shooter is hit
-											ss.hit();
+											ssHit = ss.hit();
 											//and the projectile is set to null.
 											currentShip.getShots()[i] = null;
 										}
@@ -1043,7 +1056,7 @@ public abstract class Tutorial{
 								}
 							}
 						}
-						ss.move('A');
+						if(ss.getTopLeftCorner()[0]+3/2>0)ss.move('A');
 						break;
 					
 					case java.awt.event.KeyEvent.VK_D:
@@ -1055,7 +1068,7 @@ public abstract class Tutorial{
 									if(currentShip.getShots()[i]!=null){
 										if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x+1&&(x!=1 || y!=0)){
 											//The Space Shooter is hit
-											ss.hit();
+											ssHit = ss.hit();
 											//and the projectile is set to null.
 											currentShip.getShots()[i] = null;
 										}
@@ -1063,7 +1076,7 @@ public abstract class Tutorial{
 								}
 							}
 						}
-						ss.move('D');
+						if(ss.getTopLeftCorner()[0]+3/2+1<20)ss.move('D');
 						break;
 						
 					}

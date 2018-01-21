@@ -82,7 +82,7 @@ public class GalaxyDestroyer extends EnemyShip {
 		this.setColorAt(16, 6, 0, 0, 0);
 		
 		//The cross indicating the GalaxyDestroyers Energy
-		if(this.getLifes()>=this.getMaxLifes()/2){
+		if(this.getLives()>=this.getMaxLives()/2){
 			for(int y=2; y<5; y++){
 				this.setColorAt(8, y, 5, 107, 17);
 			}
@@ -91,7 +91,7 @@ public class GalaxyDestroyer extends EnemyShip {
 			}
 		}
 		else{
-			if(this.getLifes()>=this.getMaxLifes()/4){
+			if(this.getLives()>=this.getMaxLives()/4){
 				for(int y=2; y<5; y++){
 					this.setColorAt(8, y, 5, 107, 17);
 				}
@@ -114,12 +114,12 @@ public class GalaxyDestroyer extends EnemyShip {
 	}
 	
 	@Override
-	public void hit() {
-		//It loses a life
+	public boolean hit() {
+		//It loses a life,
 		super.hit();
 		
-		//And the cross indicating its energy may change color
-		if(this.getLifes()>=4*this.getMaxLifes()/5){
+		//the cross indicating its energy may change color
+		if(this.getLives()>=4*this.getMaxLives()/5){
 			for(int y=2; y<5; y++){
 				this.setColorAt(8, y, 5, 107, 17);
 			}
@@ -128,7 +128,7 @@ public class GalaxyDestroyer extends EnemyShip {
 			}
 		}
 		else{
-			if(this.getLifes()>=3*this.getMaxLifes()/5){
+			if(this.getLives()>=3*this.getMaxLives()/5){
 				for(int y=2; y<5; y++){
 					this.setColorAt(8, y, 86, 102, 9);
 				}
@@ -137,7 +137,7 @@ public class GalaxyDestroyer extends EnemyShip {
 				}
 			}
 			else{
-				if(this.getLifes()>=2*this.getMaxLifes()/5){
+				if(this.getLives()>=2*this.getMaxLives()/5){
 					for(int y=2; y<5; y++){
 						this.setColorAt(8, y, 122, 100, 7);
 					}
@@ -146,7 +146,7 @@ public class GalaxyDestroyer extends EnemyShip {
 					}
 				}
 				else{
-					if(this.getLifes()>=this.getMaxLifes()/5){
+					if(this.getLives()>=this.getMaxLives()/5){
 						for(int y=2; y<5; y++){
 							this.setColorAt(8, y, 104, 34, 24);
 						}
@@ -155,7 +155,7 @@ public class GalaxyDestroyer extends EnemyShip {
 						}
 					}
 					else{
-						if(this.getLifes()>=1){
+						if(this.getLives()>=1){
 							for(int y=2; y<5; y++){
 								this.setColorAt(8, y, 69, 4, 4);
 							}
@@ -176,6 +176,34 @@ public class GalaxyDestroyer extends EnemyShip {
 			}
 		}
 		this.spawn();
+
+		//and it lights up. The intensity of the white is determined by the highest color component of the ship's topLeftCorner
+		int[] hitColor = controller.getColorAt(this.topLeftCorner[0], this.topLeftCorner[1]);
+		if(hitColor[0]<hitColor[1]){
+			hitColor[0]=hitColor[1];
+		}
+		if(hitColor[0]>hitColor[1]){
+			hitColor[1]=hitColor[0];
+		}
+		if(hitColor[2]<hitColor[1]){
+			hitColor[2]=hitColor[1];
+		}
+		if(hitColor[2]>hitColor[1]){
+			hitColor[1]=hitColor[2];
+			hitColor[0]=hitColor[2];
+		}
+		
+		for(int x=this.topLeftCorner[0]+0; x<this.topLeftCorner[0]+this.length; x++){
+			for(int y=this.topLeftCorner[1]+0; y<this.topLeftCorner[1]+this.height; y++){
+				if((controller.getColorAt(x, y)[0]==30||controller.getColorAt(x, y)[0]==18)
+				 &&(controller.getColorAt(x, y)[1]==30||controller.getColorAt(x, y)[1]==18)
+				 &&(controller.getColorAt(x, y)[2]==90||controller.getColorAt(x, y)[2]==87)){
+					controller.setColor(x, y, hitColor);
+				}
+			}
+		}
+		
+		return true;
 	}
 
 	@Override

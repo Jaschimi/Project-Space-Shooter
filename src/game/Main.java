@@ -24,7 +24,7 @@ import ufos.BigBoulder;
 public abstract class Main{
 	
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
-	private static KeyBuffer buffer;
+	private static KeyBuffer buffer = controller.getKeyBuffer();
 	private final static Word word = new Word("Horizon");
 
 	public static void main(String[] args) {
@@ -61,8 +61,7 @@ public abstract class Main{
 	}
 	
 	private static boolean gameStart(){
-
-		buffer = controller.getKeyBuffer();
+		
 		buffer.clear();
 		KeyEvent event = null;
 		
@@ -102,9 +101,9 @@ public abstract class Main{
 				
 				event = buffer.pop();
 				buffer.clear();
-				if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+				if(event != null && event.getID() == java.awt.event.KeyEvent.KEY_PRESSED){
 					
-					int wait=250;
+					int blinkWait=250;
 					switch(event.getKeyCode()){
 					
 					default:
@@ -118,8 +117,8 @@ public abstract class Main{
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
-						Letter.BlinkLetter('0', 9, 7, 127, 0, 127, wait);
-						Letter.BlinkLetter('0', 9, 7, 127, 0, 127, wait);
+						Letter.BlinkLetter('0', 9, 7, 127, 0, 127, blinkWait);
+						Letter.BlinkLetter('0', 9, 7, 127, 0, 127, blinkWait);
 						
 						//Pressing 0 starts the tutorial
 						Gameplay.start(0);
@@ -132,8 +131,8 @@ public abstract class Main{
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
-						Letter.BlinkLetter('1', 2, 14, 0, 127, 0, wait);
-						Letter.BlinkLetter('1', 2, 14, 0, 127, 0, wait);
+						Letter.BlinkLetter('1', 2, 14, 0, 127, 0, blinkWait);
+						Letter.BlinkLetter('1', 2, 14, 0, 127, 0, blinkWait);
 						
 						//Pressing 1 starts easy mode
 						Gameplay.start(1);
@@ -146,8 +145,8 @@ public abstract class Main{
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
-						Letter.BlinkLetter('2', 9, 14, 0, 0, 127, wait);
-						Letter.BlinkLetter('2', 9, 14, 0, 0, 127, wait);
+						Letter.BlinkLetter('2', 9, 14, 0, 0, 127, blinkWait);
+						Letter.BlinkLetter('2', 9, 14, 0, 0, 127, blinkWait);
 						
 						//Pressing 2 starts medium mode
 						Gameplay.start(2);
@@ -161,8 +160,8 @@ public abstract class Main{
 						controller.updateLedStripe();
 						
 						//The pressed option blinks a few times
-						Letter.BlinkLetter('3', 16, 14, 127, 0, 0, wait);
-						Letter.BlinkLetter('3', 16, 14, 127, 0, 0, wait);
+						Letter.BlinkLetter('3', 16, 14, 127, 0, 0, blinkWait);
+						Letter.BlinkLetter('3', 16, 14, 127, 0, 0, blinkWait);
 						
 						//Pressing 3 starts hard mode
 						Gameplay.start(3);
@@ -176,8 +175,8 @@ public abstract class Main{
 						controller.updateLedStripe();
 						
 						//The pressed option blinks a few times
-						Letter.BlinkLetter('C', 16, 7, 0, 127, 107, wait);
-						Letter.BlinkLetter('C', 16, 7, 0, 127, 107, wait);
+						Letter.BlinkLetter('C', 16, 7, 0, 127, 107, blinkWait);
+						Letter.BlinkLetter('C', 16, 7, 0, 127, 107, blinkWait);
 						
 						//Pressing C shows the credits
 						Endscreen.credits();

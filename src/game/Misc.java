@@ -2,7 +2,7 @@ package game;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
-public class Misc{
+public abstract class Misc{
 	
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	
@@ -10,7 +10,7 @@ public class Misc{
 		
 		if(difficulty == 1) {
 			
-			for(int j = 0, z = wantedHeight; j < wantedHeight;z--, j++) {
+			for(int j = 0, y = wantedHeight; j < wantedHeight;y--, j++) {
 				
 				if(j == 0) {
 					
@@ -75,26 +75,26 @@ public class Misc{
 							
 						}else {
 							
-							for(; z >= 0; z--, j++) {
+							for(; y >= 0; y--, j++) {
 							
 							int[] farbe = {0,0,0};
 							
-							controller.setColors(createLineFromToInYDirection(wantedPointX - (j - 1),wantedPointY - (z + 1),wantedPointY + (z + 1),point,farbe));
-							controller.setColors(createLineFromToInYDirection(wantedPointX + (j - 1),wantedPointY - (z + 1),wantedPointY + (z + 1),point,farbe));
+							controller.setColors(createLineFromToInYDirection(wantedPointX - (j - 1),wantedPointY - (y + 1),wantedPointY + (y + 1),point,farbe));
+							controller.setColors(createLineFromToInYDirection(wantedPointX + (j - 1),wantedPointY - (y + 1),wantedPointY + (y + 1),point,farbe));
 							
-							controller.setColors(createLineFromToInXDirection(wantedPointY - (j - 1),wantedPointX - (z + 1),wantedPointX + (z + 1),point,farbe));
-							controller.setColors(createLineFromToInXDirection(wantedPointY + (j - 1),wantedPointX - (z + 1),wantedPointX + (z + 1),point,farbe));
+							controller.setColors(createLineFromToInXDirection(wantedPointY - (j - 1),wantedPointX - (y + 1),wantedPointX + (y + 1),point,farbe));
+							controller.setColors(createLineFromToInXDirection(wantedPointY + (j - 1),wantedPointX - (y + 1),wantedPointX + (y + 1),point,farbe));
 							
 							controller.sleep(70);
 							controller.updateLedStripe();
 							
 							
 							
-							controller.setColors(createLineFromToInYDirection(wantedPointX - j,wantedPointY - z,wantedPointY + z,point,color));
-							controller.setColors(createLineFromToInYDirection(wantedPointX + j,wantedPointY - z,wantedPointY + z,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX - j,wantedPointY - y,wantedPointY + y,point,color));
+							controller.setColors(createLineFromToInYDirection(wantedPointX + j,wantedPointY - y,wantedPointY + y,point,color));
 							
-							controller.setColors(createLineFromToInXDirection(wantedPointY - j,wantedPointX - z,wantedPointX + z,point,color));
-							controller.setColors(createLineFromToInXDirection(wantedPointY + j,wantedPointX - z,wantedPointX + z,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY - j,wantedPointX - y,wantedPointX + y,point,color));
+							controller.setColors(createLineFromToInXDirection(wantedPointY + j,wantedPointX - y,wantedPointX + y,point,color));
 							
 							controller.sleep(70);
 							controller.updateLedStripe();
@@ -244,5 +244,170 @@ public class Misc{
 		
 		return point;
 	}
-    
+	
+	private static int whereOnX = 9;
+	private static int ground = 19;
+
+	private static void goUp(int[][][] point, int[] color) {
+		
+		for(ground = 19; ground > 3; ground--) {
+			
+			if(ground == 19) {
+			
+			    for(int i = 0; i < color.length; i++) {
+				
+				    point[whereOnX][ground][i] = color[i];
+				
+				    controller.setColors(point);
+				    controller.updateLedStripe();
+				
+			    }
+			
+		    }else if(ground == 4){
+		    	
+		        for(int i = 0; i < color.length; i++) {
+					
+					point[whereOnX][ground + 1][i] = 0;
+					
+					controller.setColors(point);
+					controller.sleep(150);
+					controller.updateLedStripe();
+					
+				}
+		    	
+		    }else {
+		    	 
+		    	    for(int i = 0; i < color.length; i++) {
+					
+					point[whereOnX][ground][i] = color[i];
+                     
+					point[whereOnX][ground + 1][i] = 0;
+					
+					controller.setColors(point);
+					controller.updateLedStripe();
+
+				}
+		    	
+		    }
+			
+		}
+		
+	}
+	
+	public static void makeMegaBoom(int[][][] point, int[] color) {
+		
+		ground = ground + 2;
+		
+		for(int counter = 0; counter < 8; counter++) {
+			
+			if(counter < 6) {
+				
+				if(counter%2 == 0) {
+		
+		            for(int i = 0; i < color.length; i++) {
+		            	
+		              	point[whereOnX + (counter - 1)][ground][i] = 0;
+			            point[whereOnX - (counter - 1)][ground][i] = 0;
+			            point[whereOnX][ground + (counter - 1)][i] = 0;
+			            point[whereOnX][ground - (counter - 1)][i] = 0;
+			            
+			            point[whereOnX + ((counter)/2 - 1)][ground - ((counter)/2 - 1)][i] = 0;
+			            point[whereOnX - ((counter)/2 - 1)][ground - ((counter)/2 - 1)][i] = 0;
+			            point[whereOnX + ((counter)/2 - 1)][ground + ((counter)/2 - 1)][i] = 0;
+			            point[whereOnX - ((counter)/2 - 1)][ground + ((counter)/2 - 1)][i] = 0;
+		            	
+//----------------------------------------------------------------------------------------------------
+			
+			            point[whereOnX + counter][ground][i] = color[i];
+			            point[whereOnX - counter][ground][i] = color[i];
+			            point[whereOnX][ground + counter][i] = color[i];
+			            point[whereOnX][ground - counter][i] = color[i];
+			            
+			            point[whereOnX + (counter)/2][ground - (counter)/2][i] = color[i];
+			            point[whereOnX - (counter)/2][ground - (counter)/2][i] = color[i];
+			            point[whereOnX + (counter)/2][ground + (counter)/2][i] = color[i];
+			            point[whereOnX - (counter)/2][ground + (counter)/2][i] = color[i];
+			            
+			            controller.setColors(point);
+			            controller.updateLedStripe();
+			
+		            }
+		        
+				}else {
+					
+		            for(int i = 0; i < color.length; i++) {
+		            	
+		              	point[whereOnX + (counter - 1)][ground][i] = 0;
+			            point[whereOnX - (counter - 1)][ground][i] = 0;
+			            point[whereOnX][ground + (counter - 1)][i] = 0;
+			            point[whereOnX][ground - (counter - 1)][i] = 0;
+			            
+			            point[whereOnX + ((counter)/2 - 1)][ground - ((counter)/2 - 1)][i] = 0;
+			            point[whereOnX - ((counter)/2 - 1)][ground - ((counter)/2 - 1)][i] = 0;
+			            point[whereOnX + ((counter)/2 - 1)][ground + ((counter)/2 - 1)][i] = 0;
+			            point[whereOnX - ((counter)/2 - 1)][ground + ((counter)/2 - 1)][i] = 0;
+		            	
+//------------------------------------------------------------------------------------------------		            	
+		    			
+			            point[whereOnX + counter][ground][i] = color[i];
+			            point[whereOnX - counter][ground][i] = color[i];
+			            point[whereOnX][ground + counter][i] = color[i];
+			            point[whereOnX][ground - counter][i] = color[i];
+			            
+			            controller.setColors(point);
+			            controller.updateLedStripe();
+		    			
+		            }
+					
+				}
+		
+		    }else if(counter == 0) {
+		    	
+		      	for(int i = 0; i < color.length; i++) {
+					
+		            point[whereOnX][ground][i] = color[i];
+		            
+		            controller.setColors(point);
+		            controller.updateLedStripe();
+		
+	            }
+		      	
+		    }else if(counter == 6) {
+		    	
+		    	    for(int i = 0; i < color.length; i++) {
+		    	
+		      	    point[whereOnX + ((counter)/2 - 1)][ground - ((counter)/2 - 1)][i] = color[i];
+	                point[whereOnX - ((counter)/2 - 1)][ground - ((counter)/2 - 1)][i] = color[i];
+	                point[whereOnX + ((counter)/2 - 1)][ground + ((counter)/2 - 1)][i] = color[i];
+	                point[whereOnX - ((counter)/2 - 1)][ground + ((counter)/2 - 1)][i] = color[i];
+	                
+	                controller.setColors(point);
+	                controller.updateLedStripe();
+	            
+		    	    }
+		    	
+		    }else {
+		    	
+		    	   for(int i = 0; i < color.length; i++) {
+		    			
+		    			point = new int[20][20][3];
+		    			
+		    			controller.setColors(point);
+			        controller.updateLedStripe();
+		    			
+		        }
+		    	
+		    }
+		
+		}
+		
+	}
+	
+	public static void makeAll(int[][][] point, int[] color) {
+		
+		goUp(point, color);
+		makeMegaBoom(point, color);
+		
+	}
+	
 }

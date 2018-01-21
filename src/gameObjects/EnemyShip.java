@@ -3,53 +3,32 @@ package gameObjects;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
+//The superclass of all types of EnemyShips
 public abstract class EnemyShip extends Spaceship {
 
-	static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+	protected static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	
 	private EnemyShip next;
-	private int[] topLeftCorner = new int[2];
-	private int length;
-	private int height;
-	private int maxLifes;
-	private int lifes;
-	protected int[][] cannons;
-	protected Projectile[] shots;
 	
-	//Getters and Setters for various things
+	//Getter and Setter for the successor of an EnemyShip
 	public EnemyShip getNext() {return next;}
 	public void setNext(EnemyShip next) {this.next = next;}
 	
-	public int[] getTopLeftCorner() {return topLeftCorner;}
-
-	public int getLength() {return length;}
-	public int getHeight() {return height;}
-
-	public int getMaxLifes() {return maxLifes;}
-	public int getLifes() {return lifes;}
-	public void setLifes(int lifes) {this.lifes = lifes;}
-	
-	public int[][] getCannons() {return cannons;}
-	protected void setCannons(int[][] cannons) {this.cannons = cannons;}
-	
-	public Projectile[] getShots() {return shots;}
-	protected void setShots(Projectile[] shots) {this.shots = shots;}
-	
-	//In addition to a top left corner, a length, a height, lifes and ammunition, EnemyShips also have a successor called next,
+	//In addition to a top left corner, a length, a height, lives and ammunition, EnemyShips also have a successor called next,
 	//which is always null when a new EnemyShip is created.
 	//This way, the structure for a list of EnemyShips is made, so that the next EnemyShip can be spawned in case the current
 	//one is destroyed.
-	public EnemyShip(int[] topLeftCorner, int length, int height, int maxLifes, int ammo) {
+	public EnemyShip(int[] topLeftCorner, int length, int height, int maxLives, int ammo) {
 		
-		super(topLeftCorner, length, height, maxLifes, ammo);
+		super(topLeftCorner, length, height, maxLives, ammo);
 		
 		this.next = null;
 		
 		this.topLeftCorner = topLeftCorner;
 		this.length = length;
 		this.height = height;
-		this.maxLifes = maxLifes;
-		this.lifes = maxLifes;
+		this.maxLives = maxLives;
+		this.lives = maxLives;
 		this.shots = new Projectile[ammo];
 		
 	}
@@ -62,7 +41,7 @@ public abstract class EnemyShip extends Spaceship {
 		int y1 = this.topLeftCorner[1];
 		
 		//Starting from the top left corner, this loop draws every entry of the EnemyShips positions array that isn't black
-		//onto the board in its corresponding color
+		//onto the board in its corresponding color.
 		for(int x=0; x<this.length; x++){
 			for(int y=0; y<this.height; y++){
 				if(this.positions[x][y][0]!=0||this.positions[x][y][1]!=0||this.positions[x][y][2]!=0){
@@ -137,22 +116,9 @@ public abstract class EnemyShip extends Spaceship {
 	}
 
 	@Override
-	public void hit(){
-		this.lifes -=1;
+	public boolean hit(){
+		this.lives -=1;
+		return true;
 	}
 	
-	@Override
-	public void fade(){
-		//Every color
-		for(int i=0;i<3;i++){
-			//in every entry of the positions array
-			for(int x=0;x<this.length;x++){
-				for(int y=0;y<this.height;y++){
-					//is reduced by one if it isn't zero.
-					if(this.positions[x][y][i]!=0)this.positions[x][y][i]-=1;
-					this.spawn();
-				}
-			}
-		}
-	}
 }

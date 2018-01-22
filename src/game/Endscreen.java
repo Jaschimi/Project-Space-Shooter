@@ -31,7 +31,7 @@ public abstract class Endscreen{
 		int up = 19;
 
 		for(int i=0; i<3; i++){
-			
+//			Special case: generates two points on the ground of the board around the middle point (9).
 			point[left][up][i] = fireworkColor[i];
 			point[right][up][i] = fireworkColor[i];
 			
@@ -44,7 +44,7 @@ public abstract class Endscreen{
 		right++;
 				
 		for(count=0; count<4; count++){
-			
+//			generates points on the diagonal and deletes the points I generated before (on the same diagonal).
 			for(int i=0; i<3; i++){
 				
 				point[left][up][i] = fireworkColor[i];
@@ -80,7 +80,8 @@ public abstract class Endscreen{
 			
 		for(int j=0; j<4; j++){
 			for(int i=0; i<3; i++){
-	
+//	Here I generate the two explosions. Points on the diagonals around the middle one will be generated and 
+//	the points that are already generated will become black.
 				point[left - (j - 1)][up][i] = 0;
 			    point[right - (j - 1)][up][i] = 0;	
 			
@@ -154,7 +155,7 @@ public abstract class Endscreen{
 			}
 			
 			if(count == 0){
-				
+//				special case. Same as before in the other loops.
 				for(int i=0; i<3; i++){
 					
 					point[mid][top][i] = fireworkColor[i];
@@ -171,14 +172,12 @@ public abstract class Endscreen{
 			}
 			else{
 				
-				if(difficulty == 1){
-					if(count > 2 && count < 14){
+				if(difficulty == 2){
+					if(count > 3 && count < 14){
 						
-						uppi-=1;
-						leffi-=1;
-						
-						uppi-=1;
-						rightti+=1;
+						uppi--;
+						leffi--;
+						rightti++;
 						
 					}
 				}
@@ -189,7 +188,8 @@ public abstract class Endscreen{
 					point[mid][top + 2][i] = 0;
 					
 					if(difficulty == 2) {
-
+// This while loop generates the diagonals for the two smaller explosions (like before)
+// and the middle line for the big explosion.
 						point[leffi][uppi][i] = fireworkColor[i];
 						point[rightti][uppi][i] = fireworkColor[i];
 						
@@ -226,22 +226,15 @@ public abstract class Endscreen{
 
         if(difficulty < 3) {
         	
-//        	if(difficulty == 1) {
-			
 			Misc.makeBoom(point,fireworkColor,mid,top, 5, difficulty);
-			
-//        	}else if(difficulty == 2){
-        		
-//        		return;
-        		
-//        	}
 			
         }
         if(difficulty!=1){
         	if(difficulty==3){
         		Misc.makeMegaBoom(point, fireworkColor);
         	}
-        	
+//        	this huge loop generates the middle and the smaller fireworks at the same time as you can watch in 
+//        	endscreenTest();
         	int a = 0;
 			
 			for(int j=0; j<5 ; j++){
@@ -249,7 +242,8 @@ public abstract class Endscreen{
 			if(j<4){
 				
 				if(j%2 ==1) {
-					
+//					this parameter is for the middle explosion (the big one) that I can generate the diagonal 
+//					points
 					a++;
 					
 				}
@@ -512,13 +506,15 @@ public abstract class Endscreen{
 					for(int fromRight = 0; fromRight < point.length; fromRight++){
 						
 						if((point[fromRight][fromBelow][0] == color[0]) && (point[fromRight][fromBelow][1] == color[1]) && (point[fromRight][fromBelow][2] == color[2])){       
-							
+//							if the line isn´t completly black isTrue is true.
 							isTrue = true;
 							
 							for(int i = 0; i < color.length; i++){
 										
 								point[fromRight][fromBelow][i] = 0;
 								point[fromRight][fromBelow + 1][i] = color[i];
+//								and at the point where the line isnt black i create a new point under the actual one
+//								and I delete the actual one.
 									
 							}
 							
@@ -533,19 +529,20 @@ public abstract class Endscreen{
 					fromBelow++;
 				
 				}
-				
+//				if the line is completely black this is unnessesarry but if not I can let a word fall down.
 				if(isTrue == true){
 					
 					for(int goDown = fromBelow; goDown < point.length; goDown++){
-						
+//						goDown start at the point I am now and all points in this line (horizontal) will
+//						fall down.
 						for(int goRight = 0; goRight < point.length; goRight++){
-							
+//							in this line I go from left to right and 
 							if((point[goRight][goDown][0] == color[0]) && (point[goRight][goDown][1] == color[1]) && (point[goRight][goDown][2] == color[2])){       
 								
 								for(int i = 0; i < color.length; i++){
 									
 									if(goDown == point.length - 1){
-										
+//										special case! delete all possible points, so the beard gets black when the points reached the ground of the board.
 										point[goRight][goDown - 3][i] = 0;
 										point[goRight][goDown - 2][i] = 0;
 										point[goRight][goDown - 1][i] = 0;
@@ -555,7 +552,11 @@ public abstract class Endscreen{
 									else{
 										
 										if(goDown - 1 > fromBelow){
-											
+//											special case!
+//											if this is true I am just under the point I started
+//											so I can´t create a trail for the points because the points are at the 
+//											top of the board so the trail would be cost an array out of bounce
+//											excaption.
 											if(color[i] - 35 < 0){
 												
 												point[goRight][goDown - 3][i] = 0;
@@ -618,11 +619,11 @@ public abstract class Endscreen{
 				
 			}
 			else{
-			
+//			this is for all the other case where fromBelow isn´t at the top of the board.
 				for(int goRight=0; goRight<point.length; goRight++){
 					
 					if((point[goRight][fromBelow][0] == color[0]) && (point[goRight][fromBelow][1] == color[1]) && (point[goRight][fromBelow][2] == color[2])){       
-						
+//						same as before!
 						isTrue = true;
 						
 						for(int i = 0; i < color.length; i++){
@@ -640,7 +641,7 @@ public abstract class Endscreen{
 				controller.updateLedStripe();
 				
 				if(isTrue == true){
-					
+//					same as before!
 					for(int goDown = fromBelow; goDown < point.length; goDown++){
 						
 						for(int goRight = 0; goRight < point.length; goRight++){

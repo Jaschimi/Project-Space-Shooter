@@ -50,7 +50,7 @@ public abstract class Main{
 //		sunrise();
 //		story();
 //		nestTest();
-		endscreenTest(true, 3, 28, 38, 99);
+		endscreenTest(true, 2, 28, 38, 99);
 //		rainbow();
 //		Goldenization();
 //		shipDiashow();

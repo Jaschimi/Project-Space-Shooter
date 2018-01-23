@@ -5,7 +5,7 @@ import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ufos.BossaNova;
 import ufos.DefaultShip;
-import ufos.UnnervingFloatingOctopus;
+import ufos.UFO;
 import ufos.GalaxyDestroyer;
 import ufos.LangerLulatsch;
 import ufos.BigBoulder;
@@ -174,6 +174,10 @@ public abstract class Endscreen{
 				
 				if(difficulty == 2){
 					if(count > 3 && count < 14){
+
+						final Word c = new Word("C");
+						c.displayWordAt(0, 0, 8, 0, 5);
+						point = controller.getColors();
 						
 						uppi--;
 						leffi--;
@@ -385,7 +389,7 @@ public abstract class Endscreen{
 		}
 
 		endOfWorld[0] = new DefaultShip(new int[]{3, -4}, 1, 1);
-		endOfWorld[1] = new UnnervingFloatingOctopus(new int[]{13, -10}, 1, 4);
+		endOfWorld[1] = new UFO(new int[]{13, -10}, 1, 4);
 		endOfWorld[2] = new LangerLulatsch(new int[]{5, -14}, 1, 2);
 		endOfWorld[3] = new BigBoulder(new int[]{0, -20}, 2, 2);
 		

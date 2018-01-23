@@ -1,4 +1,5 @@
 package game;
+import displayObjects.Word;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
@@ -303,6 +304,10 @@ public abstract class Misc{
 		
 		for(int counter = 0; counter < 8; counter++) {
 			
+				final Word Leet = new Word("1337");
+	    		Leet.displayWordAt(2, 15, 9, 9, 0);
+	    		point = controller.getColors();
+	    		
 			if(counter < 6) {
 				
 				if(counter%2 == 0) {

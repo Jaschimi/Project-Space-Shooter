@@ -2,6 +2,7 @@ package game;
 import java.awt.event.KeyEvent;
 
 import difficulties.Easy;
+import difficulties.Endless;
 import difficulties.Medium;
 import difficulties.Hard;
 import difficulties.Tutorial;
@@ -17,6 +18,7 @@ import ledControl.gui.KeyBuffer;
 public abstract class Gameplay{
 
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+	public static boolean endless = false;
 	
 	protected static void start(int difficulty){
 		
@@ -30,69 +32,134 @@ public abstract class Gameplay{
 		SpaceShooter ss = new SpaceShooter(new int[]{9, 18}, 3, 3);
 		
 		//These if statements start a game based on what difficulty has been chosen in the main method
-		if(difficulty == 0){
+		if(difficulty==Integer.MAX_VALUE){
 			ss.setColorAt(0, 0, 104, 23, 47);
 			ss.setColorAt(1, 0, 0, 0, 0);
 			ss.setColorAt(2, 0, 104, 23, 47);
 			ss.setColorAt(0, 1, 104, 23, 47);
 			ss.setColorAt(1, 1, 5, 107, 17);
 			ss.setColorAt(2, 1, 104, 23, 47);
-			Tutorial.start(ss);
+			int slayCount = Endless.start(ss);
+			Word record = new Word(slayCount + "");
+			
+			int x = 17;
+			switch((slayCount + "").length()){
+				
+			case 1:
+				 x = 17;
+				break;
+
+			case 2:
+				 x = 13;
+				break;
+
+			case 3:
+				 x = 9;
+				break;
+
+			case 4:
+				 x = 5;
+				break;
+
+			case 5:
+				 x = 1;
+				break;
+				
+			}
+			
+			record.displayWordAt(0, x, 31, 80, 59);
+			if(slayCount>10){
+				record.displayWordAt(0, x, 78, 81, 56);
+			}
+			if(slayCount>25){
+				record.displayWordAt(0, x, 42, 81, 97);
+			}
+			if(slayCount>50){
+				record.displayWordAt(0, x, 118, 26, 72);
+			}
+			if(slayCount>100){
+				record.displayWordAt(0, x, 64, 14, 106);
+			}
+			if(slayCount>250){
+				record.displayWordAt(0, x, 53, 127, 8);
+			}
+			if(slayCount>500){
+				record.displayWordAt(0, x, 99, 120, 124);
+			}
+			if(slayCount>750){
+				record.displayWordAt(0, x, 101, 91, 10);
+			}
+			if(slayCount>1000){
+				record.displayWordAt(0, x, 103, 1, 16);
+			}
+			controller.updateLedStripe();
+			controller.sleep(3000);
 		}
 		else{
-			int[] shipColor;
-			if(difficulty == 1){
-				ss.setColorAt(0, 0, 0, 127, 107);
+			if(difficulty == 0){
+				ss.setColorAt(0, 0, 104, 23, 47);
 				ss.setColorAt(1, 0, 0, 0, 0);
-				ss.setColorAt(2, 0, 0, 127, 107);
-				ss.setColorAt(0, 1, 0, 127, 107);
+				ss.setColorAt(2, 0, 104, 23, 47);
+				ss.setColorAt(0, 1, 104, 23, 47);
 				ss.setColorAt(1, 1, 5, 107, 17);
-				ss.setColorAt(2, 1, 0, 127, 107);
-				won = Easy.start(ss);
-				shipColor = new int[]{0, 127, 107};
+				ss.setColorAt(2, 1, 104, 23, 47);
+				Tutorial.start(ss);
 			}
 			else{
-				if(difficulty == 2){
-					for(int x=0; x<3; x++){
-						for(int y=0; y<2; y++){
-							if(x==1 && y==1)ss.setColorAt(1, 1, 5, 107, 17);
-							else{
-								if(y==0 && x==1)ss.setColorAt(x, y, 0, 0, 0);
+				int[] shipColor;
+				if(difficulty == 1){
+					ss.setColorAt(0, 0, 0, 127, 107);
+					ss.setColorAt(1, 0, 0, 0, 0);
+					ss.setColorAt(2, 0, 0, 127, 107);
+					ss.setColorAt(0, 1, 0, 127, 107);
+					ss.setColorAt(1, 1, 5, 107, 17);
+					ss.setColorAt(2, 1, 0, 127, 107);
+					won = Easy.start(ss);
+					shipColor = new int[]{0, 127, 107};
+				}
+				else{
+					if(difficulty == 2){
+						for(int x=0; x<3; x++){
+							for(int y=0; y<2; y++){
+								if(x==1 && y==1)ss.setColorAt(1, 1, 5, 107, 17);
 								else{
-									ss.setColorAt(x, y, 99, 28, 29);
+									if(y==0 && x==1)ss.setColorAt(x, y, 0, 0, 0);
+									else{
+										ss.setColorAt(x, y, 99, 28, 29);
+									}
 								}
 							}
 						}
-					}
-					won = Medium.start(ss);
-					shipColor = new int[]{99, 28, 29};
-				}
-				else{
-					if(difficulty == 3){
-						ss.setColorAt(0, 0, 28, 8, 99);
-						ss.setColorAt(1, 0, 0, 0, 0);
-						ss.setColorAt(2, 0, 28, 8, 99);
-						ss.setColorAt(0, 1, 28, 8, 99);
-						ss.setColorAt(1, 1, 5, 107, 17);
-						ss.setColorAt(2, 1, 28, 8, 99);
-						won = Hard.start(ss);
-						shipColor = new int[]{28+Hard.colorCount, 8+Hard.colorCount, 99-Hard.colorCount};
-						Hard.colorCount=0;
+						won = Medium.start(ss);
+						shipColor = new int[]{99, 28, 29};
 					}
 					else{
-						shipColor = new int[]{127, 127, 127};
+						if(difficulty == 3){
+							ss.setColorAt(0, 0, 28, 8, 99);
+							ss.setColorAt(1, 0, 0, 0, 0);
+							ss.setColorAt(2, 0, 28, 8, 99);
+							ss.setColorAt(0, 1, 28, 8, 99);
+							ss.setColorAt(1, 1, 5, 107, 17);
+							ss.setColorAt(2, 1, 28, 8, 99);
+							won = Hard.start(ss);
+							shipColor = new int[]{28+Hard.colorCount, 8+Hard.colorCount, 99-Hard.colorCount};
+							Hard.colorCount=0;
+						}
+						else{
+							shipColor = new int[]{127, 127, 127};
+						}
 					}
 				}
-			}
-			//After a game in easy, medium or hard mode is has been won or lost, the outro boots up
-			if(!Easy.broken&&!Medium.broken&&!Hard.broken){
-				Endscreen.outro(won, shipColor, difficulty);
-			}
-			else{
-				Easy.broken = false;
-				Medium.broken = false;
-				Hard.broken = false;
-				return;
+				//After a game in easy, medium or hard mode is has been won or lost, the outro boots up
+				if(!Easy.broken&&!Medium.broken&&!Hard.broken){
+					Endscreen.outro(won, shipColor, difficulty);
+				}
+				else{
+					Easy.broken = false;
+					Medium.broken = false;
+					Hard.broken = false;
+					return;
+				}
 			}
 		}
 	}
@@ -124,7 +191,7 @@ public abstract class Gameplay{
 					return false;
 				}
 				if(event.isAltDown()&&event.isShiftDown()&&event.getKeyCode()==java.awt.event.KeyEvent.VK_C){
-					cheat(board, ss, currentShip);
+					if(currentShip.getNext()!=null)cheat(board, ss, currentShip);
 					controller.resetColors();
 					pause.displayWordAt(0, 5, 60, 30, 0);
 					controller.updateLedStripe();
@@ -144,7 +211,7 @@ public abstract class Gameplay{
 		controller.updateLedStripe();
 		
 		KeyBuffer buffer = controller.getKeyBuffer();
-		Word pause = new Word("Cheat");
+		final Word pause = new Word("Cheat");
 		pause.displayWordAt(0, 0, 127, 107, 0);
 		controller.updateLedStripe();
 		
@@ -274,6 +341,10 @@ public abstract class Gameplay{
 						}
 						Endscreen.letItGo(controller.getColors(), new int[]{69,4,4}, 10);
 						System.exit(666);
+						
+					case "1337":
+						endless=!endless;
+						break;
 						
 					case "5500":
 						for(x=0; x<3; x++){

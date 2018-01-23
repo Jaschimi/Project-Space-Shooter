@@ -12,7 +12,7 @@ import ufos.BossaNova;
 import ufos.DefaultShip;
 import ufos.GalaxyDestroyer;
 import ufos.LangerLulatsch;
-import ufos.UnnervingFloatingOctopus;
+import ufos.UFO;
 import ufos.BigBoulder;
 
 //This class describes hard mode
@@ -62,7 +62,7 @@ public abstract class Hard {
 		enemyShipArray[21] = new BigBoulder(new int[]{(int) (Math.random()*16), 0}, 20, 5);
 		enemyShipArray[22] = new LangerLulatsch(new int[]{(int) (Math.random()*18), 0}, 18, 6);
 		enemyShipArray[23] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 10, 4);
-		enemyShipArray[24] = new UnnervingFloatingOctopus(new int[]{(int) (Math.random()*14), 0}, 35, 4);
+		enemyShipArray[24] = new UFO(new int[]{(int) (Math.random()*14), 0}, 35, 4);
 				
 		enemyShipArray[25] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 5, 1);
 		enemyShipArray[26] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 5, 1);
@@ -72,7 +72,7 @@ public abstract class Hard {
 		enemyShipArray[30] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 10, 2);
 		enemyShipArray[31] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 10, 2);
 		enemyShipArray[32] = new LangerLulatsch(new int[]{(int) (Math.random()*18), 0}, 15, 4);
-		enemyShipArray[33] = new UnnervingFloatingOctopus(new int[]{(int) (Math.random()*14), 0}, 30, 2);
+		enemyShipArray[33] = new UFO(new int[]{(int) (Math.random()*14), 0}, 30, 2);
 		enemyShipArray[34] = new BigBoulder(new int[]{(int) (Math.random()*16), 0}, 20, 2);
 		enemyShipArray[35] = new LangerLulatsch(new int[]{(int) (Math.random()*18), 0}, 18, 6);
 		enemyShipArray[36] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 10, 3);
@@ -83,9 +83,9 @@ public abstract class Hard {
 		enemyShipArray[41] = new BigBoulder(new int[]{(int) (Math.random()*16), 0}, 28, 4);
 		enemyShipArray[42] = new LangerLulatsch(new int[]{(int) (Math.random()*18), 0}, 24, 8);
 		enemyShipArray[43] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 15, 4);
-		enemyShipArray[44] = new UnnervingFloatingOctopus(new int[]{(int) (Math.random()*14), 0}, 40, 4);
+		enemyShipArray[44] = new UFO(new int[]{(int) (Math.random()*14), 0}, 40, 4);
 		enemyShipArray[45] = new BigBoulder(new int[]{(int) (Math.random()*16), 0}, 32, 5);
-		enemyShipArray[46] = new UnnervingFloatingOctopus(new int[]{(int) (Math.random()*14), 0}, 50, 6);
+		enemyShipArray[46] = new UFO(new int[]{(int) (Math.random()*14), 0}, 50, 6);
 		enemyShipArray[47] = new BigBoulder(new int[]{(int) (Math.random()*16), 0}, 36, 6);
 		enemyShipArray[48] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 20, 5);
 		enemyShipArray[49] = new BossaNova(new int[]{(int) (Math.random()*12), 0}, 75, 4);
@@ -105,7 +105,7 @@ public abstract class Hard {
 		enemyShipArray[62] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 3, 4);
 		enemyShipArray[63] = new LangerLulatsch(new int[]{(int) (Math.random()*18), 0}, 12, 4);
 		enemyShipArray[64] = new BigBoulder(new int[]{(int) (Math.random()*16), 0}, 12, 2);
-		enemyShipArray[65] = new UnnervingFloatingOctopus(new int[]{(int) (Math.random()*14), 0}, 50, 4);
+		enemyShipArray[65] = new UFO(new int[]{(int) (Math.random()*14), 0}, 50, 4);
 		enemyShipArray[66] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 5, 4);
 		enemyShipArray[67] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 5, 4);
 		enemyShipArray[68] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 5, 5);
@@ -113,7 +113,7 @@ public abstract class Hard {
 		enemyShipArray[70] = new BigBoulder(new int[]{(int) (Math.random()*16), 0}, 16, 3);
 		enemyShipArray[71] = new LangerLulatsch(new int[]{(int) (Math.random()*18), 0}, 18, 6);
 		enemyShipArray[72] = new BigBoulder(new int[]{(int) (Math.random()*16), 0}, 20, 3);
-		enemyShipArray[73] = new UnnervingFloatingOctopus(new int[]{(int) (Math.random()*14), 0}, 60, 6);
+		enemyShipArray[73] = new UFO(new int[]{(int) (Math.random()*14), 0}, 60, 6);
 		enemyShipArray[74] = new BossaNova(new int[]{(int) (Math.random()*12), 0}, 80, 8);
 		
 		enemyShipArray[75] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 5, 1);
@@ -122,14 +122,14 @@ public abstract class Hard {
 		enemyShipArray[78] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 7, 2);
 		enemyShipArray[79] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 7, 3);
 		enemyShipArray[80] = new BigBoulder(new int[]{(int) (Math.random()*16), 0}, 28, 3);
-		enemyShipArray[81] = new UnnervingFloatingOctopus(new int[]{(int) (Math.random()*14), 0}, 70, 6);
+		enemyShipArray[81] = new UFO(new int[]{(int) (Math.random()*14), 0}, 70, 6);
 		enemyShipArray[82] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 10, 3);
 		enemyShipArray[83] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 10, 4);
 		enemyShipArray[84] = new BossaNova(new int[]{(int) (Math.random()*12), 0}, 110, 12);
 		enemyShipArray[85] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 12, 4);
 		enemyShipArray[86] = new LangerLulatsch(new int[]{(int) (Math.random()*18), 0}, 24, 6);
 		enemyShipArray[87] = new BigBoulder(new int[]{(int) (Math.random()*16), 0}, 36, 3);
-		enemyShipArray[88] = new UnnervingFloatingOctopus(new int[]{(int) (Math.random()*14), 0}, 80, 8);
+		enemyShipArray[88] = new UFO(new int[]{(int) (Math.random()*14), 0}, 80, 8);
 		enemyShipArray[89] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 15, 5);
 		enemyShipArray[90] = new LangerLulatsch(new int[]{(int) (Math.random()*18), 0}, 27, 8);
 		enemyShipArray[91] = new DefaultShip(new int[]{(int) (Math.random()*18), 0}, 20, 5);
@@ -137,7 +137,7 @@ public abstract class Hard {
 		enemyShipArray[93] = new DefaultShip(new int[]{17, 0}, 2, 10);
 		enemyShipArray[94] = new LangerLulatsch(new int[]{12, 0}, 30, 10);
 		enemyShipArray[95] = new BigBoulder(new int[]{14, 0}, 52, 5);
-		enemyShipArray[96] = new UnnervingFloatingOctopus(new int[]{6, 0}, 90, 10);
+		enemyShipArray[96] = new UFO(new int[]{6, 0}, 90, 10);
 		enemyShipArray[97] = new BossaNova(new int[]{4, 0}, 150, 16);
 		enemyShipArray[98] = new DefaultShip.GoldenVersion(new int[]{8, 0}, 100, 5);
 		enemyShipArray[99] = new GalaxyDestroyer(new int[]{0, 0}, 250, 28);
@@ -232,18 +232,6 @@ public abstract class Hard {
 				if(ssFadeCount==63){
 					ssFadeCount=0;
 					ss.fade();
-
-					//All shots the current ship fired are moving off the screen
-					for(int i=0; i<currentShip.getShots().length; i++){
-						if(currentShip.getShots()[i] != null){
-							if(currentShip.getShots()[i].getY()<=19){
-								currentShip.getShots()[i].moveProjectile("down");
-							}
-							else{//here the shot is offscreen, so its corresponding array entry can be set to null
-								currentShip.getShots()[i] = null;
-							}
-						}
-					}
 					
 					//Now that the Space Shooter is completely faded out, the current ship moves off of the board
 					while(currentShip.getTopLeftCorner()[1]<20){
@@ -422,9 +410,9 @@ public abstract class Hard {
 			}
 			
 			//7.
-			//Enemy ships only shoot with a chance of 1/25 in every loop and if they have any lives left
+			//Enemy ships only shoot with a chance of 1/25 in every loop and if they and the SpaceShooter have any lives left
 			int random = (int) (Math.random()*25);
-			if(random == 2&&currentShip.getLives()>0){
+			if(random == 2&&currentShip.getLives()>0&&ss.getLives()>0){
 				
 				//The GalaxyDestroyer has a different shooting mechanic than the other ships
 				if(currentShip instanceof GalaxyDestroyer){
@@ -455,7 +443,7 @@ public abstract class Hard {
 					}
 				}
 				else{
-					//All cannons of a ship are firing (if enough ammunition exists)
+					//Normal ships fire all cannons at once (if enough ammunition exists)
 					for(int i=0; i<currentShip.getCannons().length; i++){
 						currentShip.shoot(currentShip.getCannons()[i]);
 					}
@@ -466,9 +454,9 @@ public abstract class Hard {
 			KeyEvent event = buffer.pop();
 			buffer.clear();
 			if(event != null&&ss.getLives()>0){
-				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+				if(event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
-					switch (event.getKeyCode()){
+					switch(event.getKeyCode()){
 
 					case java.awt.event.KeyEvent.VK_ESCAPE:
 						//Escape makes the game pause

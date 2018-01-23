@@ -808,6 +808,11 @@ public abstract class Tutorial{
 			//8.: The last keyboard input is detected and one of six actions is performed
 			//9.: Finally, the LED stripe is updated
 
+//			if(skip){
+//				won = true;
+//				break;
+//			}
+			
 			//0.
 			count+=1;
 			
@@ -1095,7 +1100,7 @@ public abstract class Tutorial{
 			//Wrapping up the tutorial
 			for(int x=20; x>-allSet.getLength() ;x--){
 				
-				if(skip)break;
+//				if(skip)break;
 					
 				//Moving the Word one space to the left every 100 milliseconds
 				allSet.displayWordAt(x+1, 0, 0, 0, 0);
@@ -1113,6 +1118,8 @@ public abstract class Tutorial{
 			char bbDirection = 'A';
 			count=-1;
 			for(int x=20; x>-ships.getLength() ;x--){
+				
+//				if(skip)break;
 				
 				count++;
 				
@@ -1154,11 +1161,11 @@ public abstract class Tutorial{
 			
 			//Wishing them good luck
 			for(int x=20;x>-luck.getLength();x--){
-				good.displayWordAt(x+1, 5, 0, 0, 0);
-				good.displayWordAt(x+0, 5, 127, 127, 52);
-				alt.displayWordAt(0, 5, 0, 5, 4);
-				luck.displayWordAt(x+1, 12, 0, 0, 0);
-				luck.displayWordAt(x+0, 12, 127, 127, 52);
+				good.displayWordAt(x+2, 5, 0, 0, 0);
+				good.displayWordAt(x+1, 5, 127, 127, 52);
+				alt.displayWordAt(5, 0, 0, 6, 4);
+				luck.displayWordAt(x+2, 12, 0, 0, 0);
+				luck.displayWordAt(x+1, 12, 127, 127, 52);
 				controller.updateLedStripe();
 				controller.sleep(100);
 				

@@ -2,6 +2,7 @@ package game;
 import java.awt.event.KeyEvent;
 import java.io.Console;
 
+import difficulties.Endless;
 import displayObjects.Letter;
 import displayObjects.Word;
 import gameObjects.EnemyShip;
@@ -10,7 +11,7 @@ import gameObjects.SpaceShooter;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ledControl.gui.KeyBuffer;
-import ufos.UnnervingFloatingOctopus;
+import ufos.UFO;
 import ufos.BossaNova;
 import ufos.DefaultShip;
 import ufos.GalaxyDestroyer;
@@ -42,14 +43,14 @@ public abstract class Main{
 
 		boolean restart = false;
 
-		restart = gameStart();
+//		restart = gameStart();
 //		randomColor();
 //		gameName();
 //		introStart();
 //		sunrise();
 //		story();
 //		nestTest();
-//		endscreenTest(false, 3, 28, 8, 99);
+		endscreenTest(true, 3, 28, 38, 99);
 //		rainbow();
 //		Goldenization();
 //		shipDiashow();
@@ -72,13 +73,16 @@ public abstract class Main{
 		event = null;
 		
 		//At the beginning, there was an intro...
-		introStart();
+//		introStart();
 		
 		//Making a sentence to inform the player of the different difficulties
 		final Word difficultyExplanation = new Word("Choose difficulty. 1 is easy, 2 is medium and 3 is hard. 0 is the Tutorial.");
 		
 		//Displaying the four difficulty settings
 		
+		if(Gameplay.endless){
+			Letter.DrawLetterAt('E', 2, 7, 107, 127, 0);
+		}
 		Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
 		Letter.DrawLetterAt('C', 16, 7, 0, 127, 107);
 		Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
@@ -113,7 +117,7 @@ public abstract class Main{
 					//space makes the SS shoot
 					case java.awt.event.KeyEvent.VK_0:
 						
-						//The explanation disappears,
+						//The explanation disappears
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
@@ -127,7 +131,7 @@ public abstract class Main{
 						
 					case java.awt.event.KeyEvent.VK_1:
 
-						//The explanation disappears,
+						//The explanation disappears
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
@@ -141,7 +145,7 @@ public abstract class Main{
 						
 					case java.awt.event.KeyEvent.VK_2:
 
-						//The explanation disappears,
+						//The explanation disappears
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						
 						//The pressed option blinks a few times
@@ -155,7 +159,7 @@ public abstract class Main{
 						
 					case java.awt.event.KeyEvent.VK_3:
 
-						//The explanation disappears,
+						//The explanation disappears
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						controller.updateLedStripe();
 						
@@ -170,7 +174,7 @@ public abstract class Main{
 						
 					case java.awt.event.KeyEvent.VK_C:
 
-						//The explanation disappears,
+						//The explanation disappears
 						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
 						controller.updateLedStripe();
 						
@@ -180,6 +184,23 @@ public abstract class Main{
 						
 						//Pressing C shows the credits
 						Endscreen.credits();
+						
+						break;
+						
+					case java.awt.event.KeyEvent.VK_E:
+
+						if(!Gameplay.endless)continue;
+						
+						//The explanation disappears
+						difficultyExplanation.displayWordAt(x, 0, 0, 0, 0);
+						controller.updateLedStripe();
+						
+						//The pressed option blinks a few times
+						Letter.BlinkLetter('E', 2, 7, 107, 127, 0, blinkWait);
+						Letter.BlinkLetter('E', 2, 7, 107, 127, 0, blinkWait);
+						
+						//Pressing C shows the credits
+						Gameplay.start(Integer.MAX_VALUE);
 						
 						break;
 						
@@ -197,7 +218,10 @@ public abstract class Main{
 					//After the chosen option is over, all remaining dots on the board are reset
 					controller.resetColors();
 					
-					//These lines make the difficulty settings appear again after the endscreen has been seen
+					//These lines make the options appear again after the endscreen has been seen
+					if(Gameplay.endless){
+						Letter.DrawLetterAt('E', 2, 7, 107, 127, 0);
+					}
 					Letter.DrawLetterAt('0', 9, 7, 127, 0, 127);
 					Letter.DrawLetterAt('C', 16, 7, 0, 127, 107);
 					Letter.DrawLetterAt('1',  2, 14, 0, 127, 0);
@@ -369,7 +393,7 @@ public abstract class Main{
 		BossaNova bono = new BossaNova(new int[]{10, 9}, 3, 1);
 		BigBoulder bibo = new BigBoulder(new int[]{0, 9}, 2, 0);
 		LangerLulatsch lalu = new LangerLulatsch(new int[]{5, 11}, 1, 1);
-		UnnervingFloatingOctopus ufo = new UnnervingFloatingOctopus(new int[]{13, 15}, 1, 1);
+		UFO ufo = new UFO(new int[]{13, 15}, 1, 1);
 		DefaultShip noob = new DefaultShip(new int[]{3, 16}, 1, 0);
 		SpaceShooter ss = new SpaceShooter(new int[]{9, 18}, 3, 3);
 		

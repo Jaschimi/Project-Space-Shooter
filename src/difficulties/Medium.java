@@ -8,7 +8,7 @@ import gameObjects.SpaceShooter;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ledControl.gui.KeyBuffer;
-import ufos.UnnervingFloatingOctopus;
+import ufos.UFO;
 import ufos.BossaNova;
 import ufos.DefaultShip;
 import ufos.LangerLulatsch;
@@ -64,7 +64,7 @@ public abstract class Medium {
 		enemyShipArray[21] = new BigBoulder(new int[]{bbSpawn, 0}, 20, 5);
 		enemyShipArray[22] = new LangerLulatsch(new int[]{llSpawn, 0}, 18, 6);
 		enemyShipArray[23] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 4);
-		enemyShipArray[24] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 35, 5);
+		enemyShipArray[24] = new UFO(new int[]{ufoSpawn, 0}, 35, 5);
 		
 		//The spawning locations of the ships are randomized (again)
 		dsSpawn = (int) (Math.random()*18);
@@ -81,7 +81,7 @@ public abstract class Medium {
 		enemyShipArray[30] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 2);
 		enemyShipArray[31] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 2);
 		enemyShipArray[32] = new LangerLulatsch(new int[]{llSpawn, 0}, 15, 4);
-		enemyShipArray[33] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 30, 2);
+		enemyShipArray[33] = new UFO(new int[]{ufoSpawn, 0}, 30, 2);
 		enemyShipArray[34] = new BigBoulder(new int[]{bbSpawn, 0}, 20, 2);
 		enemyShipArray[35] = new LangerLulatsch(new int[]{llSpawn, 0}, 18, 6);
 		enemyShipArray[36] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 3);
@@ -92,9 +92,9 @@ public abstract class Medium {
 		enemyShipArray[41] = new BigBoulder(new int[]{bbSpawn, 0}, 28, 4);
 		enemyShipArray[42] = new LangerLulatsch(new int[]{llSpawn, 0}, 24, 8);
 		enemyShipArray[43] = new DefaultShip(new int[]{dsSpawn, 0}, 15, 4);
-		enemyShipArray[44] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 40, 4);
+		enemyShipArray[44] = new UFO(new int[]{ufoSpawn, 0}, 40, 4);
 		enemyShipArray[45] = new BigBoulder(new int[]{bbSpawn, 0}, 32, 5);
-		enemyShipArray[46] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 50, 6);
+		enemyShipArray[46] = new UFO(new int[]{ufoSpawn, 0}, 50, 6);
 		enemyShipArray[47] = new BigBoulder(new int[]{bbSpawn, 0}, 36, 6);
 		enemyShipArray[48] = new DefaultShip(new int[]{dsSpawn, 0}, 20, 5);
 		enemyShipArray[49] = new BossaNova(new int[]{bnSpawn, 0}, 75, 10);
@@ -178,18 +178,6 @@ public abstract class Medium {
 				if(ssFadeCount==63){
 					ssFadeCount=0;
 					ss.fade();
-
-					//All shots the current ship fired are moving off the screen
-					for(int i=0; i<currentShip.getShots().length; i++){
-						if(currentShip.getShots()[i] != null){
-							if(currentShip.getShots()[i].getY()<=19){
-								currentShip.getShots()[i].moveProjectile("down");
-							}
-							else{//here the shot is offscreen, so its corresponding array entry can be set to null
-								currentShip.getShots()[i] = null;
-							}
-						}
-					}
 					
 					//Now that the Space Shooter is completely faded out, the current ship moves off of the board
 					while(currentShip.getTopLeftCorner()[1]<20){
@@ -336,9 +324,9 @@ public abstract class Medium {
 			}
 			
 			//7.
-			//Enemy ships only shoot with a chance of 1/35 in every loop and if they have any lives left
+			//Enemy ships only shoot with a chance of 1/35 in every loop and if they and the SpaceShooter have any lives left
 			int random = (int) (Math.random()*35);
-			if(random == 2&&currentShip.getLives()>0){
+			if(random == 2&&currentShip.getLives()>0&&ss.getLives()>0){
 
 				//A random cannon is chosen with which to shoot
 				random = (int) (Math.random()*currentShip.getCannons().length);
@@ -349,9 +337,9 @@ public abstract class Medium {
 			KeyEvent event = buffer.pop();
 			buffer.clear();
 			if(event != null&&ss.getLives()>0){
-				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+				if(event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
-					switch (event.getKeyCode()){
+					switch(event.getKeyCode()){
 
 					case java.awt.event.KeyEvent.VK_ESCAPE:
 						//Escape makes the game pause

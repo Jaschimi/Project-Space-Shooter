@@ -8,7 +8,7 @@ import gameObjects.SpaceShooter;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ledControl.gui.KeyBuffer;
-import ufos.UnnervingFloatingOctopus;
+import ufos.UFO;
 import ufos.DefaultShip;
 import ufos.LangerLulatsch;
 import ufos.BigBoulder;
@@ -63,7 +63,7 @@ public abstract class Easy {
 		enemyShipArray[21] = new BigBoulder(new int[]{bbSpawn, 0}, 20, 5);
 		enemyShipArray[22] = new LangerLulatsch(new int[]{llSpawn, 0}, 18, 6);
 		enemyShipArray[23] = new DefaultShip(new int[]{dsSpawn, 0}, 10, 4);
-		enemyShipArray[24] = new UnnervingFloatingOctopus(new int[]{ufoSpawn, 0}, 35, 5);
+		enemyShipArray[24] = new UFO(new int[]{ufoSpawn, 0}, 35, 5);
 
 		//Step 2
 		EnemyShip currentShip = enemyShipArray[0];
@@ -145,18 +145,6 @@ public abstract class Easy {
 				if(ssFadeCount==63){
 					ssFadeCount=0;
 					ss.fade();
-					
-					//All shots the current ship fired are moving off the screen
-					for(int i=0; i<currentShip.getShots().length; i++){
-						if(currentShip.getShots()[i] != null){
-							if(currentShip.getShots()[i].getY()<=19){
-								currentShip.getShots()[i].moveProjectile("down");
-							}
-							else{//here the shot is offscreen, so its corresponding array entry can be set to null
-								currentShip.getShots()[i] = null;
-							}
-						}
-					}
 					
 					//Now that the Space Shooter is completely faded out, the current ship moves off of the board
 					while(currentShip.getTopLeftCorner()[1]<20){
@@ -292,9 +280,9 @@ public abstract class Easy {
 			}
 			
 			//7.
-			//Enemy ships only shoot with a chance of 1/45 in every loop and if they have any lives left
+			//Enemy ships only shoot with a chance of 1/45 in every loop and if they and the SpaceShooter have any lives left
 			int random = (int) (Math.random()*45);
-			if(random == 2&&currentShip.getLives()>0){
+			if(random == 2&&currentShip.getLives()>0&&ss.getLives()>0){
 				
 				//A random cannon is chosen with which to shoot
 				random = (int) (Math.random()*currentShip.getCannons().length);

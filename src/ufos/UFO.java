@@ -5,10 +5,10 @@ import gameObjects.Projectile;
 
 //This ship has two cannons with which to shoot. It is the biggest ship that isn't classified as a boss.
 //Additionally, it looks like a UFO, but some people are reminded of a certain marine animal when looking at it...
-public class UnnervingFloatingOctopus extends EnemyShip {
+public class UFO extends EnemyShip {
 
 	//It is a 7 by 5 ColoringField
-	public UnnervingFloatingOctopus(int[] topLeftCorner, int maxLifes, int ammo) {
+	public UFO(int[] topLeftCorner, int maxLifes, int ammo) {
 		
 		super(topLeftCorner, 7, 5, maxLifes, ammo);
 		
@@ -87,30 +87,8 @@ public class UnnervingFloatingOctopus extends EnemyShip {
 		this.spawn();
 
 		//and it lights up. The intensity of the white is determined by the highest color component of the ship's topLeftCorner
-		int[] hitColor = controller.getColorAt(this.topLeftCorner[0]+1, this.topLeftCorner[1]+1);
-		if(hitColor[0]<hitColor[1]){
-			hitColor[0]=hitColor[1];
-		}
-		if(hitColor[0]>hitColor[1]){
-			hitColor[1]=hitColor[0];
-		}
-		if(hitColor[2]<hitColor[1]){
-			hitColor[2]=hitColor[1];
-		}
-		if(hitColor[2]>hitColor[1]){
-			hitColor[1]=hitColor[2];
-			hitColor[0]=hitColor[2];
-		}
-		
-		for(int x=this.topLeftCorner[0]+0; x<this.topLeftCorner[0]+this.length; x++){
-			for(int y=this.topLeftCorner[1]+0; y<this.topLeftCorner[1]+this.height; y++){
-				if((controller.getColorAt(x, y)[0]==30||controller.getColorAt(x, y)[0]==18)
-				 &&(controller.getColorAt(x, y)[1]==30||controller.getColorAt(x, y)[1]==18)
-				 &&(controller.getColorAt(x, y)[2]==90||controller.getColorAt(x, y)[2]==87)){
-					controller.setColor(x, y, hitColor);
-				}
-			}
-		}
+		int[] hitColor = controller.getColorAt(this.topLeftCorner[0]+3, this.topLeftCorner[1]);
+		this.hitAnimation(hitColor);
 		
 		return true;
 	}

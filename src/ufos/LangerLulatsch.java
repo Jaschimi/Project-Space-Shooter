@@ -64,29 +64,7 @@ public class LangerLulatsch extends EnemyShip {
 
 		//and it lights up. The intensity of the white is determined by the highest color component of the ship's topLeftCorner
 		int[] hitColor = controller.getColorAt(this.topLeftCorner[0]+1, this.topLeftCorner[1]);
-		if(hitColor[0]<hitColor[1]){
-			hitColor[0]=hitColor[1];
-		}
-		if(hitColor[0]>hitColor[1]){
-			hitColor[1]=hitColor[0];
-		}
-		if(hitColor[2]<hitColor[1]){
-			hitColor[2]=hitColor[1];
-		}
-		if(hitColor[2]>hitColor[1]){
-			hitColor[1]=hitColor[2];
-			hitColor[0]=hitColor[2];
-		}
-		
-		for(int x=this.topLeftCorner[0]+0; x<this.topLeftCorner[0]+this.length; x++){
-			for(int y=this.topLeftCorner[1]+0; y<this.topLeftCorner[1]+this.height; y++){
-				if((controller.getColorAt(x, y)[0]==30||controller.getColorAt(x, y)[0]==18)
-				 &&(controller.getColorAt(x, y)[1]==30||controller.getColorAt(x, y)[1]==18)
-				 &&(controller.getColorAt(x, y)[2]==90||controller.getColorAt(x, y)[2]==87)){
-					controller.setColor(x, y, hitColor);
-				}
-			}
-		}
+		this.hitAnimation(hitColor);
 		
 		return true;
 	}

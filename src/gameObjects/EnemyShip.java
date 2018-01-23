@@ -121,4 +121,33 @@ public abstract class EnemyShip extends Spaceship {
 		return true;
 	}
 	
+	protected void hitAnimation(int[] hitColor){
+		
+		if(hitColor[0]<hitColor[1]){
+			hitColor[0]=hitColor[1];
+		}
+		if(hitColor[0]>hitColor[1]){
+			hitColor[1]=hitColor[0];
+		}
+		if(hitColor[2]<hitColor[1]){
+			hitColor[2]=hitColor[1];
+		}
+		if(hitColor[2]>hitColor[1]){
+			hitColor[1]=hitColor[2];
+			hitColor[0]=hitColor[2];
+		}
+		
+		for(int x=this.topLeftCorner[0]; x<this.topLeftCorner[0]+this.length; x++){
+			for(int y=this.topLeftCorner[1]+0; y<this.topLeftCorner[1]+this.height; y++){
+				if(x>=0&&x<20&&y>=0&&y<20){
+					if((controller.getColorAt(x, y)[0]==30||controller.getColorAt(x, y)[0]==18)
+					 &&(controller.getColorAt(x, y)[1]==30||controller.getColorAt(x, y)[1]==18)
+					 &&(controller.getColorAt(x, y)[2]==90||controller.getColorAt(x, y)[2]==87)){
+						controller.setColor(x, y, hitColor);
+					}
+				}
+			}
+		}
+		
+	}
 }

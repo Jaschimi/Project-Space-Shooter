@@ -83,7 +83,7 @@ public class BossaNova extends EnemyShip{
 			if(this.getLives()>this.getMaxLives()/4){
 				for(int x=3; x<6; x++){
 					for(int y=1; y<4; y++){
-						if(((x!=3&&x!=5)||y!=3)&&(x!=4||y!=1))this.setColorAt(4, 1, 122, 100, 7);
+						if(((x!=3&&x!=5)||y!=3)&&(x!=4||y!=1))this.setColorAt(x, y, 122, 100, 7);
 					}
 				}
 			}
@@ -91,14 +91,14 @@ public class BossaNova extends EnemyShip{
 				if(this.getLives()>=1){
 					for(int x=3; x<6; x++){
 						for(int y=1; y<4; y++){
-							if(((x!=3&&x!=5)||y!=3)&&(x!=4||y!=1))this.setColorAt(4, 1, 69, 4, 4);
+							if(((x!=3&&x!=5)||y!=3)&&(x!=4||y!=1))this.setColorAt(x, y, 69, 4, 4);
 						}
 					}
 				}
 				else{
 					for(int x=3; x<6; x++){
 						for(int y=1; y<4; y++){
-							if(((x!=3&&x!=5)||y!=3)&&(x!=4||y!=1))this.setColorAt(4, 1, 31, 31, 31);
+							if(((x!=3&&x!=5)||y!=3)&&(x!=4||y!=1))this.setColorAt(x, y, 31, 31, 31);
 						}
 					}
 				}
@@ -106,7 +106,7 @@ public class BossaNova extends EnemyShip{
 		}
 		this.spawn();
 		
-		//and it lights up. The intensity of the white is determined by the highest color component of the ship's topLeftCorner
+		//and it lights up. The intensity of the white is determined by the highest color component of the ship's base color
 		int[] hitColor = controller.getColorAt(this.topLeftCorner[0]+4, this.topLeftCorner[1]);
 		this.hitAnimation(hitColor);
 		

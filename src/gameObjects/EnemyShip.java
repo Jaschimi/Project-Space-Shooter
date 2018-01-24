@@ -34,25 +34,6 @@ public abstract class EnemyShip extends Spaceship {
 	}
 	
 	@Override
-	public void spawn(){
-		
-		//Two helping variables
-		int x1 = this.topLeftCorner[0];
-		int y1 = this.topLeftCorner[1];
-		
-		//Starting from the top left corner, this loop draws every entry of the EnemyShips positions array that isn't black
-		//onto the board in its corresponding color.
-		for(int x=0; x<this.length; x++){
-			for(int y=0; y<this.height; y++){
-				if(this.positions[x][y][0]!=0||this.positions[x][y][1]!=0||this.positions[x][y][2]!=0){
-					controller.setColor(x+x1, y+y1, this.positions[x][y][0], this.positions[x][y][1], this.positions[x][y][2]);
-				}
-			}
-		}
-		
-	}
-
-	@Override
 	public abstract void shoot(int[] cannon);
 
 	@Override

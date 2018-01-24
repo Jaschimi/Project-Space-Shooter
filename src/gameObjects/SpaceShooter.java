@@ -24,19 +24,8 @@ public class SpaceShooter extends Spaceship{
 	@Override
 	public void spawn(){
 		
-		//Two helping variables
-		int x1 = this.topLeftCorner[0];
-		int y1 = this.topLeftCorner[1];
+		super.spawn();
 		
-		//Starting from the top left corner, this loop draws every entry of the SpaceShooters positions array onto the board
-		//in its corresponding color
-		for(int x=0; x<3; x++){
-			for(int y=0; y<2; y++){
-				if(x!=1||y!=0){
-					controller.setColor(x+x1, y+y1, this.positions[x][y][0], this.positions[x][y][1], this.positions[x][y][2]);
-				}
-			}
-		}
 		//This line makes sure the cannon is at its desired location when spawning the ship
 		this.cannons = new int[][]{{this.getTopLeftCorner()[0] + 1, this.getTopLeftCorner()[1]}};
 	}
@@ -145,8 +134,8 @@ public class SpaceShooter extends Spaceship{
 		}
 		this.spawn();
 		
-		//and it lights up. The intensity of the white is determined by the highest color component of the ship's topLeftCorner
-		int[] hitColor = controller.getColorAt(this.topLeftCorner[0], this.topLeftCorner[1]);
+		//and it lights up. The intensity of the white is determined by the highest color component of the ship's base color
+		int[] hitColor = controller.getColorAt(topLeftCorner[0]==-1 ? this.topLeftCorner[0]+2 : topLeftCorner[0], this.topLeftCorner[1]);
 		if(hitColor[0]<hitColor[1]){
 			hitColor[0]=hitColor[1];
 		}

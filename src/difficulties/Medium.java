@@ -20,7 +20,8 @@ public abstract class Medium {
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	private static KeyBuffer buffer = controller.getKeyBuffer();
 
-	public static boolean broken = false;
+	//This boolean is used for remembering if the game has been exited via the pause screen
+	public static boolean exited = false;
 	
 	public static boolean start(SpaceShooter ss){
 		
@@ -104,7 +105,8 @@ public abstract class Medium {
 		for(int i=1; i<enemyShipArray.length; i++){
 			enemyShipArray[i-1].setNext(enemyShipArray[i]);
 		}
-		
+
+		//Spawning the first ship and the SpaceShooter
 		ss.spawn();
 		currentShip.spawn();
 
@@ -155,7 +157,7 @@ public abstract class Medium {
 				//Here the enemy ship is completely faded away
 				if(enemyFadeCount==63){
 					enemyFadeCount=0;
-					//If there's another UFO in the ufoList, it will become the new current UFO and be spawned now
+					//If there's another enemyShip in the enemyShipList, it will become the new current ship and be spawned now
 					if(currentShip.getNext() != null){
 						currentShip = currentShip.getNext();
 						currentShip.spawn();
@@ -209,7 +211,7 @@ public abstract class Medium {
 								   ||controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[2]!=0)){
 									//If that is also the case, the projectiles color is changed to black,
 									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
-									//the currentUFO is hit (if it still haves lives) and
+									//the currentShip is hit (if it still haves lives) and
 									if(currentShip.getLives()>0)enemyHit = currentShip.hit();
 									//the projectile is set to null.
 									ss.getShots()[i] = null;
@@ -219,7 +221,7 @@ public abstract class Medium {
 							//This statement is only triggered if the projectile hit the current ship
 							if(ss.getShots()[i]==null)break;
 						}
-						//If the current UFO is not directly above the projectile and the projectile is not null,
+						//If the current ship is not directly above the projectile and the projectile is not null,
 						//it will move up by one spot
 						if(ss.getShots()[i]!=null)ss.getShots()[i].moveProjectile("up");
 					}
@@ -257,13 +259,11 @@ public abstract class Medium {
 			
 			//6.
 			//EnemyShips only move every 25th instance of the endless loop and if they have any lives left
+			boolean move = true;
 			if(loopCount%25==0&&currentShip.getLives()>0){
 				
-				//This generates a random double between 0 and 100
-				double random = Math.random()*100;
-				
 				//With a chance of 4%, the current ship changes direction
-				if(random<4){
+				if(Math.random()*100<4){
 					right=!right;
 				}
 				
@@ -271,7 +271,8 @@ public abstract class Medium {
 				//they move completely to the right of the board, before moving completely left and back again.
 				if(right){
 					if(currentShip.getCannons()[currentShip.getCannons().length-1][0]<19){
-						//The following lines check if a projectile is on the position the current ship moved to
+						//The following lines check if a projectile from the SpaceShooter is on the position
+						//the current ship is moving to
 						for(int i=0; i<ss.getShots().length; i++){
 							for(int x=currentShip.getTopLeftCorner()[0]; x<currentShip.getTopLeftCorner()[0]+currentShip.getLength(); x++){
 								for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
@@ -290,14 +291,29 @@ public abstract class Medium {
 								}
 							}
 						}
-						currentShip.move('D');
+						//The following lines check if a projectile from the currentShip is on the position the
+						//current ship is moving to
+						for(int i=0; i<currentShip.getShots().length; i++){
+							for(int x=currentShip.getTopLeftCorner()[0]; x<currentShip.getTopLeftCorner()[0]+currentShip.getLength(); x++){
+								for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
+									if(currentShip.getShots()[i]!=null){
+										//If there is, the ship won't move
+										if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x+1){
+											move = false;
+										}
+									}
+								}
+							}
+						}
+						if(move)currentShip.move('D');
 					}
 					else right=false;
 				}
 				else{
 
 					if(currentShip.getCannons()[0][0]>0){
-						//The following lines check if a projectile is on the position the current ship moved to
+						//The following lines check if a projectile from the SpaceShooter is on the position
+						//the current ship is moving to
 						for(int i=0; i<ss.getShots().length; i++){
 							for(int x=currentShip.getTopLeftCorner()[0]; x<currentShip.getTopLeftCorner()[0]+currentShip.getLength(); x++){
 								for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
@@ -316,7 +332,21 @@ public abstract class Medium {
 								}
 							}
 						}
-						currentShip.move('A');
+						//The following lines check if a projectile from the currentShip is on the position the
+						//current ship is moving to
+						for(int i=0; i<currentShip.getShots().length; i++){
+							for(int x=currentShip.getTopLeftCorner()[0]; x<currentShip.getTopLeftCorner()[0]+currentShip.getLength(); x++){
+								for(int y=currentShip.getTopLeftCorner()[1]; y<currentShip.getTopLeftCorner()[1]+currentShip.getHeight(); y++){
+									if(currentShip.getShots()[i]!=null){
+										//If there is, the ship won't move
+										if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x-1){
+											move = false;
+										}
+									}
+								}
+							}
+						}
+						if(move)currentShip.move('A');
 					}
 					else right=true;
 				}
@@ -336,75 +366,73 @@ public abstract class Medium {
 			//8.
 			KeyEvent event = buffer.pop();
 			buffer.clear();
-			if(event != null&&ss.getLives()>0){
-				if(event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+			if(event != null && ss.getLives()>0 && event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
-					switch(event.getKeyCode()){
+				switch(event.getKeyCode()){
 
-					case java.awt.event.KeyEvent.VK_ESCAPE:
-						//Escape makes the game pause
-						broken = Gameplay.pause(ss, currentShip);
-						if(broken)return false;
-						break;
+				case java.awt.event.KeyEvent.VK_ESCAPE:
+					//Escape makes the game pause
+					exited = Gameplay.pause(ss, currentShip);
+					if(exited)return false;
+					break;
 
-					case java.awt.event.KeyEvent.VK_SPACE:
-						//space makes the SS shoot
-						for(int i=0; i<ss.getCannons().length; i++){
-							ss.shoot(ss.getCannons()[i]);
-						}
-						break;
-					
-					case java.awt.event.KeyEvent.VK_W:
-						//W makes the SS move up
-						if(ss.getTopLeftCorner()[1]>6)ss.move('W');
-						break;
-					
-					case java.awt.event.KeyEvent.VK_S:
-						//S makes the SS move down
-						if(ss.getTopLeftCorner()[1]+2<20)ss.move('S');
-						break;
-						
-					case java.awt.event.KeyEvent.VK_A:
-						//A makes the SS move left
-						//The following lines check if a projectile is on the position the Space Shooter is moving to
-						for(int i=0; i<currentShip.getShots().length; i++){
-							for(int x=ss.getTopLeftCorner()[0]; x<ss.getTopLeftCorner()[0]+3; x++){
-								for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+2; y++){
-									if(currentShip.getShots()[i]!=null){
-										if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x-1&&(x!=1 || y!=0)){
-											//The Space Shooter is hit
-											ssHit = ss.hit();
-											//and the projectile is set to null.
-											currentShip.getShots()[i] = null;
-										}
-									}
-								}
-							}
-						}
-						if(ss.getTopLeftCorner()[0]+3/2>0)ss.move('A');
-						break;
-					
-					case java.awt.event.KeyEvent.VK_D:
-						//D makes the SS move right
-						//The following lines check if a projectile is on the position the Space Shooter is moving to
-						for(int i=0; i<currentShip.getShots().length; i++){
-							for(int x=ss.getTopLeftCorner()[0]; x<ss.getTopLeftCorner()[0]+3; x++){
-								for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+2; y++){
-									if(currentShip.getShots()[i]!=null){
-										if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x+1&&(x!=1 || y!=0)){
-											//The Space Shooter is hit
-											ssHit = ss.hit();
-											//and the projectile is set to null.
-											currentShip.getShots()[i] = null;
-										}
-									}
-								}
-							}
-						}
-						if(ss.getTopLeftCorner()[0]+3/2+1<20)ss.move('D');
-						break;
-						
+				case java.awt.event.KeyEvent.VK_SPACE:
+					//space makes the SS shoot
+					for(int i=0; i<ss.getCannons().length; i++){
+						ss.shoot(ss.getCannons()[i]);
 					}
+					break;
+				
+				case java.awt.event.KeyEvent.VK_W:
+					//W makes the SS move up
+					if(ss.getTopLeftCorner()[1]>6)ss.move('W');
+					break;
+				
+				case java.awt.event.KeyEvent.VK_S:
+					//S makes the SS move down
+					if(ss.getTopLeftCorner()[1]+2<20)ss.move('S');
+					break;
+					
+				case java.awt.event.KeyEvent.VK_A:
+					//A makes the SS move left
+					//The following lines check if a projectile is on the position the Space Shooter is moving to
+					for(int i=0; i<currentShip.getShots().length; i++){
+						for(int x=ss.getTopLeftCorner()[0]; x<ss.getTopLeftCorner()[0]+3; x++){
+							for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+2; y++){
+								if(currentShip.getShots()[i]!=null){
+									if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x-1&&(x!=1 || y!=0)){
+										//The Space Shooter is hit
+										ssHit = ss.hit();
+										//and the projectile is set to null.
+										currentShip.getShots()[i] = null;
+									}
+								}
+							}
+						}
+					}
+					if(ss.getTopLeftCorner()[0]+3/2>0)ss.move('A');
+					break;
+				
+				case java.awt.event.KeyEvent.VK_D:
+					//D makes the SS move right
+					//The following lines check if a projectile is on the position the Space Shooter is moving to
+					for(int i=0; i<currentShip.getShots().length; i++){
+						for(int x=ss.getTopLeftCorner()[0]; x<ss.getTopLeftCorner()[0]+3; x++){
+							for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+2; y++){
+								if(currentShip.getShots()[i]!=null){
+									if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x+1&&(x!=1 || y!=0)){
+										//The Space Shooter is hit
+										ssHit = ss.hit();
+										//and the projectile is set to null.
+										currentShip.getShots()[i] = null;
+									}
+								}
+							}
+						}
+					}
+					if(ss.getTopLeftCorner()[0]+3/2+1<20)ss.move('D');
+					break;
+					
 				}
 			}
 			

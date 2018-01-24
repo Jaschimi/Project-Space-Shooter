@@ -15,17 +15,8 @@ public abstract class Intro{
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	private static KeyBuffer buffer;
 
-
 	//This method displays our team name on a stylized screen
 	public static void logoScreen(){
-
-//		final Word sw = new Word("A long time ago in a galaxy far, far away...");
-//		for(int x=20; x>-sw.getLength() ;x--){
-//			sw.displayWordAt(x+1, 5, 0, 0, 0);
-//			sw.displayWordAt(x, 5,0, 0, 100);
-//			controller.updateLedStripe();
-//			controller.sleep(100);
-//		}
 
 		int[] yellow = new int[] { 127, 127, 0};
 		int[] black = new int[] { 0, 0, 0};
@@ -137,14 +128,8 @@ public abstract class Intro{
 		final Word pro = new Word("Pro");
 		final Word ject = new Word("ject");
 		
-		//The word Project lights up on the board,
+		//The word Project lights up on the board
 		for(int color=0; color<81; color+=4){
-//			if(color==64){
-//				controller.sleep(1000);
-//			}
-//			if(color>63){
-//				color+=4;
-//			}
 			pro.displayWordAt(4, 3, color, color, color);
 			ject.displayWordAt(2, 9, color, color, color);
 			controller.updateLedStripe();
@@ -152,21 +137,7 @@ public abstract class Intro{
 		}
 		controller.sleep(800);
 		
-//		//grows a bit darker again
-//		for(int color=127; color>86; color-=8){
-//			pro.displayWordAt(5, 3, color, color, color);
-//			ject.displayWordAt(2, 9, color, color, color);
-//			controller.updateLedStripe();
-//			controller.sleep(-1000000000);
-//		}
-		
-		
 		//and gains/loses some color
-//		for(int color=88; color>79; color-=2){
-//			pro.displayWordAt(5, 3, color, color, color);
-//			ject.displayWordAt(2, 9, color, color, color);
-//			controller.updateLedStripe();
-//		}
 		for(int color=79; color>39; color-=2){
 			pro.displayWordAt(4, 3, color, color, 80);
 			ject.displayWordAt(2, 9, color, color, 80);
@@ -191,6 +162,7 @@ public abstract class Intro{
 		final Word sh = new Word("Sh");
 		final Word ter = new Word("ter");
 
+		//SPACE SHOOTER lights up
 		for(int color=0; color<41; color+=2){
 			space.displayWordAt(0, 0, color+27, color+27, 0);
 			sh.displayWordAt(0, 9, color+27, color+27, 0);
@@ -202,6 +174,7 @@ public abstract class Intro{
 		}
 		controller.sleep(750);
 		
+		//SPACE gains color
 		for(int color=0; color<41; color+=2){
 			space.displayWordAt(0, 0, color+67, 3*color/2+67, 0);
 			controller.updateLedStripe();
@@ -209,6 +182,7 @@ public abstract class Intro{
 		}
 		controller.sleep(1250);
 		
+		//SHOOTER gains color
 		for(int color=0; color<41; color+=2){
 			sh.displayWordAt(0, 9, 3*color/2+67, color+67, 0);
 			Letter.DrawLetterAt('∞', sh.getLength(), 9, 3*color/2+67, 67-color/1, 0);
@@ -219,6 +193,7 @@ public abstract class Intro{
 		}
 		controller.sleep(3000);
 		
+		//And everything fades away
 		for(int count=127; count>0; count-=4){
 			for(int x=0; x<20; x++){
 				for(int y=0; y<20; y++){
@@ -416,7 +391,15 @@ public abstract class Intro{
 			controller.sleep(125);
 		}
 		
-		SpaceShooter ss = new SpaceShooter(new int[]{0, 20}, 3, 3);
+		SpaceShooter ss = new SpaceShooter(new int[]{9, 18}, 3, 3);
+		ss.setColorAt(0, 0, 92, 5, 36);
+		ss.setColorAt(1, 0, 0, 0, 0);
+		ss.setColorAt(2, 0, 92, 5, 36);
+		ss.setColorAt(0, 1, 92, 5, 36);
+		ss.setColorAt(1, 1, 5, 107, 17);
+		ss.setColorAt(2, 1, 92, 5, 36);
+		ss.spawn();
+		
 		for(int x=20; x>-spaceShooter.getLength(); x--){
 			
 			//If skip is activated, the loop is exited

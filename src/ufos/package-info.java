@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author jasch
- *
- */
-package ufos;

@@ -1,8 +1,13 @@
 package gameObjects;
 
+import ledControl.BoardController;
+import ledControl.LedConfiguration;
+
 //This class is the superclass of both the EnemyShips and the SpaceShooter.
 public abstract class Spaceship extends ColoringField {
 
+	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+	
 	protected int[] topLeftCorner = new int[2];
 	protected int length;
 	protected int height;
@@ -37,7 +42,23 @@ public abstract class Spaceship extends ColoringField {
 	}
 	
 	//This method makes a Spaceship appear on the board
-	public abstract void spawn();
+	public void spawn(){
+
+		//Two helping variables
+		int x1 = this.topLeftCorner[0];
+		int y1 = this.topLeftCorner[1];
+		
+		//Starting from the top left corner, this loop draws every entry of the EnemyShips positions array that isn't black
+		//onto the board in its corresponding color.
+		for(int x=0; x<this.length; x++){
+			for(int y=0; y<this.height; y++){
+				if(this.positions[x][y][0]!=0||this.positions[x][y][1]!=0||this.positions[x][y][2]!=0){
+					controller.setColor(x+x1, y+y1, this.positions[x][y][0], this.positions[x][y][1], this.positions[x][y][2]);
+				}
+			}
+		}
+		
+	}
 	
 	//This method makes a Spaceship shoot a projectile
 	public abstract void shoot(int[] cannon);

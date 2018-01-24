@@ -62,7 +62,7 @@ public class LangerLulatsch extends EnemyShip {
 		}
 		this.spawn();
 
-		//and it lights up. The intensity of the white is determined by the highest color component of the ship's topLeftCorner
+		//and it lights up. The intensity of the white is determined by the highest color component of the ship's base color
 		int[] hitColor = controller.getColorAt(this.topLeftCorner[0]+1, this.topLeftCorner[1]);
 		this.hitAnimation(hitColor);
 		

@@ -3,11 +3,9 @@ package displayObjects;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
-
 //This class represents the letters, numbers and symbols that can be displayed on the LED board. To make it simple, they are
-//all called Letters from now on.
-
-public class Letter {
+//all called Letters.
+public class Letter{
 	
 	private int length, height;
 	private boolean[][] positions;
@@ -445,7 +443,7 @@ public class Letter {
 		return letter;
 	}
 	
-	//This is the public method that can display a letter at a given position and color on the LED board
+	//This is the public method that can display a Letter at a given position and color on (and off) the LED board
 	public static void DrawLetterAt(char character, int x, int y, int red, int green, int blue){
 		
 		//First, the given char gets converted into a Letter
@@ -466,6 +464,7 @@ public class Letter {
 		
 	}
 	
+	//This method colors a Letter completely white for a moment, before changing it back to its original color
 	public static void BlinkLetter(char character, int x, int y, int red, int green, int blue, int wait){
 
 		BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);

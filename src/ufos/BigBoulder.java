@@ -29,7 +29,7 @@ public class BigBoulder extends EnemyShip {
 		this.setColorAt(2, 2, 30, 30, 90);
 		this.setColorAt(3, 3, 30, 30, 90);
 		
-		//This is the dot displaying the ships lifes
+		//This is the dot displaying the ships lives
 		this.setColorAt(2, 1,  5, 107, 17);
 	}
 
@@ -66,7 +66,7 @@ public class BigBoulder extends EnemyShip {
 		}
 		this.spawn();
 
-		//and it lights up. The intensity of the white is determined by the highest color component of the ship's topLeftCorner
+		//and it lights up. The intensity of the white is determined by the highest color component of the ship's base color
 		int[] hitColor = controller.getColorAt(this.topLeftCorner[0]+2, this.topLeftCorner[1]);
 		this.hitAnimation(hitColor);
 		

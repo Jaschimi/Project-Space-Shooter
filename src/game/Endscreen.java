@@ -10,10 +10,13 @@ import ufos.GalaxyDestroyer;
 import ufos.LangerLulatsch;
 import ufos.BigBoulder;
 
+//This class contains all endings of the game, including the credits.
 public abstract class Endscreen{
 
 	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR); 
 	
+	//This public method starts the win or loss animation respectively. The difficulty changes a few things in them and the shipColor
+	//determines the color of a few things.
 	public static void outro(boolean won, int[] shipColor, int difficulty){
 		
 		if(won) win(shipColor, difficulty);
@@ -21,6 +24,7 @@ public abstract class Endscreen{
 		
 	}
 	
+	//The winning animation
 	private static void win(int[] fireworkColor, int difficulty){
 		
         int[][][] point = new int[20][20][3];
@@ -30,8 +34,8 @@ public abstract class Endscreen{
 		int right = 10;
 		int up = 19;
 
+		//Special case: generates two points in the middle of the bottom of the board
 		for(int i=0; i<3; i++){
-//			Special case: generates two points on the ground of the board around the middle point (9).
 			point[left][up][i] = fireworkColor[i];
 			point[right][up][i] = fireworkColor[i];
 			
@@ -42,9 +46,9 @@ public abstract class Endscreen{
 		up--;
 		left--;
 		right++;
-				
+
+		//This loop generates points diagonally and deletes the ones generated in the last instance of it
 		for(count=0; count<4; count++){
-//			generates points on the diagonal and deletes the points I generated before (on the same diagonal).
 			for(int i=0; i<3; i++){
 				
 				point[left][up][i] = fireworkColor[i];
@@ -77,11 +81,11 @@ public abstract class Endscreen{
 		}
 		
 		int speicher = 3;
-			
+
+		//This loop generates two explosions. Points on the diagonals around the middle one will be generated and 
+		//the points that are already generated will become black.
 		for(int j=0; j<4; j++){
 			for(int i=0; i<3; i++){
-//	Here I generate the two explosions. Points on the diagonals around the middle one will be generated and 
-//	the points that are already generated will become black.
 				point[left - (j - 1)][up][i] = 0;
 			    point[right - (j - 1)][up][i] = 0;	
 			
@@ -116,7 +120,7 @@ public abstract class Endscreen{
 			
 		}
 
-		//Since we are working with a 3-dim. array to set the colors, it has to be set to null, otherwise everything saved
+		//Since the endscreen works with a 3-dim. array to display the colors, it has to be set to null, otherwise everything saved
 		//in it would be displayed again once it is used to do that
 		point = new int[20][20][3];
 		controller.setColors(point);
@@ -130,32 +134,13 @@ public abstract class Endscreen{
 		int rightti = 10;
 
 		int uppi = 19;
-		
-		while(count < 14){
-			
-			if(difficulty == 3) {
-				
-				Misc.makeAll(point, fireworkColor);
-				
-				controller.resetColors();
-				
-				Word you = new Word("You");
-				Word won = new Word("won");
-				
-				you.displayWordAt(5, 4, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
-				won.displayWordAt(3, 10, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
-				
-				controller.updateLedStripe();
-				controller.sleep(4000);
 
-				controller.resetColors();
-				
-				return;
-				
-			}
-			
+		//Depending on the difficulty, this while loop generates the diagonal points for the two smaller explosions (like before)
+		//and the middle line for the big explosion.
+		while(count < 14&&difficulty!=3){
+
+			//Special case. Same as before in the other loops.
 			if(count == 0){
-//				special case. Same as before in the other loops.
 				for(int i=0; i<3; i++){
 					
 					point[mid][top][i] = fireworkColor[i];
@@ -192,8 +177,6 @@ public abstract class Endscreen{
 					point[mid][top + 2][i] = 0;
 					
 					if(difficulty == 2) {
-// This while loop generates the diagonals for the two smaller explosions (like before)
-// and the middle line for the big explosion.
 						point[leffi][uppi][i] = fireworkColor[i];
 						point[rightti][uppi][i] = fireworkColor[i];
 						
@@ -217,152 +200,153 @@ public abstract class Endscreen{
 		
 			}
 		}
-		
-        for(int i=0; i<3; i++){
+
+		if(difficulty == 3) {
 			
-			point[mid][top][i] = fireworkColor[i];
-			point[mid][top + 2][i] = 0;
+			Misc.makeAll(point, fireworkColor);
 			
-			controller.setColors(point);
-		    controller.updateLedStripe();
+			controller.resetColors();
+			
 		}
-        
 
         if(difficulty < 3) {
-        	
+
+            for(int i=0; i<3; i++){
+    			
+    			point[mid][top][i] = fireworkColor[i];
+    			point[mid][top + 2][i] = 0;
+    			
+    			controller.setColors(point);
+    		    controller.updateLedStripe();
+    		}
 			Misc.makeBoom(point,fireworkColor,mid,top, 5, difficulty);
 			
         }
-        if(difficulty!=1){
-        	if(difficulty==3){
-        		Misc.makeMegaBoom(point, fireworkColor);
-        	}
-//        	this huge loop generates the middle and the smaller fireworks at the same time as you can watch in 
-//        	endscreenTest();
+        if(difficulty==2){
+        	
         	int a = 0;
-			
+
+        	//This huge loop generates the middle and the smaller fireworks at the same time
 			for(int j=0; j<5 ; j++){
 			
-			if(j<4){
-				
-				if(j%2 ==1) {
-//					this parameter is for the middle explosion (the big one) that I can generate the diagonal 
-//					points
-					a++;
+				if(j<4){
 					
-				}
-				
-				for(int i=0; i<3; i++){
+					if(j%2 ==1) {
+						//this parameter is for the middle explosion (the big one) in order to generate the diagonal points
+						a++;
+						
+					}
 					
-					point[left - (j - 1)][up][i] = 0;
-				    point[right - (j - 1)][up][i] = 0;	
+					for(int i=0; i<3; i++){
+						
+						point[left - (j - 1)][up][i] = 0;
+					    point[right - (j - 1)][up][i] = 0;	
+					
+					    point[left + (j - 1)][up][i] = 0;
+					    point[right + (j - 1)][up][i] = 0;
+					
+					    point[left][up - (j - 1)][i] = 0;
+					    point[right][up - (j - 1)][i] = 0;
+					
+					    point[left][up + (j - 1)][i] = 0;
+					    point[right][up + (j - 1)][i] = 0;
+					    
+					    
+					    point[mid + (a - 1)][top + (a - 1)][i] = 0;
+					    point[mid - (a - 1)][top - (a - 1)][i] = 0;
+					    
+					    point[mid + (a - 1)][top - (a - 1)][i] = 0;
+					    
+					    point[mid - (a - 1)][top + (a - 1)][i] = 0;
+					    
+					    
+					    
 				
-				    point[left + (j - 1)][up][i] = 0;
-				    point[right + (j - 1)][up][i] = 0;
+						point[mid - (j - 1)][top][i] = 0;
+					    
+					    point[mid + (j - 1)][top][i] = 0;
+					    
+					    point[mid][top - (j - 1)][i] = 0;
+					    
+					    point[mid][top + (j - 1)][i] = 0;
 				
-				    point[left][up - (j - 1)][i] = 0;
-				    point[right][up - (j - 1)][i] = 0;
-				
-				    point[left][up + (j - 1)][i] = 0;
-				    point[right][up + (j - 1)][i] = 0;
-				    
-				    
-				    point[mid + (a - 1)][top + (a - 1)][i] = 0;
-				    point[mid - (a - 1)][top - (a - 1)][i] = 0;
-				    
-				    point[mid + (a - 1)][top - (a - 1)][i] = 0;
-				    
-				    point[mid - (a - 1)][top + (a - 1)][i] = 0;
-				    
-				    
-				    
-			
-					point[mid - (j - 1)][top][i] = 0;
-				    
-				    point[mid + (j - 1)][top][i] = 0;
-				    
-				    point[mid][top - (j - 1)][i] = 0;
-				    
-				    point[mid][top + (j - 1)][i] = 0;
-			
-//---------------------------------------------------------------------------------------
-				    
-				    point[left - j][up][i] = fireworkColor[i];
-				    point[right - j][up][i] = fireworkColor[i];	
-				
-				    point[left + j][up][i] = fireworkColor[i];
-				    point[right + j][up][i] = fireworkColor[i];
-				
-				    point[left][up - j][i] = fireworkColor[i];
-				    point[right][up - j][i] = fireworkColor[i];
-				
-				    point[left][up + j][i] = fireworkColor[i];
-				    point[right][up + j][i] = fireworkColor[i];
-				    
-				   
-				    point[mid - a][top - a][i] = fireworkColor[i];
-				    point[mid + a][top - a][i] = fireworkColor[i];
-				    
-				    point[mid - a][top + a][i] = fireworkColor[i];
-				    point[mid + a][top + a][i] = fireworkColor[i];
-				    
-				    
-				    
-			        point[mid - j][top][i] = fireworkColor[i];
-				    
-				    point[mid + j][top][i] = fireworkColor[i];
-				    
-				    point[mid][top - j][i] = fireworkColor[i];
-				    
-				    point[mid][top + j][i] = fireworkColor[i];
-				    
-				    controller.setColors(point);
-				    controller.updateLedStripe();
-				    
+	//---------------------------------------------------------------------------------------
+					    
+					    point[left - j][up][i] = fireworkColor[i];
+					    point[right - j][up][i] = fireworkColor[i];	
+					
+					    point[left + j][up][i] = fireworkColor[i];
+					    point[right + j][up][i] = fireworkColor[i];
+					
+					    point[left][up - j][i] = fireworkColor[i];
+					    point[right][up - j][i] = fireworkColor[i];
+					
+					    point[left][up + j][i] = fireworkColor[i];
+					    point[right][up + j][i] = fireworkColor[i];
+					    
+					   
+					    point[mid - a][top - a][i] = fireworkColor[i];
+					    point[mid + a][top - a][i] = fireworkColor[i];
+					    
+					    point[mid - a][top + a][i] = fireworkColor[i];
+					    point[mid + a][top + a][i] = fireworkColor[i];
+					    
+					    
+					    
+				        point[mid - j][top][i] = fireworkColor[i];
+					    
+					    point[mid + j][top][i] = fireworkColor[i];
+					    
+					    point[mid][top - j][i] = fireworkColor[i];
+					    
+					    point[mid][top + j][i] = fireworkColor[i];
+					    
+					    controller.setColors(point);
+					    controller.updateLedStripe();
+					    
+					}
+			    
 				}
-		    
+				else{
+					
+					for(int i=0; i<3; i++){
+						
+						point[mid - (j - 1)][top][i] = 0;
+					    
+					    point[mid + (j - 1)][top][i] = 0;
+					    
+					    point[mid][top - (j - 1)][i] = 0;
+					    
+					    point[mid][top + (j - 1)][i] = 0;
+					    
+					    point[left - (speicher - 1)][up][i] = 0;
+					    point[right - (speicher - 1)][up][i] = 0;	
+					
+					    point[left + (speicher - 1)][up][i] = 0;
+					    point[right + (speicher - 1)][up][i] = 0;
+					
+					    point[left][up - (speicher - 1)][i] = 0;
+					    point[right][up - (speicher - 1)][i] = 0;
+					
+					    point[left][up + (speicher - 1)][i] = 0;
+					    point[right][up + (speicher - 1)][i] = 0;
+	
+					    controller.setColors(point);
+					    controller.updateLedStripe();
+					
+					}
+				}
 			}
-			else{
-				
-				for(int i=0; i<3; i++){
-					
-					point[mid - (j - 1)][top][i] = 0;
-				    
-				    point[mid + (j - 1)][top][i] = 0;
-				    
-				    point[mid][top - (j - 1)][i] = 0;
-				    
-				    point[mid][top + (j - 1)][i] = 0;
-				    
-				    point[left - (speicher - 1)][up][i] = 0;
-				    point[right - (speicher - 1)][up][i] = 0;	
-				
-				    point[left + (speicher - 1)][up][i] = 0;
-				    point[right + (speicher - 1)][up][i] = 0;
-				
-				    point[left][up - (speicher - 1)][i] = 0;
-				    point[right][up - (speicher - 1)][i] = 0;
-				
-				    point[left][up + (speicher - 1)][i] = 0;
-				    point[right][up + (speicher - 1)][i] = 0;
-
-				    controller.setColors(point);
-				    controller.updateLedStripe();
-				
-				}
-			}
-		}
-        	
         }
 		
-		//Now that all fireworks are done, the phrase "You won" will be displayed on the board
+		//Now that all fireworks are done, the phrase "YOU WON" will be displayed on the board
 		controller.resetColors();
 		
 		final Word you = new Word("You");
 		final Word won = new Word("won");
 		
-		you.displayWordAt(5, 3, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
-		won.displayWordAt(3, 9, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
+		you.displayWordAt(4, 3, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
+		won.displayWordAt(2, 9, fireworkColor[0], fireworkColor[1], fireworkColor[2]);
 		
 		if(difficulty==1){
 			final Word shift = new Word("shift");
@@ -374,10 +358,12 @@ public abstract class Endscreen{
 		
 	}
 	
-	private static void loss(int[] color, int difficulty){
+	//The losing animation
+	private static void loss(int[] shipColor, int difficulty){
 		
 		EnemyShip[] endOfWorld = new EnemyShip[4];
 
+		//Depending on the difficulty, four, five or all types of EnemyShips will be generated
 		if(difficulty==2){
 			endOfWorld = new EnemyShip[5];
 			endOfWorld[4] = new BossaNova(new int[]{10, -25}, 3, 4);
@@ -393,12 +379,14 @@ public abstract class Endscreen{
 		endOfWorld[2] = new LangerLulatsch(new int[]{5, -14}, 1, 2);
 		endOfWorld[3] = new BigBoulder(new int[]{0, -20}, 2, 2);
 		
+		//All ships are spawned at once, even though they are all off the screen at first
 		for(int i=0; i<endOfWorld.length; i++){
 			endOfWorld[i].spawn();
 		}
 		
 		//This variable counts the amount of times the following loop has been started
 		int loopCount=0;
+		//The loop continues until the top left corner of the last ship of the endOfWorld array is off the screen
 		while(endOfWorld[endOfWorld.length-1].getTopLeftCorner()[1]<21){
 		
 			loopCount++;
@@ -450,75 +438,50 @@ public abstract class Endscreen{
         controller.resetColors();
         
         //Now all EnemyShips have flown across the screen and the phrase "YOU LOST" will be displayed on the board
-		
-		Word you = new Word("You");
-		Word lost = new Word("lost");
+		final Word you = new Word("You");
+		final Word lost = new Word("lost");
 
-		//Here the color gets inverted
-		color = new int[]{127-color[0], 127-color[1], 127-color[2]};
+		//Here the shipColor gets inverted
+		shipColor = new int[]{127-shipColor[0], 127-shipColor[1], 127-shipColor[2]};
 		
-		you.displayWordAt(3, 1, color[0], color[1], color[2]);
-		lost.displayWordAt(2, 7, color[0], color[1], color[2]);
+		you.displayWordAt(4, 1, shipColor[0], shipColor[1], shipColor[2]);
+		lost.displayWordAt(2, 7, shipColor[0], shipColor[1], shipColor[2]);
 		
 		controller.updateLedStripe();
 		controller.sleep(2500);
 		
-		int[][][] point = new int[20][20][3];
-		
-		for(int x=0; x<20; x++){
-			for(int y=0; y<20; y++){
-				point[x][y]=controller.getColorAt(x, y);
-			}
-		}
-		
-		controller.updateLedStripe();
-		
-		letItGo(point,color,15);
+		letItGo(controller.getColors(),shipColor,15);
 	
 	}
 	
-	static void letItGo(int[][][] point, int[] color, int pause){
+	//This method lets all dots on the board which have the specified color fall down 
+	static void letItGo(int[][][] board, int[] color, int pause){
     	
-	    int[][][] copy = new int[20][20][3];
-	    
-	    for(int x=0; x<point.length; x++){
-	    	for(int y=0; y<point[x].length; y++){
-	    		
-	    		for(int i=0; i<color.length; i++){
-	    			
-	    			copy[x][y][i] = point[x][y][i];
-	    			
-	    		}
-	    		
-	    	}
-	    	
-	    }
-	
 		boolean isTrue = false;
 		
 //		controller.sleep(pause);
-		controller.setColors(point);
+		controller.setColors(board);
 	
 		for(int fromBelow = 19; fromBelow >= 0; fromBelow--){
 			
+			//The top of the board is a special case
 			if(fromBelow == 0){
 				
 				int count = 0;
 				
 				while(count < 3){
 				
-					for(int fromRight = 0; fromRight < point.length; fromRight++){
-						
-						if((point[fromRight][fromBelow][0] == color[0]) && (point[fromRight][fromBelow][1] == color[1]) && (point[fromRight][fromBelow][2] == color[2])){       
-//							if the line isn´t completly black isTrue is true.
+					for(int fromRight = 0; fromRight < 19; fromRight++){
+						//If there's at least one point in the specified color in the line, isTrue is true.
+						if((board[fromRight][fromBelow][0] == color[0]) && (board[fromRight][fromBelow][1] == color[1]) && (board[fromRight][fromBelow][2] == color[2])){       
+
 							isTrue = true;
 							
 							for(int i = 0; i < color.length; i++){
-										
-								point[fromRight][fromBelow][i] = 0;
-								point[fromRight][fromBelow + 1][i] = color[i];
-//								and at the point where the line isnt black i create a new point under the actual one
-//								and I delete the actual one.
+
+								//The point in the specified color is set to black and a new one is displayed below it
+								board[fromRight][fromBelow][i] = 0;
+								board[fromRight][fromBelow + 1][i] = color[i];
 									
 							}
 							
@@ -526,65 +489,63 @@ public abstract class Endscreen{
 						
 					}
 				
-					controller.setColors(point);
+					controller.setColors(board);
 					controller.updateLedStripe();
 					
 					count++;
 					fromBelow++;
 				
 				}
-//				if the line is completely black this is unnessesarry but if not I can let a word fall down.
-				if(isTrue == true){
-					
-					for(int goDown = fromBelow; goDown < point.length; goDown++){
-//						goDown start at the point I am now and all points in this line (horizontal) will
-//						fall down.
-						for(int goRight = 0; goRight < point.length; goRight++){
-//							in this line I go from left to right and 
-							if((point[goRight][goDown][0] == color[0]) && (point[goRight][goDown][1] == color[1]) && (point[goRight][goDown][2] == color[2])){       
+				//If the line contains dots in the specified color, it can fall down
+				if(isTrue){
+
+					//goDown starts at the height of fromBelow and all points in this line will fall down
+					for(int goDown = fromBelow; goDown < board.length; goDown++){
+						//This loop goes from left to right and 
+						for(int goRight = 0; goRight < board.length; goRight++){
+							if((board[goRight][goDown][0] == color[0]) && (board[goRight][goDown][1] == color[1]) && (board[goRight][goDown][2] == color[2])){       
 								
 								for(int i = 0; i < color.length; i++){
-									
-									if(goDown == point.length - 1){
-//										special case! delete all possible points, so the beard gets black when the points reached the ground of the board.
-										point[goRight][goDown - 3][i] = 0;
-										point[goRight][goDown - 2][i] = 0;
-										point[goRight][goDown - 1][i] = 0;
-										point[goRight][goDown][i] = 0;
+
+									//special case! all possible points are deleted, so the board becomes black
+									//when the points reached the ground of the board.
+									if(goDown == board.length - 1){
+										board[goRight][goDown - 3][i] = 0;
+										board[goRight][goDown - 2][i] = 0;
+										board[goRight][goDown - 1][i] = 0;
+										board[goRight][goDown][i] = 0;
 										
 									}
 									else{
-										
+
+										//special case!
+										//If this is true, the line is directly below the line fromBelow, so a trail for the points
+										//cannot be created because the points would be outside of the board
 										if(goDown - 1 > fromBelow){
-//											special case!
-//											if this is true I am just under the point I started
-//											so I can´t create a trail for the points because the points are at the 
-//											top of the board so the trail would be cost an array out of bounce
-//											excaption.
 											if(color[i] - 35 < 0){
 												
-												point[goRight][goDown - 3][i] = 0;
+												board[goRight][goDown - 3][i] = 0;
 														
-												point[goRight][goDown - 2][i] = 0;
+												board[goRight][goDown - 2][i] = 0;
 												
-												point[goRight][goDown - 1][i] = 0;
+												board[goRight][goDown - 1][i] = 0;
 												
-												point[goRight][goDown][i] = 0;
+												board[goRight][goDown][i] = 0;
 												
-												point[goRight][goDown + 1][i] = color[i];
+												board[goRight][goDown + 1][i] = color[i];
 												
 											}
 											else{
 													
-												point[goRight][goDown - 3][i] = 0;
+												board[goRight][goDown - 3][i] = 0;
 													
-												point[goRight][goDown - 2][i] = color[i] - 35;
+												board[goRight][goDown - 2][i] = color[i] - 35;
 													
-												point[goRight][goDown - 1][i] = color[i] - 35;
+												board[goRight][goDown - 1][i] = color[i] - 35;
 													
-												point[goRight][goDown][i] = color[i] - 35;
+												board[goRight][goDown][i] = color[i] - 35;
 													
-												point[goRight][goDown + 1][i] = color[i];
+												board[goRight][goDown + 1][i] = color[i];
 													
 											}
 											
@@ -593,16 +554,16 @@ public abstract class Endscreen{
 										
 											if(color[i] - 35 < 0){
 												
-												point[goRight][goDown][i] = 0;
+												board[goRight][goDown][i] = 0;
 												
-												point[goRight][goDown + 1][i] = color[i];
+												board[goRight][goDown + 1][i] = color[i];
 												
 											}
 											else{
 													
-												point[goRight][goDown][i] = color[i] - 35;
+												board[goRight][goDown][i] = color[i] - 35;
 													
-												point[goRight][goDown + 1][i] = color[i];
+												board[goRight][goDown + 1][i] = color[i];
 													
 											}
 										}
@@ -611,7 +572,7 @@ public abstract class Endscreen{
 							}
 						}
 						
-						controller.setColors(point);
+						controller.setColors(board);
 						controller.sleep(pause);
 						controller.updateLedStripe();
 						
@@ -622,44 +583,44 @@ public abstract class Endscreen{
 				fromBelow = 0;
 				
 			}
+			//This is for all the other cases where fromBelow isn't at the top of the board
 			else{
-//			this is for all the other case where fromBelow isn´t at the top of the board.
-				for(int goRight=0; goRight<point.length; goRight++){
+				for(int goRight=0; goRight<board.length; goRight++){
 					
-					if((point[goRight][fromBelow][0] == color[0]) && (point[goRight][fromBelow][1] == color[1]) && (point[goRight][fromBelow][2] == color[2])){       
+					if((board[goRight][fromBelow][0] == color[0]) && (board[goRight][fromBelow][1] == color[1]) && (board[goRight][fromBelow][2] == color[2])){       
 //						same as before!
 						isTrue = true;
 						
 						for(int i = 0; i < color.length; i++){
 									
-							point[goRight][fromBelow][i] = 0;
+							board[goRight][fromBelow][i] = 0;
 							if(fromBelow<19){
-								point[goRight][fromBelow + 1][i] = color[i];
+								board[goRight][fromBelow + 1][i] = color[i];
 							}
 								
 						}
 					}
 				}
 			
-				controller.setColors(point);
+				controller.setColors(board);
 				controller.updateLedStripe();
 				
-				if(isTrue == true){
+				if(isTrue){
 //					same as before!
-					for(int goDown = fromBelow; goDown < point.length; goDown++){
+					for(int goDown = fromBelow; goDown < 20; goDown++){
 						
-						for(int goRight = 0; goRight < point.length; goRight++){
+						for(int goRight = 0; goRight < 20; goRight++){
 							
-							if((point[goRight][goDown][0] == color[0]) && (point[goRight][goDown][1] == color[1]) && (point[goRight][goDown][2] == color[2])){       
+							if((board[goRight][goDown][0] == color[0]) && (board[goRight][goDown][1] == color[1]) && (board[goRight][goDown][2] == color[2])){       
 								
-								for(int i = 0; i < color.length; i++){
+								for(int i = 0; i < 3; i++){
 									
-									if(goDown == point.length - 1){
+									if(goDown == 19){
 										
-										point[goRight][goDown - 3][i] = 0;
-										point[goRight][goDown - 2][i] = 0;
-										point[goRight][goDown - 1][i] = 0;
-										point[goRight][goDown][i] = 0;
+										board[goRight][goDown - 3][i] = 0;
+										board[goRight][goDown - 2][i] = 0;
+										board[goRight][goDown - 1][i] = 0;
+										board[goRight][goDown][i] = 0;
 										
 									}
 									else{
@@ -668,28 +629,28 @@ public abstract class Endscreen{
 											
 											if(color[i] - 35 < 0){
 												
-												point[goRight][goDown - 3][i] = 0;
+												board[goRight][goDown - 3][i] = 0;
 														
-												point[goRight][goDown - 2][i] = 0;
+												board[goRight][goDown - 2][i] = 0;
 												
-												point[goRight][goDown - 1][i] = 0;
+												board[goRight][goDown - 1][i] = 0;
 												
-												point[goRight][goDown][i] = 0;
+												board[goRight][goDown][i] = 0;
 												
-												point[goRight][goDown + 1][i] = color[i];
+												board[goRight][goDown + 1][i] = color[i];
 												
 											}
 											else{
 													
-												point[goRight][goDown - 3][i] = 0;
+												board[goRight][goDown - 3][i] = 0;
 													
-												point[goRight][goDown - 2][i] = color[i] - 35;
+												board[goRight][goDown - 2][i] = color[i] - 35;
 													
-												point[goRight][goDown - 1][i] = color[i] - 35;
+												board[goRight][goDown - 1][i] = color[i] - 35;
 													
-												point[goRight][goDown][i] = color[i] - 35;
+												board[goRight][goDown][i] = color[i] - 35;
 													
-												point[goRight][goDown + 1][i] = color[i];
+												board[goRight][goDown + 1][i] = color[i];
 													
 											}
 										}
@@ -697,16 +658,16 @@ public abstract class Endscreen{
 										
 											if(color[i] - 35 < 0){
 												
-												point[goRight][goDown][i] = 0;
+												board[goRight][goDown][i] = 0;
 												
-												point[goRight][goDown + 1][i] = color[i];
+												board[goRight][goDown + 1][i] = color[i];
 												
 											}
 											else{
 													
-												point[goRight][goDown][i] = color[i] - 35;
+												board[goRight][goDown][i] = color[i] - 35;
 													
-												point[goRight][goDown + 1][i] = color[i];
+												board[goRight][goDown + 1][i] = color[i];
 													
 											}
 										}
@@ -715,7 +676,7 @@ public abstract class Endscreen{
 							}
 						}
 						
-						controller.setColors(point);
+						controller.setColors(board);
 						controller.sleep(pause);
 						controller.updateLedStripe();
 						
@@ -728,66 +689,67 @@ public abstract class Endscreen{
 		}
 	}
 
+	//This method shows all the people who worked on this Project or contributed to it in some way <3
 	static void credits(){
 
 		controller.resetColors();
 		
-		Word cre = new Word("Cre-");
-		Word dits = new Word("dits");
+		//The crew
+		final Word cre = new Word("Cre-");
+		final Word dits = new Word("dits");
 		
-		Word ja = new Word("Ja-");
-		Word scha = new Word("scha");
-		Word oli = new Word("Oli-");
-		Word ver = new Word("ver");
-		Word oleh = new Word("Oleh");
-		Word mar = new Word("Mar-");
-		Word vin = new Word("vin");
+		final Word ja = new Word("Ja-");
+		final Word scha = new Word("scha");
+		final Word oli = new Word("Oli-");
+		final Word ver = new Word("ver");
+		final Word oleh = new Word("Oleh");
+		final Word mar = new Word("Mar-");
+		final Word vin = new Word("vin");
 		
-		Word idea = new Word("Idea");
+		final Word idea = new Word("Idea");
 		
-		Word head = new Word("head");
-		Word of = new Word("of");
-		Word deve = new Word("deve-");
-		Word lop = new Word("lop-");
-		Word ment = new Word("ment");
+		final Word head = new Word("head");
+		final Word of = new Word("of");
+		final Word deve = new Word("deve-");
+		final Word lop = new Word("lop-");
+		final Word ment = new Word("ment");
 
-		Word de = new Word("de-");
-		Word sign = new Word("sign");
-		
-		Word crea = new Word("crea-");
-		Word tive = new Word("tive");
+		final Word crea = new Word("crea-");
+		final Word tive = new Word("tive");
 
-		Word supper = new Word("super");
-		Word visor = new Word("visor");
+		final Word de = new Word("de-");
+		final Word sign = new Word("sign");
 		
-		Word spe = new Word("spe-");
-		Word cial = new Word("cial");
-		Word thanks = new Word("thanks");
+		final Word supper = new Word("super");
+		final Word visor = new Word("visor");
 		
-		Word big = new Word("big");
-		Word help = new Word("Help");
-//		Word axel = new Word("Axel");
-		Word re = new Word("re");
-		Word dac = new Word("dac");
-		Word ted = new Word("ted");
+		//Thank you very much :-D
+		final Word spe = new Word("spe-");
+		final Word cial = new Word("cial");
+		final Word thx = new Word("thx");
+
+		final Word help = new Word("Help");
+		final Word eme = new Word("Eme-");
+		final Word rald = new Word("rald");
 		
-		Word eme = new Word("Eme-");
-		Word rald = new Word("rald");
+		final Word bug = new Word("Bug");
+		final Word hun = new Word("Hun-");
+		final Word ter = new Word("ter");
+		final Word tom = new Word("Tom");
 		
-		Word bug = new Word("Bug");
-		Word hun = new Word("Hun-");
-		Word ter = new Word("ter");
-		Word tom = new Word("Tom");
+		final Word nice = new Word("nice");
+		final Word plat = new Word("plat-");
+		final Word form = new Word("form");
+		final Word git = new Word("git-");
+		final Word hub = new Word("hub");
 		
-		Word nice = new Word("nice");
-		Word dudes = new Word("dudes");
-		Word pal = new Word("pal");
-		Word uno = new Word("uno");
+		//A helping Word
+		final Word space = new Word("");
 		
-		Word space = new Word("");
 		Word[] credits = new Word[]{cre, dits, space, space, idea, space, oleh, space, crea, tive, de, sign, space, oli, ver, space,
 				head, of, deve, lop, ment, space, ja, scha, space, supper, visor, space, mar, vin, space};
 		
+		//Some colors for the people
 		int[] black = new int[]{0, 0, 0};
 		int[] gold = new int[]{127, 107, 0};
 		int[] title = new int[]{90, 90, 90};
@@ -808,15 +770,16 @@ public abstract class Endscreen{
 			controller.sleep(175);
 		}
 		
-		credits = new Word[]{spe, cial, thanks, space, space, de, sign, help, space, eme, rald, space, bug, hun, ter, space,
-							 tom, space, nice, dudes, space, pal, uno, space, big, help, space, re, dac, ted, space};
+		credits = new Word[]{spe, cial, thx, space, space, de, sign, help, space, eme, rald, space, bug, hun, ter, space,
+							 tom, space, nice, plat, form, space, git, hub, space};
 		
+		//Some more colors for some other people
 		title = new int[]{125, 125, 118};
-		int[] special = new int[]{110, 45, 59};
+		int[] specialThx = new int[]{110, 45, 59};
 		int[] emerald = new int[]{32, 122, 4};
 		
-		colors = new int[][]{special,special,special,black,black,title,title,title,black,emerald,emerald,black,title,title,title,black,
-							 person,black,title,title,black,person,person,black,title,title,black,person,person,person,black};
+		colors = new int[][]{specialThx,specialThx,specialThx,black,black,title,title,title,black,emerald,emerald,black,title,title,title,black,
+							 person,black,title,title,title,black,person,person,black};
 			
 		for(int y=20; y>-credits.length*6+5; y--){
 			for(int i=0; i<credits.length; i++){

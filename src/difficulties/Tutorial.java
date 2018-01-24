@@ -31,7 +31,7 @@ public abstract class Tutorial{
 		final Word upDown = new Word("Press W or S to move up and down.");
 		final Word shoot = new Word("Press Space to shoot.");
 		
-		final Word UFO = new Word("This is an enemy ship.");
+		final Word ufo = new Word("This is an enemy ship.");
 		final Word movement = new Word("It can also move.");
 		final Word projectile = new Word("Watch out for its projectiles!");
 		final Word hit = new Word("If they hit you, you lose a life.");
@@ -42,7 +42,10 @@ public abstract class Tutorial{
 		final Word red = new Word("yellow or");
 		final Word alt = new Word("alt");
 		final Word dead = new Word("Once you lose all, your ship is destroyed and the game is over.");
-		
+
+		final Word you = new Word("You");
+		final Word lost = new Word("lost");
+
 		final Word dot = new Word("As with your ship, the dot in the enemy ships center shows its lives.");
 		final Word destroy = new Word("An enemy ship is destroyed when it too loses all lives.");
 		final Word next = new Word("If you destroy a ship, another one may spawn.");
@@ -129,14 +132,14 @@ public abstract class Tutorial{
 						case java.awt.event.KeyEvent.VK_A:
 							//A makes the SS move left
 							ss.move('A');
-							//and the bufferCount increase by one.
+							//and the count increase by one.
 							count +=1;
 							break;
 						
 						case java.awt.event.KeyEvent.VK_D:
 							//D makes the SS move right
 							ss.move('D');
-							//and the bufferCount increase by one.
+							//and the count increase by one.
 							count+=1;
 							break;
 						}
@@ -174,14 +177,14 @@ public abstract class Tutorial{
 						case java.awt.event.KeyEvent.VK_W:
 							//W makes the SS move up
 							ss.move('W');
-							//and the bufferCount increase by one.
+							//and the count increase by one.
 							count +=1;
 							break;
 						
 						case java.awt.event.KeyEvent.VK_S:
 							//S makes the SS move down
 							ss.move('S');
-							//and the bufferCount increase by one.
+							//and the count increase by one.
 							count+=1;
 							break;
 						}
@@ -234,17 +237,12 @@ public abstract class Tutorial{
 				KeyEvent event = buffer.pop();
 				buffer.clear();
 				if(event != null){
-					if(event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
-						
-						switch(event.getKeyCode()){
-						
-						case java.awt.event.KeyEvent.VK_SPACE:
-							//Space makes the SS shoot
-							ss.shoot(ss.getCannons()[0]);
-							//and the count increase by one.
-							count +=1;
-							break;
-						}
+					if(event.getID()==java.awt.event.KeyEvent.KEY_RELEASED && event.getKeyCode()==java.awt.event.KeyEvent.VK_SPACE){
+						//Space makes the SS shoot
+						ss.shoot(ss.getCannons()[0]);
+						//and the count increase by one.
+						count +=1;
+						break;
 					}
 				}
 				
@@ -259,7 +257,7 @@ public abstract class Tutorial{
 			//Shortcut
 			if(skip)break;
 			
-			//Any projectiles still on screen continue moving upwards
+			//Any projectiles still on the screen continue moving upwards
 			for(int i=0; i<ss.getShots().length; i++){
 				if(ss.getShots()[i] != null){
 					if(ss.getShots()[i].getY()>=0){
@@ -316,14 +314,14 @@ public abstract class Tutorial{
 		//Secondly, a new DefaultShip is created and spawned, while its explanation appears on the screen
 		EnemyShip currentShip = new DefaultShip(new int[]{8, 6}, 1, 1);
 		currentShip.spawn();
-		for(int x=20; x>-UFO.getLength() ;x--){
+		for(int x=20; x>-ufo.getLength() ;x--){
 			
 			//Shortcut
 			if(skip)break;
 			
 			//Moving the Word one space to the left every 100 milliseconds
-			UFO.displayWordAt(x+1, 0, 0, 0, 0);
-			UFO.displayWordAt(x, 0, c1, c2, c3);
+			ufo.displayWordAt(x+1, 0, 0, 0, 0);
+			ufo.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
@@ -427,6 +425,8 @@ public abstract class Tutorial{
 				ss.hit();
 			}
 			
+			if(count==67)ss.spawn();
+			
 			//Moving the Word one space to the left every 100 milliseconds
 			hit.displayWordAt(x+1, 0, 0, 0, 0);
 			hit.displayWordAt(x, 0, c1, c2, c3);
@@ -466,6 +466,8 @@ public abstract class Tutorial{
 				currentShip.getShots()[0]=null;
 				ss.hit();
 			}
+
+			if(count==green.getLength()+yellow.getLength()+11)ss.spawn();
 			
 			//The enemy ship shoots
 			if(count==green.getLength()+yellow.getLength()+red.getLength()){
@@ -483,6 +485,8 @@ public abstract class Tutorial{
 				currentShip.getShots()[0]=null;
 				ss.hit();
 			}
+
+			if(count==green.getLength()+yellow.getLength()+red.getLength()+11)ss.spawn();
 			
 			//Moving the Word one space to the left every 100 milliseconds
 			lives.displayWordAt(x+1, 0, 0, 0, 0);
@@ -522,12 +526,24 @@ public abstract class Tutorial{
 				ss.fade();
 			}
 			
+			if(count==194){
+
+				//The phrase "YOU LOST" shows up on the board
+				int[] color = new int[]{127, 20, 0};
+				you.displayWordAt(4, 9, color[0], color[1], color[2]);
+				lost.displayWordAt(2, 15, color[0], color[1], color[2]);
+				
+			}
 			//Moving the Word one space to the left every 100 milliseconds
 			dead.displayWordAt(x+1, 0, 0, 0, 0);
 			dead.displayWordAt(x, 0, c1, c2, c3);
 			controller.updateLedStripe();
 			controller.sleep(100);
 		}
+
+		//"YOU LOST" disappears
+		you.displayWordAt(4, 9, 0, 0, 0);
+		lost.displayWordAt(2, 15, 0, 0, 0);
 		
 		//Explaining the enemy dot
 		for(int x=20; x>-dot.getLength() ;x--){
@@ -543,12 +559,12 @@ public abstract class Tutorial{
 		}
 		
 		//Recoloring, reviving and respawning the Space Shooter
-		ss.setColorAt(0, 0, 107, 0, 127);
+		ss.setColorAt(0, 0, 104, 23, 47);
 		ss.setColorAt(1, 0, 0, 0, 0);
-		ss.setColorAt(2, 0, 107, 0, 127);
-		ss.setColorAt(0, 1, 107, 0, 127);
+		ss.setColorAt(2, 0, 104, 23, 47);
+		ss.setColorAt(0, 1, 104, 23, 47);
 		ss.setColorAt(1, 1, 5, 107, 17);
-		ss.setColorAt(2, 1, 107, 0, 127);
+		ss.setColorAt(2, 1, 104, 23, 47);
 		ss.setLives(3);
 		ss.spawn();
 		
@@ -633,9 +649,9 @@ public abstract class Tutorial{
 				controller.setColor(ss.getShots()[0].getX(), ss.getShots()[0].getY(), 0, 0, 0);
 				ss.getShots()[0]=null;
 				currentShip.hit();
-				currentShip.spawn();
 			}
 			
+			if(count==27)currentShip.spawn();
 			
 			//The current ship shoots once
 			if(count==40){
@@ -680,10 +696,11 @@ public abstract class Tutorial{
 				controller.setColor(ss.getShots()[0].getX(), ss.getShots()[0].getY(), 0, 0, 0);
 				ss.getShots()[0]=null;
 				currentShip.hit();
-				currentShip.spawn();
 				//The other projectile keeps moving upwards
 				ss.getShots()[1].moveProjectile("up");
 			}
+			
+			if(count==85)currentShip.spawn();
 			
 			//The second projectile moves up one spot a lot of times
 			if(count>84&&count<92){
@@ -733,7 +750,6 @@ public abstract class Tutorial{
 				controller.setColor(ss.getShots()[0].getX(), ss.getShots()[0].getY(), 0, 0, 0);
 				ss.getShots()[0]=null;
 				currentShip.hit();
-				currentShip.spawn();
 			}
 			
 			//Letting the colors of the currentShip fade out over time
@@ -786,6 +802,8 @@ public abstract class Tutorial{
 		ss.setLives(3);
 		ss.setColorAt(1, 1, 5, 107, 17);
 		ss.spawn();
+
+		//Spawning the first ship
 		currentShip.spawn();
 		
 		//These variables counts the amount of times the colors of a ship have faded
@@ -836,7 +854,7 @@ public abstract class Tutorial{
 				//Here the currentShip faded out completely
 				if(enemyFadeCount==63){
 					enemyFadeCount=0;
-					//If there's another ship in the shipList, it will become the new current ship and be spawned now
+					//If there's another enemyShip in the enemyShipList, it will become the new current ship and be spawned now
 					if(currentShip.getNext() != null){
 						currentShip = currentShip.getNext();
 						currentShip.spawn();
@@ -880,7 +898,7 @@ public abstract class Tutorial{
 								   ||controller.getColorAt(ss.getShots()[i].getX(), ss.getShots()[i].getY()-1)[2]!=0)){
 									//If that is also the case, the projectile's color is changed to black,
 									controller.setColor(ss.getShots()[i].getX(), ss.getShots()[i].getY(), 0, 0, 0);
-									//the currentUFO is hit (if it still has lives)
+									//the currentShip is hit (if it still has lives)
 									if(currentShip.getLives()>0)enemyHit = currentShip.hit();
 									//and the projectile is set to null.
 									ss.getShots()[i] = null;
@@ -927,6 +945,7 @@ public abstract class Tutorial{
 			}
 			
 			//6.
+			//EnemyShips only move every 50th instance of the endless loop and if they have any lives left
 			if(count%50==0&&currentShip.getLives()>0){
 				
 				//This generates a random integer from 0 to 3
@@ -1017,74 +1036,72 @@ public abstract class Tutorial{
 			//8.
 			KeyEvent event = buffer.pop();
 			buffer.clear();
-			if(event != null&&ss.getLives()>0){
-				if (event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+			if(event != null && ss.getLives()>0 && event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
 					
-					switch(event.getKeyCode()){
+				switch(event.getKeyCode()){
+				
+				case java.awt.event.KeyEvent.VK_ESCAPE:
+					//Escape makes the game pause
+					Gameplay.pause(ss, currentShip);
+					break;
 					
-					case java.awt.event.KeyEvent.VK_ESCAPE:
-						//Escape makes the game pause
-						Gameplay.pause(ss, currentShip);
-						break;
-						
-					case java.awt.event.KeyEvent.VK_SPACE:
-						//space makes the SS shoot
-						for(int i=0; i<ss.getCannons().length; i++){
-							ss.shoot(ss.getCannons()[i]);
-						}
-						break;
-					
-					case java.awt.event.KeyEvent.VK_W:
-						//W makes the SS move up
-						if(ss.getTopLeftCorner()[1]>10)ss.move('W');
-						break;
-					
-					case java.awt.event.KeyEvent.VK_S:
-						//S makes the SS move down
-						if(ss.getTopLeftCorner()[1]+2<20)ss.move('S');
-						break;
-						
-					case java.awt.event.KeyEvent.VK_A:
-						//A makes the SS move left
-						//The following lines check if a projectile is on the position the Space Shooter is moving to
-						for(int i=0; i<currentShip.getShots().length; i++){
-							for(int x=ss.getTopLeftCorner()[0]; x<ss.getTopLeftCorner()[0]+3; x++){
-								for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+2; y++){
-									if(currentShip.getShots()[i]!=null){
-										if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x-1&&(x!=1 || y!=0)){
-											//The Space Shooter is hit
-											ssHit = ss.hit();
-											//and the projectile is set to null.
-											currentShip.getShots()[i] = null;
-										}
-									}
-								}
-							}
-						}
-						if(ss.getTopLeftCorner()[0]+3/2>0)ss.move('A');
-						break;
-					
-					case java.awt.event.KeyEvent.VK_D:
-						//D makes the SS move right
-						//The following lines check if a projectile is on the position the Space Shooter is moving to
-						for(int i=0; i<currentShip.getShots().length; i++){
-							for(int x=ss.getTopLeftCorner()[0]; x<ss.getTopLeftCorner()[0]+3; x++){
-								for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+2; y++){
-									if(currentShip.getShots()[i]!=null){
-										if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x+1&&(x!=1 || y!=0)){
-											//The Space Shooter is hit
-											ssHit = ss.hit();
-											//and the projectile is set to null.
-											currentShip.getShots()[i] = null;
-										}
-									}
-								}
-							}
-						}
-						if(ss.getTopLeftCorner()[0]+3/2+1<20)ss.move('D');
-						break;
-						
+				case java.awt.event.KeyEvent.VK_SPACE:
+					//space makes the SS shoot
+					for(int i=0; i<ss.getCannons().length; i++){
+						ss.shoot(ss.getCannons()[i]);
 					}
+					break;
+				
+				case java.awt.event.KeyEvent.VK_W:
+					//W makes the SS move up
+					if(ss.getTopLeftCorner()[1]>10)ss.move('W');
+					break;
+				
+				case java.awt.event.KeyEvent.VK_S:
+					//S makes the SS move down
+					if(ss.getTopLeftCorner()[1]+2<20)ss.move('S');
+					break;
+					
+				case java.awt.event.KeyEvent.VK_A:
+					//A makes the SS move left
+					//The following lines check if a projectile is on the position the Space Shooter is moving to
+					for(int i=0; i<currentShip.getShots().length; i++){
+						for(int x=ss.getTopLeftCorner()[0]; x<ss.getTopLeftCorner()[0]+3; x++){
+							for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+2; y++){
+								if(currentShip.getShots()[i]!=null){
+									if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x-1&&(x!=1 || y!=0)){
+										//The Space Shooter is hit
+										ssHit = ss.hit();
+										//and the projectile is set to null.
+										currentShip.getShots()[i] = null;
+									}
+								}
+							}
+						}
+					}
+					if(ss.getTopLeftCorner()[0]+3/2>0)ss.move('A');
+					break;
+				
+				case java.awt.event.KeyEvent.VK_D:
+					//D makes the SS move right
+					//The following lines check if a projectile is on the position the Space Shooter is moving to
+					for(int i=0; i<currentShip.getShots().length; i++){
+						for(int x=ss.getTopLeftCorner()[0]; x<ss.getTopLeftCorner()[0]+3; x++){
+							for(int y=ss.getTopLeftCorner()[1]; y<ss.getTopLeftCorner()[1]+2; y++){
+								if(currentShip.getShots()[i]!=null){
+									if(currentShip.getShots()[i].getY()==y&&currentShip.getShots()[i].getX()==x+1&&(x!=1 || y!=0)){
+										//The Space Shooter is hit
+										ssHit = ss.hit();
+										//and the projectile is set to null.
+										currentShip.getShots()[i] = null;
+									}
+								}
+							}
+						}
+					}
+					if(ss.getTopLeftCorner()[0]+3/2+1<20)ss.move('D');
+					break;
+					
 				}
 			}
 			
@@ -1110,8 +1127,8 @@ public abstract class Tutorial{
 			}
 			
 			//Informing the player of the other types of ships
-			EnemyShip peter = new DefaultShip(new int[]{-5,10}, ssFadeCount, ssFadeCount);
-			EnemyShip kopernikus = new BigBoulder(new int[]{20,15}, ssFadeCount, ssFadeCount);
+			EnemyShip peter = new DefaultShip(new int[]{-5, 10}, 2, 0);
+			EnemyShip kopernikus = new BigBoulder(new int[]{20, 15}, 12, 0);
 			peter.spawn();
 			kopernikus.spawn();
 			char dsDirection = 'D';

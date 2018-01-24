@@ -43,14 +43,14 @@ public abstract class Main{
 
 		boolean restart = false;
 
-//		restart = gameStart();
+		restart = gameStart();
 //		randomColor();
 //		gameName();
 //		introStart();
 //		sunrise();
 //		story();
 //		nestTest();
-		endscreenTest(true, 2, 28, 38, 99);
+//		endscreenTest(true, 1, 28, 38, 99);
 //		rainbow();
 //		Goldenization();
 //		shipDiashow();
@@ -67,10 +67,10 @@ public abstract class Main{
 		KeyEvent event = null;
 		
 		//For presentations and such, the following lines can be used to start the game with a keystroke
-		while(event==null){
-			event = buffer.pop();
-		}
-		event = null;
+//		while(event==null){
+//			event = buffer.pop();
+//		}
+//		event = null;
 		
 		//At the beginning, there was an intro...
 //		introStart();

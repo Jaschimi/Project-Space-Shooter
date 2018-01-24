@@ -4,7 +4,7 @@ import gameObjects.EnemyShip;
 import gameObjects.Projectile;
 
 //This ship has two cannons with which to shoot. It is the biggest ship that isn't classified as a boss.
-//Additionally, it looks like a UFO, but some people are reminded of a certain marine animal when looking at it...
+//It has its name because it looks like a classic UFO, but some people are reminded of a certain marine animal when looking at it...
 public class UFO extends EnemyShip {
 
 	//It is a 7 by 5 ColoringField
@@ -86,7 +86,7 @@ public class UFO extends EnemyShip {
 		}
 		this.spawn();
 
-		//and it lights up. The intensity of the white is determined by the highest color component of the ship's topLeftCorner
+		//and it lights up. The intensity of the white is determined by the highest color component of the ship's base color
 		int[] hitColor = controller.getColorAt(this.topLeftCorner[0]+3, this.topLeftCorner[1]);
 		this.hitAnimation(hitColor);
 		

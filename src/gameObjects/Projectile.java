@@ -4,7 +4,8 @@ import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
 public class Projectile extends ColoringField{
-	
+
+	private static BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 	private int x, y, red, green, blue;
 	
 	//Getters and Setters for various things
@@ -18,8 +19,6 @@ public class Projectile extends ColoringField{
 	public Projectile(int red, int green, int blue) {
 		super(1, 1);
 		this.positions[0][0] = new int[]{red, green, blue};
-		this.x = 0;
-		this.y = 0;
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
@@ -32,15 +31,12 @@ public class Projectile extends ColoringField{
 		this.x = x;
 		this.y = y;
 		
-		BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 		controller.setColor(this.x, this.y, this.red, this.green, this.blue);
 		
 	}
 	
 	//This method moves a projetile either one spot up or one spot down and changes its y-coordinate accordingly
 	public void moveProjectile(String direction){
-		
-		BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 		
 		if(direction=="up"){
 			this.y -=1;

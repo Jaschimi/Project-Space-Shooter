@@ -4,7 +4,7 @@ import gameObjects.EnemyShip;
 import gameObjects.Projectile;
 
 //The ultimate EnemyShip. This bad boy is ginormous; it has three cannons, all of which can shoot two projectiles at once
-//(the middle one can even shoot three!), normally a couple hundred lifes and can shoot multiple decades of shots.
+//(the middle one can even shoot three!), normally a couple hundred lives and can shoot multiple decades of shots.
 public class GalaxyDestroyer extends EnemyShip {
 
 	//It is a 17 by 10 ColoringField
@@ -81,7 +81,7 @@ public class GalaxyDestroyer extends EnemyShip {
 		this.setColorAt(12, 6, 0, 0, 0);
 		this.setColorAt(16, 6, 0, 0, 0);
 		
-		//The cross indicating the GalaxyDestroyers Energy
+		//The cross indicating the GalaxyDestroyers energy
 		if(this.getLives()>=this.getMaxLives()/2){
 			for(int y=2; y<5; y++){
 				this.setColorAt(8, y, 5, 107, 17);
@@ -177,7 +177,7 @@ public class GalaxyDestroyer extends EnemyShip {
 		}
 		this.spawn();
 
-		//and it lights up. The intensity of the white is determined by the highest color component of the ship's topLeftCorner
+		//and it lights up. The intensity of the white is determined by the highest color component of the ship's base color
 		int[] hitColor = controller.getColorAt(this.topLeftCorner[0]+8, this.topLeftCorner[1]+1);
 		this.hitAnimation(hitColor);
 		
@@ -187,7 +187,7 @@ public class GalaxyDestroyer extends EnemyShip {
 	@Override
 	public void shoot(int[] cannon) {
 
-		//This if statement checks if the specified cannon's y position is where the left or right cannon is located
+		//This if statement checks if the specified cannon's y-position is where the left or right cannon is located
 		if(cannon[1]==this.getCannons()[0][1]){
 			//This loop saves the projectile as the first free shots array entry and only spawns it if one exists
 			for(int i=0; i<this.shots.length-1; i++){

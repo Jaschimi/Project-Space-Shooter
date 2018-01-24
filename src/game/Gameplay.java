@@ -33,16 +33,21 @@ public abstract class Gameplay{
 		
 		//These if statements start a game based on what difficulty has been chosen in the main method
 		if(difficulty==Integer.MAX_VALUE){
-			ss.setColorAt(0, 0, 104, 23, 47);
+			ss.setColorAt(0, 0, 92, 5, 36);
 			ss.setColorAt(1, 0, 0, 0, 0);
-			ss.setColorAt(2, 0, 104, 23, 47);
-			ss.setColorAt(0, 1, 104, 23, 47);
+			ss.setColorAt(2, 0, 92, 5, 36);
+			ss.setColorAt(0, 1, 92, 5, 36);
 			ss.setColorAt(1, 1, 5, 107, 17);
-			ss.setColorAt(2, 1, 104, 23, 47);
+			ss.setColorAt(2, 1, 92, 5, 36);
+			//This is the amount of ships defeated
 			int slayCount = Endless.start(ss);
+			Endless.exited = false;
 			Word record = new Word(slayCount + "");
 			
 			int x = 17;
+			int y = 10;
+			
+			//Based on how many digits the number has, it is displayed further left on the board
 			switch((slayCount + "").length()){
 				
 			case 1:
@@ -67,33 +72,48 @@ public abstract class Gameplay{
 				
 			}
 			
-			record.displayWordAt(0, x, 31, 80, 59);
-			if(slayCount>10){
-				record.displayWordAt(0, x, 78, 81, 56);
+			record.displayWordAt(x, y, 31, 80, 59);
+			if(slayCount>9){
+				record.displayWordAt(x, y, 78, 81, 56);
 			}
-			if(slayCount>25){
-				record.displayWordAt(0, x, 42, 81, 97);
+			if(slayCount>24){
+				record.displayWordAt(x, y, 42, 81, 97);
 			}
-			if(slayCount>50){
-				record.displayWordAt(0, x, 118, 26, 72);
+			if(slayCount>49){
+				record.displayWordAt(x, y, 118, 26, 72);
 			}
-			if(slayCount>100){
-				record.displayWordAt(0, x, 64, 14, 106);
+			if(slayCount>99){
+				record.displayWordAt(x, y, 64, 14, 106);
 			}
-			if(slayCount>250){
-				record.displayWordAt(0, x, 53, 127, 8);
+			if(slayCount>249){
+				record.displayWordAt(x, y, 53, 127, 8);
 			}
-			if(slayCount>500){
-				record.displayWordAt(0, x, 99, 120, 124);
+			if(slayCount>499){
+				record.displayWordAt(x, y, 99, 120, 124);
 			}
-			if(slayCount>750){
-				record.displayWordAt(0, x, 101, 91, 10);
+			if(slayCount>749){
+				record.displayWordAt(x, y, 101, 91, 10);
 			}
-			if(slayCount>1000){
-				record.displayWordAt(0, x, 103, 1, 16);
+			if(slayCount>999){
+				record.displayWordAt(x, y, 103, 1, 16);
+			}
+			if(slayCount>4999){
+				record.displayWordAt(x, y, 127, 107, 0);
+			}
+			if(slayCount>9999){
+				record.displayWordAt(x, y, 127, 127, 127);
+			}
+			if(slayCount>99999){
+				final Word you = new Word("you");
+				final Word are = new Word("are");
+				final Word crazy = new Word("crazy");
+				
+				you.displayWordAt(4, 1, (int) Math.random()*128, (int) Math.random()*128, (int) Math.random()*128);
+				are.displayWordAt(4, 8, (int) Math.random()*128, (int) Math.random()*128, (int) Math.random()*128);
+				crazy.displayWordAt(0, 15, (int) Math.random()*128, (int) Math.random()*128, (int) Math.random()*128);
 			}
 			controller.updateLedStripe();
-			controller.sleep(3000);
+			controller.sleep(7000);
 		}
 		else{
 			if(difficulty == 0){
@@ -150,14 +170,14 @@ public abstract class Gameplay{
 						}
 					}
 				}
-				//After a game in easy, medium or hard mode is has been won or lost, the outro boots up
-				if(!Easy.broken&&!Medium.broken&&!Hard.broken){
+				//After a game in easy, medium or hard mode is has been won or lost and not exited, the outro boots up
+				if(!Easy.exited&&!Medium.exited&&!Hard.exited){
 					Endscreen.outro(won, shipColor, difficulty);
 				}
 				else{
-					Easy.broken = false;
-					Medium.broken = false;
-					Hard.broken = false;
+					Easy.exited = false;
+					Medium.exited = false;
+					Hard.exited = false;
 					return;
 				}
 			}
@@ -185,17 +205,20 @@ public abstract class Gameplay{
 			KeyEvent event = buffer.pop();
 			buffer.clear();
 			if(event != null&&event.getID() == java.awt.event.KeyEvent.KEY_RELEASED){
+				//Pressing escape resumes the game
 				if(event.getKeyCode()==java.awt.event.KeyEvent.VK_ESCAPE){
 					controller.setColors(board);
 					controller.updateLedStripe();
 					return false;
 				}
+				//Pressing this shows the cheat screen
 				if(event.isAltDown()&&event.isShiftDown()&&event.getKeyCode()==java.awt.event.KeyEvent.VK_C){
 					if(currentShip.getNext()!=null)cheat(board, ss, currentShip);
 					controller.resetColors();
 					pause.displayWordAt(0, 5, 60, 30, 0);
 					controller.updateLedStripe();
 				}
+				//Pressing backspace returns to the title screen
 				if(event.getKeyCode()==java.awt.event.KeyEvent.VK_BACK_SPACE){
 					controller.setColors(board);
 					return true;
@@ -342,7 +365,7 @@ public abstract class Gameplay{
 						Endscreen.letItGo(controller.getColors(), new int[]{69,4,4}, 10);
 						System.exit(666);
 						
-					case "1337":
+					case "1598":
 						endless=!endless;
 						break;
 						

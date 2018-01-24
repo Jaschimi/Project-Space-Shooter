@@ -225,8 +225,8 @@ public abstract class Misc{
 	}
 	
 	private static int[][][] createLineFromToInYDirection(int whereOnXAchsis,int from, int to, int[][][] point, int[] color){
-//    	starts from the point "from" on x-Achsis and makes a colored line till point "to".
-//    	You can choose the point on the y-Achsis where to generate a horizontal line of the chosen color. 
+//    	starts from the point "from" on x-axis and makes a colored line until the point "to".
+//    	You can choose the point on the y-axis where to generate a horizontal line of the chosen color. 
 		for(int i=0; i<3; i++){
 			for(int position=from; position<=to; position++){
 				point[whereOnXAchsis][position][i] = color[i];	
@@ -237,8 +237,8 @@ public abstract class Misc{
 	}
 	
     private static int[][][] createLineFromToInXDirection(int whereOnYAchsis,int from, int to, int[][][] point, int[] color){
-//    	starts from the point "from" on y-Achsis and makes a colored line till point "to".
-//    	You can choose the point on the x-Achsis where to generate a vertical line of the chosen color. 
+//    	starts from the point "from" on y-axis and makes a colored line until the point "to".
+//    	You can choose the point on the x-axis where to generate a vertical line of the chosen color. 
         for(int i=0; i<3; i++){
 			for(int position=from; position<=to; position++){
 				point[position][whereOnYAchsis][i] = color[i];
@@ -252,67 +252,58 @@ public abstract class Misc{
 	private static int ground = 19;
 
 	private static void goUp(int[][][] point, int[] color) {
-		
-		for(ground = 19; ground > 3; ground-=2) {
-			
-			if(ground == 19) {
-//			Special case I only have to generate a colored point on the ground, because there are no 
-//			colored points on the LED-Board.
-			    for(int i = 0; i < color.length; i++) {
-				
-				    point[whereOnX][ground][i] = color[i];
-				
-				    controller.setColors(point);
-				    controller.updateLedStripe();
-				
-			    }
-			
-		    }else if(ground == 4){
-//		    	Here I delete the point I generated before because after this the loop ends.
-		        for(int i = 0; i < color.length; i++) {
-					
-					point[whereOnX][ground + 2][i] = 0;
-					
-					controller.setColors(point);
-					controller.sleep(150);
-					controller.updateLedStripe();
-					
-				}
-		    	
-		    }else {
-//		    	 I go up!
-		    	    for(int i = 0; i < color.length; i++) {
-					
-					point[whereOnX][ground][i] = color[i];
-                     
-					point[whereOnX][ground + 2][i] = 0;
-					
-					controller.setColors(point);
-					controller.updateLedStripe();
 
-				}
-		    	
-		    }
+		//Special case. Only one colored point has to be generated on the ground, because there are no 
+		//colored points on the LED-Board.
+		for(int i = 0; i < color.length; i++) {
 			
+		    point[whereOnX][ground][i] = color[i];
+		
+		    controller.setColors(point);
+		    controller.updateLedStripe();
+		
+	    }
+		for(ground = 17; ground > 4; ground-=2) {
+		    //I go up!
+    	    for(int i = 0; i < color.length; i++) {
+			
+			point[whereOnX][ground][i] = color[i];
+			point[whereOnX][ground + 2][i] = 0;
+			
+			controller.setColors(point);
+			controller.updateLedStripe();
+
+    	    }
 		}
 		
+		ground = 3;
+    	//Here the last point that was generated in the loop is set to black
+        for(int i = 0; i < color.length; i++) {
+			
+			point[whereOnX][ground + 2][i] = 0;
+			
+			controller.setColors(point);
+			controller.updateLedStripe();
+			
+		}
+        
 	}
 	
-	public static void makeMegaBoom(int[][][] point, int[] color) {
+	static void makeMegaBoom(int[][][] point, int[] color) {
 		
 		ground = ground + 2;
 		
 		for(int counter = 0; counter < 8; counter++) {
 			
-				final Word Leet = new Word("1337");
-	    		Leet.displayWordAt(2, 15, 9, 9, 0);
+				final Word bDay = new Word("1598");
+	    		bDay.displayWordAt(2, 15, 9, 9, 0);
 	    		point = controller.getColors();
 	    		
 			if(counter < 6) {
-				
+
+				//If counter%2 == 0, this method generates colored points in diagonal, vertical and horizontal direction.
+				//But before this method creates new points, the old ones have to be colored black.
 				if(counter%2 == 0) {
-//		if counter % 2 is true this methode generatescolored colored points in diagonal direction and in vertical
-//		as well as horizontal direction. But before this method creates new points the old ones have to be deleted.
 		            for(int i = 0; i < color.length; i++) {
 		            	
 		              	point[whereOnX + (counter - 1)][ground][i] = 0;
@@ -342,9 +333,10 @@ public abstract class Misc{
 			
 		            }
 		        
-				}else {
-//					if counter % 2 is false this methode generatescolored colored points in vertical
-//					as well as horizontal direction.But before this method creates new points the old ones have to be deleted.
+				}
+				else {
+					//If counter%2 == 1, this method generates colored points in vertical and horizontal direction.
+					//But before this method creates new points the old ones have to be deleted.
 		            for(int i = 0; i < color.length; i++) {
 		            	
 		              	point[whereOnX + (counter - 1)][ground][i] = 0;
@@ -371,49 +363,9 @@ public abstract class Misc{
 					
 				}
 		
-		    }else if(counter == 0) {
-//		    	special case because there are no colored points on the board so I don´t have to delete some.
-//		    	I only have to generate a new colored point (the middle one).
-		    	
-		      	for(int i = 0; i < color.length; i++) {
-					
-		            point[whereOnX][ground][i] = color[i];
-		            
-		            controller.setColors(point);
-		            controller.updateLedStripe();
-		
-	            }
-		      	
-		    }else if(counter == 6) {
-//		    	special case because at the end of the explosion I want to generate only one more time colored points
-//		    	on the diagonal.
-		    	    for(int i = 0; i < color.length; i++) {
-		    	
-		      	    point[whereOnX + ((counter)/2 - 1)][ground - ((counter)/2 - 1)][i] = color[i];
-	                point[whereOnX - ((counter)/2 - 1)][ground - ((counter)/2 - 1)][i] = color[i];
-	                point[whereOnX + ((counter)/2 - 1)][ground + ((counter)/2 - 1)][i] = color[i];
-	                point[whereOnX - ((counter)/2 - 1)][ground + ((counter)/2 - 1)][i] = color[i];
-	                
-	                controller.setColors(point);
-	                controller.updateLedStripe();
-	            
-		    	    }
-		    	
-		    }else {
-//		    	Now I delete everything because the big Boom already finished.
-		    	   for(int i = 0; i < color.length; i++) {
-		    			
-		    			point = new int[20][20][3];
-		    			
-		    			controller.setColors(point);
-			        controller.updateLedStripe();
-		    			
-		        }
-		    	
 		    }
-		
 		}
-		
+		controller.sleep(275);
 	}
 	
 	public static void makeAll(int[][][] point, int[] color) {

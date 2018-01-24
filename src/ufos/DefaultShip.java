@@ -55,7 +55,7 @@ public class DefaultShip extends EnemyShip {
 				}
 			}
 		}
-		//This is the dot displaying the ships lifes
+		//This is the dot displaying the ships lives
 		if(this.getLives()<=0){
 			this.setColorAt(1, 1, 31, 31, 31);
 		}
@@ -144,7 +144,7 @@ public class DefaultShip extends EnemyShip {
 		}
 		this.spawn();
 		
-		//and it lights up. The intensity of the white is determined by the highest color component of the ship's topLeftCorner
+		//and it lights up. The intensity of the white is determined by the highest color component of the ship's base color
 		int[] hitColor = controller.getColorAt(this.topLeftCorner[0]+1, this.topLeftCorner[1]);
 		this.hitAnimation(hitColor);
 		
